@@ -2,7 +2,13 @@
 # define FRONTEND_H
 // This is lexer
 #include "./../minishell.h"
-
+typedef enum {
+    NODE_COMMAND,
+    NODE_PIPE,
+    NODE_INPUT_REDIRECT,
+    NODE_OUTPUT_REDIRECT,
+    NODE_SUBSHELL
+} node_type;
 typedef enum {
 	TK_COMMAND,
 	TK_PIPE,
@@ -54,23 +60,27 @@ typedef struct s_astnode
 {
 	node_type type;
     union {
-        struct {
+        struct
+		{
             char** argv;
             int argc;
         } cmd;
 
-        struct {
+        struct
+		{
             struct ast_node* left;
             struct ast_node* right;
         } binary;
 
-        struct {
+        struct
+		{
             struct ast_node* child;
             char* filename;
             int mode;
         } redirect;
 
-        struct {
+        struct
+		{
             struct ast_node* child;
         } subshell;
     };

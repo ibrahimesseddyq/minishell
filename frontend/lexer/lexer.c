@@ -3,8 +3,8 @@ void	ft_lstadd_back(t_list **lst, t_list *new);
 
 int is_delimiter(char c)
 {
-    if ( c == ' ')
-	return (1);
+    if ( c == ' ' || c == '\t' || c == '\n')
+		return (1);
 	return (0);
 }
 

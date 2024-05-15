@@ -7,6 +7,7 @@ void printlex(void *content) {
         printf("[%s]\n", token->value);
     }
 }
+
 void test_lexer(t_list *lst)
 {
 	ft_lstiter(lst,printlex);
