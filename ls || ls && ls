@@ -1,0 +1,11 @@
+Makefile
+backend
+frontend
+lexer
+libft
+libft.a
+ls
+ls || ls && ls
+main.c
+main.o
+minishell.h
