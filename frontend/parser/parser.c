@@ -46,7 +46,10 @@ t_astnode *place_ast(t_astnode *node, t_astnode *root)
 {
 	if(NULL == root)
 		return node;
-	
+	if (node->type == NODE_PIPE)
+	{
+		t_astnode *tmp = root;
+	}
 }
 t_astnode *parse(t_token **tokens)
 {
