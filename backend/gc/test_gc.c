@@ -15,5 +15,5 @@ int main()
 	t1 = gcalloc(40, lst);
 	t2 = gcalloc(30, lst);
 
-	gc_free(lst);
+	// gc_free(lst);
 }
