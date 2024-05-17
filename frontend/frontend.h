@@ -7,7 +7,10 @@ typedef enum {
     NODE_PIPE,
     NODE_INPUT_REDIRECT,
     NODE_OUTPUT_REDIRECT,
-    NODE_SUBSHELL
+    NODE_SUBSHELL,
+	NODE_LOGICAL,
+    NODE_SEQUENCE,
+
 } node_type;
 typedef enum {
 	TK_COMMAND,
@@ -36,7 +39,11 @@ typedef struct s_token
 	tk_type type;
 	char *value;
 } t_token;
-
+typedef struct	s_tklist
+{
+	t_list *tokens;
+	int curr_index;
+} t_tklist;
 // typedef struct s_list
 // {
 // 	void			*content;
@@ -51,9 +58,9 @@ typedef struct s_lexer
 	char *charPos; //position for the next read 
 } t_lexer;
 // This is parser
-typedef enum {
-		CMD, PIPE, REDIRECTION, LOGICAL, SEQUENCE, SUBSHELL
-} node_type;
+// typedef enum {
+// 		CMD, PIPE, REDIRECTION, LOGICAL, SEQUENCE, SUBSHELL
+// } node_type;
 
 
 typedef struct s_astnode
@@ -68,24 +75,34 @@ typedef struct s_astnode
 
         struct
 		{
-            struct ast_node* left;
-            struct ast_node* right;
+            struct s_astnode* left;
+            struct s_astnode* right;
         } binary;
 
         struct
 		{
-            struct ast_node* child;
+            struct s_astnode* child;
             char* filename;
             int mode;
         } redirect;
 
         struct
 		{
-            struct ast_node* child;
+            struct s_astnode* child;
         } subshell;
     };
 } t_astnode;
 t_list *lex(char *text);
 void test_lexer(t_list *lst);
 char *add_spaces( char *str);
+ t_token *peek_next_token(t_tklist *token_list, int n);
+  t_token *next_token(t_tklist *token_list);
+    t_token *peek_token(t_tklist *token_list);
+	t_astnode* parse_pipeline(t_tklist *token_list, t_token **current_token);
+t_astnode* parse_subshell(t_tklist *token_list, t_token **current_token);
+t_astnode* parse_logical_expression(t_tklist *token_list, t_token **current_token);
+t_astnode* parse_sequence(t_tklist *token_list, t_token **current_token);
+t_astnode* parse_command_list(t_tklist *token_list);
+void print_ast_node(t_astnode *node, int indent_level);
+void print_ast(t_astnode *root);
 #endif

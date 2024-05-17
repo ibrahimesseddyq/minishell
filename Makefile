@@ -1,32 +1,36 @@
-# Variables
 SRC_LEXER = main.c ./frontend/lexer/lexer.c ./frontend/lexer/lexer_tester.c
-OBJ_LEXER = $(SRC_LEXER:.c=.o)  # Pattern substitution to replace .c with .o
+OBJ_LEXER = $(SRC_LEXER:.c=.o)  
+
 LIBFT = libft.a
-LIBFT_SRC = $(wildcard ./libft/*.c)  # Correct wildcard usage
+LIBFT_SRC = $(wildcard ./libft/*.c) # This wildcard is used correctly
 LIBFT_OBJ = $(LIBFT_SRC:.c=.o)
 
-# Default target
-all: lexer
+SRC = main.c ./frontend/lexer/lexer.c ./frontend/lexer/lexer_tester.c ./frontend/parser/parser.c ./frontend/parser/parser_printer.c
+OBJ = $(SRC:.c=.o)  
 
-# Static library for libft
+CC = gcc -g
+CFLAGS = -Wall -Wextra -Werror
+
+all: lexer parser
+
 $(LIBFT): $(LIBFT_OBJ)
 	ar rc $(LIBFT) $(LIBFT_OBJ)
-	ranlib $(LIBFT)  # Ensure the library index is updated
+	ranlib $(LIBFT)
 
-# Compile libft source files into object files
 $(LIBFT_OBJ): %.o: %.c
-	gcc -c $< -o $@
-# Lexer executable
+	$(CC) $(CFLAGS) -c $< -o $@
+
 lexer: $(OBJ_LEXER) $(LIBFT)
-	gcc -o $@ $(OBJ_LEXER) $(LIBFT)  # Ensure linking of all necessary object files and libraries
+	$(CC) $(CFLAGS) -o $@ $(OBJ_LEXER) $(LIBFT)
 
-# Generic rule for compiling source files to object files
+parser: $(OBJ) $(LIBFT)
+	$(CC) $(CFLAGS) -o $@ $(OBJ) $(LIBFT)
+
 %.o: %.c
-	gcc -c $< -o $@
+	$(CC) $(CFLAGS) -c $< -o $@
 
-# Clean up
 clean:
-	rm -f $(OBJ_LEXER) $(LIBFT_OBJ) $(LIBFT) lexer
+	rm -f $(OBJ_LEXER) $(LIBFT_OBJ) $(LIBFT) lexer parser $(OBJ)
 
-# Phony targets
+# Phony 
 .PHONY: all clean

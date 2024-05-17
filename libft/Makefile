@@ -24,7 +24,7 @@ all: $(NAME)
 	$(CC) $(CFLAGS) -c -o $@ $<
 
 $(NAME): $(OBJECTS)
-	ar cr $(NAME) $(OBJECTS)
+	ar cr $(NAME) $(OBJECTS) && $(MAKE) clean
 
 bonus: $(OBJECTS_BONNUS)
 	ar cr $(NAME) $(OBJECTS_BONNUS)

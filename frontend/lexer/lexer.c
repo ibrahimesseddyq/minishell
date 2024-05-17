@@ -170,3 +170,50 @@ char *add_spaces( char *str)
     max_str[j] = '\0';
     return max_str;
 }
+ t_token *next_token(t_tklist *token_list)
+ {
+	token_list->curr_index++;
+    t_list *current = token_list->tokens;
+    for (int i = 0; i < token_list->curr_index && current != NULL; i++)
+    {
+        current = current->next;
+    }
+    if (current != NULL)
+    {
+        return (t_token *)current->content;
+    }  
+    return NULL;
+ }
+  t_token *peek_token(t_tklist *token_list)
+ {
+    t_list *current = token_list->tokens;
+    for (int i = 0; i < token_list->curr_index && current != NULL; i++)
+    {
+        current = current->next;
+    }
+    if (current != NULL)
+    {
+        return (t_token *)current->content;
+    }  
+    return NULL;
+ }
+ t_token *peek_next_token(t_tklist *token_list, int n)
+ {
+    t_list *current = token_list->tokens;
+    int index = 0;
+    while (index < token_list->curr_index && current != NULL)
+	{
+        current = current->next;
+        index++;
+    }
+    for (int i = 0; i < n && current != NULL; i++)
+	{
+        current = current->next;
+    }
+
+    if (current != NULL)
+	{
+        return (t_token *)current->content;
+    }
+    return NULL;
+}
