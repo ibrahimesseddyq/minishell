@@ -4,6 +4,7 @@ void print_ast_node(t_astnode *node, int indent_level)
 {
     if (node == NULL)
         return;
+					printf("COMMAND");
 
     for (int i = 0; i < indent_level; i++) 
         printf("  ");

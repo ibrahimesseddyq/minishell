@@ -38,58 +38,105 @@ t_astnode *create_subshell_node(t_astnode *child)
 	node->subshell.child  = child;
 	return (node);
 }
-
 t_astnode *parse_command(t_tklist *tokenlist, t_token **current_token)
 {
-	if((*current_token)->type != TK_COMMAND && (*current_token)->type != TK_WORD)
-	{
-		return NULL;
-	}
-	int argc = 0;
-	char **argv = NULL;
-	int i = 0;
+    if ((*current_token)->type != TK_COMMAND && (*current_token)->type != TK_WORD)
+    {
+        return NULL;
+    }
+    int argc = 0;
+    char **argv;
+    int i = 0;
 
-	t_token *temptk = *current_token;
-	while (temptk->type == TK_COMMAND || temptk->type == TK_WORD)
-	{
-		argc++;
-		i++;
-		temptk = peek_next_token(tokenlist, i + 1);
-	}
-	argv = (char **)malloc(sizeof(char *) * argc);
-	i = 0;
-	while(i < argc)
-	{
-		argv[i] = ft_strdup((*current_token)->value);
-		printf("[%s]\n",argv[i]);
-		*current_token = next_token(tokenlist);
-		i++;
-	}
-	return create_ast_command(argc, argv);
+    t_token *temptk = *current_token;
+    while (temptk->type == TK_COMMAND || temptk->type == TK_WORD)
+    {
+        argc++;
+        temptk = peek_next_token(tokenlist, i + 1);
+        i++;
+    }
+
+    argv = (char **)malloc(sizeof(char *) * argc);
+    i = 0;
+    while (i < argc)
+    {
+        argv[i] = strdup((*current_token)->value);
+        *current_token = next_token(tokenlist);
+				// printf("COMMAND[%s]\n",argv[i]);
+        i++;
+    }
+    return create_ast_command(argc, argv);
 }
-
 
 t_astnode *parse_redirection(t_tklist *tokenlist, t_astnode *command, t_token **current_token)
 {
-	if((*current_token)->type == TK_GREATERTHAN1 || (*current_token)->type == TK_GREATERTHAN2 ||
+    if ((*current_token)->type == TK_GREATERTHAN1 || (*current_token)->type == TK_GREATERTHAN2 ||
         (*current_token)->type == TK_LESSERTHAN1 || (*current_token)->type == TK_LESSERTHAN2)
-		{
-			node_type type = ((*current_token)->type == TK_GREATERTHAN1 || (*current_token)->type == TK_GREATERTHAN2);
-			if(type)
-				type = NODE_OUTPUT_REDIRECT;
-			else
-				type = NODE_INPUT_REDIRECT;
-        	int mode = ((*current_token)->type == TK_GREATERTHAN2 || (*current_token)->type == TK_LESSERTHAN2) ? 2 : 1;
-			*current_token = next_token(tokenlist);
-			if ((*current_token)->type != TK_WORD)
-				return NULL;
-			char *filename = ft_strdup((*current_token)->value);
-			*current_token = next_token(tokenlist);
-			return create_redirect_node(type, command, filename, mode);
-		}
-		return command;
-		
+    {
+        node_type type = ((*current_token)->type == TK_GREATERTHAN1 || (*current_token)->type == TK_GREATERTHAN2)
+                             ? NODE_OUTPUT_REDIRECT
+                             : NODE_INPUT_REDIRECT;
+        int mode = ((*current_token)->type == TK_GREATERTHAN2 || (*current_token)->type == TK_LESSERTHAN2) ? 2 : 1;
+        *current_token = next_token(tokenlist);
+        if ((*current_token)->type != TK_WORD)
+            return NULL;
+        char *filename = strdup((*current_token)->value);
+        *current_token = next_token(tokenlist);
+        return create_redirect_node(type, command, filename, mode);
+    }
+    return command;
 }
+// t_astnode *parse_command(t_tklist *tokenlist, t_token **current_token)
+// {
+// 	if((*current_token)->type != TK_COMMAND && (*current_token)->type != TK_WORD)
+// 	{
+// 		return NULL;
+// 	}
+// 	int argc = 0;
+// 	char **argv = NULL;
+// 	int i = 0;
+
+// 	t_token *temptk = *current_token;
+// 	while (temptk->type == TK_COMMAND || temptk->type == TK_WORD)
+// 	{
+// 		argc++;
+// 		i++;
+// 		temptk = peek_next_token(tokenlist, i + 1);
+// 	}
+// 	argv = (char **)malloc(sizeof(char *) * argc);
+// 	i = 0;
+// 	while(i < argc)
+// 	{
+// 		argv[i] = ft_strdup((*current_token)->value);
+// 		printf("[%s]\n",argv[i]);
+// 		*current_token = next_token(tokenlist);
+// 		i++;
+// 	}
+// 	return create_ast_command(argc, argv);
+// }
+
+
+// t_astnode *parse_redirection(t_tklist *tokenlist, t_astnode *command, t_token **current_token)
+// {
+// 	if((*current_token)->type == TK_GREATERTHAN1 || (*current_token)->type == TK_GREATERTHAN2 ||
+//         (*current_token)->type == TK_LESSERTHAN1 || (*current_token)->type == TK_LESSERTHAN2)
+// 		{
+// 			node_type type = ((*current_token)->type == TK_GREATERTHAN1 || (*current_token)->type == TK_GREATERTHAN2);
+// 			if(type)
+// 				type = NODE_OUTPUT_REDIRECT;
+// 			else
+// 				type = NODE_INPUT_REDIRECT;
+//         	int mode = ((*current_token)->type == TK_GREATERTHAN2 || (*current_token)->type == TK_LESSERTHAN2) ? 2 : 1;
+// 			*current_token = next_token(tokenlist);
+// 			if ((*current_token)->type != TK_WORD)
+// 				return NULL;
+// 			char *filename = ft_strdup((*current_token)->value);
+// 			*current_token = next_token(tokenlist);
+// 			return create_redirect_node(type, command, filename, mode);
+// 		}
+// 		return command;
+		
+// }
 // -----------------------
 t_astnode* parse_pipeline(t_tklist *token_list, t_token **current_token)
 {
@@ -114,7 +161,6 @@ t_astnode* parse_subshell(t_tklist *token_list, t_token **current_token)
         t_astnode* command_list = parse_pipeline(token_list, current_token);
         if ((*current_token)->type != TK_RPR)
 		{
-            // Handle error: expected ')'
             return NULL;
         }
         *current_token = next_token(token_list); // consume ')'
@@ -154,9 +200,9 @@ t_astnode* parse_command_list(t_tklist *token_list)
 {
     t_token* current_token = next_token(token_list);
     t_astnode* command_list = parse_sequence(token_list, &current_token);
+
     if (current_token->type != TOKEN_EOF)
 	{
-        // Handle error: unexpected tokens at the end
         return NULL;
     }
     return command_list;

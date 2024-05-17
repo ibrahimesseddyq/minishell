@@ -4,7 +4,7 @@
 void printlex(void *content) {
     t_token *token = (t_token *)content;
     if (token->value) {
-        printf("[%s]\n", token->value);
+        printf("[%s - <%u>]\n", token->value, token->type);
     }
 }
 
