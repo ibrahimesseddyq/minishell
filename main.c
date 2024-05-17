@@ -6,26 +6,29 @@ int main(int ac, char **av)
 	(void)(ac);
 	t_tklist *tklist;
 	t_list *lst;
-	// t_astnode *root;
+	t_astnode *root;
 
 	tklist =malloc(sizeof(t_tklist));
 	lst = lex(add_spaces("echo hello | grep h > file1.txt |  sort"));
-	// tklist->tokens = lst;
-	// tklist->curr_index = 0;
-	// root =parse_command_list(tklist);
+	tklist->tokens = lst;
+	tklist->curr_index = 0;
+	root =parse_command_list(tklist);
+	if(root)
+		printf("HI");
 	// print_ast(root);
-	test_lexer(lst);
-	// printf("[%s]\n",add_spaces("ls > a >>> ( ls >& && || | ) ls"));
+	// test_lexer(lst);
+	// printf("[%s]\n",root);
 	// printf("[%s]",add_spaces("ls>a>>>(ls>&&&|||)ls"));
 
 }
-// #include "./frontend.h"
+
 
 // int main() {
 //     // Example setup of a complex token list
 //     t_tklist token_list;
 //     t_list tokens[25];
 //     t_token token_data[25] = {
+//         {TK_LPR, "("},
 //         {TK_COMMAND, "echo"},
 //         {TK_WORD, "hello"},
 //         {TK_AND1, "&&"},
@@ -33,6 +36,22 @@ int main(int ac, char **av)
 //         {TK_WORD, "world"},
 //         {TK_GREATERTHAN1, ">"},
 //         {TK_WORD, "out1.txt"},
+//         {TK_RPR, ")"},
+//         {TK_OR, "||"},
+//         {TK_LPR, "("},
+//         {TK_COMMAND, "cat"},
+//         {TK_WORD, "out1.txt"},
+//         {TK_PIPE, "|"},
+//         {TK_COMMAND, "grep"},
+//         {TK_WORD, "hello"},
+//         {TK_GREATERTHAN2, ">>"},
+//         {TK_WORD, "out2.txt"},
+//         {TK_RPR, ")"},
+//         {TK_AND1, "&&"},
+//         {TK_COMMAND, "echo"},
+//         {TK_WORD, "done"},
+//         {TK_GREATERTHAN1, ">"},
+//         {TK_WORD, "out3.txt"},
 //         {TOKEN_EOF, NULL}
 //     };
 
