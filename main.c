@@ -1,25 +1,18 @@
 #include "minishell.h"
 #include "./frontend/frontend.h"
-int main(int ac, char **av)
-{
-	(void)av;
-	(void)(ac);
-	t_tklist *tklist;
-	t_list *lst;
-	t_astnode *root;
+int main() {
+    char input[] = "echo Hello World && ls -l | grep 'txt' > output.txt";
+    t_tklist *token_list = tokenize(input);
+    print_tokens(token_list);
 
-	tklist =malloc(sizeof(t_tklist));
-	lst = lex(add_spaces("echo hello | grep h > file1.txt |  sort"));
-	tklist->tokens = lst;
-	tklist->curr_index = 0;
-	root =parse_command_list(tklist);
-	if(root)
-		printf("HI");
-	// print_ast(root);
-	// test_lexer(lst);
-	// printf("[%s]\n",root);
-	// printf("[%s]",add_spaces("ls>a>>>(ls>&&&|||)ls"));
+    // Free allocated memory
+    for (int i = 0; i < token_list->size; i++) {
+        free(token_list->tokens[i].value);
+    }
+    free(token_list->tokens);
+    free(token_list);
 
+    return 0;
 }
 
 

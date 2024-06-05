@@ -7,7 +7,8 @@ void *gcalloc(size_t size, t_allocation *lst)
     if (alloc == NULL)
         return NULL;
 
-    if (lst->address == NULL) {
+    if (lst->address == NULL)
+	{
         lst->address = alloc;
         lst->freed = 0;
         lst->next = NULL;

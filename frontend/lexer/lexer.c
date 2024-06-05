@@ -1,312 +1,195 @@
 #include "../frontend.h"
-void	ft_lstadd_back(t_list **lst, t_list *new);
 
-int is_delimiter(char c)
-{
-    if ( c == ' ' || c == '\t' || c == '\n')
-		return (1);
-	return (0);
+t_lexer* init_lexer(char *input) {
+    t_lexer *lexer = (t_lexer *)malloc(sizeof(t_lexer));
+    lexer->input = input;
+    lexer->pos = 0;
+    lexer->currentchar = input[lexer->pos];
+    return lexer;
 }
 
-// t_token *gettoken(char *token)
-// {
-// 	t_token *tk;
-
-// 	tk = malloc(sizeof(t_token));
-// 	if (*token == '|')
-// 	{
-// 		if(*(token + 1) == '|')
-// 			return (tk->value = ft_strdup("||"), tk->type = TK_OR, tk);
-// 		else
-// 			return (tk->value = ft_strdup("|"), tk->type = TK_PIPE, tk);
-// 	}
-// 	else if(*token == ';')
-// 		return (tk->value = ft_strdup( ";"), tk->type = TK_SEMICOLON, tk);
-// 	else if(*token == '(')
-// 		return (tk->value = ft_strdup( "("), tk->type = TK_LPR, tk);
-// 	else if(*token == ')')
-// 		return (tk->value = ft_strdup( ")"), tk->type = TK_RPR, tk);
-// 	else if(*token == '>')
-// 	{
-// 		if(*(token + 1) == '>')
-// 			return (tk->value = ft_strdup(">>"), tk->type = TK_GREATERTHAN2, tk);
-// 		else
-// 			return (tk->value = ft_strdup(">"), tk->type = TK_GREATERTHAN1, tk);
-// 	}
-// 	else if(*token == '<')
-// 	{
-// 		if(*(token + 1) == '<')
-// 			return (tk->value = ft_strdup("<<"), tk->type = TK_LESSERTHAN2, tk);
-// 		else
-// 			return (tk->value = ft_strdup("<"), tk->type = TK_LESSERTHAN1, tk);
-// 	}
-// 	else if(*token == '&')
-// 	{
-// 		if (*(token + 1) == '&') {
-// 			if (!(tk->value = ft_strdup("&&"))) {
-// 				free(tk);
-// 				return NULL;
-// 			}
-// 			tk->type = TK_AND2;
-// 		} else {
-// 			if (!(tk->value = ft_strdup("&"))) {
-// 				free(tk);
-// 				return NULL;
-// 			}
-// 			tk->type = TK_AND1;
-// 		}
-// 		return tk;
-// }
-// 	else if(ft_isalnum(*token))
-// 	{
-// 		int len;
-// 		int	i;
-// 		char *str;
-
-// 		len = ft_strlen(token);
-// 		i = 0;
-// 		str = (char *)malloc(sizeof(char) * len + 1);
-// 		if (NULL == str)
-// 			return (NULL);
-// 		while(ft_isalnum(*token) && i < len)
-// 		{
-// 			str[i] = *token;
-// 			i++;
-// 			token++;
-// 		}
-// 		str[i] = '\0';
-// 		if(len != i)
-// 			return (free(str), tk->type = TK_ILLEGAL, tk);
-// 		else
-// 			return  (tk->type = TK_COMMAND, tk->value = str, tk);
-		
-// 	}
-// 	else
-// 		return (tk->type=TK_ILLEGAL, tk);
-// }
-t_token *gettoken(char *token, int first_token) {
-    t_token *tk = malloc(sizeof(t_token));
-    if (!tk) return NULL;
-
-    if (*token == '|') {
-        if (*(token + 1) == '|')
-            return (tk->value = ft_strdup("||"), tk->type = TK_OR, tk);
-        else
-            return (tk->value = ft_strdup("|"), tk->type = TK_PIPE, tk);
-    } else if (*token == ';') {
-        return (tk->value = ft_strdup(";"), tk->type = TK_SEMICOLON, tk);
-    } else if (*token == '(') {
-        return (tk->value = ft_strdup("("), tk->type = TK_LPR, tk);
-    } else if (*token == ')') {
-        return (tk->value = ft_strdup(")"), tk->type = TK_RPR, tk);
-    } else if (*token == '>') {
-        if (*(token + 1) == '>')
-            return (tk->value = ft_strdup(">>"), tk->type = TK_GREATERTHAN2, tk);
-        else
-            return (tk->value = ft_strdup(">"), tk->type = TK_GREATERTHAN1, tk);
-    } else if (*token == '<') {
-        if (*(token + 1) == '<')
-            return (tk->value = ft_strdup("<<"), tk->type = TK_LESSERTHAN2, tk);
-        else
-            return (tk->value = ft_strdup("<"), tk->type = TK_LESSERTHAN1, tk);
-    } else if (*token == '&') {
-        if (*(token + 1) == '&') {
-            return (tk->value = ft_strdup("&&"), tk->type = TK_AND2, tk);
-        } else {
-            return (tk->value = ft_strdup("&"), tk->type = TK_AND1, tk);
-        }
-    } else if (ft_isalnum(*token)) {
-        int len = ft_strlen(token);
-        char *str = (char *)malloc(sizeof(char) * (len + 1));
-        if (!str) return NULL;
-
-        int i = 0;
-        while (ft_isalnum(*token) && i < len) {
-            str[i++] = *token++;
-        }
-        str[i] = '\0';
-
-        if (i != len) {
-            free(str);
-            tk->type = TK_ILLEGAL;
-        } else {
-            tk->type = first_token ? TK_COMMAND : TK_WORD;
-            tk->value = str;
-        }
-        return tk;
+void advance(t_lexer *lexer) {
+    lexer->pos++;
+    if (lexer->pos >= strlen(lexer->input)) {
+        lexer->currentchar = '\0';
     } else {
-        tk->type = TK_ILLEGAL;
+        lexer->currentchar = lexer->input[lexer->pos];
     }
-
-    return tk;
 }
-t_list *lex(char *text) {
-    t_list *tk_list = NULL;
-    int start = 0;
+
+void skip_whitespace(t_lexer *lexer) {
+    while (lexer->currentchar != '\0' && isspace(lexer->currentchar)) {
+        advance(lexer);
+    }
+}
+
+char* get_word(t_lexer *lexer) {
+    char *result = (char *)malloc(256 * sizeof(char));
     int i = 0;
-    int first_token = 1;
+    while (lexer->currentchar != '\0' && !isspace(lexer->currentchar) && lexer->currentchar != '|' && lexer->currentchar != '&' && lexer->currentchar != ';' && lexer->currentchar != '(' && lexer->currentchar != ')' && lexer->currentchar != '>' && lexer->currentchar != '<') {
+        result[i++] = lexer->currentchar;
+        advance(lexer);
+    }
+    result[i] = '\0';
+    return result;
+}
 
-    while (text[i]) {
-        if (is_delimiter(text[i]) || text[i + 1] == '\0') {
-            int length = (text[i + 1] == '\0' && !is_delimiter(text[i])) ? i + 1 - start : i - start;
-            if (length > 0) {
-                char *value = ft_substr(text, start, length);
-                t_token *token = gettoken(value, first_token);
-                free(value);
-                if (token) {
-                    ft_lstadd_back(&tk_list, ft_lstnew(token));
-                    if (token->type == TK_COMMAND) {
-                        first_token = 0;
-                    } else if (token->type == TK_PIPE || token->type == TK_SEMICOLON || 
-                               token->type == TK_AND1 || token->type == TK_AND2 || token->type == TK_OR) {
-                        first_token = 1; 
-                    }
-                }
+t_token* get_next_token(t_lexer *lexer) {
+    while (lexer->currentchar != '\0') {
+        if (isspace(lexer->currentchar)) {
+            skip_whitespace(lexer);
+            continue;
+        }
+
+        if (lexer->currentchar == '|') {
+            advance(lexer);
+            if (lexer->currentchar == '|') {
+                advance(lexer);
+                t_token *token = (t_token *)malloc(sizeof(t_token));
+                token->type = TK_OR;
+                token->value = strdup("||");
+                return token;
             }
-            start = i + 1;
+            t_token *token = (t_token *)malloc(sizeof(t_token));
+            token->type = TK_PIPE;
+            token->value = strdup("|");
+            return token;
         }
-        i++;
-    }
-    t_token *eof = malloc(sizeof(t_token));
-    eof->type = TOKEN_EOF;
-    ft_lstadd_back(&tk_list, ft_lstnew(eof));
 
-    return tk_list;
-}
-// t_list *lex(char *text)
-// {
-// 	// printf("[%s]",text);
-//     t_list *tk_list = NULL;
-//     int start = 0;
-//     int i = 0;
-
-//     while (text[i])
-// 	{
-//         if (
-// 			is_delimiter(text[i]) ||
-// 			 text[i+1] == '\0')
-// 		{
-//             int length = (text[i+1] == '\0' && !is_delimiter(text[i])) ? i + 1 - start : i - start;
-//             if (length > 0)
-// 			{
-//                 char *value = ft_substr(text, start, length);
-//                 t_token *token = gettoken(value);
-//                 free(value);
-//                 if (token)
-// 				{
-//                     ft_lstadd_back(&tk_list, ft_lstnew(token));
-//                 }
-//             }
-//             start = i + 1; 
-//         }
-//         i++;
-//     }
-// 	t_token *eof;
-// 	eof = malloc(sizeof(t_token));
-// 	eof->type = TOKEN_EOF;
-// 	ft_lstadd_back(&tk_list, ft_lstnew(eof));
-
-//     return tk_list;
-// }
-int check_double(char *str)
-{
-        if ((str[0] == '>' && str[1] == '>') ||
-            (str[0] == '<' && str[1] == '<') ||
-            (str[0] == '|' && str[1] == '|') ||
-			(str[0] == '&' && str[1] == '&') ||
-            (str[0] == '$' && str[1] == '$') ||
-			(str[0] == '.' && str[1] == '.') 
-			)
-			return (1);
-		return (0);
-}
-int issymbol(char c)
-{
-        if (c == '>' || c == '<' || c == '|' || c == '&' || c == '$' || c == '.' || c == '(' || c == ')')
-			return (1);
-		return (0);
-}
-char *add_spaces( char *str)
-{
-    int len = strlen(str);
-    char *max_str = malloc(sizeof(char) * (len * 3) + 1);
-    if (!max_str) return NULL;
-
-    int i = 0, j = 0;
-    while (i < len) {
-        if (check_double(str + i))
-			 {
-            if (j > 0 && max_str[j-1] != ' ') max_str[j++] = ' ';
-            max_str[j++] = str[i];
-            max_str[j++] = str[i++];
-            i++; 
-            max_str[j++] = ' ';
-        }
-		else if (issymbol(str[i]))
-		{
-            if (j > 0 && max_str[j-1] != ' ') max_str[j++] = ' ';
-            max_str[j++] = str[i++];
-            max_str[j++] = ' ';
-        }
-		else if (ft_isalnum(str[i]))
-		{
-            if (j > 0 && max_str[j-1] == ' ') max_str[j++] = ' '; 
-            while (ft_isalnum(str[i])) {
-                max_str[j++] = str[i++];
+        if (lexer->currentchar == '&') {
+            advance(lexer);
+            if (lexer->currentchar == '&') {
+                advance(lexer);
+                t_token *token = (t_token *)malloc(sizeof(t_token));
+                token->type = TK_AND2;
+                token->value = strdup("&&");
+                return token;
             }
+            t_token *token = (t_token *)malloc(sizeof(t_token));
+            token->type = TK_AND1;
+            token->value = strdup("&");
+            return token;
         }
-		else
-		{
-            max_str[j++] = str[i++];
+
+        if (lexer->currentchar == ';') {
+            advance(lexer);
+            t_token *token = (t_token *)malloc(sizeof(t_token));
+            token->type = TK_SEMICOLON;
+            token->value = strdup(";");
+            return token;
         }
-    }
-    max_str[j] = '\0';
-    return max_str;
-}
- t_token *next_token(t_tklist *token_list)
- {
-	token_list->curr_index++;
-    t_list *current = token_list->tokens;
-    for (int i = 0; i < token_list->curr_index && current != NULL; i++)
-    {
-        current = current->next;
-    }
-    if (current != NULL)
-    {
-        return (t_token *)current->content;
-    }  
-    return NULL;
- }
-  t_token *peek_token(t_tklist *token_list)
- {
-    t_list *current = token_list->tokens;
-    for (int i = 0; i < token_list->curr_index && current != NULL; i++)
-    {
-        current = current->next;
-    }
-    if (current != NULL)
-    {
-        return (t_token *)current->content;
-    }  
-    return NULL;
- }
- t_token *peek_next_token(t_tklist *token_list, int n)
- {
-    t_list *current = token_list->tokens;
-    int index = 0;
-    while (index < token_list->curr_index && current != NULL)
-	{
-        current = current->next;
-        index++;
-    }
-    for (int i = 0; i < n && current != NULL; i++)
-	{
-        current = current->next;
+
+        if (lexer->currentchar == '(') {
+            advance(lexer);
+            t_token *token = (t_token *)malloc(sizeof(t_token));
+            token->type = TK_LPR;
+            token->value = strdup("(");
+            return token;
+        }
+
+        if (lexer->currentchar == ')') {
+            advance(lexer);
+            t_token *token = (t_token *)malloc(sizeof(t_token));
+            token->type = TK_RPR;
+            token->value = strdup(")");
+            return token;
+        }
+
+        if (lexer->currentchar == '>') {
+            advance(lexer);
+            if (lexer->currentchar == '>') {
+                advance(lexer);
+                t_token *token = (t_token *)malloc(sizeof(t_token));
+                token->type = TK_GREATERTHAN2;
+                token->value = strdup(">>");
+                return token;
+            }
+            t_token *token = (t_token *)malloc(sizeof(t_token));
+            token->type = TK_GREATERTHAN1;
+            token->value = strdup(">");
+            return token;
+        }
+
+        if (lexer->currentchar == '<') {
+            advance(lexer);
+            if (lexer->currentchar == '<') {
+                advance(lexer);
+                t_token *token = (t_token *)malloc(sizeof(t_token));
+                token->type = TK_LESSERTHAN2;
+                token->value = strdup("<<");
+                return token;
+            }
+            t_token *token = (t_token *)malloc(sizeof(t_token));
+            token->type = TK_LESSERTHAN1;
+            token->value = strdup("<");
+            return token;
+        }
+
+        if (isalnum(lexer->currentchar)) {
+            char *word = get_word(lexer);
+            t_token *token = (t_token *)malloc(sizeof(t_token));
+            token->type = TK_WORD;
+            token->value = word;
+            return token;
+        }
+
+        t_token *token = (t_token *)malloc(sizeof(t_token));
+        token->type = TK_ILLEGAL;
+        token->value = strdup("");
+        return token;
     }
 
-    if (current != NULL)
-	{
-        return (t_token *)current->content;
+    t_token *token = (t_token *)malloc(sizeof(t_token));
+    token->type = TOKEN_EOF;
+    token->value = strdup("");
+    return token;
+}
+
+t_tklist* tokenize(char *input)
+{
+    t_lexer *lexer = init_lexer(input);
+    t_tklist *token_list = (t_tklist *)malloc(sizeof(t_tklist));
+    token_list->tokens = NULL;
+    token_list->curr_index = 0;
+    token_list->size = 0;
+
+    t_token *token = get_next_token(lexer);
+    while (token->type != TOKEN_EOF) {
+        token_list->size++;
+        token_list->tokens = (t_token *)realloc(token_list->tokens, token_list->size * sizeof(t_token));
+        token_list->tokens[token_list->size - 1] = *token;
+        token = get_next_token(lexer);
+    }
+
+    free(lexer);
+    return token_list;
+}
+
+void print_tokens(t_tklist *token_list)
+{
+    for (int i = 0; i < token_list->size; i++) {
+        printf("Type: %d, Value: %s\n", token_list->tokens[i].type, token_list->tokens[i].value);
+    }
+}
+
+
+t_token* peek_token(t_tklist *token_list) {
+    if (token_list->curr_index < token_list->size) {
+        return &token_list->tokens[token_list->curr_index];
+    }
+    return NULL;
+}
+
+t_token* next_token(t_tklist *token_list) {
+    if (token_list->curr_index < token_list->size) {
+        return &token_list->tokens[token_list->curr_index++];
+    }
+    return NULL;
+}
+
+t_token* peek_next_token(t_tklist *token_list, int offset) {
+    if ((token_list->curr_index + offset) < token_list->size) {
+        return &token_list->tokens[token_list->curr_index + offset];
     }
     return NULL;
 }
