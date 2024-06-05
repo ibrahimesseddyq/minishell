@@ -2,6 +2,8 @@
 # define FRONTEND_H
 // This is lexer
 #include "./../minishell.h"
+#include <ctype.h>
+// Token types enumeration
 typedef enum {
     TK_COMMAND,
     TK_PIPE,
@@ -32,25 +34,24 @@ typedef enum {
     NODE_SUBSHELL,
     NODE_LOGICAL,
     NODE_SEQUENCE,
+    NODE_BLOCK
 } node_type;
 
-typedef struct s_token
-{
+// Token structure
+typedef struct s_token {
     tk_type type;
     char *value;
 } t_token;
 
-// بنية قائمة الرموز
-typedef struct s_tklist
-{
+// Token list structure
+typedef struct s_tklist {
     t_token *tokens;
     int curr_index;
     int size;
 } t_tklist;
 
-// بنية Lexer
-typedef struct s_lexer
-{
+// Lexer structure
+typedef struct s_lexer {
     char currentchar;
     int pos;
     char *input;
@@ -93,6 +94,10 @@ typedef struct s_astnode {
         struct {
             struct s_astnode* child;
         } subshell;
+
+        struct {
+            struct s_astnode* child;
+        } block; // Added block member
     };
 } t_astnode;
 t_list *lex(char *text);

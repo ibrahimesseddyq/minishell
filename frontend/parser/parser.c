@@ -1,6 +1,8 @@
 #include "./../frontend.h"
 
 
+t_astnode* parse_block(t_tklist *token_list, t_token **current_token);
+
 t_astnode *create_ast_command(int ac, char **av) {
     t_astnode *node = (t_astnode *)malloc(sizeof(t_astnode));
     node->type = NODE_COMMAND;
@@ -39,7 +41,7 @@ t_astnode *create_redirect_node(node_type type, t_astnode *child, char *filename
 t_astnode *create_block_node(t_astnode *child) {
     t_astnode *node = (t_astnode *)malloc(sizeof(t_astnode));
     node->type = NODE_BLOCK;
-    node->block.child = child;
+    node->block.child = child; // Corrected this line
     return node;
 }
 

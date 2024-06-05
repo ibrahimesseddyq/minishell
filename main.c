@@ -1,12 +1,16 @@
 #include "minishell.h"
 #include "./frontend/frontend.h"
+
 int main() {
-    char input[] = "echo Hello World && ls -l | grep 'txt' > output.txt";
+	printf("Hi\n");
+    char input[] = "echo Hello World && ls l | grep txt > output.txt";
     t_tklist *token_list = tokenize(input);
     print_tokens(token_list);
 
     // Free allocated memory
-    for (int i = 0; i < token_list->size; i++) {
+    for (int i = 0; i < token_list->size; i++)
+	{
+		printf("i = %d\n", i);
         free(token_list->tokens[i].value);
     }
     free(token_list->tokens);

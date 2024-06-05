@@ -1,0 +1,34 @@
+Hi
+type: echo
+type: Hello
+type: World
+type: &&
+type: ls
+type: l
+type: |
+type: grep
+type: txt
+type: >
+type: output.txt
+Type: 13, Value: echo
+Type: 13, Value: Hello
+Type: 13, Value: World
+Type: 8, Value: &&
+Type: 13, Value: ls
+Type: 13, Value: l
+Type: 1, Value: |
+Type: 13, Value: grep
+Type: 13, Value: txt
+Type: 9, Value: >
+Type: 13, Value: output.txt
+i = 0
+i = 1
+i = 2
+i = 3
+i = 4
+i = 5
+i = 6
+i = 7
+i = 8
+i = 9
+i = 10

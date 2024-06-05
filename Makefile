@@ -1,11 +1,11 @@
-SRC_LEXER = main.c ./frontend/lexer/lexer.c ./frontend/lexer/lexer_tester.c
+SRC_LEXER = main.c ./frontend/lexer/lexer.c 
 OBJ_LEXER = $(SRC_LEXER:.c=.o)  
 
 LIBFT = libft.a
 LIBFT_SRC = $(wildcard ./libft/*.c) # This wildcard is used correctly
 LIBFT_OBJ = $(LIBFT_SRC:.c=.o)
 
-SRC = main.c ./frontend/lexer/lexer.c ./frontend/lexer/lexer_tester.c ./frontend/parser/parser.c ./frontend/parser/parser_printer.c
+SRC = main.c ./frontend/lexer/lexer.c  ./frontend/parser/parser.c ./frontend/parser/parser_printer.c
 OBJ = $(SRC:.c=.o)  
 
 CC = gcc -g

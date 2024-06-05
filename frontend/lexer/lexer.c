@@ -10,7 +10,7 @@ t_lexer* init_lexer(char *input) {
 
 void advance(t_lexer *lexer) {
     lexer->pos++;
-    if (lexer->pos >= strlen(lexer->input)) {
+    if (lexer->pos >= (int)ft_strlen(lexer->input)) {
         lexer->currentchar = '\0';
     } else {
         lexer->currentchar = lexer->input[lexer->pos];
@@ -47,12 +47,12 @@ t_token* get_next_token(t_lexer *lexer) {
                 advance(lexer);
                 t_token *token = (t_token *)malloc(sizeof(t_token));
                 token->type = TK_OR;
-                token->value = strdup("||");
+                token->value = ft_strdup("||");
                 return token;
             }
             t_token *token = (t_token *)malloc(sizeof(t_token));
             token->type = TK_PIPE;
-            token->value = strdup("|");
+            token->value = ft_strdup("|");
             return token;
         }
 
@@ -62,12 +62,12 @@ t_token* get_next_token(t_lexer *lexer) {
                 advance(lexer);
                 t_token *token = (t_token *)malloc(sizeof(t_token));
                 token->type = TK_AND2;
-                token->value = strdup("&&");
+                token->value = ft_strdup("&&");
                 return token;
             }
             t_token *token = (t_token *)malloc(sizeof(t_token));
             token->type = TK_AND1;
-            token->value = strdup("&");
+            token->value = ft_strdup("&");
             return token;
         }
 
@@ -75,7 +75,7 @@ t_token* get_next_token(t_lexer *lexer) {
             advance(lexer);
             t_token *token = (t_token *)malloc(sizeof(t_token));
             token->type = TK_SEMICOLON;
-            token->value = strdup(";");
+            token->value = ft_strdup(";");
             return token;
         }
 
@@ -83,7 +83,7 @@ t_token* get_next_token(t_lexer *lexer) {
             advance(lexer);
             t_token *token = (t_token *)malloc(sizeof(t_token));
             token->type = TK_LPR;
-            token->value = strdup("(");
+            token->value = ft_strdup("(");
             return token;
         }
 
@@ -91,7 +91,7 @@ t_token* get_next_token(t_lexer *lexer) {
             advance(lexer);
             t_token *token = (t_token *)malloc(sizeof(t_token));
             token->type = TK_RPR;
-            token->value = strdup(")");
+            token->value = ft_strdup(")");
             return token;
         }
 
@@ -101,12 +101,12 @@ t_token* get_next_token(t_lexer *lexer) {
                 advance(lexer);
                 t_token *token = (t_token *)malloc(sizeof(t_token));
                 token->type = TK_GREATERTHAN2;
-                token->value = strdup(">>");
+                token->value = ft_strdup(">>");
                 return token;
             }
             t_token *token = (t_token *)malloc(sizeof(t_token));
             token->type = TK_GREATERTHAN1;
-            token->value = strdup(">");
+            token->value = ft_strdup(">");
             return token;
         }
 
@@ -116,16 +116,16 @@ t_token* get_next_token(t_lexer *lexer) {
                 advance(lexer);
                 t_token *token = (t_token *)malloc(sizeof(t_token));
                 token->type = TK_LESSERTHAN2;
-                token->value = strdup("<<");
+                token->value = ft_strdup("<<");
                 return token;
             }
             t_token *token = (t_token *)malloc(sizeof(t_token));
             token->type = TK_LESSERTHAN1;
-            token->value = strdup("<");
+            token->value = ft_strdup("<");
             return token;
         }
 
-        if (isalnum(lexer->currentchar)) {
+        if (ft_isalnum(lexer->currentchar)) {
             char *word = get_word(lexer);
             t_token *token = (t_token *)malloc(sizeof(t_token));
             token->type = TK_WORD;
@@ -135,7 +135,7 @@ t_token* get_next_token(t_lexer *lexer) {
 
         t_token *token = (t_token *)malloc(sizeof(t_token));
         token->type = TK_ILLEGAL;
-        token->value = strdup("");
+        token->value = ft_strdup("");
         return token;
     }
 
@@ -154,7 +154,9 @@ t_tklist* tokenize(char *input)
     token_list->size = 0;
 
     t_token *token = get_next_token(lexer);
-    while (token->type != TOKEN_EOF) {
+    while (token->type != TOKEN_EOF)
+	{
+		printf("type: %s\n",token->value);
         token_list->size++;
         token_list->tokens = (t_token *)realloc(token_list->tokens, token_list->size * sizeof(t_token));
         token_list->tokens[token_list->size - 1] = *token;
