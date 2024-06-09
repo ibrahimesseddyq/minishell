@@ -3,49 +3,43 @@
 #include <stdio.h>
 
 // Just for debug
-void print_ast_node(t_astnode *node, int indent_level) {
-    if (node == NULL)
-        return;
+void print_ast(t_astnode *node, int depth) {
+    if (!node) return;
 
-    for (int i = 0; i < indent_level; i++) 
+    for (int i = 0; i < depth; i++) {
         printf("  ");
+    }
 
     switch (node->type) {
         case NODE_COMMAND:
-            printf("Command: ");
-            for (int i = 0; node->t_cmd.args[i] != NULL; i++) {  // Corrected to access t_cmd
-                printf("%s ", node->t_cmd.args[i]);  // Corrected to access t_cmd
+            printf("Command: %s\n", node->t_cmd.cmd);
+            for (int i = 0; node->t_cmd.args[i]; i++) {
+                for (int j = 0; j < depth + 1; j++) {
+                    printf("  ");
+                }
+                printf("Arg: %s\n", node->t_cmd.args[i]);
             }
-            printf("\n");
             break;
-
         case NODE_PIPE:
             printf("Pipe:\n");
-            print_ast_node(node->binary.left, indent_level + 1);  // Corrected to access binary
-            print_ast_node(node->binary.right, indent_level + 1);  // Corrected to access binary
+            print_ast(node->binary.left, depth + 1);
+            print_ast(node->binary.right, depth + 1);
             break;
-
-        case NODE_INPUT_REDIRECT:
-            printf("Input Redirect: %s\n", node->redirect.filename);  // Corrected to access redirect
-            print_ast_node(node->redirect.child, indent_level + 1);  // Corrected to access redirect
+        case NODE_LOGICAL_AND:
+            printf("Logical AND:\n");
+            print_ast(node->binary.left, depth + 1);
+            print_ast(node->binary.right, depth + 1);
             break;
-
-        case NODE_OUTPUT_REDIRECT:
-            printf("Output Redirect: %s\n", node->redirect.filename);  // Corrected to access redirect
-            print_ast_node(node->redirect.child, indent_level + 1);  // Corrected to access redirect
+        case NODE_LOGICAL_OR:
+            printf("Logical OR:\n");
+            print_ast(node->binary.left, depth + 1);
+            print_ast(node->binary.right, depth + 1);
             break;
-
-        case NODE_SUBSHELL:
-            printf("Subshell:\n");
-            print_ast_node(node->subshell.child, indent_level + 1);  // Corrected to access subshell
+        case NODE_BLOCK:
+            printf("Block:\n");
+            print_ast(node->block.child, depth + 1);
             break;
-
         default:
-            printf("Unknown node type\n");
-            break;
+            printf("Unknown node type: %d\n", node->type);
     }
-}
-
-void print_ast(t_astnode *root) {
-    print_ast_node(root, 0);
 }

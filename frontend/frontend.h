@@ -12,8 +12,7 @@ typedef enum {
     TK_RPR,
     TK_ILLEGAL,
     TOKEN_EOF,
-    TK_AND1,
-    TK_AND2,
+    TK_AND,
     TK_GREATERTHAN1,
     TK_GREATERTHAN2,
     TK_LESSERTHAN2,
@@ -32,7 +31,8 @@ typedef enum {
     NODE_INPUT_REDIRECT,
     NODE_OUTPUT_REDIRECT,
     NODE_SUBSHELL,
-    NODE_LOGICAL,
+    NODE_LOGICAL_AND,
+    NODE_LOGICAL_OR,
     NODE_SEQUENCE,
     NODE_BLOCK
 } node_type;
@@ -111,8 +111,14 @@ t_astnode* parse_subshell(t_tklist *token_list, t_token **current_token);
 t_astnode* parse_logical_expression(t_tklist *token_list, t_token **current_token);
 t_astnode* parse_sequence(t_tklist *token_list, t_token **current_token);
 t_astnode* parse_command_list(t_tklist *token_list);
+t_astnode *parse_command_line(t_tklist *tokens);
+t_astnode *parse_and_or(t_tklist *tokens, t_astnode *left, t_token *token);
+t_astnode *parse_pipe(t_tklist *tokens);
+t_astnode *parse_cmd(t_tklist *tokens);
 void print_ast_node(t_astnode *node, int indent_level);
-void print_ast(t_astnode *root);
+t_astnode *parse_block(t_tklist *tokens);
+void print_ast(t_astnode *node, int depth);
 t_tklist* tokenize(char *input);
 void print_tokens(t_tklist *token_list);
+
 #endif

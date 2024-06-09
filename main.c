@@ -3,19 +3,10 @@
 
 int main() {
 	printf("Hi\n");
-    char input[] = "echo Hello World && ls l | grep txt > output.txt";
+    char input[] = "ls | ls | ls";
     t_tklist *token_list = tokenize(input);
-    print_tokens(token_list);
-
-    // Free allocated memory
-    for (int i = 0; i < token_list->size; i++)
-	{
-		printf("i = %d\n", i);
-        free(token_list->tokens[i].value);
-    }
-    free(token_list->tokens);
-    free(token_list);
-
+    t_astnode* ast = parse_command_line(token_list);
+    print_ast(ast, 0);
     return 0;
 }
 

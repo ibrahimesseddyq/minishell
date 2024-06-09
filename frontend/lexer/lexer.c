@@ -61,14 +61,11 @@ t_token* get_next_token(t_lexer *lexer) {
             if (lexer->currentchar == '&') {
                 advance(lexer);
                 t_token *token = (t_token *)malloc(sizeof(t_token));
-                token->type = TK_AND2;
+                token->type = TK_AND;
                 token->value = ft_strdup("&&");
                 return token;
             }
-            t_token *token = (t_token *)malloc(sizeof(t_token));
-            token->type = TK_AND1;
-            token->value = ft_strdup("&");
-            return token;
+            return (NULL);
         }
 
         if (lexer->currentchar == ';') {

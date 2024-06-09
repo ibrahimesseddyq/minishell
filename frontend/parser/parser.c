@@ -1,7 +1,6 @@
 #include "./../frontend.h"
 
 
-t_astnode* parse_block(t_tklist *token_list, t_token **current_token);
 
 t_astnode *create_ast_command(int ac, char **av) {
     t_astnode *node = (t_astnode *)malloc(sizeof(t_astnode));
@@ -45,106 +44,115 @@ t_astnode *create_block_node(t_astnode *child) {
     return node;
 }
 
-t_astnode *parse_command(t_tklist *tokenlist, t_token **current_token) {
-    if ((*current_token)->type != TK_COMMAND && (*current_token)->type != TK_WORD) {
-        return NULL;
-    }
+t_astnode *parse_cmd(t_tklist *tokens)
+{
+    t_token *token;
     int argc = 0;
-    char **argv;
-    int i = 0;
+    char *argv[100]; // Assuming max 100 args
 
-    t_token *temptk = *current_token;
-    while (temptk->type == TK_COMMAND || temptk->type == TK_WORD) {
-        argc++;
-        temptk = peek_next_token(tokenlist, i + 1);
-        i++;
+    while ((token = peek_token(tokens)) && token->type == TK_WORD) {
+        token = next_token(tokens);
+        argv[argc++] = token->value;
     }
 
-    argv = (char **)malloc(sizeof(char *) * argc);
-    i = 0;
-    while (i < argc) {
-        argv[i] = strdup((*current_token)->value);
-        *current_token = next_token(tokenlist);
-        i++;
+    if (argc == 0) {
+        return NULL;
     }
 
     return create_ast_command(argc, argv);
 }
 
-t_astnode *parse_redirection(t_tklist *tokenlist, t_astnode *command, t_token **current_token) {
-    if ((*current_token)->type == TK_GREATERTHAN1 || (*current_token)->type == TK_GREATERTHAN2 ||
-        (*current_token)->type == TK_LESSERTHAN1 || (*current_token)->type == TK_LESSERTHAN2) {
-        node_type type = ((*current_token)->type == TK_GREATERTHAN1 || (*current_token)->type == TK_GREATERTHAN2)
-                             ? NODE_OUTPUT_REDIRECT
-                             : NODE_INPUT_REDIRECT;
-        int mode = ((*current_token)->type == TK_GREATERTHAN2 || (*current_token)->type == TK_LESSERTHAN2) ? 2 : 1;
-        *current_token = next_token(tokenlist);
-        if ((*current_token)->type != TK_WORD)
-            return NULL;
-        char *filename = strdup((*current_token)->value);
-        *current_token = next_token(tokenlist);
-        return create_redirect_node(type, command, filename, mode);
-    }
-    return command;
-}
-
-t_astnode* parse_pipeline(t_tklist *token_list, t_token **current_token) {
-    t_astnode* command = parse_block(token_list, current_token);
-
-    command = parse_redirection(token_list, command, current_token);
-
-    while ((*current_token)->type == TK_PIPE) {
-        *current_token = next_token(token_list); // consume '|'
-        t_astnode* next_command = parse_block(token_list, current_token);
-        next_command = parse_redirection(token_list, next_command, current_token);
-        command = create_binary_node(NODE_PIPE, command, next_command);
-    }
-
-    return command;
-}
-
-t_astnode* parse_block(t_tklist *token_list, t_token **current_token) {
-    if ((*current_token)->type == TK_LPR) {
-        *current_token = next_token(token_list); // consume '('
-        t_astnode* command_list = parse_sequence(token_list, current_token);
-        if ((*current_token)->type != TK_RPR) {
-            return NULL; // Error: Unmatched parentheses
-        }
-        *current_token = next_token(token_list); // consume ')'
-        return create_block_node(command_list);
-    }
-    return parse_command(token_list, current_token);
-}
-
-t_astnode* parse_logical_expression(t_tklist *token_list, t_token **current_token) {
-    t_astnode* command = parse_block(token_list, current_token);
-
-    while ((*current_token)->type == TK_AND1 || (*current_token)->type == TK_AND2 || (*current_token)->type == TK_OR) {
-        node_type type = ((*current_token)->type == TK_AND1 || (*current_token)->type == TK_AND2) ? NODE_LOGICAL : NODE_SEQUENCE;
-        *current_token = next_token(token_list); // consume '&&' or '||'
-        t_astnode* next_command = parse_block(token_list, current_token);
-        command = create_binary_node(type, command, next_command);
-    }
-    return command;
-}
-
-t_astnode* parse_sequence(t_tklist *token_list, t_token **current_token) {
-    t_astnode* command = parse_logical_expression(token_list, current_token);
-
-    while ((*current_token)->type == TK_SEMICOLON) {
-        *current_token = next_token(token_list); // consume ';'
-        t_astnode* next_command = parse_logical_expression(token_list, current_token);
-        command = create_binary_node(NODE_SEQUENCE, command, next_command);
-    }
-    return command;
-}
-
-t_astnode* parse_command_list(t_tklist *token_list) {
-    t_token* current_token = peek_token(token_list); 
-    t_astnode* command_list = parse_sequence(token_list, &current_token);
-
-    if (current_token->type != TOKEN_EOF) {
+t_astnode *parse_pipe(t_tklist *tokens)
+{
+    t_astnode *node1 = parse_cmd(tokens);
+    if (!node1) {
         return NULL;
     }
-    return command_list;
+
+    t_token *token = peek_token(tokens);
+    while (token && token->type == TK_PIPE) {
+        next_token(tokens);
+        t_astnode *node2 = parse_cmd(tokens);
+        if (!node2) {
+            return NULL;
+        }
+        node1 = create_binary_node(NODE_PIPE, node1, node2);
+        token = peek_token(tokens);
+    }
+
+    return node1;
+}
+
+t_astnode *parse_and_or(t_tklist *tokens, t_astnode *left, t_token *token)
+{
+    t_astnode *node = NULL;
+    t_astnode *right;
+
+    if (token->type == TK_AND) {
+        right = parse_pipe(tokens);
+        if (!right) {
+            return NULL;
+        }
+        node = create_binary_node(NODE_LOGICAL_AND, left, right);
+    } else if (token->type == TK_OR) {
+        right = parse_pipe(tokens);
+        if (!right) {
+            return NULL;
+        }
+        node = create_binary_node(NODE_LOGICAL_OR, left, right);
+    }
+
+    return node;
+}
+
+t_astnode *parse_command_line(t_tklist *tokens)
+{
+    t_astnode *node = parse_pipe(tokens);
+    if (!node) {
+        return NULL;
+    }
+
+    t_token *token = peek_token(tokens);
+    while (token && (token->type == TK_AND || token->type == TK_OR)) {
+        token = next_token(tokens);
+        node = parse_and_or(tokens, node, token);
+        if (!node) {
+            return NULL;
+        }
+        token = peek_token(tokens);
+    }
+
+    return node;
+}
+
+t_astnode *inside_block(t_tklist *tokens, t_astnode **node)
+{
+    *node = parse_command_line(tokens);
+    if (!*node) {
+        return NULL;
+    }
+
+    t_token *token = next_token(tokens);
+    if (token && token->type != TK_RPR) {
+        return NULL;
+    }
+
+    return *node;
+}
+
+t_astnode *parse_block(t_tklist *tokens)
+{
+    t_astnode *node;
+    t_token *token = peek_token(tokens);
+
+    if (token->type == TK_LPR) {
+        next_token(tokens); // Consume TK_LPR
+        node = create_block_node(NULL);
+        if (!inside_block(tokens, &node->block.child)) {
+            return NULL;
+        }
+        return node;
+    } else {
+        return parse_command_line(tokens);
+    }
 }
