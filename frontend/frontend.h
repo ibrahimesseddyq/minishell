@@ -34,7 +34,11 @@ typedef enum {
     NODE_LOGICAL_AND,
     NODE_LOGICAL_OR,
     NODE_SEQUENCE,
-    NODE_BLOCK
+    NODE_BLOCK,
+    NODE_REDIRECT_IN,
+    NODE_REDIRECT_OUT,
+    NODE_REDIRECT_APPEND,
+    NODE_HEREDOC
 } node_type;
 
 // Token structure

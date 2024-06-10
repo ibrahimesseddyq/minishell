@@ -1,10 +1,9 @@
 #include "minishell.h"
 #include "./frontend/frontend.h"
 
-int main() {
-	printf("Hi\n");
-    char input[] = "ls | ls | ls";
-    t_tklist *token_list = tokenize(input);
+int main(int ac, char **av) {
+    (void)ac;
+    t_tklist *token_list = tokenize(av[1]);
     t_astnode* ast = parse_command_line(token_list);
     print_ast(ast, 0);
     return 0;
