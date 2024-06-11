@@ -5,22 +5,23 @@
 #include <ctype.h>
 // Token types enumeration
 typedef enum {
-    TK_COMMAND,
-    TK_PIPE,
+    TOKEN_EOF = 0,
+
+    TK_LPR = 1,
+    TK_RPR = 2,
+    TK_AND = 3,
+    TK_OR  = 4,
+    TK_PIPE = 5,
+    TK_LESSERTHAN1 = 6,
+    TK_LESSERTHAN2 = 7,
+    TK_GREATERTHAN1 = 8,
+    TK_GREATERTHAN2 = 9,
+    TK_WORD = 10,
+    TK_ILLEGAL = -1,
+    TK_COMMAND = 10,
     TK_SEMICOLON,
-    TK_LPR,
-    TK_RPR,
-    TK_ILLEGAL,
-    TOKEN_EOF,
-    TK_AND,
-    TK_GREATERTHAN1,
-    TK_GREATERTHAN2,
-    TK_LESSERTHAN2,
-    TK_LESSERTHAN1,
-    TK_WORD,
     TK_EQUAL,
     TK_PLUS,
-    TK_OR,
     TK_MINUS
 } tk_type;
 
@@ -124,5 +125,6 @@ t_astnode *parse_block(t_tklist *tokens);
 void print_ast(t_astnode *node, int depth);
 t_tklist* tokenize(char *input);
 void print_tokens(t_tklist *token_list);
-
+int analyse_syntax(t_tklist *list);
+void set_beginning(t_tklist *token_list);
 #endif

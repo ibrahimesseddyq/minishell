@@ -5,7 +5,7 @@ LIBFT = libft.a
 LIBFT_SRC = $(wildcard ./libft/*.c) # This wildcard is used correctly
 LIBFT_OBJ = $(LIBFT_SRC:.c=.o)
 
-SRC = ./frontend/lexer/lexer.c ./frontend/parser/parser.c ./frontend/parser/parser_printer.c
+SRC = ./frontend/lexer/lexer.c ./frontend/parser/parser.c ./frontend/parser/syntax_analyzer.c ./frontend/parser/parser_printer.c
 OBJ = $(SRC:.c=.o)
 
 CC = gcc -g
@@ -24,7 +24,7 @@ lexer: $(OBJ_LEXER) $(LIBFT)
 	$(CC) $(CFLAGS) -o $@ $(OBJ_LEXER) $(LIBFT)
 
 parser: $(OBJ) $(LIBFT) main.c
-	$(CC) $(CFLAGS) -fsanitize=address main.c -o $@ $(OBJ) $(LIBFT)
+	$(CC) $(CFLAGS) main.c -o $@ $(OBJ) $(LIBFT)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
