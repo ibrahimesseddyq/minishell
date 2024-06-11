@@ -44,71 +44,14 @@ t_astnode *create_block_node(t_astnode *child) {
 t_astnode *parse_cmd(t_tklist *tokens) {
     t_token *token;
     int argc = 0;
-    char *argv[100]; 
+    char *argv[100];  // Assuming max 100 args
 
     t_redir *infile = NULL;
     t_redir *outfile = NULL;
     t_redir *append = NULL;
     t_redir *heredoc = NULL;
-            printf("%s\n",peek_token(tokens)->value);
 
-    while ((token = peek_token(tokens)) && 
-           (token->type == TK_GREATERTHAN1 || token->type == TK_GREATERTHAN2 || token->type == TK_LESSERTHAN2 || token->type == TK_LESSERTHAN1)) {
-        printf("hi2\n");
-        t_redir *redir = malloc(sizeof(t_redir));
-        if (!redir) {
-            // Handle memory allocation error
-            return NULL;
-        }
-
-        if (token->type == TK_LESSERTHAN1) {
-            redir->type = NODE_REDIRECT_IN;
-        } else if (token->type == TK_GREATERTHAN1) {
-            redir->type = NODE_REDIRECT_OUT;
-        } else if (token->type == TK_GREATERTHAN2) {
-            redir->type = NODE_REDIRECT_APPEND;
-        } else if (token->type == TK_LESSERTHAN2) {
-            redir->type = NODE_HEREDOC;
-        }
-        
-        next_token(tokens); 
-        token = next_token(tokens); 
-        if (!token || token->type != TK_WORD) {
-            // Handle error: expected filename after redirection operator
-            free(redir);
-            return NULL;
-        }
-
-        redir->file = token->value;
-        if (redir->type == NODE_REDIRECT_IN)
-        {
-            infile = redir;
-        } else if (redir->type == NODE_REDIRECT_OUT) {
-            outfile = redir;
-        } else if (redir->type == NODE_REDIRECT_APPEND) {
-            append = redir;
-        } else if (redir->type == NODE_HEREDOC) {
-            heredoc = redir;
-        }
-    }
-
-    // Handle command parsing
-    while ((token = peek_token(tokens)) && token->type == TK_WORD) {
-        token = next_token(tokens);
-        argv[argc++] = token->value;
-    }
-    if (argc == 0 && (infile || outfile || append || heredoc))
-        argv[0] = "";
-    else if (argc == 0)
-        return (NULL);
-
-    t_astnode *cmd_node = create_ast_command(argc, argv);
-    cmd_node->t_cmd.infile = infile;
-    cmd_node->t_cmd.outfile = outfile;
-    cmd_node->t_cmd.append = append;
-    cmd_node->t_cmd.heredoc = heredoc;
-
-    // Handle trailing redirections
+    // Handle leading redirections
     while ((token = peek_token(tokens)) && 
            (token->type == TK_GREATERTHAN1 || token->type == TK_GREATERTHAN2 || token->type == TK_LESSERTHAN2 || token->type == TK_LESSERTHAN1)) {
         t_redir *redir = malloc(sizeof(t_redir));
@@ -116,6 +59,8 @@ t_astnode *parse_cmd(t_tklist *tokens) {
             // Handle memory allocation error
             return NULL;
         }
+        redir->file = NULL;
+        redir->heredoc = NULL;
 
         if (token->type == TK_LESSERTHAN1) {
             redir->type = NODE_REDIRECT_IN;
@@ -138,6 +83,61 @@ t_astnode *parse_cmd(t_tklist *tokens) {
         redir->file = token->value;
 
         if (redir->type == NODE_REDIRECT_IN) {
+            infile = redir;
+        } else if (redir->type == NODE_REDIRECT_OUT) {
+            outfile = redir;
+        } else if (redir->type == NODE_REDIRECT_APPEND) {
+            append = redir;
+        } else if (redir->type == NODE_HEREDOC) {
+            heredoc = redir;
+        }
+    }
+
+    // Handle command parsing
+    while ((token = peek_token(tokens)) && token->type == TK_WORD) {
+        token = next_token(tokens);
+        argv[argc++] = token->value;
+    }
+
+    if (argc == 0) {
+        return NULL;
+    }
+
+    t_astnode *cmd_node = create_ast_command(argc, argv);
+    cmd_node->t_cmd.infile = infile;
+    cmd_node->t_cmd.outfile = outfile;
+    cmd_node->t_cmd.append = append;
+    cmd_node->t_cmd.heredoc = heredoc;
+
+    while ((token = peek_token(tokens)) && 
+           (token->type == TK_GREATERTHAN1 || token->type == TK_GREATERTHAN2 || token->type == TK_LESSERTHAN2 || token->type == TK_LESSERTHAN1)) {
+        t_redir *redir = malloc(sizeof(t_redir));
+        if (!redir) {
+            return NULL;
+        }
+        redir->file = NULL;
+        redir->heredoc = NULL;
+
+        if (token->type == TK_LESSERTHAN1) {
+            redir->type = NODE_REDIRECT_IN;
+        } else if (token->type == TK_GREATERTHAN1) {
+            redir->type = NODE_REDIRECT_OUT;
+        } else if (token->type == TK_GREATERTHAN2) {
+            redir->type = NODE_REDIRECT_APPEND;
+        } else if (token->type == TK_LESSERTHAN2) {
+            redir->type = NODE_HEREDOC;
+        }
+
+        next_token(tokens);
+        token = next_token(tokens);
+        if (!token || token->type != TK_WORD) {
+            free(redir);
+            return NULL;
+        }
+
+        redir->file = token->value;
+
+        if (redir->type == NODE_REDIRECT_IN) {
             cmd_node->t_cmd.infile = redir;
         } else if (redir->type == NODE_REDIRECT_OUT) {
             cmd_node->t_cmd.outfile = redir;
@@ -150,6 +150,7 @@ t_astnode *parse_cmd(t_tklist *tokens) {
 
     return cmd_node;
 }
+
 t_astnode *parse_pipe(t_tklist *tokens) {
     t_astnode *node1 = parse_cmd(tokens);
     if (!node1) {

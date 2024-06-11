@@ -24,7 +24,7 @@ lexer: $(OBJ_LEXER) $(LIBFT)
 	$(CC) $(CFLAGS) -o $@ $(OBJ_LEXER) $(LIBFT)
 
 parser: $(OBJ) $(LIBFT) main.c
-	$(CC) $(CFLAGS) main.c -o $@ $(OBJ) $(LIBFT)
+	$(CC) $(CFLAGS) -fsanitize=address main.c -o $@ $(OBJ) $(LIBFT)
 
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@

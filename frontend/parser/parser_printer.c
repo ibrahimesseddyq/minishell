@@ -8,21 +8,21 @@ void print_redirection(t_redir *redir, const char *type, int depth) {
         printf("  ");
     }
     printf("%s:\n", type);
-
+    
     if (redir->file) {
-        for (int j = 0; j < depth + 1; j++) {
+        for (int i = 0; i < depth + 1; i++) {
             printf("  ");
         }
         printf("File: %s\n", redir->file);
     }
-    
+
     if (redir->heredoc) {
         for (int i = 0; i < depth + 1; i++) {
             printf("  ");
         }
         printf("Here Document: %s\n", redir->heredoc);
     }
-    
+
     for (int i = 0; i < depth + 1; i++) {
         printf("  ");
     }
@@ -33,6 +33,7 @@ void print_redirection(t_redir *redir, const char *type, int depth) {
     }
     printf("Number: %d\n", redir->number);
 }
+
 void print_ast(t_astnode *node, int depth) {
     if (!node) return;
 
