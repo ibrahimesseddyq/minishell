@@ -41,48 +41,115 @@ t_astnode *create_block_node(t_astnode *child) {
     node->block.child = child; 
     return node;
 }
-
-
 t_astnode *parse_cmd(t_tklist *tokens) {
     t_token *token;
     int argc = 0;
     char *argv[100]; 
 
+    t_redir *infile = NULL;
+    t_redir *outfile = NULL;
+    t_redir *append = NULL;
+    t_redir *heredoc = NULL;
+            printf("%s\n",peek_token(tokens)->value);
+
+    while ((token = peek_token(tokens)) && 
+           (token->type == TK_GREATERTHAN1 || token->type == TK_GREATERTHAN2 || token->type == TK_LESSERTHAN2 || token->type == TK_LESSERTHAN1)) {
+        printf("hi2\n");
+        t_redir *redir = malloc(sizeof(t_redir));
+        if (!redir) {
+            // Handle memory allocation error
+            return NULL;
+        }
+
+        if (token->type == TK_LESSERTHAN1) {
+            redir->type = NODE_REDIRECT_IN;
+        } else if (token->type == TK_GREATERTHAN1) {
+            redir->type = NODE_REDIRECT_OUT;
+        } else if (token->type == TK_GREATERTHAN2) {
+            redir->type = NODE_REDIRECT_APPEND;
+        } else if (token->type == TK_LESSERTHAN2) {
+            redir->type = NODE_HEREDOC;
+        }
+        
+        next_token(tokens); 
+        token = next_token(tokens); 
+        if (!token || token->type != TK_WORD) {
+            // Handle error: expected filename after redirection operator
+            free(redir);
+            return NULL;
+        }
+
+        redir->file = token->value;
+        if (redir->type == NODE_REDIRECT_IN)
+        {
+            infile = redir;
+        } else if (redir->type == NODE_REDIRECT_OUT) {
+            outfile = redir;
+        } else if (redir->type == NODE_REDIRECT_APPEND) {
+            append = redir;
+        } else if (redir->type == NODE_HEREDOC) {
+            heredoc = redir;
+        }
+    }
+
+    // Handle command parsing
     while ((token = peek_token(tokens)) && token->type == TK_WORD) {
         token = next_token(tokens);
         argv[argc++] = token->value;
     }
-
-    if (argc == 0) {
-        return NULL;
-    }
+    if (argc == 0 && (infile || outfile || append || heredoc))
+        argv[0] = "";
+    else if (argc == 0)
+        return (NULL);
 
     t_astnode *cmd_node = create_ast_command(argc, argv);
+    cmd_node->t_cmd.infile = infile;
+    cmd_node->t_cmd.outfile = outfile;
+    cmd_node->t_cmd.append = append;
+    cmd_node->t_cmd.heredoc = heredoc;
 
-    while ((token = peek_token(tokens)) && (token->type == TK_GREATERTHAN1 || token->type == TK_GREATERTHAN2 || token->type == TK_LESSERTHAN2 || token->type == TK_LESSERTHAN1)) {
-        node_type redirect_type;
-        if (token->type == TK_LESSERTHAN1) {
-            redirect_type = NODE_REDIRECT_IN;
-        } else if (token->type == TK_GREATERTHAN1) {
-            redirect_type = NODE_REDIRECT_OUT;
-        } else if (token->type == TK_GREATERTHAN1) {
-            redirect_type = NODE_REDIRECT_APPEND;
-        } else if (token->type == TK_LESSERTHAN2) {
-            redirect_type = NODE_HEREDOC;
-        }
-
-        next_token(tokens);
-        token = next_token(tokens);
-        if (!token || token->type != TK_WORD) {
+    // Handle trailing redirections
+    while ((token = peek_token(tokens)) && 
+           (token->type == TK_GREATERTHAN1 || token->type == TK_GREATERTHAN2 || token->type == TK_LESSERTHAN2 || token->type == TK_LESSERTHAN1)) {
+        t_redir *redir = malloc(sizeof(t_redir));
+        if (!redir) {
+            // Handle memory allocation error
             return NULL;
         }
 
-        cmd_node = create_redirect_node(redirect_type, cmd_node, token->value);
+        if (token->type == TK_LESSERTHAN1) {
+            redir->type = NODE_REDIRECT_IN;
+        } else if (token->type == TK_GREATERTHAN1) {
+            redir->type = NODE_REDIRECT_OUT;
+        } else if (token->type == TK_GREATERTHAN2) {
+            redir->type = NODE_REDIRECT_APPEND;
+        } else if (token->type == TK_LESSERTHAN2) {
+            redir->type = NODE_HEREDOC;
+        }
+
+        next_token(tokens); // Consume the redirection token
+        token = next_token(tokens); // Get the filename token
+        if (!token || token->type != TK_WORD) {
+            // Handle error: expected filename after redirection operator
+            free(redir);
+            return NULL;
+        }
+
+        redir->file = token->value;
+
+        if (redir->type == NODE_REDIRECT_IN) {
+            cmd_node->t_cmd.infile = redir;
+        } else if (redir->type == NODE_REDIRECT_OUT) {
+            cmd_node->t_cmd.outfile = redir;
+        } else if (redir->type == NODE_REDIRECT_APPEND) {
+            cmd_node->t_cmd.append = redir;
+        } else if (redir->type == NODE_HEREDOC) {
+            cmd_node->t_cmd.heredoc = redir;
+        }
     }
 
     return cmd_node;
 }
-
 t_astnode *parse_pipe(t_tklist *tokens) {
     t_astnode *node1 = parse_cmd(tokens);
     if (!node1) {
@@ -140,110 +207,34 @@ t_astnode *parse_command_line(t_tklist *tokens) {
         token = peek_token(tokens);
     }
 
-    while ((token = peek_token(tokens)) && (token->type == TK_GREATERTHAN1 || token->type == TK_GREATERTHAN2 || token->type == TK_LESSERTHAN2 || token->type == TK_LESSERTHAN1)) {
-        node_type redirect_type;
-        if (token->type == TK_LESSERTHAN1) {
-            redirect_type = NODE_REDIRECT_IN;
-        } else if (token->type == TK_GREATERTHAN1) {
-            redirect_type = NODE_REDIRECT_OUT;
-        } else if (token->type == TK_GREATERTHAN2) {
-            redirect_type = NODE_REDIRECT_APPEND;
-        } else if (token->type == TK_LESSERTHAN2) {
-            redirect_type = NODE_HEREDOC;
-        }
-
-        next_token(tokens);
-        token = next_token(tokens);
-        if (!token || token->type != TK_WORD) {
-            return NULL;
-        }
-
-        node = create_redirect_node(redirect_type, node, token->value);
-    }
-
     return node;
-}
-
-t_astnode *inside_block(t_tklist *tokens, t_astnode **node) {
-    *node = parse_command_line(tokens);
-    if (!*node) {
-        return NULL;
-    }
-
-    t_token *token = next_token(tokens);
-    if (token && token->type != TK_RPR) {
-        return NULL;
-    }
-
-    while ((token = peek_token(tokens)) && (token->type == TK_GREATERTHAN1 || token->type == TK_GREATERTHAN2 || token->type == TK_LESSERTHAN2 || token->type == TK_LESSERTHAN1)) {
-        node_type redirect_type;
-        if (token->type == TK_LESSERTHAN1) {
-            redirect_type = NODE_REDIRECT_IN;
-        } else if (token->type == TK_GREATERTHAN1) {
-            redirect_type = NODE_REDIRECT_OUT;
-        } else if (token->type == TK_GREATERTHAN2) {
-            redirect_type = NODE_REDIRECT_APPEND;
-        } else if (token->type == TK_LESSERTHAN2) {
-            redirect_type = NODE_HEREDOC;
-        }
-
-        next_token(tokens);
-        token = next_token(tokens);
-        if (!token || token->type != TK_WORD) {
-            return NULL;
-        }
-
-        *node = create_redirect_node(redirect_type, *node, token->value);
-    }
-
-    return *node;
 }
 
 t_astnode *parse_block(t_tklist *tokens) {
     t_astnode *node = NULL;
-    t_astnode *cmd_node = NULL;
-    t_token *token;
-    int redirect_type;
-    char *filename;
+    t_token *token = peek_token(tokens);
+        printf("I'm not inside ()\n");
 
-    if (peek_token(tokens)->type == TK_LPR) {
+    if (token->type == TK_LPR) {
         next_token(tokens);
-
-        cmd_node = parse_command_line(tokens);
-        if (!cmd_node) {
+        printf("I'm inside ()\n");
+        node = parse_command_line(tokens);
+        if (!node) {
             return NULL;
         }
 
-        if (next_token(tokens)->type != TK_RPR) {
+        token = next_token(tokens);
+        if (token->type != TK_RPR) {
             return NULL;
         }
 
-        node = create_block_node(cmd_node);
-
-        while ((token = peek_token(tokens)) &&
-               (token->type == TK_GREATERTHAN1 || token->type == TK_GREATERTHAN2 ||
-                token->type == TK_LESSERTHAN2 || token->type == TK_LESSERTHAN1)) {
-            if (token->type == TK_LESSERTHAN1) {
-                redirect_type = NODE_REDIRECT_IN;
-            } else if (token->type == TK_GREATERTHAN1) {
-                redirect_type = NODE_REDIRECT_OUT;
-            } else if (token->type == TK_GREATERTHAN2) {
-                redirect_type = NODE_REDIRECT_APPEND;
-            } else if (token->type == TK_LESSERTHAN2) {
-                redirect_type = NODE_HEREDOC;
-            }
-
-            next_token(tokens); // Consume the redirection token
-
-            token = next_token(tokens); // Get the filename token
-            if (!token || token->type != TK_WORD) {
-                // Handle error: expected filename after redirection operator
-                return NULL;
-            }
-
-            filename = token->value;
-            node = create_redirect_node(redirect_type, node, filename);
+        t_astnode *block_node = malloc(sizeof(t_astnode));
+        if (!block_node) {
+            return NULL;
         }
+        block_node->type = NODE_BLOCK;
+        block_node->block.child = node;
+        node = block_node;
     } else {
         node = parse_command_line(tokens);
     }

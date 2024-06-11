@@ -8,28 +8,31 @@ void print_redirection(t_redir *redir, const char *type, int depth) {
         printf("  ");
     }
     printf("%s:\n", type);
-    for (int i = 0; redir->file && redir->file[i]; i++) {
+
+    if (redir->file) {
         for (int j = 0; j < depth + 1; j++) {
             printf("  ");
         }
-        printf("File: %s\n", redir->file[i]);
+        printf("File: %s\n", redir->file);
     }
+    
     if (redir->heredoc) {
         for (int i = 0; i < depth + 1; i++) {
             printf("  ");
         }
         printf("Here Document: %s\n", redir->heredoc);
     }
+    
     for (int i = 0; i < depth + 1; i++) {
         printf("  ");
     }
     printf("Type: %d\n", redir->type);
+    
     for (int i = 0; i < depth + 1; i++) {
         printf("  ");
     }
     printf("Number: %d\n", redir->number);
 }
-
 void print_ast(t_astnode *node, int depth) {
     if (!node) return;
 
@@ -39,7 +42,7 @@ void print_ast(t_astnode *node, int depth) {
 
     switch (node->type) {
         case NODE_COMMAND:
-            printf("Command: %s\n", node->t_cmd.cmd);
+            printf("Node Command: %s\n", node->t_cmd.cmd);
             for (int i = 0; node->t_cmd.args[i]; i++) {
                 for (int j = 0; j < depth + 1; j++) {
                     printf("  ");
@@ -52,22 +55,22 @@ void print_ast(t_astnode *node, int depth) {
             print_redirection(node->t_cmd.heredoc, "Here Document", depth + 1);
             break;
         case NODE_PIPE:
-            printf("Pipe:\n");
+            printf("Node Pipe:\n");
             print_ast(node->binary.left, depth + 1);
             print_ast(node->binary.right, depth + 1);
             break;
         case NODE_LOGICAL_AND:
-            printf("Logical AND:\n");
+            printf("Node Logical AND:\n");
             print_ast(node->binary.left, depth + 1);
             print_ast(node->binary.right, depth + 1);
             break;
         case NODE_LOGICAL_OR:
-            printf("Logical OR:\n");
+            printf("Node Logical OR:\n");
             print_ast(node->binary.left, depth + 1);
             print_ast(node->binary.right, depth + 1);
             break;
         case NODE_BLOCK:
-            printf("Block:\n");
+            printf("Node Block:\n");
             print_ast(node->block.child, depth + 1);
             break;
         case NODE_REDIRECT_IN:

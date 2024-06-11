@@ -63,7 +63,7 @@ typedef struct s_lexer {
 
 // Redirection structure
 typedef struct s_redir {
-    char **file;
+    char *file;
     char *heredoc;
     int type;
     int number;

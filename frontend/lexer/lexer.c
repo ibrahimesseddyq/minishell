@@ -1,5 +1,5 @@
 #include "../frontend.h"
-
+#define WORD ".[]\\-_"
 t_lexer* init_lexer(char *input) {
     t_lexer *lexer = (t_lexer *)malloc(sizeof(t_lexer));
     lexer->input = input;
@@ -122,7 +122,7 @@ t_token* get_next_token(t_lexer *lexer) {
             return token;
         }
 
-        if (ft_isalnum(lexer->currentchar)) {
+        if (ft_isalnum(lexer->currentchar) || ft_strchr(WORD,lexer->currentchar)) {
             char *word = get_word(lexer);
             t_token *token = (t_token *)malloc(sizeof(t_token));
             token->type = TK_WORD;
