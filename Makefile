@@ -8,7 +8,7 @@ LIBFT_OBJ = $(LIBFT_SRC:.c=.o)
 SRC = ./frontend/lexer/lexer.c ./frontend/parser/parser.c ./frontend/parser/parser_printer.c
 OBJ = $(SRC:.c=.o)
 
-CC = gcc -g
+CC = gcc -g -lreadline
 CFLAGS = -Wall -Wextra -Werror
 
 all: lexer parser
