@@ -3,107 +3,11 @@
 // This is lexer
 #include "./../minishell.h"
 #include <ctype.h>
-// Token types enumeration
-typedef enum {
-    TK_COMMAND,
-    TK_PIPE,
-    TK_SEMICOLON,
-    TK_LPR,
-    TK_RPR,
-    TK_ILLEGAL,
-    TOKEN_EOF,
-    TK_AND,
-    TK_GREATERTHAN1,
-    TK_GREATERTHAN2,
-    TK_LESSERTHAN2,
-    TK_LESSERTHAN1,
-    TK_WORD,
-    TK_EQUAL,
-    TK_PLUS,
-    TK_OR,
-    TK_MINUS
-} tk_type;
 
-// Define node types
-typedef enum {
-    NODE_COMMAND,
-    NODE_PIPE,
-    NODE_INPUT_REDIRECT,
-    NODE_OUTPUT_REDIRECT,
-    NODE_SUBSHELL,
-    NODE_LOGICAL_AND,
-    NODE_LOGICAL_OR,
-    NODE_SEQUENCE,
-    NODE_BLOCK,
-    NODE_REDIRECT_IN,
-    NODE_REDIRECT_OUT,
-    NODE_REDIRECT_APPEND,
-    NODE_HEREDOC
-} node_type;
 
-// Token structure
-typedef struct s_token {
-    tk_type type;
-    char *value;
-} t_token;
 
-// Token list structure
-typedef struct s_tklist {
-    t_token *tokens;
-    int curr_index;
-    int size;
-} t_tklist;
 
-// Lexer structure
-typedef struct s_lexer {
-    char currentchar;
-    int pos;
-    char *input;
-} t_lexer;
 
-// Redirection structure
-typedef struct s_redir {
-    char *file;
-    char *heredoc;
-    int type;
-    int number;
-} t_redir;
-
-// AST node structure
-typedef struct s_astnode {
-    node_type type;
-    union {
-        struct s_cmd {
-            char *cmd;
-            char **args;
-            t_redir *infile;
-            t_redir *outfile;
-            t_redir *heredoc;
-            t_redir *append;
-            int flag_infiles;
-            int flag_outfiles;
-        } t_cmd;
-
-        struct {
-            struct s_astnode* left;
-            struct s_astnode* right;
-        } binary;
-
-        struct {
-            struct s_astnode* child;
-            char* filename;
-            int mode;
-        } redirect;
-
-        struct {
-            struct s_astnode* child;
-        } subshell;
-
-        struct {
-            struct s_astnode* child;
-        } block; // Added block member
-    };
-} t_astnode;
 t_list *lex(char *text);
 void test_lexer(t_list *lst);
 char *add_spaces( char *str);
@@ -124,5 +28,9 @@ t_astnode *parse_block(t_tklist *tokens);
 void print_ast(t_astnode *node, int depth);
 t_tklist* tokenize(char *input);
 void print_tokens(t_tklist *token_list);
+int analyse_syntax(t_tklist *list);
+void set_beginning(t_tklist *token_list);
+
+
 
 #endif

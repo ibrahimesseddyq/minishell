@@ -3,6 +3,8 @@
         "frontend.h": "c",
         "minishell.h": "c",
         "libft.h": "c",
-        "*.ds_store": "c"
+        "*.ds_store": "c",
+        "history.h": "c",
+        "ctype.h": "c"
     }
 }

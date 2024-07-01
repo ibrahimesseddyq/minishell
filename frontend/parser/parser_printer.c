@@ -1,4 +1,4 @@
-#include "./../frontend.h"
+#include "../frontend.h"
 // Just for debug
 
 void print_redirection(t_redir *redir, const char *type, int depth) {

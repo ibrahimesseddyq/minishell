@@ -138,7 +138,7 @@ t_token* get_next_token(t_lexer *lexer) {
 
     t_token *token = (t_token *)malloc(sizeof(t_token));
     token->type = TOKEN_EOF;
-    token->value = strdup("");
+    token->value = strdup("EOF");
     return token;
 }
 
@@ -151,25 +151,36 @@ t_tklist* tokenize(char *input)
     token_list->size = 0;
 
     t_token *token = get_next_token(lexer);
-    while (token->type != TOKEN_EOF)
-	{
-		printf("type: %s\n",token->value);
+    while (token->type != TOKEN_EOF) {
         token_list->size++;
         token_list->tokens = (t_token *)realloc(token_list->tokens, token_list->size * sizeof(t_token));
         token_list->tokens[token_list->size - 1] = *token;
         token = get_next_token(lexer);
     }
 
+    // Add the final TOKEN_EOF to the list
+    token_list->size++;
+    token_list->tokens = (t_token *)realloc(token_list->tokens, token_list->size * sizeof(t_token));
+    token_list->tokens[token_list->size - 1] = *token;
+
+    // Free the lexer
+    free(token);
     free(lexer);
+
+    // Print tokens for debugging
+    // for (int j = 0; j < token_list->size; j++) {
+    //     printf("type: %d, value: %s\n", token_list->tokens[j].type, token_list->tokens[j].value);
+    // }
+
     return token_list;
 }
 
-void print_tokens(t_tklist *token_list)
-{
-    for (int i = 0; i < token_list->size; i++) {
-        printf("Type: %d, Value: %s\n", token_list->tokens[i].type, token_list->tokens[i].value);
-    }
-}
+// void print_tokens(t_tklist *token_list)
+// {
+//     // for (int i = 0; i < token_list->size; i++) {
+//     //     printf("Type: %d, Value: %s\n", token_list->tokens[i].type, token_list->tokens[i].value);
+//     // }
+// }
 
 
 t_token* peek_token(t_tklist *token_list) {
@@ -185,7 +196,10 @@ t_token* next_token(t_tklist *token_list) {
     }
     return NULL;
 }
-
+void set_beginning(t_tklist *token_list)
+{
+    token_list->curr_index = 0;
+}
 t_token* peek_next_token(t_tklist *token_list, int offset) {
     if ((token_list->curr_index + offset) < token_list->size) {
         return &token_list->tokens[token_list->curr_index + offset];

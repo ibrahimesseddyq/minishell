@@ -1,6 +1,7 @@
 #ifndef BACKEND_H
 # define BACKEND_H
 #include <stdlib.h>
+#include "./../minishell.h"
 
 typedef struct s_allocation
 {
