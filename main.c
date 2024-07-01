@@ -24,8 +24,6 @@ int main(int ac, char **av) {
 		ast = parse_command_line(token_list);
 		if (ast)
 		{
-			// ast->t_cmd.status = -1;
-
 			exec_cmd_line(ast);
 		}
 		// print_ast(ast, 0);

@@ -12,10 +12,7 @@ static char	*arg_cmds(char *cmd)
 	{
 		tmp = ft_strjoin(*path, cmd);
 		if (access(tmp, F_OK) == 0)
-		{
-			// ast->t_cmd.status = 1;
 			return(tmp);
-		}
 		else
 			free(tmp);
 		path++;
@@ -38,14 +35,9 @@ void exec_cmd(t_astnode *ast)
 	pid = fork();
 	if (pid == 0)
 	{
-		// ast->t_cmd.status = 1;
-		
-    	// printf("1-> cmd---> %d\n", ast->t_cmd.status);
 		if (execve(arg_cmds(cmd[0]), arg_cmd, NULL) == -1)
 		{
 			ast->t_cmd.status = 0;
-			// printf("1-> cmd---> %d\n", ast->t_cmd.status);
-			// printf("minishell: %s: command not found\n",cmd[0]);
 			exit(1);
 		}
 		
@@ -54,8 +46,8 @@ void exec_cmd(t_astnode *ast)
 	if (WIFEXITED(ast->t_cmd.status))
 	{
 		ast->t_cmd.st = WEXITSTATUS(ast->t_cmd.status);
-		printf ("Child exited with status  : %d\n", ast->t_cmd.st);
+		// printf ("Child exited with status  : %d\n", ast->t_cmd.st);
 	}else {
-        printf("Child did not exit normally\n");
+        // printf("Child did not exit normally\n");
     }
 }
