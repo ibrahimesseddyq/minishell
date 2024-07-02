@@ -10,9 +10,15 @@ int main(int ac, char **av) {
 	(void)ac;
 	(void)av;
 
+	
 	t_tklist *token_list;
 	t_astnode *ast;
+	t_st st;
+	st.st = 0;
+	st.status = 0;
+
 	// atexit(f);
+
 	while (1)
 	{
 		char *t = readline("minishell:>$ ");
@@ -21,11 +27,12 @@ int main(int ac, char **av) {
 		if (!ast)
 			printf("ast is null, there is an error\n");
 		token_list = tokenize(t);
-		ast = parse_command_line(token_list);
+		ast = parse_command_line(token_list);	
 		if (ast)
 		{
-			exec_cmd_line(ast);
+			exec_cmd_line(ast, &st);
 		}
+		printf("%d\n", st.st);
 		// print_ast(ast, 0);
 	}
 	// t_tklist *token_list = tokenize(av[1]);

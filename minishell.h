@@ -75,6 +75,12 @@ typedef struct s_redir {
     int number;
 } t_redir;
 
+typedef struct s_status {
+    int status;
+    int st;
+} t_st;
+  
+
 // AST node structure
 typedef struct s_astnode {
     node_type type;
@@ -82,8 +88,6 @@ typedef struct s_astnode {
         struct s_cmd {
             char *cmd;
             char **args;
-            int status;
-            int st;
             t_redir *infile;
             t_redir *outfile;
             t_redir *heredoc;
@@ -111,9 +115,9 @@ typedef struct s_astnode {
 
 int ss;
 char	*get_next_line(int fd);
-void exec_cmd_line(t_astnode *ast);
-void exec_cmd(t_astnode *ast);
+void exec_cmd_line(t_astnode *ast, t_st *st);
+void exec_cmd(t_astnode *ast, t_st *st);
 void exec_pip(t_astnode *ast);
-void exec_and(t_astnode *ast);
+void exec_and(t_astnode *ast, t_st *st);
 void exec_or(t_astnode *ast);
 #endif

@@ -2,14 +2,11 @@
 #include "../frontend/frontend.h"
 
 
-void exec_and(t_astnode *ast)
+void exec_and(t_astnode *ast, t_st *st)
 {
-    exec_cmd(ast->binary.left);
-    if (ast->binary.left->t_cmd.st == 0)
-        exec_cmd(ast->binary.right);
-    else
-    {
-        printf("error\n");
-        exit(1);
-    }
+	exec_cmd_line(ast->binary.left, st);
+	
+	printf("[%d]\n", st->st);
+	if (st->st == 0)
+		exec_cmd_line(ast->binary.right, st);
 }

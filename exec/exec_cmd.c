@@ -20,7 +20,7 @@ static char	*arg_cmds(char *cmd)
 	return (NULL);
 }
 
-void exec_cmd(t_astnode *ast)
+void exec_cmd(t_astnode *ast, t_st *st)
 {
 	int		i;
 	int		j;
@@ -37,17 +37,14 @@ void exec_cmd(t_astnode *ast)
 	{
 		if (execve(arg_cmds(cmd[0]), arg_cmd, NULL) == -1)
 		{
-			ast->t_cmd.status = 0;
-			exit(1);
+			printf("minishell: %s: command not found\n", cmd[0]);
+			exit(127);
 		}
-		
 	}
-    waitpid(pid, &ast->t_cmd.status, 0);
-	if (WIFEXITED(ast->t_cmd.status))
+	waitpid(pid, &(st->status), 0);
+	if (WIFEXITED(st->status))
 	{
-		ast->t_cmd.st = WEXITSTATUS(ast->t_cmd.status);
-		// printf ("Child exited with status  : %d\n", ast->t_cmd.st);
-	}else {
-        // printf("Child did not exit normally\n");
-    }
+		st->st = WEXITSTATUS(st->status);
+		printf("[%d][\n",st->st);
+	}
 }

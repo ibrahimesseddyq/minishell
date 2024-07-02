@@ -3,7 +3,7 @@
 
 void exec_or(t_astnode *ast)
 {
-    (void) ast;
-
-    printf("this is or\n");
+	exec_cmd_line(ast->binary.left);
+	if (ast->binary.left->t_cmd.st != 0)
+		exec_cmd_line(ast->binary.right);
 }
