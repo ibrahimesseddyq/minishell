@@ -1,25 +1,57 @@
 #include <stdio.h>
+#include <string.h>
 
+// int find_key(char *key, char *env)
+// { 
+//     int i;
+
+//     i = 0;
+//     while(key[i] && key[i] != '=')
+//     {
+//         if (key[i] == env[i])
+//             i++;
+//         else 
+//             return (0);
+//     }
+//     return (1);
+// }
+
+int find_key(char *key, char *env)
+{
+	int i;
+
+	i = 0;
+	while(key[i])
+	{
+		if (key[i] == env[i])
+		{	
+            if (key[i + 1] == '=' && !env[i + 1])
+                break ;
+            i++;
+        }
+		else
+			return (0);
+	}
+	return (1);
+}
+
+char	*expand(char *key, char *the_env)
+{
+	if (find_key(key, the_env) != 0)
+		return (strchr(key, '=') + 1);
+	return (NULL);
+}
 
 
 int main()
 {
-    char old_name[20];
-    char new_name[20];
+    char *key = "PWD=/Users/ynachat/Desktop/test_brahim";
+    char env[20] = "PWD";
 
-    printf("Enter your name : ");
-    scanf("%s", old_name);
-    while (1)
-    {
-        if (old_name[0] == new_name[0])
-        {
-            printf("Hello Mr.%s\n", old_name);
-            break;
-        }
-        else
-        {
-            printf("Enter your name : ");
-            scanf("%s", new_name);
-        }
-    }
+    // if (find_key(key, env) == 1)
+    //     printf("kin \n");
+    // else 
+    //     printf("makinch\n");
+    
+	printf("%s\n", expand(key,env));
 }

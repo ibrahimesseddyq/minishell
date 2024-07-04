@@ -31,6 +31,7 @@ void exec_pip(t_astnode *ast)
 	// char	**cmd2;
 	i = 0;
 	j = 0;
+	t_st x;
 	// printf("%d\n", ast->type);
 	// exit(1);
 	// cmd1 = ast->binary.left->t_cmd.args;
@@ -44,7 +45,7 @@ void exec_pip(t_astnode *ast)
 	{
 		dup2(pipfd[1], 1);
 		close(pipfd[0]);
-		exec_cmd_line(ast->binary.left);
+		exec_cmd_line(ast->binary.left, &x);
 		exit(0);
 		// if (execve(arg_cmds(cmd1[0]), arg_cmd1, NULL) == -1)
 		// {
@@ -57,7 +58,7 @@ void exec_pip(t_astnode *ast)
 	{
 		dup2(pipfd[0], 0);
 		close(pipfd[1]);
-		exec_cmd_line(ast->binary.right);
+		exec_cmd_line(ast->binary.right, &x);
 		exit(0);
 		// if (execve(arg_cmds(cmd2[0]), arg_cmd2, NULL) == -1)
 		// {

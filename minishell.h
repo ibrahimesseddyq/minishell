@@ -119,5 +119,5 @@ void exec_cmd_line(t_astnode *ast, t_st *st);
 void exec_cmd(t_astnode *ast, t_st *st);
 void exec_pip(t_astnode *ast);
 void exec_and(t_astnode *ast, t_st *st);
-void exec_or(t_astnode *ast);
+void exec_or(t_astnode *ast, t_st *st);
 #endif

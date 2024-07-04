@@ -29,10 +29,21 @@ int main(int ac, char **av) {
 		token_list = tokenize(t);
 		ast = parse_command_line(token_list);	
 		if (ast)
-		{
-			exec_cmd_line(ast, &st);
+		{	
+			int i = 0;
+			while (ast->t_cmd.args[0][i])
+			{
+				if (ast->t_cmd.args[0][i] == 'd')
+				{
+					printf("$$$$$\n");
+					return (0);
+				}
+				i++;
+			}
+			printf("\n nooo!!\n");
+			// exec_cmd_line(ast, &st);
 		}
-		printf("%d\n", st.st);
+		// printf("%d\n", st.st);
 		// print_ast(ast, 0);
 	}
 	// t_tklist *token_list = tokenize(av[1]);

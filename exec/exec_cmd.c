@@ -43,8 +43,5 @@ void exec_cmd(t_astnode *ast, t_st *st)
 	}
 	waitpid(pid, &(st->status), 0);
 	if (WIFEXITED(st->status))
-	{
 		st->st = WEXITSTATUS(st->status);
-		printf("[%d][\n",st->st);
-	}
 }
