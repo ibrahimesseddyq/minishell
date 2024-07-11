@@ -112,8 +112,6 @@ typedef struct s_astnode {
     };
 } t_astnode;
 
-
-int ss;
 char	*get_next_line(int fd);
 void exec_cmd_line(t_astnode *ast, t_st *st);
 void exec_cmd(t_astnode *ast, t_st *st);

@@ -30,7 +30,7 @@ int main(int ac, char **av, char *envp[]) {
 	env = malloc(size * sizeof(char *));
 	while (envp[i])
 	{
-		env[i] = strdup(envp[i]);
+		env[i] = ft_strdup(envp[i]);
 		i++;
 	}
 	env[size] = NULL;
