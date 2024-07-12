@@ -214,11 +214,11 @@ t_astnode *parse_command_line(t_tklist *tokens) {
 t_astnode *parse_block(t_tklist *tokens) {
     t_astnode *node = NULL;
     t_token *token = peek_token(tokens);
-        printf("I'm not inside ()\n");
+        // printf("I'm not inside ()\n");
 
     if (token->type == TK_LPR) {
         next_token(tokens);
-        printf("I'm inside ()\n");
+        // printf("I'm inside ()\n");
         node = parse_command_line(tokens);
         if (!node) {
             return NULL;

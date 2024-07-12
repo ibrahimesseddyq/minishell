@@ -36,7 +36,7 @@ int analyse_syntax(t_tklist *list)
     e = 0;
     token = NULL;
     // tokens = list->tokens;
-    curr_token = peek_token(list)->type;
+    curr_token = next_token(list)->type;
     if (!curr_token)
         return (0);
     if (curr_token == TK_LPR)
@@ -49,7 +49,7 @@ int analyse_syntax(t_tklist *list)
         token = next_token(list);
         curr_token = token->type;
         final_token = token->value;
-            printf("curr token %d parentheses %d and e %d\n",curr_token, parentheses, e);
+            // printf("curr token %d parentheses %d and e %d\n",curr_token, parentheses, e);
 
         if (curr_token == TK_LPR)
              parentheses++;
@@ -62,7 +62,7 @@ int analyse_syntax(t_tklist *list)
                 curr_token = -1;
         }
     }
-    printf("end - curr token %d parentheses %d and e %d\n",curr_token, parentheses, e);
+    // printf("end - curr token %d parentheses %d and e %d\n",curr_token, parentheses, e);
     if (curr_token == 0 && parentheses == 0 && (e == 2 || e ==4))
     {
         return (1);

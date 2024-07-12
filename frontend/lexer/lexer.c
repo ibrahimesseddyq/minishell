@@ -1,5 +1,5 @@
 #include "../frontend.h"
-#define WORD ".[]\\-_"
+#define WORD ".[]\\-_\"\'&"
 t_lexer* init_lexer(char *input) {
     t_lexer *lexer = (t_lexer *)malloc(sizeof(t_lexer));
     lexer->input = input;
@@ -65,7 +65,13 @@ t_token* get_next_token(t_lexer *lexer) {
                 token->value = ft_strdup("&&");
                 return token;
             }
-            return (NULL);
+            // TODO : redha word blasst illegal , w handli les cas suivants:
+            // Syntax error ila kant & bra lquotes  &fd "dsfds"
+            // Doz 3adi ila kant dakhl lquotes "&fd" dsfds
+            t_token *token = (t_token *)malloc(sizeof(t_token));
+            token->type = TK_ILLEGAL;
+            token->value = ft_strdup("");
+            return token;
         }
 
         if (lexer->currentchar == ';') {
@@ -152,6 +158,7 @@ t_tklist* tokenize(char *input)
 
     t_token *token = get_next_token(lexer);
     while (token->type != TOKEN_EOF) {
+        printf("%s %d\n",token->value, token->type);
         token_list->size++;
         token_list->tokens = (t_token *)realloc(token_list->tokens, token_list->size * sizeof(t_token));
         token_list->tokens[token_list->size - 1] = *token;
