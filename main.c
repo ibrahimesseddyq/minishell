@@ -1,9 +1,23 @@
 #include "minishell.h"
 #include "./frontend/frontend.h"
+#include <signal.h>
 
 void f()
 {
 	// system("leaks ./minishell");
+}
+void handle_sigint(int num)
+{
+	(void)num;
+    rl_replace_line("", 0);
+    rl_on_new_line();
+    rl_redisplay();
+}
+void handle_sigterm(int num)
+{
+	(void)num;
+	// printf("sigterm\n");
+	exit(0);
 }
 
 int main(int ac, char **av, char *envp[]) {
@@ -14,10 +28,14 @@ int main(int ac, char **av, char *envp[]) {
 	t_tklist *token_list;
 	t_astnode *ast;
 	t_st st;
+	// t_lst lst;
 	st.st = 0;
 	st.status = 0;
-
-	atexit(f);
+	signal(SIGQUIT, SIG_IGN);
+	signal(SIGINT, handle_sigint);
+	// signal(SIGQUIT, handle_sigterm);
+	signal(SIGTERM, handle_sigterm);
+// 	atexit(f);
 // 	char	**env;
 // 	int i;
 // 	int	size;
@@ -35,15 +53,28 @@ int main(int ac, char **av, char *envp[]) {
 // 	}
 // 	env[size] = NULL;
 //    char *result = expand(env, av[1]);
-//     if (result)
-//         printf("%s\n", result);
-//     else
-//         printf("Key not found\n");
+// 	if (result)
+// 		printf("%s\n", result);
+// 	else
+// 		printf("Key not found\n");
+
+
+
+
+
+
+
+// the first main();
+
 	while (1)
 	{
 		char *t = readline("minishell:>$ ");
+		if (!t)
+			continue;
+		if(t)
+			add_history(t);
 		token_list = tokenize(t);
-		if (!analyse_syntax(token_list))
+		if (!analyse_syntax(token_list) && *t !='\0')
 		{
 			exit(0);
 		}
@@ -58,15 +89,7 @@ int main(int ac, char **av, char *envp[]) {
 			exec_cmd_line(ast, &st);
 			// print_ast(ast, 0);
 		}
-		// printf("%d\n", st.st);
-		// print_ast(ast, 0);
 	}
-	// token_list = tokenize(av[1]);
 
-	// set_beginning(token_list);
-	// t_astnode* ast = parse_command_line(token_list);
-	// if (!ast)
-	//     printf("ast is null, there is an error\n");
-	// print_ast(ast, 0);
 	return 0;
 }

@@ -114,7 +114,7 @@ typedef struct s_astnode {
 		} redirect;
 		struct {
 			struct s_astnode* child;
-		} block; // Added block member
+		} block; // Added block member < file.txt cat
 	};
 } t_astnode;
 
