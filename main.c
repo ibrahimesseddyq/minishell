@@ -9,15 +9,13 @@ void f()
 void handle_sigint(int num)
 {
 	(void)num;
+	printf("\n");
     rl_replace_line("", 0);
     rl_on_new_line();
     rl_redisplay();
-}
-void handle_sigterm(int num)
-{
-	(void)num;
-	// printf("sigterm\n");
-	exit(0);
+	// rl_catch_signals = 0;
+
+
 }
 
 int main(int ac, char **av, char *envp[]) {
@@ -33,8 +31,7 @@ int main(int ac, char **av, char *envp[]) {
 	st.status = 0;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle_sigint);
-	// signal(SIGQUIT, handle_sigterm);
-	signal(SIGTERM, handle_sigterm);
+	rl_catch_signals = 0;
 // 	atexit(f);
 // 	char	**env;
 // 	int i;
@@ -61,27 +58,23 @@ int main(int ac, char **av, char *envp[]) {
 
 
 
-
-
-
 // the first main();
 
 	while (1)
 	{
 		char *t = readline("minishell:>$ ");
 		if (!t)
-			continue;
+		{
+			printf("exit\n");
+			exit(0);
+		}
 		if(t)
 			add_history(t);
 		token_list = tokenize(t);
-		if (!analyse_syntax(token_list) && *t !='\0')
-		{
-			exit(0);
-		}
-		ast = parse_command_line(token_list);
-		// if (!ast)
-		// 	printf("ast is null, there is an error\n");
-		token_list = tokenize(t);
+		// if (!analyse_syntax(token_list))
+		// {
+		// 	exit(0);
+		// }
 		ast = parse_command_line(token_list);
 		if (ast)
 		{
@@ -90,6 +83,5 @@ int main(int ac, char **av, char *envp[]) {
 			// print_ast(ast, 0);
 		}
 	}
-
 	return 0;
 }

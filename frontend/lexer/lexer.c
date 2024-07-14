@@ -155,10 +155,8 @@ t_tklist* tokenize(char *input)
     token_list->tokens = NULL;
     token_list->curr_index = 0;
     token_list->size = 0;
-
     t_token *token = get_next_token(lexer);
     while (token->type != TOKEN_EOF) {
-        printf("%s %d\n",token->value, token->type);
         token_list->size++;
         token_list->tokens = (t_token *)realloc(token_list->tokens, token_list->size * sizeof(t_token));
         token_list->tokens[token_list->size - 1] = *token;

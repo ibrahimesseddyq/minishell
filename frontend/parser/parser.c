@@ -188,12 +188,12 @@ t_astnode *parse_and_or(t_tklist *tokens, t_astnode *left, t_token *token) {
         }
         node = create_binary_node(NODE_LOGICAL_OR, left, right);
     }
-
     return node;
 }
 
 t_astnode *parse_command_line(t_tklist *tokens) {
     t_astnode *node = parse_pipe(tokens);
+    
     if (!node) {
         return NULL;
     }
@@ -207,7 +207,6 @@ t_astnode *parse_command_line(t_tklist *tokens) {
         }
         token = peek_token(tokens);
     }
-
     return node;
 }
 
