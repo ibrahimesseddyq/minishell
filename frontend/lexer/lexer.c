@@ -190,6 +190,7 @@ t_tklist* tokenize(char *input)
 
 t_token* peek_token(t_tklist *token_list) {
     if (token_list->curr_index < token_list->size) {
+        printf("peek token is %s\n",token_list->tokens[token_list->curr_index].value);
         return &token_list->tokens[token_list->curr_index];
     }
     return NULL;
@@ -197,6 +198,8 @@ t_token* peek_token(t_tklist *token_list) {
 
 t_token* next_token(t_tklist *token_list) {
     if (token_list->curr_index < token_list->size) {
+        printf("next token is %s\n",token_list->tokens[token_list->curr_index].value);
+
         return &token_list->tokens[token_list->curr_index++];
     }
     return NULL;

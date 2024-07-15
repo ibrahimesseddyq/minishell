@@ -1,22 +1,28 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   exec_and.c                                         :+:      :+:    :+:   */
+/*   ft_lst_clear_env.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/07/14 23:49:45 by ynachat           #+#    #+#             */
-/*   Updated: 2024/07/14 23:49:49 by ynachat          ###   ########.fr       */
+/*   Created: 2024/07/14 21:55:48 by ynachat           #+#    #+#             */
+/*   Updated: 2024/07/14 22:38:01 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "../minishell.h"
-#include "../frontend/frontend.h"
+#include "libft.h"
 
-void exec_and(t_astnode *ast, t_st *st)
+void	ft_lst_clear_env(t_lst **lst)
 {
-	exec_cmd_line(ast->binary.left, st);
-	// printf("[%d]\n", st->st);
-	if (st->st == 0)
-		exec_cmd_line(ast->binary.right, st);
+	t_lst	*l;
+
+	if (!lst || !(*lst))
+		return ;
+	while (*lst)
+	{
+		l = (*lst)->next;
+		free(*lst);
+		*lst = l;
+	}
+	*lst = NULL;
 }

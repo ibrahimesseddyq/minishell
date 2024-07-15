@@ -80,12 +80,6 @@ typedef struct s_status {
 	int st;
 } t_st;
 
-typedef struct s_lst {
-	char *key;
-	char *value;
-	char sign;
-	struct s_lst *next;
-} t_lst;
 
 // AST node structure
 typedef struct s_astnode {

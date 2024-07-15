@@ -35,6 +35,22 @@ void exec_cmd(t_astnode *ast, t_st *st)
 	pid = fork();
 	if (pid == 0)
 	{
+		// if (ft_strcmp(ast->t_cmd.args[0], "cd"))
+		// {
+		// 	ft_cd();
+		// }
+		// else if(ft_strcmp(ast->t_cmd.args[0], "echo"))
+		// {
+
+		// }
+		// else if(ft_strcmp(ast->t_cmd.args[0], "pwd"))
+		// {
+			
+		// }
+		// else if(ft_strcmp(ast->t_cmd.args[0], "exit"))
+		// {
+			
+		// }
 		if (execve(arg_cmds(cmd[0]), arg_cmd, NULL) == -1)
 		{
 			printf("minishell: %s: command not found\n", cmd[0]);

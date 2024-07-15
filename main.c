@@ -6,6 +6,10 @@ void f()
 {
 	// system("leaks ./minishell");
 }
+// void set_beginning(t_tklist *token_list)
+// {
+//     token_list->curr_index = 0;
+// }
 void handle_sigint(int num)
 {
 	(void)num;
@@ -13,47 +17,28 @@ void handle_sigint(int num)
     rl_replace_line("", 0);
     rl_on_new_line();
     rl_redisplay();
-	// rl_catch_signals = 0;
-
-
 }
 
-int main(int ac, char **av, char *envp[]) {
+int main(int ac, char **av, char *env[]) {
 	(void)ac;
 	(void)av;
-	(void)envp;
+	(void)env;
 	
 	t_tklist *token_list;
 	t_astnode *ast;
 	t_st st;
-	// t_lst lst;
 	st.st = 0;
 	st.status = 0;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle_sigint);
 	rl_catch_signals = 0;
 // 	atexit(f);
-// 	char	**env;
-// 	int i;
-// 	int	size;
 
-// 	size = 0;
-// 	env = NULL;
-// 	i = 0;
-// 	while (envp[size])
-// 		size++;
-// 	env = malloc(size * sizeof(char *));
-// 	while (envp[i])
-// 	{
-// 		env[i] = ft_strdup(envp[i]);
-// 		i++;
-// 	}
-// 	env[size] = NULL;
-//    char *result = expand(env, av[1]);
-// 	if (result)
-// 		printf("%s\n", result);
-// 	else
-// 		printf("Key not found\n");
+	// char *result = expand(env, av[1]);
+	// if (result)
+	// 	printf("%s\n", result);
+	// else
+	// 	printf("Key not found\n");
 
 
 
@@ -71,15 +56,20 @@ int main(int ac, char **av, char *envp[]) {
 		if(t)
 			add_history(t);
 		token_list = tokenize(t);
-		// if (!analyse_syntax(token_list))
-		// {
-		// 	exit(0);
-		// }
+		if (!analyse_syntax(token_list))
+		{
+			exit(0);
+		}
+		set_beginning(token_list);
+
 		ast = parse_command_line(token_list);
 		if (ast)
 		{
 			// expand();
-			exec_cmd_line(ast, &st);
+			// if (!strcmp(ast->t_cmd.args[0], "export"))
+			// 	printf("export here \n");
+			// else
+				exec_cmd_line(ast, &st);
 			// print_ast(ast, 0);
 		}
 	}

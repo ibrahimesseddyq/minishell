@@ -15,7 +15,7 @@ int find_key(char *key, char *env)
 	return (0);
 }
 
-char	*expand(char **key, char *the_env)
+char	*expandxx(char **key, char *the_env)
 {
 	int	i;
 	int k;
