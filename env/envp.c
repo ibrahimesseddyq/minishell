@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 23:49:30 by ynachat           #+#    #+#             */
-/*   Updated: 2024/07/15 01:54:02 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/07/15 03:03:19 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,30 +14,51 @@
 #include "../frontend/frontend.h"
 
 
-int find_key(char *env)
+char *find_key(char *env)
 {
 	int i;
 	char *tmp;
+	tmp = NULL;
 	i = 0;
-	while(env[i] && env[i] != '=')
+	while(env[i])
 	{
-		tmp = ft_strjoin(tmp,env[i]);
+		tmp = ft_strjoin(tmp, &env[i]);
+		if (env[i + 1] != '=')
+			break ;
 		i++;
 	}
-	return (0);
+	return (tmp);
 }
 
-void	env(char **env)
+// int find_value(char *env)
+// {
+// 	int i;
+// 	char *tmp;
+// 	i = 0;
+// 	while(env[i] && env[i] != '=')
+// 	{
+// 		tmp = ft_strjoin(tmp,env[i]);
+// 		i++;
+// 	}
+// 	return (tmp);
+// }
+
+t_lst	*envp(char **env)
 {
 	t_lst *lst;
 	t_lst *new;
 	int i;
 
 	i = 0;
-	while (lst)
+	lst = NULL;
+	lst = ft_lstadd_new_env(find_key(env[i]),ft_strchr(env[i], '=') + 1);
+	printf("%s\n",ft_strchr(env[i], '=') + 1);
+	i++;
+	while (env[i])
 	{
-		new = ft_lstadd_new_env(find_key(env[i]),find_value(env[i]));
+		new = ft_lstadd_new_env(find_key(env[i]),ft_strchr(env[i], '=') + 1);
+		ft_lstadd_back_env(&lst, new);
 		i++;
-		lst = lst->next;
 	}
+	return (lst);
 }

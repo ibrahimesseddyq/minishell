@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 15:42:23 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/07/14 23:05:19 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/07/15 02:19:59 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <stdlib.h>
 # include <unistd.h>
 # include <string.h>
+# include <stdio.h>
 # include <limits.h>
 
 typedef struct s_list

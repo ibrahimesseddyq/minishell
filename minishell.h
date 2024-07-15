@@ -119,4 +119,5 @@ void	exec_pip(t_astnode *ast);
 void	exec_and(t_astnode *ast, t_st *st);
 void	exec_or(t_astnode *ast, t_st *st);
 char	*expand(char **key, char *the_env);
+t_lst	*envp(char **env);
 #endif

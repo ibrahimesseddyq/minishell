@@ -24,9 +24,10 @@ int main(int ac, char **av, char *env[]) {
 	(void)av;
 	(void)env;
 	
-	t_tklist *token_list;
-	t_astnode *ast;
+	// t_tklist *token_list;
+	// t_astnode *ast;
 	t_st st;
+	t_lst *lst;
 	st.st = 0;
 	st.status = 0;
 	signal(SIGQUIT, SIG_IGN);
@@ -42,36 +43,44 @@ int main(int ac, char **av, char *env[]) {
 
 
 
-
+	lst = envp(env);
+	// if (!lst)
+	// 	printf("nop\n");
+	while (lst)
+	{
+		printf("%s=%s\n",lst->key , lst->value);
+		lst = lst->next;
+	}
+	
 // the first main();
 
-	while (1)
-	{
-		char *t = readline("minishell:>$ ");
-		if (!t)
-		{
-			printf("exit\n");
-			exit(0);
-		}
-		if(t)
-			add_history(t);
-		token_list = tokenize(t);
-		if (!analyse_syntax(token_list))
-		{
-			exit(0);
-		}
-		set_beginning(token_list);
+	// while (1)
+	// {
+	// 	char *t = readline("minishell:>$ ");
+	// 	if (!t)
+	// 	{
+	// 		printf("exit\n");
+	// 		exit(0);
+	// 	}
+	// 	if(t)
+	// 		add_history(t);
+	// 	token_list = tokenize(t);
+	// 	if (!analyse_syntax(token_list))
+	// 	{
+	// 		exit(0);
+	// 	}
+	// 	set_beginning(token_list);
 
-		ast = parse_command_line(token_list);
-		if (ast)
-		{
-			// expand();
-			// if (!strcmp(ast->t_cmd.args[0], "export"))
-			// 	printf("export here \n");
-			// else
-				exec_cmd_line(ast, &st);
-			// print_ast(ast, 0);
-		}
-	}
+	// 	ast = parse_command_line(token_list);
+	// 	if (ast)
+	// 	{
+	// 		// expand();
+	// 		// if (!strcmp(ast->t_cmd.args[0], "export"))
+	// 		// 	printf("export here \n");
+	// 		// else
+	// 			exec_cmd_line(ast, &st);
+	// 		// print_ast(ast, 0);
+	// 	}
+	// }
 	return 0;
 }

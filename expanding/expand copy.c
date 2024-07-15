@@ -1,7 +1,7 @@
 #include "../minishell.h"
 #include "../frontend/frontend.h"
 
-int find_key(char *key, char *env)
+int find_keyx(char *key, char *env)
 {
 	int i;
 
@@ -26,7 +26,7 @@ char	*expandxx(char **key, char *the_env)
 		return (NULL);
 	while (key[i] && key)
 	{
-		k = find_key(key[i], the_env);
+		k = find_keyx(key[i], the_env);
 		if (k == 1)
 			return (ft_strchr(key[i], '=') + 1);
 		i++;
