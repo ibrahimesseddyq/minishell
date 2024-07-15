@@ -120,4 +120,5 @@ void	exec_and(t_astnode *ast, t_st *st);
 void	exec_or(t_astnode *ast, t_st *st);
 char	*expand(char **key, char *the_env);
 t_lst	*envp(char **env);
+char	*get_env(t_lst *env, char *the_env);
 #endif
