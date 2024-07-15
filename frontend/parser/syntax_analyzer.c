@@ -39,7 +39,7 @@ int analyse_syntax(t_tklist *list)
     curr_token = next_token(list)->type;
     if (!curr_token)
         return (0);
-    printf("dfffdf\n");
+    // printf("dfffdf\n");
     if (curr_token == TK_LPR)
         parentheses++;
     // if (curr_token == -1)
