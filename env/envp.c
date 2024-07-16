@@ -6,26 +6,38 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 23:49:30 by ynachat           #+#    #+#             */
-/*   Updated: 2024/07/15 04:29:42 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/07/16 15:13:11 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "../frontend/frontend.h"
 
+void	free_mat(char **mtr)
+{
+	int	i;
+
+	i = 0;
+	while (mtr[i])
+	{
+		free(mtr[i]);
+		i++;
+	}
+	free(mtr);
+}
+
 char *find_key(char *env)
 {
 	int i;
+	int j;
 	char *tmp;
 	tmp = NULL;
 	i = 0;
-	while(env[i])
-	{
-		tmp = ft_strjoin(tmp, &env[i]);
-		if (env[i + 1] != '=')
-			break ;
-		i++;
-	}
+	j = 0;
+	while (env[j] && env[j] != '=')
+		j++;
+	tmp = ft_strdup(ft_substr(env, 0, j));
+
 	return (tmp);
 }
 
@@ -38,7 +50,6 @@ t_lst	*envp(char **env)
 	i = 0;
 	lst = NULL;
 	lst = ft_lstadd_new_env(find_key(env[i]),ft_strchr(env[i], '=') + 1);
-
 	i++;
 	while (env[i])
 	{
@@ -47,4 +58,5 @@ t_lst	*envp(char **env)
 		i++;
 	}
 	return (lst);
+	
 }

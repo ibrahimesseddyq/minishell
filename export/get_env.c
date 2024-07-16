@@ -11,8 +11,8 @@ char	*get_env(t_lst *env, char *the_env)
 	if (!the_env || !the_env[0])
 		return (NULL);
 	while (env->next)
-	{	
-		if (ft_strncmp(env->key,the_env, ft_strlen(the_env)) == 0)
+	{
+		if (strcmp(env->key, the_env) == 0)
 			return (env->value);
 		env = env->next;
 	}

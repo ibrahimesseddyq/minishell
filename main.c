@@ -47,27 +47,36 @@ int main(int ac, char **av, char *env[]) {
 		if(t)
 			add_history(t);
 		token_list = tokenize(t);
-		if (!analyse_syntax(token_list))
-		{
-			exit(0);
-		}
+		// if (!analyse_syntax(token_list))
+		// {
+		// 	exit(0);
+		// }
 		set_beginning(token_list);
-
 		ast = parse_command_line(token_list);	
 		lst = envp(env);
 		if (!lst)
 			printf("nop\n");
-		if (!strcmp(ast->t_cmd.args[0], "env"))
+		// if (!strcmp(ast->t_cmd.args[0], "env"))
+		// {
+		// 	while (lst)
+		// 	{
+		// 		printf("%s=%s\n", lst->key, lst->value);
+		// 		lst = lst->next;
+		// 	}
+		// }
+		// else if (!strcmp(ast->t_cmd.args[0], "export"))
+		// {
+		// 	printf ("%s\n", get_env(lst, ast->t_cmd.args[1]));
+		// }
+		// else
+		if (!strcmp(ast->t_cmd.args[0], "set"))
 		{
+			set_env(lst , ast->t_cmd.args[0] , ast->t_cmd.args[1]);
 			while (lst)
 			{
 				printf("%s=%s\n", lst->key, lst->value);
 				lst = lst->next;
 			}
-		}else if (!strcmp(ast->t_cmd.args[0], "export"))
-		{
-			printf ("HADA ARG 1%s\n",ast->t_cmd.args[1]);
-			printf ("%s\n", get_env(lst, ast->t_cmd.args[1]));
 		}
 		if (ast)
 		{

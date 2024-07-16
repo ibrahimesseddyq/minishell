@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 15:42:23 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/07/15 02:19:59 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/07/15 21:37:56 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,5 +121,7 @@ t_lst			*ft_lstadd_new_env(char *key, char *value);
 void			ft_lstadd_back_env(t_lst **lst, t_lst *new);
 
 void			ft_lst_clear_env(t_lst **lst);
+
+int				ft_strcmp(char *s1, char *s2);
 
 #endif
