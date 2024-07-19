@@ -32,6 +32,8 @@ void exec_cmd(t_astnode *ast, t_st *st)
 
 	cmd = ast->t_cmd.args;
 	char *arg_cmd[] = {arg_cmds(cmd[0]), cmd[1], NULL};
+	ft_red_in(ast);
+	ft_red_out(ast);
 	pid = fork();
 	if (pid == 0)
 	{

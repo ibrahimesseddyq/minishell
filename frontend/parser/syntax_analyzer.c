@@ -70,7 +70,7 @@ int analyse_syntax(t_tklist *list)
     }
     else
     {
-        printf("\nSyntax Error near %s",final_token);
+        printf("Minishell: syntax error near unexpected token `%s'\n",final_token);
         return (0);
     }
 }

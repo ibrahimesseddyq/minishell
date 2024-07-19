@@ -80,7 +80,6 @@ typedef struct s_status {
 	int st;
 } t_st;
 
-
 // AST node structure
 typedef struct s_astnode {
 	node_type type;
@@ -122,5 +121,11 @@ char	*expand(char **key, char *the_env);
 t_lst	*envp(char **env);
 char	*get_env(t_lst *env, char *the_env);
 void	set_env(t_lst *lst, char *key, char *new_value);
+
+
+
+void	ft_red_in(t_astnode *ast);
+void	ft_red_out(t_astnode *ast);
+
 
 #endif

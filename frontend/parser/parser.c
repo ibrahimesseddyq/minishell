@@ -38,7 +38,7 @@ t_astnode *create_redirect_node(node_type type, t_astnode *child, char *filename
 t_astnode *create_block_node(t_astnode *child) {
     t_astnode *node = (t_astnode *)malloc(sizeof(t_astnode));
     node->type = NODE_BLOCK;
-    node->block.child = child; 
+    node->block.child = child;
     return node;
 }
 t_astnode *parse_cmd(t_tklist *tokens) {

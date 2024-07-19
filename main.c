@@ -19,22 +19,19 @@ void handle_sigint(int num)
 int main(int ac, char **av, char *env[]) {
 	(void)ac;
 	(void)av;
+	(void)env;
 
 	t_tklist *token_list;
 	t_astnode *ast;
 	t_st st;
-	t_lst *lst;
+	// t_lst *lst;
 	st.st = 0;
 	st.status = 0;
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle_sigint);
 	rl_catch_signals = 0;
 
-
-
-
 // the first main();
-
 
 	while (1)
 	{
@@ -48,14 +45,12 @@ int main(int ac, char **av, char *env[]) {
 			add_history(t);
 		token_list = tokenize(t);
 		// if (!analyse_syntax(token_list))
-		// {
-		// 	exit(0);
-		// }
+		// 	continue ;
 		set_beginning(token_list);
 		ast = parse_command_line(token_list);	
-		lst = envp(env);
-		if (!lst)
-			printf("nop\n");
+		// lst = envp(env);
+		// if (!lst)
+		// 	printf("nop\n");
 		// if (!strcmp(ast->t_cmd.args[0], "env"))
 		// {
 		// 	while (lst)
@@ -69,23 +64,23 @@ int main(int ac, char **av, char *env[]) {
 		// 	printf ("%s\n", get_env(lst, ast->t_cmd.args[1]));
 		// }
 		// else
-		if (!strcmp(ast->t_cmd.args[0], "set"))
-		{
-			set_env(lst , ast->t_cmd.args[0] , ast->t_cmd.args[1]);
-			while (lst)
-			{
-				printf("%s=%s\n", lst->key, lst->value);
-				lst = lst->next;
-			}
-		}
+		// if (!strcmp(ast->t_cmd.args[0], "set"))
+		// {
+		// 	set_env(lst , ast->t_cmd.args[0] , "test_value");
+		// 	while (lst)
+		// 	{
+		// 		printf("%s=%s\n", lst->key, lst->value);
+		// 		lst = lst->next;
+		// 	}
+		// }
 		if (ast)
 		{
 			// expand();
 			// if (!strcmp(ast->t_cmd.args[0], "export"))
 			// 	printf("export here \n");
 			// else
-				exec_cmd_line(ast, &st);
-			// print_ast(ast, 0);
+			print_ast(ast, 0);
+			exec_cmd_line(ast, &st);
 		}
 	}
 	return 0;

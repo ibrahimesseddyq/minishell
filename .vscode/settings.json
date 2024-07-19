@@ -10,6 +10,7 @@
         "stdio.h": "c",
         "__node_handle": "c",
         "__locale": "c",
-        "cstring": "c"
+        "cstring": "c",
+        "locale": "c"
     }
 }
