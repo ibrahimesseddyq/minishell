@@ -5,7 +5,8 @@
 #include "./libft/libft.h" 
 #include <readline/readline.h>
 #include <readline/history.h>
-
+#include <sys/types.h> 
+#include <sys/wait.h> 
 
 
 // Token types enumeration
@@ -68,12 +69,6 @@ typedef struct s_lexer {
 } t_lexer;
 
 // Redirection structure
-typedef struct s_redir {
-	char *file;
-	char *heredoc;
-	int type;
-	int number;
-} t_redir;
 
 typedef struct s_status {
 	int status;
@@ -88,10 +83,10 @@ typedef struct s_astnode {
 		struct s_cmd {
 			char *cmd;
 			char **args;
-			t_redir *infile;
-			t_redir *outfile;
-			t_redir *heredoc;
-			t_redir *append;
+			t_redir_list *infile;
+			t_redir_list *outfile;
+			t_redir_list *append;
+			t_redir_list *heredoc;
 			int flag_infiles;
 			int flag_outfiles;
 		} t_cmd;

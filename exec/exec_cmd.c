@@ -22,13 +22,13 @@ static char	*arg_cmds(char *cmd)
 
 void exec_cmd(t_astnode *ast, t_st *st)
 {
-	int		i;
-	int		j;
+// 	int		i;
+// 	int		j;
 	int		pid;
 	char	**cmd;
 
-	i = 0;
-	j = 0;
+	// i = 0;
+	// j = 0;
 
 	cmd = ast->t_cmd.args;
 	char *arg_cmd[] = {arg_cmds(cmd[0]), cmd[1], NULL};

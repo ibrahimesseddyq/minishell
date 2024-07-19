@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 15:42:23 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/07/15 21:37:56 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/07/19 04:29:47 by armanov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,16 @@ typedef struct s_lst {
 	char			*value;
 	struct s_lst	*next;
 } t_lst;
-
+typedef struct s_redir {
+	char *file;
+	char *heredoc;
+	int type;
+	int number;
+} t_redir;
+typedef struct s_redir_list {
+    t_redir *redir;
+    struct s_redir_list *next;
+} t_redir_list;
 
 int				ft_atoi(const char *str);
 
@@ -124,4 +133,5 @@ void			ft_lst_clear_env(t_lst **lst);
 
 int				ft_strcmp(char *s1, char *s2);
 
+void	ft_lstadd_back_redir(t_redir_list **lst, t_redir_list *new);
 #endif

@@ -22,15 +22,15 @@
 
 void exec_pip(t_astnode *ast)
 {
-	int		i;
-	int		j;
+	// int		i;
+	// int		j;
 	int		pipfd[2];
 	int		pid;
 	int		pid2;
 	// char	**cmd1;
 	// char	**cmd2;
-	i = 0;
-	j = 0;
+	// i = 0;
+	// j = 0;
 	t_st x;
 	// printf("%d\n", ast->type);
 	// exit(1);
