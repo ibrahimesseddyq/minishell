@@ -39,7 +39,7 @@ int main(int ac, char **av, char *env[]) {
 		if (!t)
 		{
 			printf("exit\n");
-			exit(0);
+			exit(1);
 		}
 		if(t)
 			add_history(t);
@@ -79,7 +79,7 @@ int main(int ac, char **av, char *env[]) {
 			// if (!strcmp(ast->t_cmd.args[0], "export"))
 			// 	printf("export here \n");
 			// else
-			print_ast(ast, 0);
+			// print_ast(ast, 0);
 			exec_cmd_line(ast, &st);
 		}
 	}

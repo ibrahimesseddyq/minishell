@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:22:35 by ynachat           #+#    #+#             */
-/*   Updated: 2024/07/19 02:12:19 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/07/19 04:25:47 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	ft_red_in(t_astnode *ast)
 			exit(1);
 		}
 		dup2(fd, 0);
-		// close(fd);
+		close(fd);
 	}
 	// else
 	// {
