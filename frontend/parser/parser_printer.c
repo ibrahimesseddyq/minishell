@@ -1,52 +1,50 @@
-#include "../frontend.h"
+#include "./../frontend.h"
 // Just for debug
 
-void print_redirection(t_redir *redir, const char *type, int depth) {
-    if (!redir) return;
+void print_redirection(t_redir_list *redir_list, const char *type, int depth) {
+        // printf("HI2\n");
 
-    for (int i = 0; i < depth; i++) {
-        printf("  ");
-    }
-    printf("%s:\n", type);
-    
-    if (redir->file) {
-        for (int i = 0; i < depth + 1; i++) {
-            printf("  ");
+    if (!redir_list) return;
+    t_redir_list *current = redir_list;
+
+    while (current) {
+        // printf("HI\n");
+        t_redir *redir = current->redir;
+        for (int i = 0; i < depth; i++) {
+            printf(" ");
         }
-        printf("File: %s\n", redir->file);
-    }
-
-    if (redir->heredoc) {
-        for (int i = 0; i < depth + 1; i++) {
-            printf("  ");
+        printf("%s:\n", type);
+        if (redir->file) {
+            for (int i = 0; i < depth + 1; i++) {
+                printf(" ");
+            }
+            printf("File: %s\n", redir->file);
         }
-        printf("Here Document: %s\n", redir->heredoc);
+        if (redir->heredoc) {
+            for (int i = 0; i < depth + 1; i++) {
+                printf(" ");
+            }
+            printf("Here Document: %s\n", redir->heredoc);
+        }
+        for (int i = 0; i < depth + 1; i++) {
+            printf(" ");
+        }
+        printf("Type: %d\n", redir->type);
+        current = current->next;
     }
-
-    for (int i = 0; i < depth + 1; i++) {
-        printf("  ");
-    }
-    printf("Type: %d\n", redir->type);
-    
-    for (int i = 0; i < depth + 1; i++) {
-        printf("  ");
-    }
-    printf("Number: %d\n", redir->number);
 }
 
 void print_ast(t_astnode *node, int depth) {
     if (!node) return;
-
     for (int i = 0; i < depth; i++) {
-        printf("  ");
+        printf(" ");
     }
-
     switch (node->type) {
         case NODE_COMMAND:
             printf("Node Command: %s\n", node->t_cmd.cmd);
             for (int i = 0; node->t_cmd.args[i]; i++) {
                 for (int j = 0; j < depth + 1; j++) {
-                    printf("  ");
+                    printf(" ");
                 }
                 printf("Arg: %s\n", node->t_cmd.args[i]);
             }
@@ -73,38 +71,6 @@ void print_ast(t_astnode *node, int depth) {
         case NODE_BLOCK:
             printf("Node Block:\n");
             print_ast(node->block.child, depth + 1);
-            break;
-        case NODE_REDIRECT_IN:
-            printf("Redirect In:\n");
-            for (int i = 0; i < depth + 1; i++) {
-                printf("  ");
-            }
-            printf("Filename: %s\n", node->redirect.filename);
-            print_ast(node->redirect.child, depth + 1);
-            break;
-        case NODE_REDIRECT_OUT:
-            printf("Redirect Out:\n");
-            for (int i = 0; i < depth + 1; i++) {
-                printf("  ");
-            }
-            printf("Filename: %s\n", node->redirect.filename);
-            print_ast(node->redirect.child, depth + 1);
-            break;
-        case NODE_REDIRECT_APPEND:
-            printf("Append Out:\n");
-            for (int i = 0; i < depth + 1; i++) {
-                printf("  ");
-            }
-            printf("Filename: %s\n", node->redirect.filename);
-            print_ast(node->redirect.child, depth + 1);
-            break;
-        case NODE_HEREDOC:
-            printf("Here Document:\n");
-            for (int i = 0; i < depth + 1; i++) {
-                printf("  ");
-            }
-            printf("Filename: %s\n", node->redirect.filename);
-            print_ast(node->redirect.child, depth + 1);
             break;
         default:
             printf("Unknown node type: %d\n", node->type);

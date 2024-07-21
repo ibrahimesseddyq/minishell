@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 23:49:30 by ynachat           #+#    #+#             */
-/*   Updated: 2024/07/16 15:13:11 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/07/19 01:11:50 by armanov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,11 @@ void	free_mat(char **mtr)
 
 char *find_key(char *env)
 {
-	int i;
+	// int i;
 	int j;
 	char *tmp;
 	tmp = NULL;
-	i = 0;
+	// i = 0;
 	j = 0;
 	while (env[j] && env[j] != '=')
 		j++;

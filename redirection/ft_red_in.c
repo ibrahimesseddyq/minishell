@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:22:35 by ynachat           #+#    #+#             */
-/*   Updated: 2024/07/19 04:25:47 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/07/21 02:04:37 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	ft_red_in(t_astnode *ast)
 	int fd;
 
 	fd = 0;
-	if (ast->t_cmd.infile && ast->t_cmd.infile->type == NODE_REDIRECT_IN)
+	if (ast->t_cmd.infile && ast->t_cmd.infile->redir && ast->t_cmd.infile->redir->type == NODE_REDIRECT_IN)
 	{
-		fd = open(ast->t_cmd.infile->file, O_RDONLY, 0644);
+		fd = open(ast->t_cmd.infile->redir->file , O_RDONLY, 0644);
 		if (fd < 0)
 		{
 			printf("fd infile 1 fail!!\n");

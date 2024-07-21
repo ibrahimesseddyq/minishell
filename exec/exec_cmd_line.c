@@ -1,6 +1,5 @@
 #include "../minishell.h"
 #include "../frontend/frontend.h"
-#include "minishell.h"
 
 void exec_cmd_line(t_astnode *ast, t_st *st)
 {
