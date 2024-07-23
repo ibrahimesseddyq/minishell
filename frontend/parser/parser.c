@@ -17,6 +17,7 @@ t_astnode *create_ast_command(int ac, char **av) {
     node->t_cmd.append = NULL;
     node->t_cmd.flag_infiles = 0;
     node->t_cmd.flag_outfiles = 0;
+    
     return node;
 }
 
@@ -133,15 +134,12 @@ t_astnode *parse_cmd(t_tklist *tokens) {
             printf("infiles head: %p\n", infiles);
         } else if (redir->type == NODE_REDIRECT_OUT) {
             printf("add %s\n",redir_node->redir->file);
-
             ft_lstadd_back_redir(&outfiles, redir_node);
         } else if (redir->type == NODE_REDIRECT_APPEND) {
             printf("add %s\n",redir_node->redir->file);
-
             ft_lstadd_back_redir(&appends, redir_node);
         } else if (redir->type == NODE_HEREDOC) {
             printf("add %s\n",redir_node->redir->file);
-
             ft_lstadd_back_redir(&heredocs, redir_node);
         }
     }
@@ -206,37 +204,75 @@ t_astnode *parse_cmd(t_tklist *tokens) {
             printf("add 2 %s\n",redir_node->redir->file);
             ft_lstadd_back_redir(&infiles, redir_node);
             cmd_node->t_cmd.infile = infiles;
-    printf("infiles head: %p\n", infiles);
-
+            printf("infiles head: %p\n", infiles);
         } else if (redir->type == NODE_REDIRECT_OUT) {
             printf("add %s\n",redir_node->redir->file);
-
             ft_lstadd_back_redir(&outfiles, redir_node);
             cmd_node->t_cmd.outfile = outfiles;
         } else if (redir->type == NODE_REDIRECT_APPEND) {
             printf("add %s\n",redir_node->redir->file);
-
             ft_lstadd_back_redir(&appends, redir_node);
             cmd_node->t_cmd.append = appends;
         } else if (redir->type == NODE_HEREDOC) {
-                        printf("add %s\n",redir_node->redir->file);
-
+            printf("add %s\n",redir_node->redir->file);
             ft_lstadd_back_redir(&heredocs, redir_node);
             cmd_node->t_cmd.heredoc = heredocs;
         }
     }
-    //         printf("infile %p\n",cmd_node->t_cmd.infile);
-    //         printf("outfile %p\n",cmd_node->t_cmd.outfile);
-    //         printf("append %p\n",cmd_node->t_cmd.append);
-    //         printf("heredoc %p\n",cmd_node->t_cmd.heredoc);
 
-            print_redirection2(cmd_node->t_cmd.infile, "Redirect In",   1);
-            print_redirection2(cmd_node->t_cmd.outfile, "Redirect Out",  1);
-            print_redirection2(cmd_node->t_cmd.append, "Append Out", 1);
-            print_redirection2(cmd_node->t_cmd.heredoc, "Here Document",  1);
+    // Handle heredocs
+    t_redir_list *current_heredoc = heredocs;
+    while (current_heredoc) {
+        char *delimiter = current_heredoc->redir->file;
+        char *heredoc_content = NULL;
+        size_t heredoc_size = 0;
+
+        while (1) {
+            char *line = readline("> ");
+            if (!line) {
+                // Handle EOF
+                break;
+            }
+
+            if (strcmp(line, delimiter) == 0) {
+                // Delimiter found, end of heredoc
+                free(line);
+                break;
+            }
+
+            size_t line_len = strlen(line);
+            heredoc_content = realloc(heredoc_content, heredoc_size + line_len + 2);
+            if (!heredoc_content) {
+                // Handle memory allocation error
+                free(line);
+                printf("null in parse_cmd 5\n");
+                return NULL;
+            }
+
+            strcpy(heredoc_content + heredoc_size, line);
+            heredoc_size += line_len;
+            heredoc_content[heredoc_size++] = '\n';
+            heredoc_content[heredoc_size] = '\0';
+
+            free(line);
+        }
+
+        current_heredoc->redir->heredoc = heredoc_content;
+        current_heredoc = current_heredoc->next;
+    }
+
+    printf("infile %p\n",cmd_node->t_cmd.infile);
+    printf("outfile %p\n",cmd_node->t_cmd.outfile);
+    printf("append %p\n",cmd_node->t_cmd.append);
+    printf("heredoc %p\n",cmd_node->t_cmd.heredoc);
+
+    print_redirection2(cmd_node->t_cmd.infile, "Redirect In",   1);
+    print_redirection2(cmd_node->t_cmd.outfile, "Redirect Out",  1);
+    print_redirection2(cmd_node->t_cmd.append, "Append Out", 1);
+    print_redirection2(cmd_node->t_cmd.heredoc, "Here Document",  1);
+
     return cmd_node;
 }
-
 t_astnode *parse_pipe(t_tklist *tokens) {
     t_astnode *node1 = parse_cmd(tokens);
     if (!node1) {
