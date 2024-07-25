@@ -11,10 +11,7 @@ t_astnode *create_ast_command(int ac, char **av) {
         node->t_cmd.args[i] = strdup(av[i]);
     }
     node->t_cmd.args[ac] = NULL;
-    node->t_cmd.infile = NULL;
-    node->t_cmd.outfile = NULL;
-    node->t_cmd.heredoc = NULL;
-    node->t_cmd.append = NULL;
+    node->t_cmd.redirections = NULL;
     node->t_cmd.flag_infiles = 0;
     node->t_cmd.flag_outfiles = 0;
     
@@ -80,12 +77,20 @@ t_astnode *parse_cmd(t_tklist *tokens) {
     int argc = 0;
     char *argv[100];  // Assuming max 100 args
 
-    t_redir_list *infiles = NULL;
-    t_redir_list *outfiles = NULL;
-    t_redir_list *appends = NULL;
-    t_redir_list *heredocs = NULL;
+    t_redir_list *redirections = NULL;
 
-    // Handle leading redirections
+    // Handle command parsing
+    while ((token = peek_token(tokens)) && token->type == TK_WORD) {
+        token = next_token(tokens);
+        argv[argc++] = token->value;
+    }
+
+    if (argc == 0) {
+        printf("null in parse_cmd 3\n");
+        return NULL;
+    }
+
+    // Handle redirections
     while ((token = peek_token(tokens)) && 
            (token->type == TK_GREATERTHAN1 || token->type == TK_GREATERTHAN2 || token->type == TK_LESSERTHAN2 || token->type == TK_LESSERTHAN1)) {
         t_redir *redir = malloc(sizeof(t_redir));
@@ -99,12 +104,12 @@ t_astnode *parse_cmd(t_tklist *tokens) {
 
         if (token->type == TK_LESSERTHAN1) {
             redir->type = NODE_REDIRECT_IN;
+        } else if (token->type == TK_LESSERTHAN2) {
+            redir->type = NODE_HEREDOC;
         } else if (token->type == TK_GREATERTHAN1) {
             redir->type = NODE_REDIRECT_OUT;
         } else if (token->type == TK_GREATERTHAN2) {
             redir->type = NODE_REDIRECT_APPEND;
-        } else if (token->type == TK_LESSERTHAN2) {
-            redir->type = NODE_HEREDOC;
         }
 
         next_token(tokens); // Consume the redirection token
@@ -116,7 +121,7 @@ t_astnode *parse_cmd(t_tklist *tokens) {
             return NULL;
         }
 
-        redir->file = token->value;
+        redir->file = strdup(token->value);
 
         t_redir_list *redir_node = malloc(sizeof(t_redir_list));
         if (!redir_node) {
@@ -128,148 +133,58 @@ t_astnode *parse_cmd(t_tklist *tokens) {
         redir_node->redir = redir;
         redir_node->next = NULL;
 
-        if (redir->type == NODE_REDIRECT_IN) {
-            printf("add %s\n",redir_node->redir->file);
-            ft_lstadd_back_redir(&infiles, redir_node);
-            printf("infiles head: %p\n", infiles);
-        } else if (redir->type == NODE_REDIRECT_OUT) {
-            printf("add %s\n",redir_node->redir->file);
-            ft_lstadd_back_redir(&outfiles, redir_node);
-        } else if (redir->type == NODE_REDIRECT_APPEND) {
-            printf("add %s\n",redir_node->redir->file);
-            ft_lstadd_back_redir(&appends, redir_node);
-        } else if (redir->type == NODE_HEREDOC) {
-            printf("add %s\n",redir_node->redir->file);
-            ft_lstadd_back_redir(&heredocs, redir_node);
-        }
-    }
-
-    // Handle command parsing
-    while ((token = peek_token(tokens)) && token->type == TK_WORD) {
-        token = next_token(tokens);
-        argv[argc++] = token->value;
-    }
-
-    if (argc == 0) {
-        printf("null in parse_cmd 3\n");
-        return NULL;
+        ft_lstadd_back_redir(&redirections, redir_node);
     }
 
     t_astnode *cmd_node = create_ast_command(argc, argv);
-    cmd_node->t_cmd.infile = infiles;
-    cmd_node->t_cmd.outfile = outfiles;
-    cmd_node->t_cmd.append = appends;
-    cmd_node->t_cmd.heredoc = heredocs;
-
-    while ((token = peek_token(tokens)) && 
-           (token->type == TK_GREATERTHAN1 || token->type == TK_GREATERTHAN2 || token->type == TK_LESSERTHAN2 || token->type == TK_LESSERTHAN1)) {
-        t_redir *redir = malloc(sizeof(t_redir));
-        if (!redir) {
-            printf("null in create_ast_command 1\n");
-            return NULL;
-        }
-        redir->file = NULL;
-        redir->heredoc = NULL;
-
-        if (token->type == TK_LESSERTHAN1) {
-            redir->type = NODE_REDIRECT_IN;
-        } else if (token->type == TK_GREATERTHAN1) {
-            redir->type = NODE_REDIRECT_OUT;
-        } else if (token->type == TK_GREATERTHAN2) {
-            redir->type = NODE_REDIRECT_APPEND;
-        } else if (token->type == TK_LESSERTHAN2) {
-            redir->type = NODE_HEREDOC;
-        }
-
-        next_token(tokens);
-        token = next_token(tokens);
-        if (!token || token->type != TK_WORD) {
-            free(redir);
-            printf("null in create_ast_command 2\n");
-            return NULL;
-        }
-
-        redir->file = token->value;
-
-        t_redir_list *redir_node = malloc(sizeof(t_redir_list));
-        if (!redir_node) {
-            free(redir);
-            printf("null in create_ast_command 3\n");
-            return NULL;
-        }
-        redir_node->redir = redir;
-        redir_node->next = NULL;
-
-        if (redir->type == NODE_REDIRECT_IN) {
-            printf("add 2 %s\n",redir_node->redir->file);
-            ft_lstadd_back_redir(&infiles, redir_node);
-            cmd_node->t_cmd.infile = infiles;
-            printf("infiles head: %p\n", infiles);
-        } else if (redir->type == NODE_REDIRECT_OUT) {
-            printf("add %s\n",redir_node->redir->file);
-            ft_lstadd_back_redir(&outfiles, redir_node);
-            cmd_node->t_cmd.outfile = outfiles;
-        } else if (redir->type == NODE_REDIRECT_APPEND) {
-            printf("add %s\n",redir_node->redir->file);
-            ft_lstadd_back_redir(&appends, redir_node);
-            cmd_node->t_cmd.append = appends;
-        } else if (redir->type == NODE_HEREDOC) {
-            printf("add %s\n",redir_node->redir->file);
-            ft_lstadd_back_redir(&heredocs, redir_node);
-            cmd_node->t_cmd.heredoc = heredocs;
-        }
-    }
+    cmd_node->t_cmd.redirections = redirections;
 
     // Handle heredocs
-    t_redir_list *current_heredoc = heredocs;
+    t_redir_list *current_heredoc = redirections;
     while (current_heredoc) {
-        char *delimiter = current_heredoc->redir->file;
-        char *heredoc_content = NULL;
-        size_t heredoc_size = 0;
+        if (current_heredoc->redir->type == NODE_HEREDOC) {
+            char *delimiter = current_heredoc->redir->file;
+            char heredoc_content[1024]; // Fixed-size buffer for heredoc content
+            size_t heredoc_size = 0;
 
-        while (1) {
-            char *line = readline("> ");
-            if (!line) {
-                // Handle EOF
-                break;
-            }
+            while (1) {
+                char *line = readline("> ");
+                if (!line) {
+                    // Handle EOF
+                    break;
+                }
 
-            if (strcmp(line, delimiter) == 0) {
-                // Delimiter found, end of heredoc
+                if (strcmp(line, delimiter) == 0) {
+                    // Delimiter found, end of heredoc
+                    free(line);
+                    break;
+                }
+
+                size_t line_len = strlen(line);
+                if (heredoc_size + line_len + 2 <= sizeof(heredoc_content)) {
+                    strcpy(heredoc_content + heredoc_size, line);
+                    heredoc_size += line_len;
+                    heredoc_content[heredoc_size++] = '\n';
+                    heredoc_content[heredoc_size] = '\0';
+                } else {
+                    // Handle buffer overflow
+                    printf("Heredoc content exceeds buffer size\n");
+                    free(line);
+                    return NULL;
+                }
+
                 free(line);
-                break;
             }
 
-            size_t line_len = strlen(line);
-            heredoc_content = realloc(heredoc_content, heredoc_size + line_len + 2);
-            if (!heredoc_content) {
+            current_heredoc->redir->heredoc = strdup(heredoc_content);
+            if (!current_heredoc->redir->heredoc) {
                 // Handle memory allocation error
-                free(line);
                 printf("null in parse_cmd 5\n");
                 return NULL;
             }
-
-            strcpy(heredoc_content + heredoc_size, line);
-            heredoc_size += line_len;
-            heredoc_content[heredoc_size++] = '\n';
-            heredoc_content[heredoc_size] = '\0';
-
-            free(line);
         }
-
-        current_heredoc->redir->heredoc = heredoc_content;
         current_heredoc = current_heredoc->next;
     }
-
-    printf("infile %p\n",cmd_node->t_cmd.infile);
-    printf("outfile %p\n",cmd_node->t_cmd.outfile);
-    printf("append %p\n",cmd_node->t_cmd.append);
-    printf("heredoc %p\n",cmd_node->t_cmd.heredoc);
-
-    print_redirection2(cmd_node->t_cmd.infile, "Redirect In",   1);
-    print_redirection2(cmd_node->t_cmd.outfile, "Redirect Out",  1);
-    print_redirection2(cmd_node->t_cmd.append, "Append Out", 1);
-    print_redirection2(cmd_node->t_cmd.heredoc, "Here Document",  1);
 
     return cmd_node;
 }
