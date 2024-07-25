@@ -82,10 +82,7 @@ typedef struct s_astnode {
 		struct s_cmd {
 			char *cmd;
 			char **args;
-			t_redir_list *infile;
-			t_redir_list *outfile;
-			t_redir_list *append;
-			t_redir_list *heredoc;
+    		t_redir_list *redirections;
 			int flag_infiles;
 			int flag_outfiles;
 		} t_cmd;

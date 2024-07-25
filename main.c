@@ -24,10 +24,10 @@ int main(int ac, char **av, char *env[]) {
 	t_tklist *token_list;
 	t_astnode *ast;
 // <<<<<<< HEAD
-	t_st st;
-	// t_lst *lst;
-	st.st = 0;
-	st.status = 0;
+	// t_st st;
+	// // t_lst *lst;
+	// st.st = 0;
+	// st.status = 0;
 // =======
 	// t_st st;
 	// t_lst *lst;
@@ -58,11 +58,11 @@ int main(int ac, char **av, char *env[]) {
 		// if (!analyse_syntax(token_list))
 		// 	continue ;
 // =======
-		if (!analyse_syntax(token_list))
-		{
-			printf("Syntax Error\n");
-			exit(1);
-		}
+		// if (!analyse_syntax(token_list))
+		// {
+		// 	printf("Syntax Error\n");
+		// 	exit(1);
+		// }
 // >>>>>>> 7a26dbad92025ab850bf7181e31863438fb69f7b
 		set_beginning(token_list);
 		ast = parse_command_line(token_list);	
@@ -102,8 +102,8 @@ int main(int ac, char **av, char *env[]) {
 			// 	printf("export here \n");
 			// else
 // <<<<<<< HEAD
-			// print_ast(ast, 0);
-			exec_cmd_line(ast, &st);
+			print_ast(ast, 0);
+			// exec_cmd_line(ast, &st);
 // =======
 				// exec_cmd_line(ast, &st);
 			// print_ast(ast, 0);

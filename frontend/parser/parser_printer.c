@@ -2,13 +2,10 @@
 // Just for debug
 
 void print_redirection(t_redir_list *redir_list, const char *type, int depth) {
-        // printf("HI2\n");
-
     if (!redir_list) return;
     t_redir_list *current = redir_list;
 
     while (current) {
-        // printf("HI\n");
         t_redir *redir = current->redir;
         for (int i = 0; i < depth; i++) {
             printf(" ");
@@ -36,9 +33,11 @@ void print_redirection(t_redir_list *redir_list, const char *type, int depth) {
 
 void print_ast(t_astnode *node, int depth) {
     if (!node) return;
+
     for (int i = 0; i < depth; i++) {
         printf(" ");
     }
+
     switch (node->type) {
         case NODE_COMMAND:
             printf("Node Command: %s\n", node->t_cmd.cmd);
@@ -48,10 +47,7 @@ void print_ast(t_astnode *node, int depth) {
                 }
                 printf("Arg: %s\n", node->t_cmd.args[i]);
             }
-            print_redirection(node->t_cmd.infile, "Redirect In", depth + 1);
-            print_redirection(node->t_cmd.outfile, "Redirect Out", depth + 1);
-            print_redirection(node->t_cmd.append, "Append Out", depth + 1);
-            print_redirection(node->t_cmd.heredoc, "Here Document", depth + 1);
+            print_redirection(node->t_cmd.redirections, "Redirections", depth + 1);
             break;
         case NODE_PIPE:
             printf("Node Pipe:\n");
