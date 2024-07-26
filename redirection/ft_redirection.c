@@ -6,21 +6,28 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:21:45 by ynachat           #+#    #+#             */
-/*   Updated: 2024/07/21 16:03:22 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/07/25 22:22:07 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "../frontend/frontend.h"
 
-int ft_redirection(t_redir_list *io, t_astnode *ast)
+void ft_redirection(t_astnode *ast)
 {
-	while (io)
+
+
+	// while (ast->t_cmd.redirections)
+	// {
+	// 	printf("----------> %s\n", ast->t_cmd.redirections->redir->file);
+	// 	ast->t_cmd.redirections = ast->t_cmd.redirections->next;
+	// }
+	while (ast->t_cmd.redirections)
 	{
-		if (io->redir->type == NODE_REDIRECT_OUT || io->redir->type == NODE_REDIRECT_APPEND)
+		if (ast->t_cmd.redirections->redir->type == NODE_REDIRECT_OUT || ast->t_cmd.redirections->redir->type == NODE_REDIRECT_APPEND)
 			ft_red_out(ast);
 		else 
 			ft_red_in(ast);
-		io = io->next;
+		ast->t_cmd.redirections = ast->t_cmd.redirections->next;
 	}
 }

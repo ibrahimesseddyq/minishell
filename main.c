@@ -29,10 +29,10 @@ int main(int ac, char **av, char *env[]) {
 	// st.st = 0;
 	// st.status = 0;
 // =======
-	// t_st st;
+	t_st st;
 	// t_lst *lst;
-	// st.st = 0;
-	// st.status = 0;
+	st.st = 0;
+	st.status = 0;
 // >>>>>>> 7a26dbad92025ab850bf7181e31863438fb69f7b
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle_sigint);
@@ -103,7 +103,7 @@ int main(int ac, char **av, char *env[]) {
 			// else
 // <<<<<<< HEAD
 			print_ast(ast, 0);
-			// exec_cmd_line(ast, &st);
+			exec_cmd_line(ast, &st);
 // =======
 				// exec_cmd_line(ast, &st);
 			// print_ast(ast, 0);

@@ -11,6 +11,7 @@
         "__node_handle": "c",
         "__locale": "c",
         "cstring": "c",
-        "locale": "c"
+        "locale": "c",
+        "string": "c"
     }
 }

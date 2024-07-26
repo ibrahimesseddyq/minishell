@@ -1,3 +1,17 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_cmd.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
+/*   Updated: 2024/07/25 22:47:40 by ynachat          ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+
+
 #include "../minishell.h"
 #include "../frontend/frontend.h"
 
@@ -35,9 +49,10 @@ void exec_cmd(t_astnode *ast, t_st *st)
 	pid = fork();
 
 	if (pid == 0)
-	{	
-		ft_red_in(ast);
-		ft_red_out(ast);
+	{
+		// ft_red_in(ast);
+		// ft_red_out(ast);
+		ft_redirection(ast);
 		// if (ft_strcmp(ast->t_cmd.args[0], "cd"))
 		// {
 		// 	ft_cd();
@@ -52,7 +67,7 @@ void exec_cmd(t_astnode *ast, t_st *st)
 		// }
 		// else if(ft_strcmp(ast->t_cmd.args[0], "exit"))
 		// {
-			
+				
 		// }
 		if (execve(arg_cmds(cmd[0]), arg_cmd, NULL) == -1)
 		{
