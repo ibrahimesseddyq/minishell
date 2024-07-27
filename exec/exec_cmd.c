@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/07/25 22:47:40 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/07/27 22:27:25 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,10 @@ void exec_cmd(t_astnode *ast, t_st *st)
 	// i = 0;
 	// j = 0;
 
+	// cmd = NULL.args
 	cmd = ast->t_cmd.args;
+	if (!cmd)
+		return ;
 	char *arg_cmd[] = {arg_cmds(cmd[0]), cmd[1], NULL};
 	pid = fork();
 

@@ -32,7 +32,7 @@ int main(int ac, char **av, char *env[]) {
 	t_st st;
 	// t_lst *lst;
 	st.st = 0;
-	st.status = 0;
+	st.status = 0; 
 // >>>>>>> 7a26dbad92025ab850bf7181e31863438fb69f7b
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle_sigint);

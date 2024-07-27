@@ -72,68 +72,70 @@ void print_redirection2(t_redir_list *redir_list, const char *type, int depth) {
         current = current->next;
     }
 }
-t_astnode *parse_cmd(t_tklist *tokens) {
+t_astnode *parse_cmd(t_tklist *tokens)
+{
     t_token *token;
     int argc = 0;
     char *argv[100];  // Assuming max 100 args
 
     t_redir_list *redirections = NULL;
 
-    // Handle command parsing
-    while ((token = peek_token(tokens)) && token->type == TK_WORD) {
-        token = next_token(tokens);
-        argv[argc++] = token->value;
-    }
-
-    if (argc == 0) {
-        printf("null in parse_cmd 3\n");
-        return NULL;
-    }
-
-    // Handle redirections
+    // Handle redirections and command parsing
     while ((token = peek_token(tokens)) && 
-           (token->type == TK_GREATERTHAN1 || token->type == TK_GREATERTHAN2 || token->type == TK_LESSERTHAN2 || token->type == TK_LESSERTHAN1)) {
-        t_redir *redir = malloc(sizeof(t_redir));
-        if (!redir) {
-            // Handle memory allocation error
-            printf("null in parse_cmd 1\n");
-            return NULL;
+           (token->type == TK_WORD || 
+            token->type == TK_GREATERTHAN1 || token->type == TK_GREATERTHAN2 || 
+            token->type == TK_LESSERTHAN2 || token->type == TK_LESSERTHAN1)) {
+        
+        if (token->type == TK_WORD) {
+            token = next_token(tokens);
+            argv[argc++] = token->value;
+        } else {
+            // Handle redirections
+            t_redir *redir = malloc(sizeof(t_redir));
+            if (!redir) {
+                // Handle memory allocation error
+                return NULL;
+            }
+            redir->file = NULL;
+            redir->heredoc = NULL;
+
+            if (token->type == TK_LESSERTHAN1)
+            {
+                redir->type = NODE_REDIRECT_IN;
+            } else if (token->type == TK_LESSERTHAN2)
+            {
+                redir->type = NODE_HEREDOC;
+            } else if (token->type == TK_GREATERTHAN1) {
+                redir->type = NODE_REDIRECT_OUT;
+            } else if (token->type == TK_GREATERTHAN2) {
+                redir->type = NODE_REDIRECT_APPEND;
+            }
+
+            next_token(tokens); // Consume the redirection token
+            token = next_token(tokens); // Get the filename token
+            if (!token || token->type != TK_WORD) {
+                // Handle error: expected filename after redirection operator
+                free(redir);
+                return NULL;
+            }
+
+            redir->file = strdup(token->value);
+
+            t_redir_list *redir_node = malloc(sizeof(t_redir_list));
+            if (!redir_node) {
+                // Handle memory allocation error
+                free(redir);
+                return NULL;
+            }
+            redir_node->redir = redir;
+            redir_node->next = NULL;
+
+            ft_lstadd_back_redir(&redirections, redir_node);
         }
-        redir->file = NULL;
-        redir->heredoc = NULL;
+    }
 
-        if (token->type == TK_LESSERTHAN1) {
-            redir->type = NODE_REDIRECT_IN;
-        } else if (token->type == TK_LESSERTHAN2) {
-            redir->type = NODE_HEREDOC;
-        } else if (token->type == TK_GREATERTHAN1) {
-            redir->type = NODE_REDIRECT_OUT;
-        } else if (token->type == TK_GREATERTHAN2) {
-            redir->type = NODE_REDIRECT_APPEND;
-        }
-
-        next_token(tokens); // Consume the redirection token
-        token = next_token(tokens); // Get the filename token
-        if (!token || token->type != TK_WORD) {
-            // Handle error: expected filename after redirection operator
-            free(redir);
-            printf("null in parse_cmd 2\n");
-            return NULL;
-        }
-
-        redir->file = strdup(token->value);
-
-        t_redir_list *redir_node = malloc(sizeof(t_redir_list));
-        if (!redir_node) {
-            // Handle memory allocation error
-            free(redir);
-            printf("null in parse_cmd 3\n");
-            return NULL;
-        }
-        redir_node->redir = redir;
-        redir_node->next = NULL;
-
-        ft_lstadd_back_redir(&redirections, redir_node);
+    if (argc == 0 && !redirections) {
+        return NULL;
     }
 
     t_astnode *cmd_node = create_ast_command(argc, argv);
@@ -179,7 +181,6 @@ t_astnode *parse_cmd(t_tklist *tokens) {
             current_heredoc->redir->heredoc = strdup(heredoc_content);
             if (!current_heredoc->redir->heredoc) {
                 // Handle memory allocation error
-                printf("null in parse_cmd 5\n");
                 return NULL;
             }
         }
