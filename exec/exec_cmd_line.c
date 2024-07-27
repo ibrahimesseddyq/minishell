@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:09 by ynachat           #+#    #+#             */
-/*   Updated: 2024/07/25 22:01:12 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/07/27 21:50:08 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,16 +16,14 @@
 
 void exec_cmd_line(t_astnode *ast, t_st *st)
 {
-	if (ast->type == 0)
-	{
-		// printf("dkhelt\n");
+	if (ast->type == NODE_COMMAND)
 		exec_cmd(ast, st);
-	}
-	else if (ast->type == 1)
+	else if (ast->type == NODE_PIPE)
 		exec_pip(ast);
-	else if (ast->type == 5)
+	else if (ast->type == NODE_LOGICAL_AND)
 		exec_and(ast, st);
-	else if (ast->type == 6)
+	else if (ast->type == NODE_LOGICAL_OR)
 		exec_or(ast, st);
-
+	else if (ast->type == NODE_BLOCK)
+		exec_cmd_line(ast->block.child, st);
 }
