@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 15:42:23 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/07/19 04:29:47 by armanov          ###   ########.fr       */
+/*   Updated: 2024/07/28 14:32:31 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ typedef struct s_list
 
 typedef struct s_lst {
 	char			*key;
+	char			signe;
 	char			*value;
 	struct s_lst	*next;
 } t_lst;
@@ -125,7 +126,7 @@ void			ft_lstclear(t_list **lst, void (*del)(void*));
 
 void			ft_lstiter(t_list *lst, void (*f)(void *));
 
-t_lst			*ft_lstadd_new_env(char *key, char *value);
+t_lst			*ft_lstadd_new_env(char *key, char signe, char *value);
 
 void			ft_lstadd_back_env(t_lst **lst, t_lst *new);
 

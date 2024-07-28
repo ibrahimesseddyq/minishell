@@ -25,7 +25,8 @@ int main(int ac, char **av, char *env[]) {
 	t_astnode *ast;
 // <<<<<<< HEAD
 	// t_st st;
-	// // t_lst *lst;
+	t_lst *lst;
+	t_lst *tmp;
 	// st.st = 0;
 	// st.status = 0;
 // =======
@@ -39,7 +40,8 @@ int main(int ac, char **av, char *env[]) {
 	rl_catch_signals = 0;
 
 // the first main();
-
+	lst = envp(env);
+	tmp = lst;
 	while (1)
 	{
 		char *t = readline("minishell:>$ ");
@@ -52,8 +54,7 @@ int main(int ac, char **av, char *env[]) {
 		{
 			add_history(t);
 		}
-		
-			token_list = tokenize(t);
+		token_list = tokenize(t);
 // <<<<	<<< HEAD
 		// if (!analyse_syntax(token_list))
 		// 	continue ;
@@ -66,49 +67,47 @@ int main(int ac, char **av, char *env[]) {
 // >>>>>>> 7a26dbad92025ab850bf7181e31863438fb69f7b
 		set_beginning(token_list);
 		ast = parse_command_line(token_list);	
-		// lst = envp(env);
+		lst = tmp;
 		// if (!lst)
 		// 	printf("nop\n");
-		// if (!strcmp(ast->t_cmd.args[0], "env"))
-		// {
-		// 	while (lst)
-		// 	{
-		// 		printf("%s=%s\n", lst->key, lst->value);
-		// 		lst = lst->next;
-		// 	}
-		// }
-		// else if (!strcmp(ast->t_cmd.args[0], "export"))
-		// {
-		// 	printf ("%s\n", get_env(lst, ast->t_cmd.args[1]));
-		// }
-		// else
-		// if (!strcmp(ast->t_cmd.args[0], "set"))
-		// {
-// <<<<<<< HEAD
-		// 	set_env(lst , ast->t_cmd.args[0] , "test_value");
-// =======
-		// 	set_env(lst , ast->t_cmd.args[0] , ast->t_cmd.args[1]);
-// >>>>>>> 7a26dbad92025ab850bf7181e31863438fb69f7b
-		// 	while (lst)
-		// 	{
-		// 		printf("%s=%s\n", lst->key, lst->value);
-		// 		lst = lst->next;
-		// 	}
-		// }
-		if (ast)
+		if (!strcmp(ast->t_cmd.args[0], "env"))
 		{
-			// expand();
-			// if (!strcmp(ast->t_cmd.args[0], "export"))
-			// 	printf("export here \n");
-			// else
-// <<<<<<< HEAD
-			// print_ast(ast, 0);
-			exec_cmd_line(ast, &st);
-// =======
-				// exec_cmd_line(ast, &st);
-			// print_ast(ast, 0);
-// >>>>>>> 7a26dbad92025ab850bf7181e31863438fb69f7b
+			while (lst)
+			{
+				printf("%s%c%s\n", lst->key, lst->signe, lst->value);
+				lst = lst->next;
+			}
 		}
+		else if (!strcmp(ast->t_cmd.args[0], "export"))
+		{
+			set_env(lst , ast->t_cmd.args[1]);
+			
+		}
+		
+// <<<<<<< HEAD
+		
+// =======
+		
+// >>>>>>> 7a26dbad92025ab850bf7181e31863438fb69f7b
+			// while (tmp)
+			// {
+			// 	printf("%s=%s\n", tmp->key, tmp->value);
+			// 	tmp = tmp->next;
+			// }
+// 		if (ast)
+// 		{
+// 			// expand();
+// 			// if (!strcmp(ast->t_cmd.args[0], "export"))
+// 			// 	printf("export here \n");
+// 			// else
+// // <<<<<<< HEAD
+// 			// print_ast(ast, 0);
+// 			exec_cmd_line(ast, &st);
+// // =======
+// 				// exec_cmd_line(ast, &st);
+// 			// print_ast(ast, 0);
+// // >>>>>>> 7a26dbad92025ab850bf7181e31863438fb69f7b
+// 		}
 	}
 	return 0;
 }

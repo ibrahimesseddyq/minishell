@@ -63,10 +63,11 @@ void ft_expand(char *line) {
     }
 }
 
-int main(int argc, char **argv) {
-    char *line = strdup("\"$$\" $$ \"$USER\" $UNKNOWN $?");
-    ft_expand(line);
-    printf("\nmy pid: %d\n", getpid());
-    free(line);
-    return 0;
-}
+
+// int main(int argc, char **argv) {
+//     char *line = strdup("\"$$\" $$ \"$USER\" $UNKNOWN $?");
+//     ft_expand(line);
+//     printf("\nmy pid: %d\n", getpid());
+//     free(line);
+//     return 0;
+// }
