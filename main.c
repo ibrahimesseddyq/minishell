@@ -102,7 +102,7 @@ int main(int ac, char **av, char *env[]) {
 			// 	printf("export here \n");
 			// else
 // <<<<<<< HEAD
-			print_ast(ast, 0);
+			// print_ast(ast, 0);
 			exec_cmd_line(ast, &st);
 // =======
 				// exec_cmd_line(ast, &st);

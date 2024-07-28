@@ -7,12 +7,10 @@ export
 frontend
 libft
 libft.a
-ls
 main.c
 minishell
 minishell.dSYM
 minishell.h
-parser.dSYM
 redirection
 test
 xx

@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:21:45 by ynachat           #+#    #+#             */
-/*   Updated: 2024/07/25 22:22:07 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/07/27 23:37:20 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void ft_redirection(t_astnode *ast)
 	{
 		if (ast->t_cmd.redirections->redir->type == NODE_REDIRECT_OUT || ast->t_cmd.redirections->redir->type == NODE_REDIRECT_APPEND)
 			ft_red_out(ast);
-		else 
+		else
 			ft_red_in(ast);
 		ast->t_cmd.redirections = ast->t_cmd.redirections->next;
 	}

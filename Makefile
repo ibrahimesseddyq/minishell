@@ -11,7 +11,7 @@ SRC = ./frontend/lexer/lexer.c ./frontend/parser/parser.c ./frontend/parser/synt
 OBJ = $(SRC:.c=.o)
 
 CC = gcc -g
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror #-fsanitize=address
 all: lexer parser
 
 $(LIBFT): $(LIBFT_OBJ)
