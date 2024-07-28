@@ -1,5 +1,12 @@
+""
 Makefile
+a
+aaa
+b
 backend
+c
+d
+e
 env
 exec
 expanding
@@ -8,9 +15,11 @@ frontend
 libft
 libft.a
 main.c
+main.o
 minishell
 minishell.dSYM
 minishell.h
+parser.dSYM
 redirection
 test
-xx
+ttt.txt
