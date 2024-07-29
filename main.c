@@ -34,12 +34,10 @@ int main(int ac, char **av, char *env[]) {
 	// t_lst *lst;
 	st.st = 0;
 	st.status = 0; 
-// >>>>>>> 7a26dbad92025ab850bf7181e31863438fb69f7b
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle_sigint);
 	rl_catch_signals = 0;
 
-// the first main();
 	lst = envp(env);
 	tmp = lst;
 	while (1)
@@ -55,15 +53,19 @@ int main(int ac, char **av, char *env[]) {
 			add_history(t);
 		}
 		token_list = tokenize(t);
+		printf(
+			"token_list->size = %d\n",
+			token_list->size
+		);
 // <<<<	<<< HEAD
 		// if (!analyse_syntax(token_list))
 		// 	continue ;
 // =======
-		// if (!analyse_syntax(token_list))
-		// {
-		// 	printf("Syntax Error\n");
-		// 	exit(1);
-		// }
+		if (!analyse_syntax(token_list))
+		{
+			printf("Syntax Error\n");
+			exit(1);
+		}
 // >>>>>>> 7a26dbad92025ab850bf7181e31863438fb69f7b
 		set_beginning(token_list);
 		ast = parse_command_line(token_list);	
@@ -94,20 +96,16 @@ int main(int ac, char **av, char *env[]) {
 			// 	printf("%s=%s\n", tmp->key, tmp->value);
 			// 	tmp = tmp->next;
 			// }
-// 		if (ast)
-// 		{
-// 			// expand();
-// 			// if (!strcmp(ast->t_cmd.args[0], "export"))
-// 			// 	printf("export here \n");
-// 			// else
-// // <<<<<<< HEAD
-// 			// print_ast(ast, 0);
-// 			exec_cmd_line(ast, &st);
-// // =======
-// 				// exec_cmd_line(ast, &st);
-// 			// print_ast(ast, 0);
-// // >>>>>>> 7a26dbad92025ab850bf7181e31863438fb69f7b
-// 		}
+		if (ast)
+		{
+			// expand();
+			// if (!strcmp(ast->t_cmd.args[0], "export"))
+			// 	printf("export here \n");
+			// else
+			print_ast(ast, 0);
+			exec_cmd_line(ast, &st);
+
+		}
 	}
 	return 0;
 }

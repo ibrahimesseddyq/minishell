@@ -11,6 +11,7 @@ t_astnode *create_ast_command(int ac, char **av) {
         node->t_cmd.args[i] = strdup(av[i]);
     }
     node->t_cmd.args[ac] = NULL;
+    printf("node->t_cmd.args[0] = %s\n", node->t_cmd.args[0]);
     node->t_cmd.redirections = NULL;
     node->t_cmd.flag_infiles = 0;
     node->t_cmd.flag_outfiles = 0;
@@ -192,7 +193,7 @@ t_astnode *parse_cmd(t_tklist *tokens)
 t_astnode *parse_pipe(t_tklist *tokens) {
     t_astnode *node1 = parse_cmd(tokens);
     if (!node1) {
-        // printf("null in parse_pipe 1\n");
+        printf("null in parse_pipe 1\n");
 
         return NULL;
     }
@@ -202,7 +203,7 @@ t_astnode *parse_pipe(t_tklist *tokens) {
         next_token(tokens);
         t_astnode *node2 = parse_cmd(tokens);
         if (!node2) {
-        // printf("null in parse_pipe 2\n");
+        printf("null in parse_pipe 2\n");
             return NULL;
         }
         node1 = create_binary_node(NODE_PIPE, node1, node2);
@@ -219,7 +220,7 @@ t_astnode *parse_and_or(t_tklist *tokens, t_astnode *left, t_token *token) {
     if (token->type == TK_AND) {
         right = parse_pipe(tokens);
         if (!right) {
-        // printf("null in parse_and_or 1\n");
+        printf("null in parse_and_or 1\n");
 
             return NULL;
 
@@ -228,7 +229,7 @@ t_astnode *parse_and_or(t_tklist *tokens, t_astnode *left, t_token *token) {
     } else if (token->type == TK_OR) {
         right = parse_pipe(tokens);
         if (!right) {
-        // printf("null in parse_and_or 2\n");
+        printf("null in parse_and_or 2\n");
 
             return NULL;
 

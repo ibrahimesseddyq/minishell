@@ -115,6 +115,6 @@ void	set_env(t_lst *lst, char *str_expo);
 void	ft_red_in(t_astnode *ast);
 void	ft_red_out(t_astnode *ast);
 void ft_redirection(t_astnode *ast);
-
+char *ft_expand(char *line);
 
 #endif

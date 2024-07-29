@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/07/27 22:58:26 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/07/29 04:35:21 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,20 +36,27 @@ static char	*arg_cmds(char *cmd)
 
 void exec_cmd(t_astnode *ast, t_st *st)
 {
-// 	int		i;
+	int		i;
 // 	int		j;
 	int		pid;
 	char	**cmd;
 
-	// i = 0;
+	i = 0;
 	// j = 0;
 
 	// cmd = NULL.args
 	cmd = ast->t_cmd.args;
+
 	if (!cmd || !cmd[0])
 	{
-		printf("im here ---->\n");
+		printf("command null\n");
 		return ;
+	}
+	while (cmd[i])
+	{
+		cmd[i] = ft_expand(cmd[i]);
+		printf("cmd[%d] = %s\n", i, cmd[i]);
+		i++;
 	}
 	char *arg_cmd[] = {arg_cmds(cmd[0]), cmd[1], NULL};
 	pid = fork();

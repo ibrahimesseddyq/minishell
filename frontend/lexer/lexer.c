@@ -1,5 +1,5 @@
 #include "../frontend.h"
-#define WORD ".[]\\-_\"\'&"
+#define WORD ".[]\\-_\"\'&$"
 t_lexer* init_lexer(char *input) {
     t_lexer *lexer = (t_lexer *)malloc(sizeof(t_lexer));
     lexer->input = input;

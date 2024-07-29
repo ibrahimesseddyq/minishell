@@ -7,7 +7,7 @@ LIBFT_OBJ = $(LIBFT_SRC:.c=.o)
 
 SRC = ./frontend/lexer/lexer.c ./frontend/parser/parser.c ./frontend/parser/syntax_analyzer.c ./frontend/parser/parser_printer.c \
 			exec/exec_cmd_line.c exec/exec_cmd.c exec/exec_pip.c exec/exec_or.c exec/exec_and.c env/envp.c  \
-			export/get_env.c export/set_env.c redirection/ft_red_in.c redirection/ft_red_out.c redirection/ft_redirection.c
+			export/get_env.c export/set_env.c redirection/ft_red_in.c redirection/ft_red_out.c redirection/ft_redirection.c expanding/test_expand.c
 OBJ = $(SRC:.c=.o)
 
 CC = gcc -g
