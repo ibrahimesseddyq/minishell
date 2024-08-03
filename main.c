@@ -49,14 +49,9 @@ int main(int ac, char **av, char *env[]) {
 			exit (1) ;
 		}
 		if(t)
-		{
 			add_history(t);
-		}
 		token_list = tokenize(t);
-		printf(
-			"token_list->size = %d\n",
-			token_list->size
-		);
+
 // <<<<	<<< HEAD
 		// if (!analyse_syntax(token_list))
 		// 	continue ;
@@ -82,7 +77,7 @@ int main(int ac, char **av, char *env[]) {
 		}
 		else if (!strcmp(ast->t_cmd.args[0], "export"))
 		{
-			set_env(lst , ast->t_cmd.args[1]);
+			// set_env(lst , ast->t_cmd.args[1]);
 			
 		}
 		
@@ -102,8 +97,8 @@ int main(int ac, char **av, char *env[]) {
 			// if (!strcmp(ast->t_cmd.args[0], "export"))
 			// 	printf("export here \n");
 			// else
-			print_ast(ast, 0);
-			exec_cmd_line(ast, &st);
+			// print_ast(ast, 0);
+			exec_cmd_line(ast, &st, lst);
 
 		}
 	}

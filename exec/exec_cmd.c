@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/07/29 04:35:21 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/08/03 05:38:13 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static char	*arg_cmds(char *cmd)
 	return (NULL);
 }
 
-void exec_cmd(t_astnode *ast, t_st *st)
+void exec_cmd(t_astnode *ast, t_st *st,t_lst *env)
 {
 	int		i;
 // 	int		j;
@@ -54,8 +54,8 @@ void exec_cmd(t_astnode *ast, t_st *st)
 	}
 	while (cmd[i])
 	{
-		cmd[i] = ft_expand(cmd[i]);
-		printf("cmd[%d] = %s\n", i, cmd[i]);
+		cmd[i] = ft_expand(cmd[i], env);
+		// printf("cmd[%d] = %s\n", i, cmd[i]);
 		i++;
 	}
 	char *arg_cmd[] = {arg_cmds(cmd[0]), cmd[1], NULL};
@@ -66,23 +66,25 @@ void exec_cmd(t_astnode *ast, t_st *st)
 		// ft_red_in(ast);
 		// ft_red_out(ast);
 		ft_redirection(ast);
-		// if (ft_strcmp(ast->t_cmd.args[0], "cd"))
-		// {
-		// 	ft_cd();
-		// }
+		if (!ft_strcmp(ast->t_cmd.args[0], "cd"))
+		{
+			
+			printf("cd, args 0 [%s]\n", ast->t_cmd.args[0]);
+			ft_cd(100,ast->t_cmd.args,88, env);
+		}
 		// else if(ft_strcmp(ast->t_cmd.args[0], "echo"))
 		// {
 
 		// }
-		// else if(ft_strcmp(ast->t_cmd.args[0], "pwd"))
-		// {
-			
-		// }
+		else if(!ft_strcmp(ast->t_cmd.args[0], "pwd"))
+		{
+			printf("%s\n", ft_pwd());	
+		}
 		// else if(ft_strcmp(ast->t_cmd.args[0], "exit"))
 		// {
 				
 		// }
-		if (execve(arg_cmds(cmd[0]), arg_cmd, NULL) == -1)
+		else if (execve(arg_cmds(cmd[0]), arg_cmd, NULL) == -1)
 		{
 			printf("minishell: %s: command not found\n", cmd[0]);
 			exit(127);

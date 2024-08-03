@@ -11,7 +11,7 @@ t_astnode *create_ast_command(int ac, char **av) {
         node->t_cmd.args[i] = strdup(av[i]);
     }
     node->t_cmd.args[ac] = NULL;
-    printf("node->t_cmd.args[0] = %s\n", node->t_cmd.args[0]);
+    // printf("node->t_cmd.args[0] = %s\n", node->t_cmd.args[0]);
     node->t_cmd.redirections = NULL;
     node->t_cmd.flag_infiles = 0;
     node->t_cmd.flag_outfiles = 0;

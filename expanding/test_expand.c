@@ -34,9 +34,9 @@ char *ft_itoa(int num)
     return str;
 }
 // Function to expand variables in the input line
-char *ft_expand(char *line)
+char *ft_expand(char *line, t_lst *env)
 {
-    printf("expand entered\n");
+    // printf("expand entered\n");
     int is_inside_quotes = 0;
     char current_quote = 0;
     char *start = line;
@@ -46,7 +46,7 @@ char *ft_expand(char *line)
 
     while (start[i])
     {
-        printf("infinite\n");
+        // printf("infinite\n");
         if (start[i] == '\'' || start[i] == '\"')
         {
             if (is_inside_quotes == 0) {
@@ -90,7 +90,7 @@ char *ft_expand(char *line)
                     varName[j++] = start[i++];
                 }
                 varName[j] = '\0';
-                char *value = get_env(varName);
+                char *value = get_env(env, varName);
                 if (value) {
                     strcpy(&expanded_line[expanded_index], value);
                     expanded_index += strlen(value);

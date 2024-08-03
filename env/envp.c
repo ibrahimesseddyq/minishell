@@ -3,28 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 23:49:30 by ynachat           #+#    #+#             */
-/*   Updated: 2024/07/28 14:39:10 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/07/31 03:56:18 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "../frontend/frontend.h"
 
-void	free_mat(char **mtr)
-{
-	int	i;
 
-	i = 0;
-	while (mtr[i])
-	{
-		free(mtr[i]);
-		i++;
-	}
-	free(mtr);
-}
 
 char *find_key(char *env)
 {
@@ -37,7 +26,6 @@ char *find_key(char *env)
 	tmp = ft_strdup(ft_substr(env, 0, i));
 	return (tmp);
 }
-
 t_lst	*envp(char **env)
 {
 	t_lst *lst;
@@ -46,13 +34,14 @@ t_lst	*envp(char **env)
 
 	i = 0;
 	lst = NULL;
-	lst = ft_lstadd_new_env(find_key(env[i]), '=', ft_strchr(env[i], '=') + 1);
+	lst = ft_lstadd_new_env(find_key(env[i]),ft_strchr(env[i], '=') + 1);
 	i++;
 	while (env[i])
 	{
-		new = ft_lstadd_new_env(find_key(env[i]), '=', ft_strchr(env[i], '=') + 1);
+		new = ft_lstadd_new_env(find_key(env[i]),ft_strchr(env[i], '=') + 1);
 		ft_lstadd_back_env(&lst, new);
 		i++;
 	}
 	return (lst);
+	
 }

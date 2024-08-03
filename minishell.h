@@ -3,12 +3,16 @@
 #include <stdio.h>
 #include <fcntl.h>
 #include "./libft/libft.h" 
-#include <readline/readline.h>
-#include <readline/history.h>
 #include <sys/types.h> 
 #include <sys/wait.h> 
+#include <readline/readline.h>
+#include <readline/history.h>
 
-
+#define EXIT_PROGRAM 4
+#define SET_EXIT_STATUS 2
+#define GET_EXIT_STATUS 3
+#define EXIT_FAILURE 1
+#define MNSH_PATH_MAX 4096
 // Token types enumeration
 
 typedef enum {
@@ -104,17 +108,19 @@ typedef struct s_astnode {
 } t_astnode;
 
 char	*get_next_line(int fd);
-void	exec_cmd_line(t_astnode *ast, t_st *st);
-void	exec_cmd(t_astnode *ast, t_st *st);
+void	exec_cmd_line(t_astnode *ast, t_st *st, t_lst *env);
+void	exec_cmd(t_astnode *ast, t_st *st, t_lst *env);
 void	exec_pip(t_astnode *ast);
 void	exec_and(t_astnode *ast, t_st *st);
 void	exec_or(t_astnode *ast, t_st *st);
 t_lst	*envp(char **env);
 char	*get_env(t_lst *env, char *the_env);
-void	set_env(t_lst *lst, char *str_expo);
+void	set_env(t_lst *lst, char *key, char *new_value);
 void	ft_red_in(t_astnode *ast);
 void	ft_red_out(t_astnode *ast);
-void ft_redirection(t_astnode *ast);
-char *ft_expand(char *line);
-
+void	ft_redirection(t_astnode *ast);
+char	*ft_expand(char *line, t_lst *env);
+int ft_cd(int argc, char **argv, int mode, t_lst *env);
+char	*ft_pwd(void);
+int ft_exit(int status, int mode);
 #endif

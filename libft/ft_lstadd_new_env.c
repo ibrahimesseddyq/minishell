@@ -3,16 +3,18 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd_new_env.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 21:55:33 by ynachat           #+#    #+#             */
-/*   Updated: 2024/07/28 14:39:36 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/07/30 11:51:03 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-t_lst	*ft_lstadd_new_env(char *key, char signe, char *value)
+#include "libft.h"
+
+t_lst	*ft_lstadd_new_env(char *key, char *value)
 {
 	t_lst	*index;
 
@@ -20,7 +22,6 @@ t_lst	*ft_lstadd_new_env(char *key, char signe, char *value)
 	if (!index)
 		return (NULL);
 	index->key = key;
-	index->signe = signe;
     index->value = value;
 	index->next = NULL;
 	return (index);
