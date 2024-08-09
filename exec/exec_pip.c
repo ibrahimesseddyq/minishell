@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pip.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:00:51 by ynachat           #+#    #+#             */
-/*   Updated: 2024/07/25 22:00:52 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/08/03 09:31:56 by armanov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 // 	return (NULL);
 // }
 
-void exec_pip(t_astnode *ast)
+void exec_pip(t_astnode *ast, t_lst *env)
 {
 	// int		i;
 	// int		j;
@@ -59,7 +59,7 @@ void exec_pip(t_astnode *ast)
 	{
 		dup2(pipfd[1], 1);
 		close(pipfd[0]);
-		exec_cmd_line(ast->binary.left, &x);
+		exec_cmd_line(ast->binary.left, &x, env);
 		exit(0);
 		// if (execve(arg_cmds(cmd1[0]), arg_cmd1, NULL) == -1)
 		// {
@@ -72,7 +72,7 @@ void exec_pip(t_astnode *ast)
 	{
 		dup2(pipfd[0], 0);
 		close(pipfd[1]);
-		exec_cmd_line(ast->binary.right, &x);
+		exec_cmd_line(ast->binary.right, &x, env);
 		exit(0);
 		// if (execve(arg_cmds(cmd2[0]), arg_cmd2, NULL) == -1)
 		// {

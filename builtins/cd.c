@@ -34,6 +34,17 @@ int	append_char_to_string(char **s, char c)
 	r[size] = '\0';
 	return (free(*s), *s = r, 0);
 }
+char *expand_tilde(char *path, t_lst *env)
+{
+    if (path[0] == '~')
+    {
+        char *home = get_env(env, "HOME");
+        if (!home)
+            return ft_strdup(path);
+        return ft_strjoin(home, path + 1);
+    }
+    return ft_strdup(path);
+}
 
 static int update_pwd(char **old_pwd, int mode, t_lst *env)
 {
@@ -57,62 +68,79 @@ static int update_pwd(char **old_pwd, int mode, t_lst *env)
     return (0);
 }
 
-static int change_directory(const char *dir, t_lst *env)
-{
-    char *new_dir = NULL;
-
-    if (!dir)
-    {
-        if (!get_env(env, "HOME"))
-            return (perror("cd HOME environment variable not set"), -1);
-        new_dir = ft_strdup(get_env(env, "HOME"));
-    }
-    else
-        new_dir = ft_strdup(dir);
-    if (!new_dir)
-        return (perror("cd "), -1);
-    if (append_char_to_string(&new_dir, '/') == -1)
-        return (perror("cd"), -1);
-    if (chdir(new_dir) == -1)
-        return (perror("cd"), -1);
-    return (0);
-}
-
-static int go_to_home_directory(int mode, t_lst *env)
-{
-    char *home_directory;
-
-    home_directory = ft_strdup(get_env(env, "HOME"));
-    if (!home_directory)
-    {
-        ft_exit(EXIT_FAILURE, mode);
-        return -1;
-    }
-
-    if (chdir(home_directory) == -1)
-    {
-        perror("cd");
-        return -1;
-    }
-
-    return update_pwd(NULL, mode, env);
-}
+// static int change_directory(char *dir, t_lst *env)
+// {
+//     char *new_dir = NULL;
+//     if (!dir)
+//     {
+//         if (!get_env(env, "HOME"))
+//             return (perror("cd: HOME environment variable not set"), -1);
+//         new_dir = ft_strdup(get_env(env, "HOME"));
+//     }
+//     else
+//         new_dir = ft_strdup(dir);
+    
+//     if (!new_dir)
+//         return (perror("cd"), -1);
+    
+//     if (chdir(new_dir) == -1)
+//     {
+//         free(new_dir);
+//         return (perror("cd"), -1);
+//     }
+    
+//     free(new_dir);
+//     return (0);
+// }
 
 int ft_cd(int argc, char **argv, int mode, t_lst *env)
 {
-    char *previous_pwd;
+    char *dir = NULL;
+    char *expanded_dir = NULL;
+    char *previous_pwd = ft_pwd();
 
-    previous_pwd = ft_pwd();
-    if (!previous_pwd)
-        return (go_to_home_directory(mode, env), perror("cd"), ft_exit(EXIT_FAILURE, mode), 1);
-    if (argc > 1)
+    // printf("argc %d\n",argc);
+    if (argc > 2)
     {
-        if (change_directory(argv[1], env) == -1)
-            return (ft_exit(EXIT_FAILURE, mode), -1);
+        printf("minishell: cd: too many arguments\n");
+        ft_exit(EXIT_FAILURE, SET_EXIT_STATUS);
+        return (EXIT_FAILURE);
     }
-    else if (change_directory(NULL, env) == -1)
-        return (ft_exit(EXIT_FAILURE, mode), -1);
-    update_pwd(&previous_pwd, mode, env);
+    if (!previous_pwd)
+        return (perror("cd"), ft_exit(EXIT_FAILURE, mode), 1);
+
+    if (argc > 1 && strcmp(argv[1], "-") == 0)
+    {
+        dir = get_env(env, "OLDPWD");
+        if (!dir)
+            return (fprintf(stderr, "minishell: cd: OLDPWD not set\n"), free(previous_pwd), ft_exit(EXIT_FAILURE, mode), 1);
+    }
+    else if (argc > 1)
+    {
+        dir = argv[1];
+    }
+    else
+    {
+        dir = get_env(env, "HOME");
+        if (!dir)
+            return (fprintf(stderr, "minishell: cd: HOME not set\n"), free(previous_pwd), ft_exit(EXIT_FAILURE, mode), 1);
+    }
+
+    expanded_dir = expand_tilde(dir, env);
+    if (!expanded_dir)
+        return (perror("cd"), free(previous_pwd), ft_exit(EXIT_FAILURE, mode), 1);
+
+    if (chdir(expanded_dir) == -1)
+    {
+        perror("cd");
+        free(expanded_dir);
+        free(previous_pwd);
+        return (ft_exit(EXIT_FAILURE, mode), 1);
+    }
+
+    if (update_pwd(&previous_pwd, mode, env) == -1)
+        return (free(previous_pwd), ft_exit(EXIT_FAILURE, mode), 1);
+
     ft_exit(EXIT_SUCCESS, mode);
     return (0);
 }

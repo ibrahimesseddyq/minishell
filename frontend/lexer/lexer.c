@@ -1,5 +1,6 @@
 #include "../frontend.h"
-#define WORD ".[]\\-_\"\'&$"
+#define WORD ".[]\\-_\"\'&$/"
+
 t_lexer* init_lexer(char *input) {
     t_lexer *lexer = (t_lexer *)malloc(sizeof(t_lexer));
     lexer->input = input;
@@ -23,13 +24,30 @@ void skip_whitespace(t_lexer *lexer) {
     }
 }
 
-char* get_word(t_lexer *lexer) {
+char* get_word(t_lexer *lexer)
+{
     char *result = (char *)malloc(256 * sizeof(char));
     int i = 0;
-    while (lexer->currentchar != '\0' && !isspace(lexer->currentchar) && lexer->currentchar != '|' && lexer->currentchar != '&' && lexer->currentchar != ';' && lexer->currentchar != '(' && lexer->currentchar != ')' && lexer->currentchar != '>' && lexer->currentchar != '<') {
+    int in_quotes = 0;
+
+    // printf("befor the while\n");
+    while (lexer->currentchar != '\0' && 
+           (in_quotes || (!isspace(lexer->currentchar) && 
+                           lexer->currentchar != '|' && 
+                           lexer->currentchar != '&' && 
+                           lexer->currentchar != ';' && 
+                           lexer->currentchar != '(' && 
+                           lexer->currentchar != ')' && 
+                           lexer->currentchar != '>' && 
+                           lexer->currentchar != '<'))) {
+        if (lexer->currentchar == '"') {
+            in_quotes = !in_quotes;
+        }
         result[i++] = lexer->currentchar;
         advance(lexer);
     }
+    // printf("after the while\n");
+
     result[i] = '\0';
     return result;
 }
@@ -65,9 +83,6 @@ t_token* get_next_token(t_lexer *lexer) {
                 token->value = ft_strdup("&&");
                 return token;
             }
-            // TODO : redha word blasst illegal , w handli les cas suivants:
-            // Syntax error ila kant & bra lquotes  &fd "dsfds"
-            // Doz 3adi ila kant dakhl lquotes "&fd" dsfds
             t_token *token = (t_token *)malloc(sizeof(t_token));
             token->type = TK_ILLEGAL;
             token->value = ft_strdup("");
@@ -128,7 +143,8 @@ t_token* get_next_token(t_lexer *lexer) {
             return token;
         }
 
-        if (ft_isalnum(lexer->currentchar) || ft_strchr(WORD,lexer->currentchar)) {
+        if (ft_isalnum(lexer->currentchar) || ft_strchr(WORD,lexer->currentchar))
+        {
             char *word = get_word(lexer);
             t_token *token = (t_token *)malloc(sizeof(t_token));
             token->type = TK_WORD;
@@ -172,25 +188,11 @@ t_tklist* tokenize(char *input)
     free(token);
     free(lexer);
 
-    // Print tokens for debugging
-    // for (int j = 0; j < token_list->size; j++) {
-    //     printf("type: %d, value: %s\n", token_list->tokens[j].type, token_list->tokens[j].value);
-    // }
-
     return token_list;
 }
 
-// void print_tokens(t_tklist *token_list)
-// {
-//     // for (int i = 0; i < token_list->size; i++) {
-//     //     printf("Type: %d, Value: %s\n", token_list->tokens[i].type, token_list->tokens[i].value);
-//     // }
-// }
-
-
 t_token* peek_token(t_tklist *token_list) {
     if (token_list->curr_index < token_list->size) {
-        // printf("peek token is %s\n",token_list->tokens[token_list->curr_index].value);
         return &token_list->tokens[token_list->curr_index];
     }
     return NULL;
@@ -198,16 +200,16 @@ t_token* peek_token(t_tklist *token_list) {
 
 t_token* next_token(t_tklist *token_list) {
     if (token_list->curr_index < token_list->size) {
-        // printf("next token is %s\n",token_list->tokens[token_list->curr_index].value);
-
         return &token_list->tokens[token_list->curr_index++];
     }
     return NULL;
 }
+
 void set_beginning(t_tklist *token_list)
 {
     token_list->curr_index = 0;
 }
+
 t_token* peek_next_token(t_tklist *token_list, int offset) {
     if ((token_list->curr_index + offset) < token_list->size) {
         return &token_list->tokens[token_list->curr_index + offset];

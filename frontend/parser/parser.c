@@ -7,6 +7,7 @@ t_astnode *create_ast_command(int ac, char **av) {
     node->type = NODE_COMMAND;
     node->t_cmd.cmd = strdup(av[0]);
     node->t_cmd.args = (char **)malloc(sizeof(char *) * (ac + 1));
+    node->t_cmd.args_size= ac;
     for (int i = 0; i < ac; i++) {
         node->t_cmd.args[i] = strdup(av[i]);
     }

@@ -13,8 +13,12 @@
 #define GET_EXIT_STATUS 3
 #define EXIT_FAILURE 1
 #define MNSH_PATH_MAX 4096
-// Token types enumeration
+#define SUCCESS 1
+#define FAILURE -1
 
+
+// Token types enumeration
+typedef struct stat t_stat;
 typedef enum {
 	TOKEN_EOF = 0,
 	TK_LPR = 1,
@@ -86,6 +90,7 @@ typedef struct s_astnode {
 		struct s_cmd {
 			char *cmd;
 			char **args;
+			int args_size;
     		t_redir_list *redirections;
 			int flag_infiles;
 			int flag_outfiles;
@@ -109,10 +114,10 @@ typedef struct s_astnode {
 
 char	*get_next_line(int fd);
 void	exec_cmd_line(t_astnode *ast, t_st *st, t_lst *env);
-void	exec_cmd(t_astnode *ast, t_st *st, t_lst *env);
-void	exec_pip(t_astnode *ast);
-void	exec_and(t_astnode *ast, t_st *st);
-void	exec_or(t_astnode *ast, t_st *st);
+int	exec_cmd(t_astnode *ast, t_st *st, t_lst *env);
+void	exec_pip(t_astnode *ast, t_lst *env);
+void	exec_and(t_astnode *ast, t_st *st, t_lst *env);
+void	exec_or(t_astnode *ast, t_st *st, t_lst *env);
 t_lst	*envp(char **env);
 char	*get_env(t_lst *env, char *the_env);
 void	set_env(t_lst *lst, char *key, char *new_value);
@@ -123,4 +128,8 @@ char	*ft_expand(char *line, t_lst *env);
 int ft_cd(int argc, char **argv, int mode, t_lst *env);
 char	*ft_pwd(void);
 int ft_exit(int status, int mode);
+int				ft_echo(char **args);
+void ft_env(t_lst *env_list);
+int my_exit(char **argv, int argc);
+void ft_export(char *str, t_lst *lst);
 #endif
