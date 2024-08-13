@@ -17,9 +17,9 @@
 #define FAILURE -1
 
 
-// Token types enumeration
 typedef struct stat t_stat;
-typedef enum {
+typedef enum
+{
 	TOKEN_EOF = 0,
 	TK_LPR = 1,
 	TK_RPR = 2,
@@ -40,7 +40,8 @@ typedef enum {
 } tk_type;
 
 // Define node types
-typedef enum {
+typedef enum
+{
 	NODE_COMMAND,
 	NODE_PIPE,
 	NODE_INPUT_REDIRECT,
@@ -57,26 +58,33 @@ typedef enum {
 } node_type;
 
 // Token structure
-typedef struct s_token {
+typedef struct s_token
+{
 	tk_type type;
 	char *value;
 } t_token;
 
 // Token list structure
-typedef struct s_tklist {
+typedef struct s_tklist
+{
 	t_token *tokens;
 	int curr_index;
 	int size;
 } t_tklist;
 
 // Lexer structure
-typedef struct s_lexer {
+typedef struct s_lexer
+{
 	char currentchar;
 	int pos;
 	char *input;
 } t_lexer;
 
 // Redirection structure
+typedef struct s_arg_node {
+    char *arg;
+    struct s_arg_node *next;
+} t_arg_node;
 
 typedef struct s_status {
 	int status;
@@ -89,7 +97,7 @@ typedef struct s_astnode {
 	union {
 		struct s_cmd {
 			char *cmd;
-			char **args;
+			t_arg_node *args;
 			int args_size;
     		t_redir_list *redirections;
 			int flag_infiles;
@@ -108,7 +116,7 @@ typedef struct s_astnode {
 		} redirect;
 		struct {
 			struct s_astnode* child;
-		} block; // Added block member < file.txt cat
+		} block;
 	};
 } t_astnode;
 

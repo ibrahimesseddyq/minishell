@@ -99,7 +99,6 @@ int ft_cd(int argc, char **argv, int mode, t_lst *env)
     char *expanded_dir = NULL;
     char *previous_pwd = ft_pwd();
 
-    // printf("argc %d\n",argc);
     if (argc > 2)
     {
         printf("minishell: cd: too many arguments\n");

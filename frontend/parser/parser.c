@@ -2,21 +2,38 @@
 
 
 
-t_astnode *create_ast_command(int ac, char **av) {
+t_astnode *create_ast_command(int ac, char **av)
+{
     t_astnode *node = (t_astnode *)malloc(sizeof(t_astnode));
     node->type = NODE_COMMAND;
     node->t_cmd.cmd = strdup(av[0]);
-    node->t_cmd.args = (char **)malloc(sizeof(char *) * (ac + 1));
-    node->t_cmd.args_size= ac;
-    for (int i = 0; i < ac; i++) {
-        node->t_cmd.args[i] = strdup(av[i]);
+    node->t_cmd.args = NULL;
+
+    t_arg_node *current = NULL;
+    for (int i = 0; i < ac; i++)
+    {
+        t_arg_node *new_node = (t_arg_node *)malloc(sizeof(t_arg_node));
+        new_node->arg = strdup(av[i]);
+        // printf("")
+        new_node->next = NULL;
+
+        if (node->t_cmd.args == NULL)
+        {
+            node->t_cmd.args = new_node;
+            current = new_node;
+        }
+        else
+        {
+            current->next = new_node;
+            current = new_node;
+        }
     }
-    node->t_cmd.args[ac] = NULL;
-    // printf("node->t_cmd.args[0] = %s\n", node->t_cmd.args[0]);
+
+    node->t_cmd.args_size = ac - 1;
     node->t_cmd.redirections = NULL;
     node->t_cmd.flag_infiles = 0;
     node->t_cmd.flag_outfiles = 0;
-    
+
     return node;
 }
 

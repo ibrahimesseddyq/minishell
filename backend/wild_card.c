@@ -33,11 +33,9 @@ char** filterStrings(const char *pattern, const char *texts[], int numTexts, int
     *numMatches = 0;
 
     for (int i = 0; i < numTexts; i++) {
-        printf("text[i]: %s, pattern: %s\n", texts[i], pattern);
         if (match(pattern, texts[i])) {
             matches[*numMatches] = malloc((strlen(texts[i]) + 1) * sizeof(char));
             strcpy(matches[*numMatches], texts[i]);
-            printf("Match found: %s\n", texts[i]);
             (*numMatches)++;
         }
     }
@@ -83,17 +81,10 @@ void wildcard(char **pattern, int level, const char *pwd, int levels, char ***fo
 
     int numFiles = 0;
     char **files = get_files(pwd, &numFiles);
-    printf("Directory: %s, Level: %d\n", pwd, level);
-    for (int i = 0; i < numFiles; i++) {
-        printf("File: %s\n", files[i]);
-    }
-
     int numMatches = 0;
     char **validPaths = filterStrings(pattern[level], (const char **)files, numFiles, &numMatches);
 
-    for (int i = 0; i < numMatches; i++) {
-        printf("Valid path: %s\n", validPaths[i]);
-    }
+ 
 
     for (int i = 0; i < numMatches; i++) {
         char nextPath[1024];
@@ -127,7 +118,6 @@ int main() {
 
     wildcard(pattern, 0, ".", levels, &found_files, &found_count);
 
-    printf("Matching files:\n");
     for (int i = 0; i < found_count; i++) {
         printf("%s\n", found_files[i]);
         free(found_files[i]);

@@ -4,7 +4,6 @@ void ft_env(t_lst *env_list)
 {
     t_lst *current = env_list;
     
-    printf("ssd\n");
     while (current != NULL)
     {
         // TO FIX : doesnt print =
