@@ -6,7 +6,7 @@
 /*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:11:05 by ynachat           #+#    #+#             */
-/*   Updated: 2024/08/13 15:34:51 by armanov          ###   ########.fr       */
+/*   Updated: 2024/08/14 17:53:22 by armanov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,17 @@ void	set_env(t_lst *lst, char *key, char *new_value)
 	tmp = lst;
 	while (lst)
 	{
+
 		if (ft_strcmp(lst->key, key) == 0)
 		{
-			lst->value = new_value;
+			// printf("key1 %s key2 %s\nvalue1 %s value2 %s\n",key, lst->key,new_value, lst->value);
+			lst->value = ft_strdup(new_value);
 			return ;
 		}
 		lst = lst->next;
 	}
 	lst = tmp;
+	// printf("[before lstaddenv ]key is %s and new value is %s\n",key, new_value);
 	new = ft_lstadd_new_env(key, new_value);
 	ft_lstadd_back_env(&lst, new);
 }

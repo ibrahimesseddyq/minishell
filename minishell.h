@@ -11,7 +11,7 @@
 #define EXIT_PROGRAM 4
 #define SET_EXIT_STATUS 2
 #define GET_EXIT_STATUS 3
-#define EXIT_FAILURE 1
+#define EXIT_FAILURE 258
 #define MNSH_PATH_MAX 4096
 #define SUCCESS 1
 #define FAILURE -1

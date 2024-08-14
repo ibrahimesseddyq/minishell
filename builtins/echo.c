@@ -13,7 +13,20 @@ static int nb_args(char **args)
         size++;
     return (size);
 }
+int check_just_n(char *arg)
+{
+    int i;
 
+    i = 0;
+    while(arg[i])
+    {
+        if(arg[i] != 'n') 
+            return (0);
+        i++;
+    }
+    return (1);
+
+}
 int ft_echo(char **args)
 {
     int i = 1;
@@ -22,8 +35,10 @@ int ft_echo(char **args)
     if (nb_args(args) > 1)
     {
         // Check for -n option(s)
-        while (args[i] && ft_strcmp(args[i], "-n") == 0)
+        while (args[i] && ft_strncmp(args[i], "-", 1) == 0)
         {
+            if(!check_just_n(args[i] + 1))
+                break;
             n_option = true;
             i++;
         }

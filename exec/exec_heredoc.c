@@ -10,13 +10,6 @@ void execute_heredoc(t_redir *redir) {
         }
         fwrite(line, 1, read, heredoc_file);
     }
-
-    free(line);
     rewind(heredoc_file);
-
-    // Pass the heredoc content as standard input to the command
-    // using pipes or temporary files
-    // ...
-
     fclose(heredoc_file);
 }

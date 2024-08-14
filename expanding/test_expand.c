@@ -87,7 +87,6 @@ char *ft_expand(char *line, t_lst *env)
                     char *varName = malloc(varNameLen + 1);
                     if (!varName)
                     {
-                        free(expanded_line);
                         return NULL;
                     }
 
@@ -109,8 +108,6 @@ char *ft_expand(char *line, t_lst *env)
                                     char *new_expanded_line = realloc(expanded_line, expanded_size);
                                     if (!new_expanded_line)
                                     {
-                                        free(expanded_line);
-                                        free(varName);
                                         return NULL;
                                     }
                                     expanded_line = new_expanded_line;
@@ -120,7 +117,6 @@ char *ft_expand(char *line, t_lst *env)
                             value++;
                         }
                     }
-                    free(varName);
                 }
             }
             else
@@ -132,7 +128,6 @@ char *ft_expand(char *line, t_lst *env)
                     char *new_expanded_line = realloc(expanded_line, expanded_size);
                     if (!new_expanded_line)
                     {
-                        free(expanded_line);
                         return NULL;
                     }
                     expanded_line = new_expanded_line;
@@ -149,7 +144,6 @@ char *ft_expand(char *line, t_lst *env)
                 char *new_expanded_line = realloc(expanded_line, expanded_size);
                 if (!new_expanded_line)
                 {
-                    free(expanded_line);
                     return NULL;
                 }
                 expanded_line = new_expanded_line;

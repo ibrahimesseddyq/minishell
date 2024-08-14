@@ -134,7 +134,6 @@ t_astnode *parse_cmd(t_tklist *tokens)
             token = next_token(tokens); // Get the filename token
             if (!token || token->type != TK_WORD) {
                 // Handle error: expected filename after redirection operator
-                free(redir);
                 return NULL;
             }
 
@@ -143,7 +142,6 @@ t_astnode *parse_cmd(t_tklist *tokens)
             t_redir_list *redir_node = malloc(sizeof(t_redir_list));
             if (!redir_node) {
                 // Handle memory allocation error
-                free(redir);
                 return NULL;
             }
             redir_node->redir = redir;
@@ -177,7 +175,6 @@ t_astnode *parse_cmd(t_tklist *tokens)
 
                 if (strcmp(line, delimiter) == 0) {
                     // Delimiter found, end of heredoc
-                    free(line);
                     break;
                 }
 
@@ -190,11 +187,9 @@ t_astnode *parse_cmd(t_tklist *tokens)
                 } else {
                     // Handle buffer overflow
                     printf("Heredoc content exceeds buffer size\n");
-                    free(line);
                     return NULL;
                 }
 
-                free(line);
             }
 
             current_heredoc->redir->heredoc = strdup(heredoc_content);

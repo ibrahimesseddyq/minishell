@@ -6,7 +6,7 @@
 /*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/08/13 16:59:41 by armanov          ###   ########.fr       */
+/*   Updated: 2024/08/14 16:28:04 by armanov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,19 +20,10 @@
 
 static void replace_node_args(t_arg_node **node, char **expanded_args, int count)
 {
-    t_arg_node *current = *node;
     t_arg_node *prev = NULL;
     t_arg_node *new_node;
     int i;
 
-    // Free the original node(s)
-    while (current)
-    {
-        t_arg_node *temp = current;
-        current = current->next;
-        free(temp->arg);
-        free(temp);
-    }
 
     // Create and link new nodes with expanded arguments
     for (i = 0; i < count; i++)
@@ -42,11 +33,6 @@ static void replace_node_args(t_arg_node **node, char **expanded_args, int count
         {
             perror("malloc");
             // Free any previously allocated nodes
-            while (i-- > 0)
-            {
-                free(expanded_args[i]);
-            }
-            free(expanded_args);
             return;
         }
         new_node->arg = expanded_args[i];
@@ -78,7 +64,6 @@ void expand_wildcards_in_list(t_arg_node *args)
     char **expanded_args;
     int expanded_count;
     int array_size;
-    int i;
 
     while (current)
     {
@@ -121,9 +106,6 @@ void expand_wildcards_in_list(t_arg_node *args)
                             perror("realloc");
                             closedir(dir);
                             // Free previously allocated strings
-                            for (i = 0; i < expanded_count; i++)
-                                free(expanded_args[i]);
-                            free(expanded_args);
                             return;
                         }
                         expanded_args = new_expanded_args;
@@ -135,9 +117,6 @@ void expand_wildcards_in_list(t_arg_node *args)
                         perror("strdup");
                         closedir(dir);
                         // Free previously allocated strings
-                        for (i = 0; i < expanded_count; i++)
-                            free(expanded_args[i]);
-                        free(expanded_args);
                         return;
                     }
                     expanded_count++;
@@ -156,7 +135,6 @@ void expand_wildcards_in_list(t_arg_node *args)
             replace_node_args(&current, expanded_args, expanded_count);
 
             // Free the expanded_args array (only the array, not the strings it points to)
-            free(expanded_args);
 
             // Update the next_node after replacement to ensure it points to the correct node
             next_node = current->next;
@@ -166,8 +144,6 @@ void expand_wildcards_in_list(t_arg_node *args)
     }
 
 }
-
-
 
 static char *arg_cmds(char *cmd, t_lst *env)
 {
@@ -180,22 +156,17 @@ static char *arg_cmds(char *cmd, t_lst *env)
         !ft_strcmp(cmd, "pwd") || !ft_strcmp(cmd, "env") || 
         !ft_strcmp(cmd, "exit") || !ft_strcmp(cmd, "export"))
     {
-        return strdup(cmd);
+        return ft_strdup(cmd);
     }
 
     path = ft_split(get_env(env, "PATH"), ':');
     if (!path)
-        return strdup(cmd);  // If PATH is not set, return the command as is
+        return ft_strdup(cmd);  // If PATH is not set, return the command as is
 
     char *cmd_with_slash = ft_strjoin("/", cmd);
-
     if (!cmd_with_slash)
     {
-        // Free path array
-        for (int i = 0; path[i]; i++)
-            free(path[i]);
-        free(path);
-        return strdup(cmd);
+        return ft_strdup(cmd);
     }
 
     for (int i = 0; path[i]; i++)
@@ -205,23 +176,14 @@ static char *arg_cmds(char *cmd, t_lst *env)
             continue;
         if (access(tmp, F_OK | X_OK) == 0)
         {
-            // Free path array and cmd_with_slash
-            for (int j = 0; path[j]; j++)
-                free(path[j]);
-            free(path);
             free(cmd_with_slash);
             return tmp;
         }
         free(tmp);
     }
 
-    // Free path array and cmd_with_slash
-    for (int i = 0; path[i]; i++)
-        free(path[i]);
-    free(path);
     free(cmd_with_slash);
-
-    return strdup(cmd);  // If not found in PATH, return the command as is
+    return ft_strdup(cmd);  // If not found in PATH, return the command as is
 }
 static int	count_env_vars(t_lst *env)
 {
@@ -275,24 +237,40 @@ t_arg_node	*get_node_at(t_arg_node *lst, int pos)
 	return (NULL);
 }
 
-char	**list_to_array(t_arg_node *lst, int size)
+char **list_to_array(t_arg_node *lst)
 {
-	char	**array;
-	int		i;
+    int size = 0;
+    t_arg_node *current = lst;
 
-	array = malloc(sizeof(char *) * (size + 1));
-	if (!array)
-		return (NULL);
-	i = 0;
-	while (i <= size)
-	{
-		array[i] = ft_strdup(get_node_at(lst, i)->arg);
-		i++;
-	}
-	array[i] = NULL;
-	return (array);
+    // Count the number of nodes
+    while (current)
+    {
+        size++;
+        current = current->next;
+    }
+
+    char **array = malloc(sizeof(char *) * (size + 1));
+    if (!array)
+        return NULL;
+
+    current = lst;
+    for (int i = 0; i < size; i++)
+    {
+        if (current)
+        {
+            array[i] = ft_strdup(current->arg);
+            current = current->next;
+        }
+        else
+        {
+            // This should not happen, but just in case
+            array[i] = NULL;
+        }
+    }
+    array[size] = NULL;
+
+    return array;
 }
-
 
 char **split_string(char *str)
 {
@@ -304,7 +282,6 @@ char **split_string(char *str)
         count++;
         token = strtok(NULL, " ");
     }
-    free(tmp);
 
     char **result = malloc(sizeof(char *) * (count + 1));
     if (!result)
@@ -320,7 +297,6 @@ char **split_string(char *str)
         token = strtok(NULL, " ");
     }
     result[i] = NULL;
-    free(tmp);
 
     return result;
 }
@@ -339,17 +315,20 @@ int exec_cmd(t_astnode *ast, t_st *st, t_lst *env)
     int i = 0;
     while (get_node_at(ast->t_cmd.args, i))
     {
-		char *expanded_arg = ft_expand(get_node_at(ast->t_cmd.args, i)->arg, env);
-        free(get_node_at(ast->t_cmd.args, i)->arg);
+        char *expanded_arg = ft_expand(get_node_at(ast->t_cmd.args, i)->arg, env);
+        free(get_node_at(ast->t_cmd.args, i)->arg);  // Free the old argument
         get_node_at(ast->t_cmd.args, i)->arg = expanded_arg;
         i++;
     }
+
+    // Update args_size after expansion
+    ast->t_cmd.args_size = i;
 
     // Split the first argument if it contains spaces
     char **split_cmd = ft_split(get_node_at(ast->t_cmd.args, 0)->arg, ' ');
     if (split_cmd && split_cmd[0])
     {
-        free(get_node_at(ast->t_cmd.args, 0)->arg);
+        free(get_node_at(ast->t_cmd.args, 0)->arg);  // Free the old argument
         get_node_at(ast->t_cmd.args, 0)->arg = strdup(split_cmd[0]);
 
         // Insert additional arguments
@@ -363,35 +342,30 @@ int exec_cmd(t_astnode *ast, t_st *st, t_lst *env)
             current = new_node;
             ast->t_cmd.args_size++; // Increase the argument count
         }
-
-        // Free the split_cmd array
-        for (int j = 0; split_cmd[j]; j++)
-            free(split_cmd[j]);
-        free(split_cmd);
     }
 
+    // Free split_cmd
+    for (int j = 0; split_cmd[j]; j++)
+        free(split_cmd[j]);
+    free(split_cmd);
+
+	printf("arg size is %d\n",ast->t_cmd.args_size);
     // Convert the argument list to an array
-    char **arg_cmd = list_to_array(ast->t_cmd.args, ast->t_cmd.args_size);
+    char **arg_cmd = list_to_array(ast->t_cmd.args);
     if (!arg_cmd)
     {
         perror("malloc");
         return (1);
     }
-
     // Replace the first argument with its executable path
     char *cmd_path = arg_cmds(arg_cmd[0], env);
     if (cmd_path)
     {
-        free(arg_cmd[0]);
+        free(arg_cmd[0]);  // Free the old command
         arg_cmd[0] = cmd_path;
     }
 
     pid = fork();
-	printf("args\n");
-	for(int i =0;arg_cmd[i];i++)
-	{
-		printf("arg_cmd[i]= %s\n",arg_cmd[i]);
-	}
     if (pid == 0)
     {
         ft_redirection(ast);
@@ -412,7 +386,6 @@ int exec_cmd(t_astnode *ast, t_st *st, t_lst *env)
             char **envp = build_envp(env);
             if (!envp)
             {
-                free(arg_cmd);
                 ft_exit(1, SET_EXIT_STATUS);
             }
             exit_status = execve(arg_cmd[0], arg_cmd, envp);
@@ -435,11 +408,6 @@ int exec_cmd(t_astnode *ast, t_st *st, t_lst *env)
         perror("fork");
         ft_exit(1, SET_EXIT_STATUS);
     }
-
-    // Free the arg_cmd array
-    for (i = 0; arg_cmd[i]; i++)
-        free(arg_cmd[i]);
-    free(arg_cmd);
 
     return (1);
 }

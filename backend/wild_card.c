@@ -97,15 +97,7 @@ void wildcard(char **pattern, int level, const char *pwd, int levels, char ***fo
             add_to_found(found_files, found_count, nextPath);
         }
 
-        free(validPaths[i]);
     }
-
-    free(validPaths);
-
-    for (int i = 0; i < numFiles; i++) {
-        free(files[i]);
-    }
-    free(files);
 }
 
 // Main function for testing
@@ -120,9 +112,7 @@ int main() {
 
     for (int i = 0; i < found_count; i++) {
         printf("%s\n", found_files[i]);
-        free(found_files[i]);
     }
-    free(found_files);
 
     return 0;
 }

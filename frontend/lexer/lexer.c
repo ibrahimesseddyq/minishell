@@ -184,9 +184,6 @@ t_tklist* tokenize(char *input)
     token_list->tokens = (t_token *)realloc(token_list->tokens, token_list->size * sizeof(t_token));
     token_list->tokens[token_list->size - 1] = *token;
 
-    // Free the lexer
-    free(token);
-    free(lexer);
 
     return token_list;
 }

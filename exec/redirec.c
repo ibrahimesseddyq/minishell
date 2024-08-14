@@ -14,8 +14,6 @@ static char	*arg_cmds(char *cmd)
 		tmp = ft_strjoin(*path, cmd);
 		if (access(tmp, F_OK) == 0)
 			return(tmp);			
-		else
-			free(tmp);
 		path++;
 	}
 	return (NULL);

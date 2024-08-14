@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_split.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 01:22:32 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/05/12 08:17:51 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/08/13 18:29:25 by armanov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +53,6 @@ static char	*ft_strndup(const char *s1, int n)
 	return (new);
 }
 
-static char	**free2d(char **arr, int index)
-{
-	int	i;
-
-	i = 0;
-	while (index - i >= 0)
-	{
-		free(arr[index - i]);
-		i++;
-	}
-	free(arr);
-	return (NULL);
-}
-
 char	**ft_split(char const *s, char c)
 {
 	int		i;
@@ -88,7 +74,7 @@ char	**ft_split(char const *s, char c)
 			i++;
 		arr[index] = ft_strndup(s, i);
 		if (arr[index] == NULL)
-			return (free2d(arr, index));
+			return (NULL);
 		while (*s && *s != c)
 			s++;
 	}

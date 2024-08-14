@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lst_clear_env.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 21:55:48 by ynachat           #+#    #+#             */
-/*   Updated: 2024/07/14 22:38:01 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/08/13 18:28:44 by armanov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	ft_lst_clear_env(t_lst **lst)
 	while (*lst)
 	{
 		l = (*lst)->next;
-		free(*lst);
 		*lst = l;
 	}
 	*lst = NULL;
