@@ -46,7 +46,7 @@ char *ft_expand(char *line, t_lst *env)
         {
             is_inside_quotes = 1;
             current_quote = start[i];
-            i++;  // Skip the opening quote
+            i++;
             continue;
         }
         else if (is_inside_quotes && start[i] == current_quote)
@@ -84,6 +84,7 @@ char *ft_expand(char *line, t_lst *env)
                             expanded_line = new_expanded_line;
                         }
                         expanded_line[expanded_index++] = exit_status_str[j];
+                        printf("exit_status_str[j] = %c\n", exit_status_str[j]);
                     }
                     i++;
                 }

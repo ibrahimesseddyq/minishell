@@ -1,0 +1,4 @@
+1  echo 2
+minishell:>$ exit 2
+1  file 2
+minishell:>$ exit 2

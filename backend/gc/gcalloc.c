@@ -69,7 +69,7 @@ void gc_free_all(void)
     t_allocation **list_ptr = get_gc_list();
     t_allocation *current = *list_ptr;
     t_allocation *next;
-    int *allocated = how_many_allocated();
+    // int *allocated = how_many_allocated();
     int freed = 0;
 
     while (current != NULL)

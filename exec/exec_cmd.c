@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/08/19 10:17:18 by armanov          ###   ########.fr       */
+/*   Updated: 2024/08/19 18:11:57 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,10 +90,11 @@ void handle_exec_error(const char *cmd)
     }
 }
 
-static void replace_node_args(t_arg_node **node, char **expanded_args, int count)
+static t_arg_node *replace_node_args(t_arg_node *current, char **expanded_args, int count)
 {
     t_arg_node *prev = NULL;
-    t_arg_node *new_node;
+    t_arg_node *new_node = NULL;
+    t_arg_node *first_new_node = NULL;
     int i;
 
     for (i = 0; i < count; i++)
@@ -102,19 +103,25 @@ static void replace_node_args(t_arg_node **node, char **expanded_args, int count
         if (!new_node)
         {
             perror("gcalloc");
-            return;
+            return NULL;
         }
         new_node->arg = expanded_args[i];
         new_node->next = NULL;
+
         if (prev)
             prev->next = new_node;
         else
-            *node = new_node;
+            first_new_node = new_node;
+
         prev = new_node;
     }
+
     if (prev)
-        prev->next = NULL;
+        prev->next = current->next;
+
+    return prev; // Return the last node in the new sequence
 }
+
  
 int	count_args(char **args)
 {
@@ -129,19 +136,30 @@ int	count_args(char **args)
 void expand_wildcards_in_list(t_arg_node *args)
 {
     t_arg_node *current = args;
+
     while (current)
     {
         if (strchr(current->arg, '*'))
         {
             char **expanded_args = expand_wildcard(current->arg);
+
             if (expanded_args && expanded_args[0])
             {
-                replace_node_args(&current, expanded_args, count_args(expanded_args));
+                t_arg_node *new_start_node = replace_node_args(current, expanded_args, count_args(expanded_args));
+                if (new_start_node)
+                {
+                    current = new_start_node;
+                    while (current && current->next)
+                    {
+                        current = current->next;
+                    }
+                }
             }
         }
         current = current->next;
     }
 }
+
 char **split_string(char *str)
 {
     int count = 0;
@@ -206,10 +224,15 @@ char *arg_cmds(char *cmd, t_lst *env)
     char *cmd_path = find_command_in_path(cmd, path_dirs);
     return cmd_path ? cmd_path : ft_strdup(cmd);
 }
+// a = ls -l
+// array[2] = [ls, -l]
+// echo -> $a -> hello
+// echo -> ls -> -l -> hello -> $b
 void expand_arguments(t_astnode *ast, t_lst *env)
 {
     int i = 0;
     t_arg_node *current = ast->t_cmd.args;
+    t_arg_node *head = current;
     char *expanded_arg;
 
     while (current)
@@ -218,16 +241,16 @@ void expand_arguments(t_astnode *ast, t_lst *env)
         if (expanded_arg[0] != '"' && expanded_arg[0] != '\'')
         {
             char **split_args = split_string(expanded_arg);
-            for(int i=0; split_args[i]; i++)
-            {
-                printf("argument %s\n",split_args[i]);
-            }
+
             if (split_args)
             {
-                t_arg_node *next_node = current->next;
-                replace_node_args(&current, split_args, count_args(split_args));
+                t_arg_node *last_new_node = replace_node_args(current, split_args, count_args(split_args));
+                if (head == current)
+                {
+                    head = last_new_node;
+                }
+                current = last_new_node->next; 
                 i += count_args(split_args);
-                current = next_node;
             }
             else
             {
@@ -240,6 +263,12 @@ void expand_arguments(t_astnode *ast, t_lst *env)
             current = current->next;
             i++;
         }
+    }
+
+    while (head)
+    {
+        printf("argument %s\n", head->arg);
+        head = head->next;
     }
     ast->t_cmd.args_size = i;
 }
