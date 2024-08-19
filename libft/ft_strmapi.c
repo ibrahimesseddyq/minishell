@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strmapi.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 01:28:25 by ibes-sed          #+#    #+#             */
-/*   Updated: 2023/12/01 16:16:27 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/08/15 18:31:23 by armanov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*ft_strmapi(char const *s, char (*f)(unsigned int, char))
 	if (!s || !f)
 		return (0);
 	len = ft_strlen(s);
-	index = (char *)malloc(sizeof(char) * len + 1);
+	index = (char *)gcalloc(sizeof(char) * len + 1);
 	if (!index)
 		return (NULL);
 	while (i < len)

@@ -11,7 +11,7 @@
 #define EXIT_PROGRAM 4
 #define SET_EXIT_STATUS 2
 #define GET_EXIT_STATUS 3
-#define EXIT_FAILURE 258
+#define EXIT_FAIL 2
 #define MNSH_PATH_MAX 4096
 #define SUCCESS 1
 #define FAILURE -1
@@ -121,14 +121,14 @@ typedef struct s_astnode {
 } t_astnode;
 
 char	*get_next_line(int fd);
-void	exec_cmd_line(t_astnode *ast, t_st *st, t_lst *env);
-int	exec_cmd(t_astnode *ast, t_st *st, t_lst *env);
+void	exec_cmd_line(t_astnode *ast, t_lst *env);
+int exec_cmd(t_astnode *ast, t_lst *env);
 void	exec_pip(t_astnode *ast, t_lst *env);
-void	exec_and(t_astnode *ast, t_st *st, t_lst *env);
-void	exec_or(t_astnode *ast, t_st *st, t_lst *env);
+void	exec_and(t_astnode *ast, t_lst *env);
+void	exec_or(t_astnode *ast, t_lst *env);
 t_lst	*envp(char **env);
 char	*get_env(t_lst *env, char *the_env);
-void	set_env(t_lst *lst, char *key, char *new_value);
+void	set_env(t_lst *lst, char *key, char *new_value, int sign);
 void	ft_red_in(t_astnode *ast);
 void	ft_red_out(t_astnode *ast);
 void	ft_redirection(t_astnode *ast);
@@ -139,5 +139,6 @@ int ft_exit(int status, int mode);
 int				ft_echo(char **args);
 void ft_env(t_lst *env_list);
 int my_exit(char **argv, int argc);
-void ft_export(char *str, t_lst *lst);
+void ft_export(char **str, t_lst *lst);
+void gc_free_all(void);
 #endif

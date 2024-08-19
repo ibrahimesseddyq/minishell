@@ -6,7 +6,7 @@
 /*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:00:51 by ynachat           #+#    #+#             */
-/*   Updated: 2024/08/03 09:31:56 by armanov          ###   ########.fr       */
+/*   Updated: 2024/08/19 00:42:29 by armanov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,8 +45,6 @@ void exec_pip(t_astnode *ast, t_lst *env)
 	// char	**cmd2;
 	// i = 0;
 	// j = 0;
-	t_st x;
-	// printf("%d\n", ast->type);
 	// exit(1);
 	// cmd1 = ast->binary.left->t_cmd.args;
 	// cmd2 = ast->binary.right->t_cmd.args;
@@ -59,7 +57,7 @@ void exec_pip(t_astnode *ast, t_lst *env)
 	{
 		dup2(pipfd[1], 1);
 		close(pipfd[0]);
-		exec_cmd_line(ast->binary.left, &x, env);
+		exec_cmd_line(ast->binary.left, env);
 		exit(0);
 		// if (execve(arg_cmds(cmd1[0]), arg_cmd1, NULL) == -1)
 		// {
@@ -72,7 +70,7 @@ void exec_pip(t_astnode *ast, t_lst *env)
 	{
 		dup2(pipfd[0], 0);
 		close(pipfd[1]);
-		exec_cmd_line(ast->binary.right, &x, env);
+		exec_cmd_line(ast->binary.right, env);
 		exit(0);
 		// if (execve(arg_cmds(cmd2[0]), arg_cmd2, NULL) == -1)
 		// {

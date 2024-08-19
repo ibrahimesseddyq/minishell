@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   export.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/28 09:58:19 by ynachat           #+#    #+#             */
-/*   Updated: 2024/07/28 10:06:53 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/08/19 10:28:43 by armanov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,24 +27,47 @@ int find_keyx(char *)
 	return (0);
 }
 
-char	*export(char *str_expo, t_lst *lst)
+void ft_export(char **str, t_lst *lst)
 {
-	int	i;
-	int k;
-// char **key, char *the_env
-	i = 0;
-	k = 0;
-	if (!str_expo)
-		return (NULL);
-	while (str_expo)
-	{	
-		k =  find_keyx(key[i], the_env);
-		if (k == 1)
-			return (ft_strchr(key[i], '=') + 1);
-		i++;
-	}
-	return (NULL);
+    int exist;
+    char **str_split;
+    int i;
+    i = 1;
+    if (!str[1])
+    {
+        print_export(lst);
+    }
+    else
+    {
+        while(str[i])
+        {
+            exist = get_symbol_exist(str[i], '=');
+            if(exist)
+            {
+                str_split = ft_split(str[i], '=');
+                if(!str_split)
+                    return ;
+                
+                // Remove leading and trailing quotes from the value
+                char *value = str_split[1];
+                while (*value && (*value == '\'' || *value == '\"'))
+                {
+                    value++;
+                }
+                int value_len = strlen(value);
+                while (value_len > 0 && (value[value_len - 1] == '\'' || value[value_len - 1] == '\"'))
+                {
+                    value_len--;
+                }
+                value[value_len] = '\0';
+                
+                set_env(lst, str_split[0], value, exist);
+            }
+            else
+            {
+                set_env(lst, str[i], "", exist);
+            }
+            i++;
+        }
+    } 
 }
-
-
-

@@ -11,7 +11,7 @@ char *get_env(t_lst *env, char *the_env)
     while (env)  // Changed from env->next to env
     {
         if (!env->key)
-            return (printf("key is null\n"), NULL);
+            return (NULL);
         if (strcmp(env->key, the_env) == 0)
             return (env->value);
         env = env->next;

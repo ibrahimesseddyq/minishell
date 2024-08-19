@@ -18,7 +18,7 @@ char *ft_itoa(int num)
     // Calculate the length of the number
     while (temp_num /= 10)
         len++;
-    char *str = malloc(len + 1); // +1 for null terminator
+    char *str = gcalloc(len + 1); // +1 for null terminator
     if (!str) return NULL;
     str[len] = '\0'; // null terminator
     while (len--) {
@@ -29,7 +29,6 @@ char *ft_itoa(int num)
         str[0] = '-';
     return str;
 }
-
 char *ft_expand(char *line, t_lst *env)
 {
     int is_inside_quotes = 0;
@@ -37,7 +36,7 @@ char *ft_expand(char *line, t_lst *env)
     char *start = line;
     int i = 0;
     int expanded_size = 64;
-    char *expanded_line = malloc(expanded_size);
+    char *expanded_line = gcalloc(expanded_size);
     if (!expanded_line) return NULL;
     int expanded_index = 0;
 
@@ -67,7 +66,26 @@ char *ft_expand(char *line, t_lst *env)
                 if (start[i] == '?')
                 {
                     // Handle $? expansion
-                    // ... (existing code for $? expansion)
+                    char *exit_status_str = ft_itoa(ft_exit(4, GET_EXIT_STATUS));
+                    if (!exit_status_str)
+                    {
+                        return NULL;
+                    }
+                    for (int j = 0; exit_status_str[j]; j++)
+                    {
+                        if (expanded_index >= expanded_size - 1)
+                        {
+                            expanded_size *= 2;
+                            char *new_expanded_line = realloc(expanded_line, expanded_size);
+                            if (!new_expanded_line)
+                            {
+                                return NULL;
+                            }
+                            expanded_line = new_expanded_line;
+                        }
+                        expanded_line[expanded_index++] = exit_status_str[j];
+                    }
+                    i++;
                 }
                 else if (start[i] == ' ' || start[i] == '\0' || start[i] == '\'' || start[i] == '\"')
                 {
@@ -80,11 +98,12 @@ char *ft_expand(char *line, t_lst *env)
                     int varNameLen = 0;
                     while (start[i + varNameLen] && start[i + varNameLen] != ' ' &&
                            start[i + varNameLen] != '\'' && start[i + varNameLen] != '\"' &&
-                           start[i + varNameLen] != '/' && start[i + varNameLen] != '$') {
+                           start[i + varNameLen] != '/' && start[i + varNameLen] != '$')
+                    {
                         varNameLen++;
                     }
 
-                    char *varName = malloc(varNameLen + 1);
+                    char *varName = gcalloc(varNameLen + 1);
                     if (!varName)
                     {
                         return NULL;
@@ -98,9 +117,10 @@ char *ft_expand(char *line, t_lst *env)
                     if (value)
                     {
                         // Copy the expanded value without quotes
-                        while (*value)
+                        int j = 0;
+                        while (value[j])
                         {
-                            if (*value != '\'' && *value != '\"')
+                            if (value[j] != '\'' && value[j] != '\"')
                             {
                                 if (expanded_index >= expanded_size - 1)
                                 {
@@ -112,16 +132,15 @@ char *ft_expand(char *line, t_lst *env)
                                     }
                                     expanded_line = new_expanded_line;
                                 }
-                                expanded_line[expanded_index++] = *value;
+                                expanded_line[expanded_index++] = value[j];
                             }
-                            value++;
+                            j++;
                         }
                     }
                 }
             }
             else
             {
-                // Copy non-$ characters
                 if (expanded_index >= expanded_size - 1)
                 {
                     expanded_size *= 2;
@@ -137,21 +156,150 @@ char *ft_expand(char *line, t_lst *env)
         }
         else
         {
-            // Inside single quotes, copy literally
-            if (expanded_index >= expanded_size - 1)
-            {
-                expanded_size *= 2;
-                char *new_expanded_line = realloc(expanded_line, expanded_size);
-                if (!new_expanded_line)
-                {
-                    return NULL;
-                }
-                expanded_line = new_expanded_line;
-            }
-            expanded_line[expanded_index++] = start[i++];
+            i++; // Skip the character inside single quotes
         }
     }
 
     expanded_line[expanded_index] = '\0';
     return expanded_line;
 }
+// char *ft_expand(char *line, t_lst *env)
+// {
+//     int is_inside_quotes = 0;
+//     char current_quote = 0;
+//     char *start = line;
+//     int i = 0;
+//     int expanded_size = 64;
+//     char *expanded_line = gcalloc(expanded_size);
+//     if (!expanded_line) return NULL;
+//     int expanded_index = 0;
+
+//     while (start[i])
+//     {
+//         if ((start[i] == '\'' || start[i] == '\"') && !is_inside_quotes)
+//         {
+//             is_inside_quotes = 1;
+//             current_quote = start[i];
+//             i++;  // Skip the opening quote
+//             continue;
+//         }
+//         else if (is_inside_quotes && start[i] == current_quote)
+//         {
+//             is_inside_quotes = 0;
+//             current_quote = 0;
+//             i++;  // Skip the closing quote
+//             continue;
+//         }
+
+//         if (!is_inside_quotes || (is_inside_quotes && current_quote == '\"'))
+//         {
+//             if (start[i] == '$')
+//             {
+//                 // Handle variable expansion
+//                 i++;
+//                 if (start[i] == '?')
+//                 {
+//                     // Handle $? expansion
+//                     char *exit_status_str = ft_itoa(ft_exit(4, GET_EXIT_STATUS));
+//                     if (!exit_status_str)
+//                     {
+//                         return NULL;
+//                     }
+//                     for (int j = 0; exit_status_str[j]; j++)
+//                     {
+//                         if (expanded_index >= expanded_size - 1)
+//                         {
+//                             expanded_size *= 2;
+//                             char *new_expanded_line = realloc(expanded_line, expanded_size);
+//                             if (!new_expanded_line)
+//                             {
+//                                 return NULL;
+//                             }
+//                             expanded_line = new_expanded_line;
+//                         }
+//                         expanded_line[expanded_index++] = exit_status_str[j];
+//                     }
+//                     i++;
+//                 }
+//                 else if (start[i] == ' ' || start[i] == '\0' || start[i] == '\'' || start[i] == '\"')
+//                 {
+//                     // Handle $ followed by space or end of string
+//                     expanded_line[expanded_index++] = '$';
+//                 }
+//                 else
+//                 {
+//                     // Handle variable expansion
+//                     int varNameLen = 0;
+//                     while (start[i + varNameLen] && start[i + varNameLen] != ' ' &&
+//                            start[i + varNameLen] != '\'' && start[i + varNameLen] != '\"' &&
+//                            start[i + varNameLen] != '/' && start[i + varNameLen] != '$')
+//                     {
+//                         varNameLen++;
+//                     }
+
+//                     char *varName = gcalloc(varNameLen + 1);
+//                     if (!varName)
+//                     {
+//                         return NULL;
+//                     }
+
+//                     strncpy(varName, &start[i], varNameLen);
+//                     varName[varNameLen] = '\0';
+//                     i += varNameLen;
+
+//                     char *value = get_env(env, varName);
+//                     if (value)
+//                     {
+//                         // Copy the expanded value without quotes
+//                         while (*value)
+//                         {
+//                             if (expanded_index >= expanded_size - 1)
+//                             {
+//                                 expanded_size *= 2;
+//                                 char *new_expanded_line = realloc(expanded_line, expanded_size);
+//                                 if (!new_expanded_line)
+//                                 {
+//                                     return NULL;
+//                                 }
+//                                 expanded_line = new_expanded_line;
+//                             }
+//                             expanded_line[expanded_index++] = *value;
+//                             value++;
+//                         }
+//                     }
+//                 }
+//             }
+//             else
+//             {
+//                 if (expanded_index >= expanded_size - 1)
+//                 {
+//                     expanded_size *= 2;
+//                     char *new_expanded_line = realloc(expanded_line, expanded_size);
+//                     if (!new_expanded_line)
+//                     {
+//                         return NULL;
+//                     }
+//                     expanded_line = new_expanded_line;
+//                 }
+//                 expanded_line[expanded_index++] = start[i++];
+//             }
+//         }
+//         else
+//         {
+//             if (expanded_index >= expanded_size - 1)
+//             {
+//                 expanded_size *= 2;
+//                 char *new_expanded_line = realloc(expanded_line, expanded_size);
+//                 if (!new_expanded_line)
+//                 {
+//                     return NULL;
+//                 }
+//                 expanded_line = new_expanded_line;
+//             }
+//             expanded_line[expanded_index++] = start[i++];
+//         }
+//     }
+
+//     expanded_line[expanded_index] = '\0';
+//     return expanded_line;
+// }

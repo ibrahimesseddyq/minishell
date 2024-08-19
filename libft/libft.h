@@ -6,7 +6,7 @@
 /*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 15:42:23 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/08/03 10:15:46 by armanov          ###   ########.fr       */
+/*   Updated: 2024/08/18 11:57:48 by armanov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -130,7 +130,7 @@ void			ft_lstclear(t_list **lst, void (*del)(void*));
 
 void			ft_lstiter(t_list *lst, void (*f)(void *));
 
-t_lst	*ft_lstadd_new_env(char *key, char *value);
+t_lst	*ft_lstadd_new_env(char *key, char *value, char singe);
 
 void			ft_lstadd_back_env(t_lst **lst, t_lst *new);
 
@@ -139,4 +139,7 @@ void			ft_lst_clear_env(t_lst **lst);
 int				ft_strcmp(char *s1, char *s2);
 
 void	ft_lstadd_back_redir(t_redir_list **lst, t_redir_list *new);
+
+void *gcalloc(size_t size);
+
 #endif

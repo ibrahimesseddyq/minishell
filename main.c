@@ -26,15 +26,14 @@ int main(int ac, char **av, char *env[])
 	t_astnode *ast;
 	t_lst *lst;
 	t_lst *tmp;
-	t_st st;
-	st.st = 0;
-	st.status = 0; 
+
 
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle_sigint);
 	rl_catch_signals = 0;
 
 	lst = envp(env);
+
 	tmp = lst;
 	while (1)
 	{
@@ -42,6 +41,8 @@ int main(int ac, char **av, char *env[])
 		if (!t)
 		{
 			printf("exit 2\n");
+			gc_free_all();
+
 			exit(2); 
 		}
 		if(t)
@@ -52,7 +53,6 @@ int main(int ac, char **av, char *env[])
 			// printf("aftertokeizing\n");
 			if (!analyse_syntax(token_list))
 			{
-				printf("Syntax Error\n");
 				ft_exit(2, SET_EXIT_STATUS);
 			}
 			else
@@ -61,10 +61,12 @@ int main(int ac, char **av, char *env[])
 				set_beginning(token_list);
 				ast = parse_command_line(token_list);	
 				lst = tmp;
+
 				if (ast)
-					exec_cmd_line(ast, &st, lst);
+					exec_cmd_line(ast, lst);
 			}
 		}
 	}
+	gc_free_all();
 	return 0;
 }

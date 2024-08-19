@@ -3,45 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 23:49:30 by ynachat           #+#    #+#             */
-/*   Updated: 2024/07/31 03:56:18 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/08/18 12:17:04 by armanov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "../frontend/frontend.h"
 
-
-
 char *find_key(char *env)
 {
-	int i;
-	i = 0;
-	char *tmp;
-	tmp = NULL;
-	while (env[i] && env[i] != '=')
-		i++;
-	tmp = ft_strdup(ft_substr(env, 0, i));
-	return (tmp);
+    int i = 0;
+    while (env[i] && env[i] != '=')
+        i++;
+    return ft_substr(env, 0, i);
 }
-t_lst	*envp(char **env)
-{
-	t_lst *lst;
-	t_lst *new;
-	int i;
 
-	i = 0;
-	lst = NULL;
-	lst = ft_lstadd_new_env(find_key(env[i]),ft_strchr(env[i], '=') + 1);
-	i++;
-	while (env[i])
-	{
-		new = ft_lstadd_new_env(find_key(env[i]),ft_strchr(env[i], '=') + 1);
-		ft_lstadd_back_env(&lst, new);
-		i++;
-	}
-	return (lst);
-	
+char *find_value(char *env)
+{
+    char *equal_sign = ft_strchr(env, '=');
+    if (equal_sign)
+        return ft_strdup(equal_sign + 1);
+    return ft_strdup("");
+}
+t_lst *envp(char **env)
+{
+    t_lst *lst = NULL;
+    t_lst *new;
+	char signe;
+    int i = 0;
+
+    while (env[i])
+    {
+        char *key = find_key(env[i]);
+        char *value = find_value(env[i]);
+		if(ft_strchr(env[i], '='))
+			signe = '=';
+		else
+			signe = '\0';
+        new = ft_lstadd_new_env(key, value, signe);
+        if (!new)
+            return NULL;
+        ft_lstadd_back_env(&lst, new);
+        i++;
+    }
+
+    return lst;
 }

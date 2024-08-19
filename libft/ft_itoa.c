@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_itoa.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 00:04:10 by ibes-sed          #+#    #+#             */
-/*   Updated: 2023/11/23 17:03:23 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/08/15 18:31:01 by armanov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*ft_itoa(int nbr)
 
 	num = (long)nbr;
 	i = ft_count(nbr);
-	str = (char *)malloc(sizeof(char) * (ft_count(nbr) + 1));
+	str = (char *)gcalloc(sizeof(char) * (ft_count(nbr) + 1));
 	if (!str)
 		return (NULL);
 	if (num == 0)

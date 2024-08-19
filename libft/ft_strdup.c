@@ -6,7 +6,7 @@
 /*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 01:23:26 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/08/03 10:13:26 by armanov          ###   ########.fr       */
+/*   Updated: 2024/08/15 18:31:17 by armanov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	*ft_strdup(char *src)
 	int		len;
 
 	len = ft_strlen(src) + 1;
-	dest = (char *)malloc(len * sizeof(char));
+	dest = (char *)gcalloc(len * sizeof(char));
 	if (dest == NULL)
 		return (NULL);
 	ft_strcpy(dest, src);

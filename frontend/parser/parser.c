@@ -4,7 +4,7 @@
 
 t_astnode *create_ast_command(int ac, char **av)
 {
-    t_astnode *node = (t_astnode *)malloc(sizeof(t_astnode));
+    t_astnode *node = (t_astnode *)gcalloc(sizeof(t_astnode));
     node->type = NODE_COMMAND;
     node->t_cmd.cmd = strdup(av[0]);
     node->t_cmd.args = NULL;
@@ -12,7 +12,7 @@ t_astnode *create_ast_command(int ac, char **av)
     t_arg_node *current = NULL;
     for (int i = 0; i < ac; i++)
     {
-        t_arg_node *new_node = (t_arg_node *)malloc(sizeof(t_arg_node));
+        t_arg_node *new_node = (t_arg_node *)gcalloc(sizeof(t_arg_node));
         new_node->arg = strdup(av[i]);
         // printf("")
         new_node->next = NULL;
@@ -38,7 +38,7 @@ t_astnode *create_ast_command(int ac, char **av)
 }
 
 t_astnode *create_binary_node(node_type type, t_astnode *left, t_astnode *right) {
-    t_astnode *node = (t_astnode *)malloc(sizeof(t_astnode));
+    t_astnode *node = (t_astnode *)gcalloc(sizeof(t_astnode));
     node->type = type;
     node->binary.left = left;
     node->binary.right = right;
@@ -46,14 +46,14 @@ t_astnode *create_binary_node(node_type type, t_astnode *left, t_astnode *right)
 }
 
 t_astnode *create_redirect_node(node_type type, t_astnode *child, char *filename) {
-    t_astnode *node = (t_astnode *)malloc(sizeof(t_astnode));
+    t_astnode *node = (t_astnode *)gcalloc(sizeof(t_astnode));
     node->type = type;
     node->redirect.child = child;
     node->redirect.filename = strdup(filename);
     return node;
 }
 t_astnode *create_block_node(t_astnode *child) {
-    t_astnode *node = (t_astnode *)malloc(sizeof(t_astnode));
+    t_astnode *node = (t_astnode *)gcalloc(sizeof(t_astnode));
     node->type = NODE_BLOCK;
     node->block.child = child;
     return node;
@@ -110,7 +110,7 @@ t_astnode *parse_cmd(t_tklist *tokens)
             argv[argc++] = token->value;
         } else {
             // Handle redirections
-            t_redir *redir = malloc(sizeof(t_redir));
+            t_redir *redir = gcalloc(sizeof(t_redir));
             if (!redir) {
                 // Handle memory allocation error
                 return NULL;
@@ -139,7 +139,7 @@ t_astnode *parse_cmd(t_tklist *tokens)
 
             redir->file = strdup(token->value);
 
-            t_redir_list *redir_node = malloc(sizeof(t_redir_list));
+            t_redir_list *redir_node = gcalloc(sizeof(t_redir_list));
             if (!redir_node) {
                 // Handle memory allocation error
                 return NULL;

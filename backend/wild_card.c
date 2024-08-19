@@ -29,12 +29,12 @@ bool match(const char *pattern, const char *text) {
 
 // Function to filter an array of strings based on the pattern
 char** filterStrings(const char *pattern, const char *texts[], int numTexts, int *numMatches) {
-    char **matches = malloc(numTexts * sizeof(char*));
+    char **matches = gcalloc(numTexts * sizeof(char*));
     *numMatches = 0;
 
     for (int i = 0; i < numTexts; i++) {
         if (match(pattern, texts[i])) {
-            matches[*numMatches] = malloc((strlen(texts[i]) + 1) * sizeof(char));
+            matches[*numMatches] = gcalloc((strlen(texts[i]) + 1) * sizeof(char));
             strcpy(matches[*numMatches], texts[i]);
             (*numMatches)++;
         }
@@ -45,7 +45,7 @@ char** filterStrings(const char *pattern, const char *texts[], int numTexts, int
 
 void add_to_found(char ***found_files, int *found_count, const char *file) {
     *found_files = realloc(*found_files, (*found_count + 1) * sizeof(char*));
-    (*found_files)[*found_count] = malloc((strlen(file) + 1) * sizeof(char));
+    (*found_files)[*found_count] = gcalloc((strlen(file) + 1) * sizeof(char));
     strcpy((*found_files)[*found_count], file);
     (*found_count)++;
 }
@@ -61,7 +61,7 @@ char** get_files(const char *dir, int *numFiles) {
         while ((ep = readdir(dp))) {
             if (strcmp(ep->d_name, ".") != 0 && strcmp(ep->d_name, "..") != 0) {
                 files = realloc(files, (*numFiles + 1) * sizeof(char*));
-                files[*numFiles] = malloc((strlen(ep->d_name) + 1) * sizeof(char));
+                files[*numFiles] = gcalloc((strlen(ep->d_name) + 1) * sizeof(char));
                 strcpy(files[*numFiles], ep->d_name);
                 (*numFiles)++;
             }

@@ -6,7 +6,7 @@
 /*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 01:22:32 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/08/13 18:29:25 by armanov          ###   ########.fr       */
+/*   Updated: 2024/08/15 18:31:14 by armanov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ static char	*ft_strndup(const char *s1, int n)
 	i = 0;
 	if (n == INT_MAX)
 		return (NULL);
-	new = (char *)malloc(n + 1);
+	new = (char *)gcalloc(n + 1);
 	if (new == NULL)
 		return (NULL);
 	while (i < n)
@@ -62,7 +62,7 @@ char	**ft_split(char const *s, char c)
 
 	index = -1;
 	tail_matrice = count_words(s, c);
-	arr = (char **)malloc((sizeof(char *)) * (tail_matrice + 1));
+	arr = (char **)gcalloc((sizeof(char *)) * (tail_matrice + 1));
 	if (!arr || tail_matrice == -1)
 		return (NULL);
 	while (++index < tail_matrice)

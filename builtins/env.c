@@ -7,7 +7,17 @@ void ft_env(t_lst *env_list)
     {
         if (current->key != NULL && current->value != NULL)
         {
-            printf("%s=%s\n", current->key, current->value);
+            if (current->signe == '=')
+            {
+                if (current->value)
+                    printf("%s%c%s\n",current->key ,current->signe ,current->value);
+                else
+                    printf("%s%c\n",current->key ,current->signe);
+            }
+            else
+            {
+                printf("\n");
+            }
         }
         current = current->next;
     }

@@ -6,7 +6,7 @@
 /*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 01:24:15 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/08/03 10:15:17 by armanov          ###   ########.fr       */
+/*   Updated: 2024/08/15 18:31:20 by armanov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ char	*ft_strjoin(char  *s1, char  *s2)
 	if (s2 == NULL)
 		return (ft_strdup(s1));
 	totalsize = ft_strlen(s1) + ft_strlen(s2);
-	newstr = (char *)malloc((sizeof(char) * totalsize + 1));
+	newstr = (char *)gcalloc((sizeof(char) * totalsize + 1));
 	if (newstr == NULL)
 		return (NULL);
 	while (i < ft_strlen(s1))
