@@ -14,10 +14,6 @@ void ft_env(t_lst *env_list)
                 else
                     printf("%s%c\n",current->key ,current->signe);
             }
-            else
-            {
-                printf("\n");
-            }
         }
         current = current->next;
     }

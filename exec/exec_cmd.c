@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/08/20 20:19:34 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/08/21 17:01:53 by armanov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -425,54 +425,27 @@ char **make_array(char **args, int size)
 }
 int exec_cmd(t_astnode *ast, t_lst *env)
 {
-    if (!ast->t_cmd.args || !get_node_at(ast->t_cmd.args, 0)->arg)
+   if (!ast->t_cmd.args || !get_node_at(ast->t_cmd.args, 0)->arg)
         return 0;
 
     t_arg_node *lst = ast->t_cmd.args;
-    printf("printing arg initial\n");
-    for(int i = 0; i <= ast->t_cmd.args_size; i++)
-    {
-        printf("arg %s\n", lst->arg);
-        lst = lst->next;
-    }
-    lst = ast->t_cmd.args;
     char *expanded_string = ft_strdup("");
-    printf("expanding args\n");
+
     for (int i = 0; i <= ast->t_cmd.args_size; i++)
     {
         char *expanded_arg = ft_expand(lst->arg, env);
-        if (i == 0)
-            expanded_string = ft_strdup(expanded_arg);
-        else
+        char *temp = ft_strjoin(expanded_string, expanded_arg);
+        expanded_string = temp;
+        if (lst->next)
         {
-            printf("expand %s\n", expanded_arg);
-            char *temp = ft_strjoin(expanded_string, ";");
-            expanded_string = ft_strjoin(temp, expanded_arg);
-            printf("expanded_string [%s] <=> temp [%s]\n", expanded_string, temp);
+            temp = ft_strjoin(expanded_string, ";");
+            expanded_string = temp;
         }
         lst = lst->next;
     }
-    printf("final expanded arg %s\n", expanded_string);
-    // Remove leading space
-    if (expanded_string[0] == ' ')
-    {
-        char *temp = ft_strdup(expanded_string + 1);
-        expanded_string = temp;
-    }
 
-    char **splitted_args2 = ft_split_quotes(expanded_string, ';');
-    for(int i = 0; splitted_args2[i]; i++)
-    {
-        printf("splitted2 arg %s\n", splitted_args2[i]);
-    }
-    char **splitted_args = make_array(splitted_args2, ';');
-    printf("printing splitted args\n");
-    if(splitted_args == NULL)
-        printf("splitted args is null\n");
-    for(int i = 0; splitted_args[i]; i++)
-    {
-        printf("splitted arg %s\n", splitted_args[i]);
-    }
+    char **splitted_args = ft_split_quotes(expanded_string, ';');
+
     if (!splitted_args)
         return 1;
 

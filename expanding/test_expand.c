@@ -39,9 +39,10 @@ char *ft_expand(char *line, t_lst *env)
     char *expanded_line = gcalloc(expanded_size);
     if (!expanded_line) return NULL;
     int expanded_index = 0;
-
+    printf("line is %s\n", line);
     while (start[i])
     {
+        printf("char[i] %c\n",start[i]);
         if ((start[i] == '\'' || start[i] == '\"') && !is_inside_quotes)
         {
             is_inside_quotes = 1;
@@ -56,12 +57,19 @@ char *ft_expand(char *line, t_lst *env)
             i++;  // Skip the closing quote
             continue;
         }
-
+        printf("is inside quote %d and current one %c\n",is_inside_quotes, current_quote);
         if (!is_inside_quotes || (is_inside_quotes && current_quote == '\"'))
         {
+            printf("isnt inside single quote , char %c\n",start[i]);
+            if(is_inside_quotes && start[i] == ' ')
+            {
+                expanded_line[expanded_index++] = '\\';
+                i++;
+            }
             if (start[i] == '$')
             {
                 i++;
+                printf("after $ is %c\n", start[i]);
                 if (start[i] == '?')
                 {
                     char *exit_status_str = ft_itoa(ft_exit(4, GET_EXIT_STATUS));
@@ -88,12 +96,14 @@ char *ft_expand(char *line, t_lst *env)
                 }
                 else if (start[i] == ' ' || start[i] == '\0' || start[i] == '\'' || start[i] == '\"')
                 {
+                                        // printf("2 HI entered here\n");
+
                     // Handle $ followed by space or end of string
                     expanded_line[expanded_index++] = '$';
                 }
                 else
                 {
-                    printf("HI entered here\n");
+                    // printf("3 HI entered here\n");
                     // Handle variable expansion
                     int varNameLen = 0;
                     while (start[i + varNameLen] && start[i + varNameLen] != ' ' &&
@@ -114,18 +124,14 @@ char *ft_expand(char *line, t_lst *env)
                     i += varNameLen;
 
                     char *value2 = get_env(env, varName);
-                    char **splited_value = ft_split_quotes(value2, ' ');
-
-                    char *value = ft_strdup("");
-                    printf("before entering\n");
-
-                    for(int i = 0;splited_value[i]; i++)
+                    printf("get env %s\n",value2);
+                    char *value = value2;
+                    for(int i = 0; value[i]; i++)
                     {
-                        printf("entered here splited_value[i] = %s\n", splited_value[i]);
-                        char *value3 = ft_strjoin("\\", splited_value[i]);
-                        char *temp = ft_strjoin(value, value3);
-                        value = temp;
+                        if(value[i] == ' ')
+                            value[i] == '\\';
                     }
+                    // printf("value in ft_expand [%s]\n", value);
                     if (value)
                     {
                         // Copy the expanded value without quotes
@@ -168,7 +174,9 @@ char *ft_expand(char *line, t_lst *env)
         }
         else
         {
-            i++; // Skip the character inside single quotes
+            expanded_line[expanded_index++] = start[i];
+
+            i++; 
         }
     }
 
