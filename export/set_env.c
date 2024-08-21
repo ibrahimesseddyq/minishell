@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:11:05 by ynachat           #+#    #+#             */
-/*   Updated: 2024/08/19 00:42:49 by armanov          ###   ########.fr       */
+/*   Updated: 2024/08/20 15:25:50 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,31 @@ void print_export(t_lst *lst)
 		head = head->next;
 	}
 }
+int is_quote(char c)
+{
+	if(c == '\'' || c == '"')
+		return (1);
+	return (0);
+}
+char *trim_quotes(char *str)
+{
+	int len;
+
+	len = ft_strlen(str);
+	if(!str)
+		return (NULL);
+	if(is_quote(str[0]) && is_quote(str[len - 1]))
+	{
+		return (ft_substr(str, 1, len - 2));
+	}
+	return (str);
+}
 void ft_export(char **str, t_lst *lst)
 {
 	int exist;
 	char **str_split;
 	int i;
+	char *str_trimmed;
 
 	i = 1;
 
@@ -64,14 +84,14 @@ void ft_export(char **str, t_lst *lst)
 	{
 		while(str[i])
 		{
-
 			exist = get_symbol_exist(str[i], '=');
 			if(exist)
 			{
 				str_split = ft_split(str[i], '=');
 				if(!str_split)
 					return ;
-				set_env(lst, str_split[0], str_split[1], exist);
+				str_trimmed = trim_quotes(str_split[1]);
+				set_env(lst, str_split[0], str_trimmed, exist);
 			}
 			else
 			{

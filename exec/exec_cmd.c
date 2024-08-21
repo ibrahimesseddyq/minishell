@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/08/19 18:11:57 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/08/20 20:19:34 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -210,6 +210,8 @@ char **expand_wildcard(const char *pattern)
 
 char *arg_cmds(char *cmd, t_lst *env)
 {
+    if (!cmd)
+        return NULL;
     if (cmd[0] == '/' || cmd[0] == '.' || is_builtin_command(cmd))
         return ft_strdup(cmd);
 
@@ -406,61 +408,94 @@ char **list_to_array(t_arg_node *lst)
     return array;
 }
 
+char **make_array(char **args, int size)
+{
+    for (int i = 0; i < size && args[i]; i++)
+    {
 
+        char *str = args[i];
+        for (int j = 0; str[j]; j++) {
+            if (str[j] == '\\')
+            {
+                str[j] = ' ';
+            }
+        }
+    }
+    return args;
+}
 int exec_cmd(t_astnode *ast, t_lst *env)
 {
     if (!ast->t_cmd.args || !get_node_at(ast->t_cmd.args, 0)->arg)
         return 0;
 
-    expand_arguments(ast, env);
-    char **arg_cmd = list_to_array(ast->t_cmd.args);
-
-    if (!arg_cmd)
-        return 1;
-
-    // Check if the command is stored in a variable
-    if (arg_cmd[0][0] == '$')
+    t_arg_node *lst = ast->t_cmd.args;
+    printf("printing arg initial\n");
+    for(int i = 0; i <= ast->t_cmd.args_size; i++)
     {
-        char *cmd_var = arg_cmd[0] + 1;
-        char *cmd_value = get_env(env, cmd_var);
-        if (cmd_value)
+        printf("arg %s\n", lst->arg);
+        lst = lst->next;
+    }
+    lst = ast->t_cmd.args;
+    char *expanded_string = ft_strdup("");
+    printf("expanding args\n");
+    for (int i = 0; i <= ast->t_cmd.args_size; i++)
+    {
+        char *expanded_arg = ft_expand(lst->arg, env);
+        if (i == 0)
+            expanded_string = ft_strdup(expanded_arg);
+        else
         {
-            // Split the command value into command and arguments
-            char **cmd_parts = split_string(cmd_value);
-            if (cmd_parts)
-            {
-                // Count the total number of arguments
-                int total_args = count_args(cmd_parts) + count_args(arg_cmd) - 1;
-                char **new_arg_cmd = gcalloc(sizeof(char *) * (total_args + 1));
-                
-                // Copy the command and its arguments
-                int i = 0;
-                while (cmd_parts[i])
-                {
-                    new_arg_cmd[i] = ft_strdup(cmd_parts[i]);
-                    i++;
-                }
-                
-                // Copy the remaining arguments
-                int j = 1;
-                while (arg_cmd[j])
-                {
-                    new_arg_cmd[i] = ft_strdup(arg_cmd[j]);
-                    i++;
-                    j++;
-                }
-                new_arg_cmd[i] = NULL;
-                arg_cmd = new_arg_cmd;
-            }
+            printf("expand %s\n", expanded_arg);
+            char *temp = ft_strjoin(expanded_string, ";");
+            expanded_string = ft_strjoin(temp, expanded_arg);
+            printf("expanded_string [%s] <=> temp [%s]\n", expanded_string, temp);
         }
+        lst = lst->next;
+    }
+    printf("final expanded arg %s\n", expanded_string);
+    // Remove leading space
+    if (expanded_string[0] == ' ')
+    {
+        char *temp = ft_strdup(expanded_string + 1);
+        expanded_string = temp;
     }
 
-    char *cmd_path = arg_cmds(arg_cmd[0], env);
-    if (cmd_path)
-        arg_cmd[0] = cmd_path;
+    char **splitted_args2 = ft_split_quotes(expanded_string, ';');
+    for(int i = 0; splitted_args2[i]; i++)
+    {
+        printf("splitted2 arg %s\n", splitted_args2[i]);
+    }
+    char **splitted_args = make_array(splitted_args2, ';');
+    printf("printing splitted args\n");
+    if(splitted_args == NULL)
+        printf("splitted args is null\n");
+    for(int i = 0; splitted_args[i]; i++)
+    {
+        printf("splitted arg %s\n", splitted_args[i]);
+    }
+    if (!splitted_args)
+        return 1;
 
-    if (is_builtin_command(arg_cmd[0]))
-        return execute_builtin(arg_cmd, ast, env);
+    char *cmd_path = arg_cmds(splitted_args[0], env);
+    if (cmd_path)
+    {
+        splitted_args[0] = cmd_path;
+    }
     else
-        return execute_external(arg_cmd, ast, env);
+    {
+        fprintf(stderr, "minishell: %s: command not found\n", splitted_args[0]);
+        // Free splitted_args before returning
+        return 127;
+    }
+
+    int result;
+    if (is_builtin_command(splitted_args[0]))
+        result = execute_builtin(splitted_args, ast, env);
+    else
+        result = execute_external(splitted_args, ast, env);
+
+    // Free splitted_args
+
+
+    return result;
 }

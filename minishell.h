@@ -141,4 +141,6 @@ void ft_env(t_lst *env_list);
 int my_exit(char **argv, int argc);
 void ft_export(char **str, t_lst *lst);
 void gc_free_all(void);
+char	**ft_split_quotes(char const *s, char c);
+
 #endif

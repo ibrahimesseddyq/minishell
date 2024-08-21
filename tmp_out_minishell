@@ -1,8 +1,0 @@
-minishell:>$ export T=">>"
-argument2 export
-argument2 T=">>"
-minishell:>$ $T lol
-argument2 $T
-argument2 lol
-minishell:>$ exit 2
-minishell:>$ exit 2
