@@ -27,7 +27,6 @@ int main(int ac, char **av, char *env[])
 	t_lst *lst;
 	t_lst *tmp;
 
-
 	signal(SIGQUIT, SIG_IGN);
 	signal(SIGINT, handle_sigint);
 	rl_catch_signals = 0;
@@ -42,7 +41,6 @@ int main(int ac, char **av, char *env[])
 		{
 			printf("exit 2\n");
 			gc_free_all();
-
 			exit(2); 
 		}
 		if(t)
@@ -67,6 +65,5 @@ int main(int ac, char **av, char *env[])
 			}
 		}
 	}
-	gc_free_all();
-	return 0;
+	return (ft_exit(0, GET_EXIT_STATUS));
 }

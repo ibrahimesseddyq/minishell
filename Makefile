@@ -10,7 +10,7 @@ SRC = ./frontend/lexer/lexer.c ./frontend/parser/parser.c ./frontend/parser/synt
  export/get_env.c export/set_env.c redirection/ft_red_in.c redirection/ft_red_out.c redirection/ft_redirection.c expanding/test_expand.c ./builtins/cd.c ./builtins/pwd.c ./backend/exit_status.c ./builtins/echo.c ./builtins/env.c ./builtins/exit.c ./backend/gc/gcalloc.c 
 OBJ = $(SRC:.c=.o)
 CC = gcc -g
-CFLAGS = 
+CFLAGS = -fsanitize=address -Wall -Wextra -Werror -g
 
 # Set minishell as the default target
 all: minishell

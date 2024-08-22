@@ -36,7 +36,7 @@ char *ft_expand(char *line, t_lst *env)
     char *start = line;
     int i = 0;
     int expanded_size = 64;
-    int dollar = 0;
+    // int dollar = 0;
     char *expanded_line = gcalloc(expanded_size);
     if (!expanded_line) return NULL;
     int expanded_index = 0;
@@ -113,7 +113,7 @@ char *ft_expand(char *line, t_lst *env)
                     {
                         varNameLen++;
                     }
-                    printf("var len %d\n", varNameLen);
+                    // printf("var len %d\n", varNameLen);
                     char *varName = gcalloc(varNameLen + 1);
                     if (!varName)
                     {
@@ -130,9 +130,9 @@ char *ft_expand(char *line, t_lst *env)
                     for(int i = 0; value[i]; i++)
                     {
                         if(value[i] == ' ')
-                            value[i] == '\\';
+                            value[i] = '\\';
                     }
-                    // printf("value in ft_expand [%s]\n", value);
+                    printf("value in ft_expand [%s]\n", value);
                     if (value)
                     {
                         // Copy the expanded value without quotes

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:11:05 by ynachat           #+#    #+#             */
-/*   Updated: 2024/08/20 15:25:50 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/08/22 17:23:41 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,10 @@ void ft_export(char **str, t_lst *lst)
 				str_split = ft_split(str[i], '=');
 				if(!str_split)
 					return ;
-				str_trimmed = trim_quotes(str_split[1]);
+				if(str_split[1])
+					str_trimmed = trim_quotes(str_split[1]);
+				else
+					str_trimmed = "";
 				set_env(lst, str_split[0], str_trimmed, exist);
 			}
 			else
@@ -98,7 +101,7 @@ void ft_export(char **str, t_lst *lst)
 				set_env(lst, str[i], "", exist);
 			}
 			i++;
-		}
+		} 
 	}
 }
 void	set_env(t_lst *lst, char *key, char *new_value, int sign)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/08/22 14:25:03 by armanov          ###   ########.fr       */
+/*   Updated: 2024/08/22 21:50:55 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -204,7 +204,6 @@ char **expand_wildcard(const char *pattern)
         result[globbuf.gl_pathc] = NULL;
     }
 
-    globfree(&globbuf);
     return result;
 }
 
@@ -267,11 +266,11 @@ void expand_arguments(t_astnode *ast, t_lst *env)
         }
     }
 
-    while (head)
-    {
-        printf("argument %s\n", head->arg);
-        head = head->next;
-    }
+    // while (head)
+    // {
+    //     // printf("argument %s\n", head->arg);
+    //     head = head->next;
+    // }
     ast->t_cmd.args_size = i;
 }
 int	is_builtin_command(const char *cmd)
@@ -283,27 +282,35 @@ int	is_builtin_command(const char *cmd)
 
 int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
 {
+    int stdout_backup;
+    stdout_backup = ft_redirection(ast);
 	if (!ft_strcmp(arg_cmd[0], "echo"))
-		return (ft_echo(arg_cmd), 0);
+		ft_echo(arg_cmd);
 	else if (!ft_strcmp(arg_cmd[0], "cd"))
-		return (ft_cd(ast->t_cmd.args_size, arg_cmd, SET_EXIT_STATUS, env));
+		ft_cd(ast->t_cmd.args_size, arg_cmd, SET_EXIT_STATUS, env);
 	else if (!ft_strcmp(arg_cmd[0], "pwd"))
-		return (printf("%s\n", ft_pwd()), 0);
+		printf("%s\n", ft_pwd());
 	else if (!ft_strcmp(arg_cmd[0], "env"))
-		return (ft_env(env), 0);
+		ft_env(env);
 	else if (!ft_strcmp(arg_cmd[0], "exit"))
-		return (my_exit(arg_cmd, ast->t_cmd.args_size));
+		my_exit(arg_cmd, ast->t_cmd.args_size);
 	else if (!ft_strcmp(arg_cmd[0], "export"))
-		return (ft_export(arg_cmd, env), 0);
+    {
+        printf("before export %s\n",arg_cmd[1]);
+		ft_export(arg_cmd, env);
+    }
+    dup2(stdout_backup, 1);
+	close(stdout_backup);
 	return (1);
 }
 
 int execute_external(char **arg_cmd, t_astnode *ast, t_lst *env)
 {
     int pid = fork();
+    int fd;
     if (pid == 0)
     {
-        ft_redirection(ast);
+        fd = ft_redirection(ast);
         char **envp = build_envp(env);
         if (!envp)
             ft_exit(1, SET_EXIT_STATUS);
@@ -318,6 +325,7 @@ int execute_external(char **arg_cmd, t_astnode *ast, t_lst *env)
             execve(arg_cmd[0], arg_cmd, envp);
             handle_exec_error(arg_cmd[0]);
         }
+        close(fd);
     }
     else if (pid > 0)
     {
@@ -331,7 +339,7 @@ int execute_external(char **arg_cmd, t_astnode *ast, t_lst *env)
     }
     else
     {
-                    printf("fork error\n");
+                    // printf("fork error\n");
 
         perror("fork");
         ft_exit(1, SET_EXIT_STATUS);
@@ -446,7 +454,6 @@ int exec_cmd(t_astnode *ast, t_lst *env)
     }
 
     char **splitted_args = ft_split_quotes(expanded_string, ';');
-    printf("splittes arg\n");
     for(int i = 0;  i < 2;i++)
     {
         printf("1 arg %s\n",splitted_args[i]);
@@ -461,7 +468,7 @@ int exec_cmd(t_astnode *ast, t_lst *env)
     printf("real_args arg\n");
     for(int i = 0;  i < 2;i++)
     {
-        printf("3 arg %s\n",splitted_args[i]);
+        printf("3 arg [%d] %s\n",i,real_args[i]);
     }
     if (cmd_path)
     {
@@ -469,7 +476,7 @@ int exec_cmd(t_astnode *ast, t_lst *env)
     }
     else
     {
-        fprintf(stderr, "minishell: %s: command not found\n", splitted_args[0]);
+        fprintf(stderr, "minishell: %s: command not found\n", real_args[0]);
         // Free splitted_args before returning
         return 127;
     }

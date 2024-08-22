@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_red_out.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:22:07 by ynachat           #+#    #+#             */
-/*   Updated: 2024/08/06 12:39:45 by armanov          ###   ########.fr       */
+/*   Updated: 2024/08/22 18:09:36 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,12 +31,11 @@ int	count_red(t_astnode *lst)
 }
 
 
-void	ft_red_out(t_astnode *ast)
+int	ft_red_out(t_astnode *ast)
 {
 	int fd;
 	
 	fd = 0;
-	// printf("\n\n\nhiiiii this is size : %d\n\n\n\n\n\n", count_red(ast));
 	if (ast->t_cmd.redirections && ast->t_cmd.redirections->redir && ast->t_cmd.redirections->redir->type == NODE_REDIRECT_OUT)
 	{
 		fd = open(ast->t_cmd.redirections->redir->file , O_WRONLY | O_CREAT  | O_TRUNC, 0777);
@@ -56,5 +55,5 @@ void	ft_red_out(t_astnode *ast)
 		}
 		dup2(fd, 1);
 	}
-	close (fd);
+	return (fd);
 }

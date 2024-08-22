@@ -3,17 +3,17 @@
 /*                                                        :::      ::::::::   */
 /*   ft_red_in.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:22:35 by ynachat           #+#    #+#             */
-/*   Updated: 2024/07/25 21:57:07 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/08/22 18:08:44 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "../frontend/frontend.h"
 
-void	ft_red_in(t_astnode *ast)
+int	ft_red_in(t_astnode *ast)
 {
 	int fd;
 
@@ -42,4 +42,5 @@ void	ft_red_in(t_astnode *ast)
 	// 	// }
 	// 	// dup2(fd, 0);
 	// }
+	return (fd);
 }
