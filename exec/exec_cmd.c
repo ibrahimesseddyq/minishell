@@ -6,7 +6,7 @@
 /*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/08/21 17:01:53 by armanov          ###   ########.fr       */
+/*   Updated: 2024/08/22 14:25:03 by armanov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -410,7 +410,7 @@ char **list_to_array(t_arg_node *lst)
 
 char **make_array(char **args, int size)
 {
-    for (int i = 0; i < size && args[i]; i++)
+    for (int i = 0; i <= size && args[i]; i++)
     {
 
         char *str = args[i];
@@ -420,6 +420,7 @@ char **make_array(char **args, int size)
                 str[j] = ' ';
             }
         }
+        printf("edited %s\n",args[i]);
     }
     return args;
 }
@@ -445,11 +446,23 @@ int exec_cmd(t_astnode *ast, t_lst *env)
     }
 
     char **splitted_args = ft_split_quotes(expanded_string, ';');
-
+    printf("splittes arg\n");
+    for(int i = 0;  i < 2;i++)
+    {
+        printf("1 arg %s\n",splitted_args[i]);
+    }
     if (!splitted_args)
         return 1;
 
     char *cmd_path = arg_cmds(splitted_args[0], env);
+
+        printf("2 arg %s\n",cmd_path);
+    char **real_args = make_array(splitted_args, ast->t_cmd.args_size);
+    printf("real_args arg\n");
+    for(int i = 0;  i < 2;i++)
+    {
+        printf("3 arg %s\n",splitted_args[i]);
+    }
     if (cmd_path)
     {
         splitted_args[0] = cmd_path;
@@ -462,10 +475,10 @@ int exec_cmd(t_astnode *ast, t_lst *env)
     }
 
     int result;
-    if (is_builtin_command(splitted_args[0]))
-        result = execute_builtin(splitted_args, ast, env);
+    if (is_builtin_command(real_args[0]))
+        result = execute_builtin(real_args, ast, env);
     else
-        result = execute_external(splitted_args, ast, env);
+        result = execute_external(real_args, ast, env);
 
     // Free splitted_args
 

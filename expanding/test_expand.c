@@ -36,6 +36,7 @@ char *ft_expand(char *line, t_lst *env)
     char *start = line;
     int i = 0;
     int expanded_size = 64;
+    int dollar = 0;
     char *expanded_line = gcalloc(expanded_size);
     if (!expanded_line) return NULL;
     int expanded_index = 0;
@@ -96,15 +97,15 @@ char *ft_expand(char *line, t_lst *env)
                 }
                 else if (start[i] == ' ' || start[i] == '\0' || start[i] == '\'' || start[i] == '\"')
                 {
-                                        // printf("2 HI entered here\n");
-
-                    // Handle $ followed by space or end of string
-                    expanded_line[expanded_index++] = '$';
+                    if(is_inside_quotes)
+                    {
+                        expanded_line[expanded_index++] = '$';
+                    }
+                    i++;
                 }
                 else
                 {
-                    // printf("3 HI entered here\n");
-                    // Handle variable expansion
+
                     int varNameLen = 0;
                     while (start[i + varNameLen] && start[i + varNameLen] != ' ' &&
                            start[i + varNameLen] != '\'' && start[i + varNameLen] != '\"' &&
@@ -112,7 +113,7 @@ char *ft_expand(char *line, t_lst *env)
                     {
                         varNameLen++;
                     }
-
+                    printf("var len %d\n", varNameLen);
                     char *varName = gcalloc(varNameLen + 1);
                     if (!varName)
                     {
@@ -175,7 +176,6 @@ char *ft_expand(char *line, t_lst *env)
         else
         {
             expanded_line[expanded_index++] = start[i];
-
             i++; 
         }
     }
