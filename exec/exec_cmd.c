@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/08/22 21:50:55 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/08/26 14:37:56 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -423,7 +423,7 @@ char **make_array(char **args, int size)
 
         char *str = args[i];
         for (int j = 0; str[j]; j++) {
-            if (str[j] == '\\')
+            if (str[j] == *get_splitted_char(2))
             {
                 str[j] = ' ';
             }
@@ -432,43 +432,65 @@ char **make_array(char **args, int size)
     }
     return args;
 }
+static char *char_to_string(char c)
+{
+    char *str = gcalloc(2);
+    if (!str)
+        return NULL;
+    str[0] = c;
+    str[1] = '\0';
+    return str;
+}
 int exec_cmd(t_astnode *ast, t_lst *env)
 {
    if (!ast->t_cmd.args || !get_node_at(ast->t_cmd.args, 0)->arg)
         return 0;
 
     t_arg_node *lst = ast->t_cmd.args;
+    which_to_split_with(list_to_array(lst), 1);
+    which_to_split_with(list_to_array(lst), 2);
+    printf("[exec_cmd] splitter %c\n",*get_splitted_char(1));
+    printf("[exec_cmd]splitter 2 %c\n",*get_splitted_char(2));
+
     char *expanded_string = ft_strdup("");
 
     for (int i = 0; i <= ast->t_cmd.args_size; i++)
     {
+        printf("[exec_cmd] before expand %s\n",lst->arg);
         char *expanded_arg = ft_expand(lst->arg, env);
+        printf("[exec_cmd] after expand %s\n",expanded_arg);
         char *temp = ft_strjoin(expanded_string, expanded_arg);
+        printf("[exec_cmd] expanded_arg %s\n",expanded_arg);
+        printf("[exec_cmd] expanded_string %s\n",expanded_string);
+
         expanded_string = temp;
         if (lst->next)
         {
-            temp = ft_strjoin(expanded_string, ";");
+            printf("[exec_cmd] joining expanded_string %s\n",expanded_string);
+            printf("[exec_cmd] delimiter  %s\n",char_to_string(*get_splitted_char(1)));
+            temp = ft_strjoin(expanded_string, ft_strdup(char_to_string(*get_splitted_char(1))));
             expanded_string = temp;
         }
         lst = lst->next;
     }
-
-    char **splitted_args = ft_split_quotes(expanded_string, ';');
+    printf("[exec_cmd] expanded_string %s\n",expanded_string);
+    char **splitted_args = ft_split_quotes(expanded_string,*get_splitted_char(1));
     for(int i = 0;  i < 2;i++)
     {
-        printf("1 arg %s\n",splitted_args[i]);
+        printf("[exec_cmd] after splitting by the first delimiter %s\n",splitted_args[i]);
     }
     if (!splitted_args)
         return 1;
 
-    char *cmd_path = arg_cmds(splitted_args[0], env);
-
-        printf("2 arg %s\n",cmd_path);
+    // use split_all_strings function here , and before that use second delimiter for all spaces outside quotes, but the others should be kept as they are
     char **real_args = make_array(splitted_args, ast->t_cmd.args_size);
+    char *cmd_path = arg_cmds(real_args[0], env);
+        printf(" [exec_cmd] after changing second delimiter to space %s\n",cmd_path);
+
     printf("real_args arg\n");
     for(int i = 0;  i < 2;i++)
     {
-        printf("3 arg [%d] %s\n",i,real_args[i]);
+        printf("[exec_cmd] last version of args [%d] %s\n",i,real_args[i]);
     }
     if (cmd_path)
     {
@@ -482,6 +504,7 @@ int exec_cmd(t_astnode *ast, t_lst *env)
     }
 
     int result;
+    
     if (is_builtin_command(real_args[0]))
         result = execute_builtin(real_args, ast, env);
     else

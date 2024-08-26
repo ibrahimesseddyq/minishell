@@ -63,7 +63,8 @@ char* get_word(t_lexer *lexer)
                 lexer->currentchar == '<') {
                 break;
             }
-        } else if (lexer->currentchar == '\\') {
+        }
+        else if (lexer->currentchar == '\\') {
             // Handle escaped characters
             result[i++] = lexer->currentchar;  // Add the backslash
             advance(lexer);
@@ -71,7 +72,8 @@ char* get_word(t_lexer *lexer)
                 result[i++] = lexer->currentchar;  // Add the escaped character
                 advance(lexer);
             }
-        } else if (!in_quotes && (isspace(lexer->currentchar) ||
+        }
+        else if (!in_quotes && (isspace(lexer->currentchar) ||
                    lexer->currentchar == '|' || lexer->currentchar == '&' ||
                    lexer->currentchar == ';' || lexer->currentchar == '(' ||
                    lexer->currentchar == ')' || lexer->currentchar == '>' ||

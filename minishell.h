@@ -142,5 +142,6 @@ int my_exit(char **argv, int argc);
 void ft_export(char **str, t_lst *lst);
 void gc_free_all(void);
 char	**ft_split_quotes(char const *s, char c);
-
+ char which_to_split_with( char **strs, int index);
+ char *get_splitted_char(int index);
 #endif
