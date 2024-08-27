@@ -64,7 +64,7 @@ char *ft_expand(char *line, t_lst *env)
             printf("[ft_expand]    isnt inside single quote , char %c\n",start[i]);
             if(is_inside_quotes && start[i] == ' ')
             {
-                expanded_line[expanded_index++] = *get_splitted_char(2);
+                expanded_line[expanded_index++] = ' ';
                 i++;
             }
             if (start[i] == '$')
@@ -127,7 +127,7 @@ char *ft_expand(char *line, t_lst *env)
                     char *value2 = get_env(env, varName);
                     printf("get env %s\n",value2);
                     char *value = value2;
-                    for(int i = 0; value[i]; i++)
+                    for(int i = 0; value[i] && !is_inside_quotes; i++)
                     {
                         if(value[i] == ' ' && !is_inside_quotes)
                             value[i] = *get_splitted_char(2);

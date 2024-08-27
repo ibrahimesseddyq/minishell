@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/08/26 14:37:56 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/08/27 03:19:16 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ void handle_exec_error(const char *cmd)
         fprintf(stderr, "minishell: %s: Not a directory\n", cmd);
         ft_exit(126, SET_EXIT_STATUS);
     } else if (errno == ENOEXEC) {
-        fprintf(stderr, "minishell: %s: Exec format error\n", cmd);
+        fprintf(stderr, "minishell: %s: Exec format error 2\n", cmd);
         ft_exit(126, SET_EXIT_STATUS);
     } else if (errno == E2BIG) {
         fprintf(stderr, "minishell: %s: Argument list too long\n", cmd);
@@ -481,20 +481,16 @@ int exec_cmd(t_astnode *ast, t_lst *env)
     }
     if (!splitted_args)
         return 1;
-
+    char **second_splitted = split_all_strings(splitted_args, *get_splitted_char(2));
     // use split_all_strings function here , and before that use second delimiter for all spaces outside quotes, but the others should be kept as they are
-    char **real_args = make_array(splitted_args, ast->t_cmd.args_size);
+    char **real_args = make_array(second_splitted, ast->t_cmd.args_size);
     char *cmd_path = arg_cmds(real_args[0], env);
         printf(" [exec_cmd] after changing second delimiter to space %s\n",cmd_path);
 
-    printf("real_args arg\n");
-    for(int i = 0;  i < 2;i++)
-    {
-        printf("[exec_cmd] last version of args [%d] %s\n",i,real_args[i]);
-    }
+
     if (cmd_path)
     {
-        splitted_args[0] = cmd_path;
+        real_args[0] = cmd_path;
     }
     else
     {
@@ -504,7 +500,11 @@ int exec_cmd(t_astnode *ast, t_lst *env)
     }
 
     int result;
-    
+    printf("real_args arg\n");
+    for(int i = 0;  i < 2;i++)
+    {
+        printf("[exec_cmd] last version of args [%d] %s\n",i,real_args[i]);
+    }
     if (is_builtin_command(real_args[0]))
         result = execute_builtin(real_args, ast, env);
     else

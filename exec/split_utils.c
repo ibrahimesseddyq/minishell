@@ -46,7 +46,8 @@ static char **split_string(char *s, char delimiter) {
 }
 
 // Function to split all strings in the given array
-char **split_all_strings(char **array, char delimiter) {
+char **split_all_strings(char **array, char delimiter)
+{
     if (!array) return NULL;
 
     int total_count = 0;
