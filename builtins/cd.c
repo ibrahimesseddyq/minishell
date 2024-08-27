@@ -58,7 +58,7 @@ int ft_cd(int argc, char **argv, int mode, t_lst *env)
     char *expanded_dir = NULL;
     char *previous_pwd = ft_pwd();
     char *pwd = ft_strdup(ft_pwd());
-
+    printf("[cd] argc %d\n",argc);
     if (!previous_pwd || !pwd)
     {
         perror("cd");
@@ -66,7 +66,10 @@ int ft_cd(int argc, char **argv, int mode, t_lst *env)
         return 1;
     }
     set_env(env, "OLDPWD", previous_pwd, 1);
-
+    for(int i = 0; argv[i]; i++)
+    {
+        printf("argv[%d] %s\n",i,argv[i]);
+    }
     if (argc > 2)
     {
         fprintf(stderr, "minishell: cd: too many arguments\n");
@@ -96,6 +99,7 @@ int ft_cd(int argc, char **argv, int mode, t_lst *env)
     }
     else
     {
+        printf("set dir argv[1] %s\n",argv[1]);
         dir = argv[1];
     }
 
@@ -104,9 +108,10 @@ int ft_cd(int argc, char **argv, int mode, t_lst *env)
         ft_exit(EXIT_SUCCESS, mode);
         return 0;
     }
+    printf("[cd] dir %s\n",dir);
 
     expanded_dir = expand_tilde(dir, env);
-
+    printf("[cd] expanded dir %s\n",expanded_dir);
     if (!expanded_dir)
     {
 

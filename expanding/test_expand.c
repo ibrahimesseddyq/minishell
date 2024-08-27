@@ -124,7 +124,7 @@ char *ft_expand(char *line, t_lst *env)
                     varName[varNameLen] = '\0';
                     i += varNameLen;
 
-                    char *value2 = get_env(env, varName);
+                    char *value2 = ft_strdup(get_env(env, varName));
                     printf("get env %s\n",value2);
                     char *value = value2;
                     for(int i = 0; value[i] && !is_inside_quotes; i++)

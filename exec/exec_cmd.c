@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/08/27 03:19:16 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/08/27 20:50:48 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ static t_arg_node *replace_node_args(t_arg_node *current, char **expanded_args, 
     if (prev)
         prev->next = current->next;
 
-    return prev; // Return the last node in the new sequence
+    return prev;
 }
 
  
@@ -453,6 +453,7 @@ int exec_cmd(t_astnode *ast, t_lst *env)
     printf("[exec_cmd]splitter 2 %c\n",*get_splitted_char(2));
 
     char *expanded_string = ft_strdup("");
+    printf(" 1 env key %s\n",get_env(env,"a"));
 
     for (int i = 0; i <= ast->t_cmd.args_size; i++)
     {
@@ -481,12 +482,18 @@ int exec_cmd(t_astnode *ast, t_lst *env)
     }
     if (!splitted_args)
         return 1;
+        printf(" 2 env key %s\n",get_env(env,"a"));
+
     char **second_splitted = split_all_strings(splitted_args, *get_splitted_char(2));
+        printf(" 3 env key %s\n",get_env(env,"a"));
+
     // use split_all_strings function here , and before that use second delimiter for all spaces outside quotes, but the others should be kept as they are
     char **real_args = make_array(second_splitted, ast->t_cmd.args_size);
+    printf(" 4 env key %s\n",get_env(env,"a"));
+
     char *cmd_path = arg_cmds(real_args[0], env);
         printf(" [exec_cmd] after changing second delimiter to space %s\n",cmd_path);
-
+    printf(" 5 env key %s\n",get_env(env,"a"));
 
     if (cmd_path)
     {
@@ -498,6 +505,7 @@ int exec_cmd(t_astnode *ast, t_lst *env)
         // Free splitted_args before returning
         return 127;
     }
+    printf(" 6 env key %s\n",get_env(env,"a"));
 
     int result;
     printf("real_args arg\n");
