@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 15:42:23 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/08/22 20:12:10 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/08/28 04:13:55 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,11 @@ typedef struct s_redir_list {
     t_redir *redir;
     struct s_redir_list *next;
 } t_redir_list;
-
+typedef struct s_fdnode {
+    int fd;
+    int in_use;
+    struct s_fdnode* next;
+} t_fdnode;
 int				ft_atoi(const char *str);
 
 void			ft_bzero(void *s, size_t n);

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/08/27 20:50:48 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/08/28 08:14:00 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -506,7 +506,7 @@ int exec_cmd(t_astnode *ast, t_lst *env)
         return 127;
     }
     printf(" 6 env key %s\n",get_env(env,"a"));
-
+    // change args number here TODO
     int result;
     printf("real_args arg\n");
     for(int i = 0;  i < 2;i++)
