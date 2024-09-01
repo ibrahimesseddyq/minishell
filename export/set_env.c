@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:11:05 by ynachat           #+#    #+#             */
-/*   Updated: 2024/08/27 20:44:38 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/01 02:03:30 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void ft_export(char **str, t_lst *lst)
 			exist = get_symbol_exist(str[i], '=');
 			if(exist)
 			{
-				printf("[ft_export] str %s\n",str[i]);
+				// printf("[ft_export] str %s\n",str[i]);
 				str_split = ft_split(str[i], '=');
 				if(!str_split)
 					return ;
@@ -112,7 +112,7 @@ void	set_env(t_lst *lst, char *key, char *new_value, int sign)
 
 	new = NULL;
 	tmp = lst;
-	printf("set env called\n");
+	// printf("set env called\n");
 	while (lst)
 	{
 

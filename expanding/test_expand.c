@@ -40,10 +40,10 @@ char *ft_expand(char *line, t_lst *env)
     char *expanded_line = gcalloc(expanded_size);
     if (!expanded_line) return NULL;
     int expanded_index = 0;
-    printf("[ft_expand]    line is %s\n", line);
+    // printf("[ft_expand]    line is %s\n", line);
     while (start[i])
     {
-        printf("[ft_expand]    char[i] %c\n",start[i]);
+        // printf("[ft_expand]    char[i] %c\n",start[i]);
         if ((start[i] == '\'' || start[i] == '\"') && !is_inside_quotes)
         {
             is_inside_quotes = 1;
@@ -58,19 +58,20 @@ char *ft_expand(char *line, t_lst *env)
             i++;  // Skip the closing quote
             continue;
         }
-        printf("[ft_expand]    is inside quote %d and current one %c\n",is_inside_quotes, current_quote);
+        // printf("[ft_expand]    is inside quote %d and current one %c\n",is_inside_quotes, current_quote);
         if (!is_inside_quotes || (is_inside_quotes && current_quote == '\"'))
         {
-            printf("[ft_expand]    isnt inside single quote , char %c\n",start[i]);
+            // printf("[ft_expand]    isnt inside single quote , char %c\n",start[i]);
             if(is_inside_quotes && start[i] == ' ')
             {
                 expanded_line[expanded_index++] = ' ';
                 i++;
+
             }
             if (start[i] == '$')
             {
                 i++;
-                printf("[ft_expand]    after $ is %c\n", start[i]);
+                // printf("[ft_expand]    after $ is %c\n", start[i]);
                 if (start[i] == '?')
                 {
                     char *exit_status_str = ft_itoa(ft_exit(4, GET_EXIT_STATUS));
@@ -97,10 +98,16 @@ char *ft_expand(char *line, t_lst *env)
                 }
                 else if (start[i] == ' ' || start[i] == '\0' || start[i] == '\'' || start[i] == '\"')
                 {
-                    if(is_inside_quotes)
+                    if(start[i] == ' ')
+                    {
+                        expanded_line[expanded_index++] = '$';
+                        expanded_line[expanded_index++] = ' ';
+                    }
+                    else if(is_inside_quotes)
                     {
                         expanded_line[expanded_index++] = '$';
                     }
+
                     i++;
                 }
                 else

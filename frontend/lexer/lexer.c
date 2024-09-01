@@ -93,7 +93,7 @@ char* get_word(t_lexer *lexer)
 }
 
 t_token* get_next_token(t_lexer *lexer) {
-    printf("current char is [%c]\n", lexer->currentchar);
+    // printf("current char is [%c]\n", lexer->currentchar);
     while (lexer->currentchar != '\0') {
         if (isspace(lexer->currentchar) || lexer->currentchar == '\n') {
             skip_whitespace(lexer);
@@ -218,7 +218,7 @@ t_tklist* tokenize(char *input)
     while (token->type != TOKEN_EOF)
     {
         token_list->size++;
-        printf("size is %d and token is %s\n", token_list->size, token->value);
+        // printf("size is %d and token is %s\n", token_list->size, token->value);
         token_list->tokens = (t_token *)realloc(token_list->tokens, token_list->size * sizeof(t_token));
         token_list->tokens[token_list->size - 1] = *token;
         token = get_next_token(lexer);
