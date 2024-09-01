@@ -33,6 +33,7 @@ char *ft_expand(char *line, t_lst *env)
 {
     int is_inside_quotes = 0;
     char current_quote = 0;
+    int len = ft_strlen(line);
     char *start = line;
     int i = 0;
     int expanded_size = 64;
@@ -43,16 +44,25 @@ char *ft_expand(char *line, t_lst *env)
     // printf("[ft_expand]    line is %s\n", line);
     while (start[i])
     {
+        printf("this char %c inside qu %d\n", start[i], is_inside_quotes);
         // printf("[ft_expand]    char[i] %c\n",start[i]);
         if ((start[i] == '\'' || start[i] == '\"') && !is_inside_quotes)
         {
             is_inside_quotes = 1;
+            printf("set inside quote\n");
             current_quote = start[i];
             i++;
             continue;
         }
         else if (is_inside_quotes && start[i] == current_quote)
         {
+             if (start[i] == '\"' && is_inside_quotes && current_quote == '\"' && start[i - 1] == '$')
+            {
+                        printf("dkhl\n");
+                        expanded_line[expanded_index++] = '$';
+
+            }
+            printf("unset inside quote\n");
             is_inside_quotes = 0;
             current_quote = 0;
             i++;  // Skip the closing quote
@@ -71,7 +81,8 @@ char *ft_expand(char *line, t_lst *env)
             if (start[i] == '$')
             {
                 i++;
-                // printf("[ft_expand]    after $ is %c\n", start[i]);
+                printf("next char %c, inside quote %d\n",start[i ], is_inside_quotes);
+
                 if (start[i] == '?')
                 {
                     char *exit_status_str = ft_itoa(ft_exit(4, GET_EXIT_STATUS));
@@ -98,15 +109,25 @@ char *ft_expand(char *line, t_lst *env)
                 }
                 else if (start[i] == ' ' || start[i] == '\0' || start[i] == '\'' || start[i] == '\"')
                 {
-                    if(start[i] == ' ')
+                    if (start[i] == '\"' || start[i] == '\'' && !is_inside_quotes)
                     {
+                            printf("entered here\n");
+
+                        continue;
+                    }
+                    else if(start[i] == ' ')
+                    {
+                            printf("2 entered here\n");
+
                         expanded_line[expanded_index++] = '$';
                         expanded_line[expanded_index++] = ' ';
                     }
                     else if(is_inside_quotes)
                     {
+                        printf("3 entered here\n");
                         expanded_line[expanded_index++] = '$';
                     }
+                        printf("4 entered here\n");
 
                     i++;
                 }
@@ -167,6 +188,7 @@ char *ft_expand(char *line, t_lst *env)
             }
             else
             {
+                printf("expanded index %d\n", expanded_index);
                 if (expanded_index >= expanded_size - 1)
                 {
                     expanded_size *= 2;
@@ -177,6 +199,7 @@ char *ft_expand(char *line, t_lst *env)
                     }
                     expanded_line = new_expanded_line;
                 }
+                printf("charachter is %c\n",start[i]);
                 expanded_line[expanded_index++] = start[i++];
             }
         }
