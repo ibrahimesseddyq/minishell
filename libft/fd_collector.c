@@ -47,7 +47,8 @@ int gc_open(const char* path, int flags) {
 }
 
 // Updated wrapper for close
-int gc_close(int fd) {
+int gc_close(int fd)
+{
     t_fdnode** head = get_head();
     t_fdnode* current = *head;
     t_fdnode* prev = NULL;
