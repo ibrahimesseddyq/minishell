@@ -42,10 +42,13 @@ int my_exit(char **argv, int argc)
         {
             printf("minishell: exit: %s: numeric argument required\n", argv[1]);
             ft_exit(255, SET_EXIT_STATUS);
-            return (0);
+            ft_exit(255, EXIT_PROGRAM);
         }
         else
+        {
+            ft_exit(exit_value % 256, SET_EXIT_STATUS);
             ft_exit(exit_value % 256, EXIT_PROGRAM);
+        }
     }
-    return 1;
+    return (1);
 }
