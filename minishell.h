@@ -146,4 +146,6 @@ char	**ft_split_quotes(char const *s, char c);
  char *get_splitted_char(int index);
  char **split_all_strings(char **array, char delimiter);
 char *ft_expand_redir(char *line, t_lst *env);
+
+char *ft_expand_heredoc(char *line, t_lst *env);
 #endif

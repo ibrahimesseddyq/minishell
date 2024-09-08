@@ -136,7 +136,7 @@ int write_heredoc_to_file(const char *delimiter, char *filename, t_lst *env)
         }
         else
         {
-         expanded_line = ft_expand(line, env);  // env is your environment list
+         expanded_line = ft_expand_heredoc(line, env);
         }
         if (!expanded_line)
         {
