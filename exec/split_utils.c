@@ -25,10 +25,8 @@ static char **split_string(char *s, char delimiter) {
 
     while ((end = strchr(start, delimiter)) != NULL) {
         result[index] = strndup(start, end - start);
-        if (!result[index]) {
-            // Handle allocation failure
-            for (int j = 0; j < index; j++) free(result[j]);
-            free(result);
+        if (!result[index])
+        {
             return NULL;
         }
         index++;
@@ -37,8 +35,6 @@ static char **split_string(char *s, char delimiter) {
 
     result[index] = strdup(start); // Last segment
     if (!result[index]) {
-        for (int j = 0; j < index; j++) free(result[j]);
-        free(result);
         return NULL;
     }
     result[++index] = NULL; // Null-terminate the result array
@@ -62,8 +58,6 @@ char **split_all_strings(char **array, char delimiter)
     for (int i = 0; array[i]; i++) {
         char **split_result = split_string(array[i], delimiter);
         if (!split_result) {
-            for (int j = 0; j < result_index; j++) free(result[j]);
-            free(result);
             return NULL;
         }
 
@@ -71,7 +65,6 @@ char **split_all_strings(char **array, char delimiter)
             result[result_index++] = split_result[k];
         }
 
-        free(split_result);
     }
     result[result_index] = NULL; // Null-terminate the result array
     return result;

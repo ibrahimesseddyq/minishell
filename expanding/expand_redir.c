@@ -36,6 +36,10 @@ char *ft_expand_redir(char *line, t_lst *env)
     if (!expanded_line) return NULL;
     int expanded_index = 0;
     // printf("[ft_expand]    line is %s\n", line);
+    if (!start)
+    {
+        return NULL;
+    }
     while (start[i])
     {
         // printf("this char %c inside qu %d\n", start[i], is_inside_quotes);

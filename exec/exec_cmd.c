@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/01 02:56:34 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/08 10:39:52 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -359,30 +359,28 @@ int execute_external(char **arg_cmd, t_astnode *ast, t_lst *env)
     int fd;
     int stdout_backup = dup(1);  
 
-    if (pid == 0)  // Child process
+    if (pid == 0)
     {
-        fd = ft_redirection(ast, env);  // Handle redirections
+        fd = ft_redirection(ast, env);
         if (fd == -2)
-            return (-2); // Return error in child process
-
+            return (-2);
         char **envp = build_envp(env);
         if (!envp)
             ft_exit(1, SET_EXIT_STATUS);
 
         if (!check_file(arg_cmd)) {
             close(fd);
-            exit(0);  // If the file is invalid, exit with success
+            exit(0);
         }
 
         execve(arg_cmd[0], arg_cmd, envp);
         handle_exec_error(arg_cmd[0]);
     }
-    else if (pid > 0)  // Parent process
+    else if (pid > 0)
     {
         int child_status;
         waitpid(pid, &child_status, 0);
         
-        // Restore original stdout in the parent process
         dup2(stdout_backup, 1);
         close(stdout_backup);
 
@@ -485,7 +483,6 @@ char **make_array(char **args, int size)
                 str[j] = ' ';
             }
         }
-        // printf("edited %s\n",args[i]);
     }
     return args;
 }
@@ -507,47 +504,31 @@ int exec_cmd(t_astnode *ast, t_lst *env)
     t_arg_node *lst = ast->t_cmd.args;
     which_to_split_with(list_to_array(lst), 1);
     which_to_split_with(list_to_array(lst), 2);
-    // printf("[exec_cmd] splitter %c\n",*get_splitted_char(1));
-    // printf("[exec_cmd]splitter 2 %c\n",*get_splitted_char(2));
-
     char *expanded_string = ft_strdup("");
-    // printf(" 1 env key %s\n",get_env(env,"a"));
 
     for (int i = 0; i <= ast->t_cmd.args_size; i++)
     {
-        // printf("[exec_cmd] before expand %s\n",lst->arg);
         char *expanded_arg = ft_expand(lst->arg, env);
-        // printf("[exec_cmd] after expand %s\n",expanded_arg);
         char *temp = ft_strjoin(expanded_string, expanded_arg);
-        // printf("[exec_cmd] expanded_arg %s\n",expanded_arg);
-        // printf("[exec_cmd] expanded_string %s\n",expanded_string);
+
 
         expanded_string = temp;
         if (lst->next)
         {
-            // printf("[exec_cmd] joining expanded_string %s\n",expanded_string);
-            // printf("[exec_cmd] delimiter  %s\n",char_to_string(*get_splitted_char(1)));
+
             temp = ft_strjoin(expanded_string, ft_strdup(char_to_string(*get_splitted_char(1))));
             expanded_string = temp;
         }
         lst = lst->next;
     }
-    // printf("[exec_cmd] expanded_string %s\n",expanded_string);
     char **splitted_args = ft_split_quotes(expanded_string,*get_splitted_char(1));
-    // for(int i = 0;  i < 2;i++)
-    // {
-    //     printf("[exec_cmd] after splitting by the first delimiter %s\n",splitted_args[i]);
-    // }
+
     if (!splitted_args)
         return 1;
-    // printf(" 2 env key %s\n",get_env(env,"a"));
 
     char **second_splitted = split_all_strings(splitted_args, *get_splitted_char(2));
-    // printf(" 3 env key %s\n",get_env(env,"a"));
 
-    // use split_all_strings function here , and before that use second delimiter for all spaces outside quotes, but the others should be kept as they are
     char **real_args = make_array(second_splitted, ast->t_cmd.args_size);
-    // printf(" 4 env key %s\n",get_env(env,"a"));
 
     char *cmd_path = arg_cmds(real_args[0], env);
 
@@ -558,7 +539,6 @@ int exec_cmd(t_astnode *ast, t_lst *env)
     else
     {
         fprintf(stderr, "minishell: %s: command not found\n", real_args[0]);
-        // Free splitted_args before returning
         return 127;
     }
     int result;

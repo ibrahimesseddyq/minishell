@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:22:07 by ynachat           #+#    #+#             */
-/*   Updated: 2024/08/22 18:09:36 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/08 10:30:38 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,18 +69,17 @@ int ft_red_out(t_astnode *ast, t_lst *env)
         if (!ast->t_cmd.redirections->redir->file)
         {
             printf("ambigiuos redir\n");
-            return (-3);
+            return (-2);
         }
         if (redir->type == NODE_REDIRECT_OUT)
         {
-            // Handle output redirection with truncation
             fd = check_and_open_file(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
             if (fd == -2)
 			{
 				printf("fd is -2\n");
 				return (-2);
 			}
-			dup2(fd, 1);  // Redirect stdout to the file
+			dup2(fd, 1);
 
         } else if (redir->type == NODE_REDIRECT_APPEND) {
             // Handle output redirection with append

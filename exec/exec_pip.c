@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pip.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:00:51 by ynachat           #+#    #+#             */
-/*   Updated: 2024/08/19 00:42:29 by armanov          ###   ########.fr       */
+/*   Updated: 2024/09/08 10:37:43 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,41 +15,12 @@
 #include "../minishell.h"
 #include "../frontend/frontend.h"
 
-// static char	*arg_cmds(char *cmd)
-// {
-// 	char **path;
-// 	char *tmp;
-
-// 	path = ft_split(getenv("PATH"), ':');
-// 	cmd = ft_strjoin("/", cmd);
-// 	while (path && *path)
-// 	{
-// 		tmp = ft_strjoin(*path, cmd);
-// 		if (access(tmp, F_OK) == 0)
-// 			return(tmp);			
-// 		else
-// 			free(tmp);
-// 		path++;
-// 	}
-// 	return (NULL);
-// }
-
 void exec_pip(t_astnode *ast, t_lst *env)
 {
-	// int		i;
-	// int		j;
+
 	int		pipfd[2];
 	int		pid;
 	int		pid2;
-	// char	**cmd1;
-	// char	**cmd2;
-	// i = 0;
-	// j = 0;
-	// exit(1);
-	// cmd1 = ast->binary.left->t_cmd.args;
-	// cmd2 = ast->binary.right->t_cmd.args;
-	// char *arg_cmd1[] = {arg_cmds(cmd1[0]), cmd1[1], NULL};
-	// char *arg_cmd2[] = {arg_cmds(cmd2[0]), cmd2[1], NULL};
 
 	pipe(pipfd);
 	pid = fork();
@@ -59,11 +30,6 @@ void exec_pip(t_astnode *ast, t_lst *env)
 		close(pipfd[0]);
 		exec_cmd_line(ast->binary.left, env);
 		exit(0);
-		// if (execve(arg_cmds(cmd1[0]), arg_cmd1, NULL) == -1)
-		// {
-		// 	write(2, "Error\nexecve1()!!!\n", 19);
-		// 	exit(1);
-		// }
 	}
 	pid2 = fork();
 	if (pid2 == 0)
@@ -72,11 +38,6 @@ void exec_pip(t_astnode *ast, t_lst *env)
 		close(pipfd[1]);
 		exec_cmd_line(ast->binary.right, env);
 		exit(0);
-		// if (execve(arg_cmds(cmd2[0]), arg_cmd2, NULL) == -1)
-		// {
-		// 	write(2, "Error\nexecve2()!!!\n", 19);
-		// 	exit(1);
-		// }
 	}
 	close(pipfd[1]);
 	close(pipfd[0]);
