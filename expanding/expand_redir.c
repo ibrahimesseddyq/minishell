@@ -8,28 +8,22 @@
 #include <string.h>
 
 // Assuming these are defined elsewhere
-
-char *ft_itoa(int num)
+int check_ambigious(char *str)
 {
-    int temp_num = num;
-    int len = 1;
-    int sign = num < 0 ? -1 : 1;
-    if (num < 0) len++; // account for negative sign
-    // Calculate the length of the number
-    while (temp_num /= 10)
-        len++;
-    char *str = gcalloc(len + 1); // +1 for null terminator
-    if (!str) return NULL;
-    str[len] = '\0'; // null terminator
-    while (len--) {
-        str[len] = (num % 10) * sign + '0';
-        num /= 10;
-    }
-    if (sign == -1)
-        str[0] = '-';
-    return str;
+    int i;
+
+    i = 0;
+    if(!str[0])
+        return (1);
+    while(str[i] == ' ')
+        i++;
+    while(str[i] != ' ')
+        i++;
+    if (str[i])
+        return (1);
+    return (0);
 }
-char *ft_expand(char *line, t_lst *env)
+char *ft_expand_redir(char *line, t_lst *env)
 {
     int is_inside_quotes = 0;
     char current_quote = 0;
@@ -49,7 +43,6 @@ char *ft_expand(char *line, t_lst *env)
         if ((start[i] == '\'' || start[i] == '\"') && !is_inside_quotes)
         {
             is_inside_quotes = 1;
-            // printf("set inside quote\n");
             current_quote = start[i];
             i++;
             continue;
@@ -153,6 +146,9 @@ char *ft_expand(char *line, t_lst *env)
                     i += varNameLen;
 
                     char *value2 = ft_strdup(get_env(env, varName));
+                    if(check_ambigious(value2))
+                        return (NULL);
+                    printf("before expanding redir %s\n", value2);
                     // printf("get env %s\n",value2);
                     char *value = value2;
                     for(int i = 0; value[i] && !is_inside_quotes; i++)
@@ -213,3 +209,4 @@ char *ft_expand(char *line, t_lst *env)
     expanded_line[expanded_index] = '\0';
     return expanded_line;
 }
+

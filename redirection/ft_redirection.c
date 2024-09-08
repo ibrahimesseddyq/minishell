@@ -13,17 +13,24 @@
 #include "../minishell.h"
 #include "../frontend/frontend.h"
 
-int	ft_redirection(t_astnode *ast)
+int	ft_redirection(t_astnode *ast, t_lst *env)
 {
 	int	fd;
-	int stdout_backup = dup(1);  // Backup the current stdout
-
+	int stdout_backup = dup(1); 
 	while (ast->t_cmd.redirections)
 	{
 		if (ast->t_cmd.redirections->redir && (ast->t_cmd.redirections->redir->type == NODE_REDIRECT_OUT || ast->t_cmd.redirections->redir->type == NODE_REDIRECT_APPEND))
-			fd = ft_red_out(ast);
+		{
+			fd = ft_red_out(ast, env);
+			if (fd == -2)
+				return (-2);
+		}
 		else
-			fd = ft_red_in(ast);
+		{
+			fd = ft_red_in(ast, env);
+			if (fd == -2)
+				return (-2);
+		}
 		ast->t_cmd.redirections = ast->t_cmd.redirections->next;
 	}
 	return (stdout_backup);

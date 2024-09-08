@@ -91,7 +91,68 @@ void print_redirection2(t_redir_list *redir_list, const char *type, int depth) {
         current = current->next;
     }
 }
-t_astnode *parse_cmd(t_tklist *tokens)
+int there_is_quote(char *str)
+{
+    int i;
+
+    i = 0;
+    while(str[i])
+    {
+        if(str[i] == '\'' || str[i] == '\"')
+            return (1);
+        i++;
+    }
+    return (0);
+}
+int write_heredoc_to_file(const char *delimiter, char *filename, t_lst *env)
+{
+    static int file_counter;
+    char *expanded_line;
+
+    sprintf(filename, "heredoc_file_%d", file_counter++);
+    file_counter =1;
+    int fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+    if (fd < 0)
+    {
+        perror("Error opening file");
+        return -1;
+    }
+    while (1)
+    {
+        char *line = readline("> ");
+        if (!line)
+        {
+            close(fd);
+            return -1;
+        }
+        printf("line is %s, delimiter is %s\n", line, delimiter);
+        if (strcmp(line, delimiter) == 0)
+        {
+            break;
+        }
+        if(there_is_quote(delimiter))
+        {
+            expanded_line = line;
+        }
+        else
+        {
+         expanded_line = ft_expand(line, env);  // env is your environment list
+        }
+        if (!expanded_line)
+        {
+            close(fd);
+            return -1;
+        }
+
+        write(fd, expanded_line, strlen(expanded_line));
+        write(fd, "\n", 1);  // Add newline
+    }
+
+    close(fd);
+    return 0;
+}
+
+t_astnode *parse_cmd(t_tklist *tokens, t_lst *lst)
 {
     t_token *token;
     int argc = 0;
@@ -111,8 +172,8 @@ t_astnode *parse_cmd(t_tklist *tokens)
         } else {
             // Handle redirections
             t_redir *redir = gcalloc(sizeof(t_redir));
-            if (!redir) {
-                // Handle memory allocation error
+            if (!redir)
+            {
                 return NULL;
             }
             redir->file = NULL;
@@ -141,7 +202,6 @@ t_astnode *parse_cmd(t_tklist *tokens)
 
             t_redir_list *redir_node = gcalloc(sizeof(t_redir_list));
             if (!redir_node) {
-                // Handle memory allocation error
                 return NULL;
             }
             redir_node->redir = redir;
@@ -163,37 +223,18 @@ t_astnode *parse_cmd(t_tklist *tokens)
     while (current_heredoc) {
         if (current_heredoc->redir->type == NODE_HEREDOC) {
             char *delimiter = current_heredoc->redir->file;
-            char heredoc_content[1024]; // Fixed-size buffer for heredoc content
-            size_t heredoc_size = 0;
 
-            while (1) {
-                char *line = readline("> ");
-                if (!line) {
-                    // Handle EOF
-                    break;
-                }
-
-                if (strcmp(line, delimiter) == 0) {
-                    // Delimiter found, end of heredoc
-                    break;
-                }
-
-                size_t line_len = strlen(line);
-                if (heredoc_size + line_len + 2 <= sizeof(heredoc_content)) {
-                    strcpy(heredoc_content + heredoc_size, line);
-                    heredoc_size += line_len;
-                    heredoc_content[heredoc_size++] = '\n';
-                    heredoc_content[heredoc_size] = '\0';
-                } else {
-                    // Handle buffer overflow
-                    printf("Heredoc content exceeds buffer size\n");
-                    return NULL;
-                }
-
+            // Generate a unique filename for the heredoc content
+            char heredoc_file[50];
+            if (write_heredoc_to_file(delimiter, heredoc_file, lst) != 0) {
+                // Handle error in writing heredoc content
+                return NULL;
             }
 
-            current_heredoc->redir->heredoc = strdup(heredoc_content);
-            if (!current_heredoc->redir->heredoc) {
+            // Store the generated filename in the redirection structure
+            current_heredoc->redir->heredoc = strdup(heredoc_file);
+            if (!current_heredoc->redir->heredoc)
+            {
                 // Handle memory allocation error
                 return NULL;
             }
@@ -203,8 +244,9 @@ t_astnode *parse_cmd(t_tklist *tokens)
 
     return cmd_node;
 }
-t_astnode *parse_pipe(t_tklist *tokens) {
-    t_astnode *node1 = parse_cmd(tokens);
+t_astnode *parse_pipe(t_tklist *tokens, t_lst *lst)
+{
+    t_astnode *node1 = parse_cmd(tokens, lst);
     if (!node1) {
         printf("null in parse_pipe 1\n");
 
@@ -214,7 +256,7 @@ t_astnode *parse_pipe(t_tklist *tokens) {
     t_token *token = peek_token(tokens);
     while (token && token->type == TK_PIPE) {
         next_token(tokens);
-        t_astnode *node2 = parse_cmd(tokens);
+        t_astnode *node2 = parse_cmd(tokens, lst);
         if (!node2) {
         printf("null in parse_pipe 2\n");
             return NULL;
@@ -226,33 +268,33 @@ t_astnode *parse_pipe(t_tklist *tokens) {
     return node1;
 }
 
-t_astnode *parse_and_or(t_tklist *tokens, t_astnode *left, t_token *token) {
+t_astnode *parse_and_or(t_tklist *tokens, t_astnode *left, t_token *token, t_lst *lst) {
     t_astnode *node = NULL;
     t_astnode *right;
 
-    if (token->type == TK_AND) {
-        right = parse_pipe(tokens);
-        if (!right) {
-        printf("null in parse_and_or 1\n");
-
+    if (token->type == TK_AND)
+    {
+        right = parse_pipe(tokens, lst);
+        if (!right)
+        {
             return NULL;
-
         }
         node = create_binary_node(NODE_LOGICAL_AND, left, right);
-    } else if (token->type == TK_OR) {
-        right = parse_pipe(tokens);
-        if (!right) {
-        printf("null in parse_and_or 2\n");
-
+    }
+    else if (token->type == TK_OR)
+    {
+        right = parse_pipe(tokens, lst);
+        if (!right)
+        {
             return NULL;
-
         }
         node = create_binary_node(NODE_LOGICAL_OR, left, right);
     }
     return node;
 }
-t_astnode *parse_command_line(t_tklist *tokens) {
-    t_astnode *node = parse_block(tokens);
+t_astnode *parse_command_line(t_tklist *tokens, t_lst *lst)
+{
+    t_astnode *node = parse_block(tokens, lst);
     
     if (!node) {
         printf("null in parse_command_line 1\n");
@@ -262,7 +304,7 @@ t_astnode *parse_command_line(t_tklist *tokens) {
     t_token *token = peek_token(tokens);
     while (token && (token->type == TK_AND || token->type == TK_OR)) {
         token = next_token(tokens);
-        t_astnode *right = parse_command_line(tokens);
+        t_astnode *right = parse_command_line(tokens, lst);
         if (!right) {
             printf("null in parse_command_line 2\n");
             return NULL;
@@ -277,12 +319,13 @@ t_astnode *parse_command_line(t_tklist *tokens) {
     return node;
 }
 
-t_astnode *parse_block(t_tklist *tokens) {
+t_astnode *parse_block(t_tklist *tokens, t_lst *lst)
+{
     t_token *token = peek_token(tokens);
 
     if (token && token->type == TK_LPR) {
         next_token(tokens);
-        t_astnode *node = parse_command_line(tokens);
+        t_astnode *node = parse_command_line(tokens, lst);
         if (!node) {
             printf("null in parse_block 1\n");
             return NULL;
@@ -301,6 +344,6 @@ t_astnode *parse_block(t_tklist *tokens) {
         }
         return block_node;
     } else {
-        return parse_pipe(tokens);
+        return parse_pipe(tokens, lst);
     }
 }

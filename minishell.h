@@ -129,9 +129,9 @@ void	exec_or(t_astnode *ast, t_lst *env);
 t_lst	*envp(char **env);
 char	*get_env(t_lst *env, char *the_env);
 void	set_env(t_lst *lst, char *key, char *new_value, int sign);
-int 	ft_red_in(t_astnode *ast);
-int		ft_red_out(t_astnode *ast);
-int		ft_redirection(t_astnode *ast);
+int 	ft_red_in(t_astnode *ast, t_lst *env);
+int		ft_red_out(t_astnode *ast, t_lst *env);
+int	ft_redirection(t_astnode *ast, t_lst *env);
 char	*ft_expand(char *line, t_lst *env);
 int		ft_cd(int argc, char **argv, int mode, t_lst *env);
 char	*ft_pwd(void);
@@ -145,5 +145,5 @@ char	**ft_split_quotes(char const *s, char c);
  char which_to_split_with( char **strs, int index);
  char *get_splitted_char(int index);
  char **split_all_strings(char **array, char delimiter);
-
+char *ft_expand_redir(char *line, t_lst *env);
 #endif

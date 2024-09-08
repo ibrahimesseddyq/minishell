@@ -14,6 +14,14 @@ void handle_sigint(int num)
     // rl_on_new_line();
     rl_redisplay();
 }
+// void increment_shell_level(t_lst* env)
+// {
+// 	int shlvl;
+
+// 	shlvl = ft_atoi(get_env(env, "SHLVL"));
+// 	shlvl++;
+// 	set_env(env, "SHLVL", itoa(shlvl), 1);
+// }
 // change std function with my libft atoi, printf...
 int main(int ac, char **av, char *env[])
 {
@@ -57,7 +65,7 @@ int main(int ac, char **av, char *env[])
 			{
 				add_history(t);
 				set_beginning(token_list);
-				ast = parse_command_line(token_list);	
+				ast = parse_command_line(token_list, lst);	
 				lst = tmp;
 
 				if (ast)

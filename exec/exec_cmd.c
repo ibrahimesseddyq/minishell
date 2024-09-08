@@ -225,6 +225,26 @@ char *arg_cmds(char *cmd, t_lst *env)
     char *cmd_path = find_command_in_path(cmd, path_dirs);
     return cmd_path ? cmd_path : ft_strdup(cmd);
 }
+int is_absolute_path(const char *path)
+{
+    return path[0] == '/';
+}
+
+int is_relative_path(const char *path)
+{
+    return path[0] == '.' && (path[1] == '/' || (path[1] == '.' && path[2] == '/'));
+}
+
+const int is_relative_absolute(const char *path)
+{
+    if (is_absolute_path(path))
+        return 1;
+    else if (is_relative_path(path))
+        return 1;
+    else
+        return 0;
+}
+
 // a = ls -l
 // array[2] = [ls, -l]
 // echo -> $a -> hello
@@ -283,11 +303,13 @@ int	is_builtin_command(const char *cmd)
 int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
 {
     int stdout_backup;
-    stdout_backup = ft_redirection(ast);
+    stdout_backup = ft_redirection(ast, env);
+    if (stdout_backup == -2)
+            return (-2); // Return error in child process
 	if (!ft_strcmp(arg_cmd[0], "echo"))
 		ft_echo(arg_cmd);
 	else if (!ft_strcmp(arg_cmd[0], "cd"))
-		ft_cd(ast->t_cmd.args_size, arg_cmd, SET_EXIT_STATUS, env);
+		ft_cd(ast->t_cmd.args_size + 1, arg_cmd, SET_EXIT_STATUS, env);
 	else if (!ft_strcmp(arg_cmd[0], "pwd"))
 		printf("%s\n", ft_pwd());
 	else if (!ft_strcmp(arg_cmd[0], "env"))
@@ -296,7 +318,7 @@ int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
 		my_exit(arg_cmd, ast->t_cmd.args_size);
 	else if (!ft_strcmp(arg_cmd[0], "export"))
     {
-        printf("before export %s\n",arg_cmd[1]);
+        // printf("before export %s\n",arg_cmd[1]);
 		ft_export(arg_cmd, env);
     }
     dup2(stdout_backup, 1);
@@ -304,48 +326,82 @@ int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
 	return (1);
 }
 
+int check_file(char **argv)
+{
+    int is_abs_rel;
+
+    is_abs_rel = 0;
+    if(is_relative_absolute(argv[0]))
+    {
+        is_abs_rel = 1;
+    }
+    if(access(argv[0], F_OK) == -1)
+    {
+        if(is_abs_rel)
+            fprintf(stderr, "minishell: %s: No such file or directory\n", argv[0]);
+        else
+            fprintf(stderr, "minishell: %s: command not found\n", argv[0]);
+        ft_exit(127, SET_EXIT_STATUS);
+        return (0);
+    }
+    if(access(argv[0], X_OK) == -1)
+    {
+        fprintf(stderr, "minishell: %s: Permission denied\n", argv[0]);
+        ft_exit(127, SET_EXIT_STATUS);
+        return (0);
+    }
+    return (1);
+}
+
 int execute_external(char **arg_cmd, t_astnode *ast, t_lst *env)
 {
     int pid = fork();
     int fd;
-    if (pid == 0)
+    int stdout_backup = dup(1);  
+
+    if (pid == 0)  // Child process
     {
-        fd = ft_redirection(ast);
+        fd = ft_redirection(ast, env);  // Handle redirections
+        if (fd == -2)
+            return (-2); // Return error in child process
+
         char **envp = build_envp(env);
         if (!envp)
             ft_exit(1, SET_EXIT_STATUS);
 
-        if (access(arg_cmd[0], F_OK) == -1 || arg_cmd[0][0] == '\0')
-        {
-            fprintf(stderr, "minishell: %s: command not found\n", arg_cmd[0]);
-            ft_exit(127, SET_EXIT_STATUS);
+        if (!check_file(arg_cmd)) {
+            close(fd);
+            exit(0);  // If the file is invalid, exit with success
         }
-        else
-        {
-            execve(arg_cmd[0], arg_cmd, envp);
-            handle_exec_error(arg_cmd[0]);
-        }
-        close(fd);
-    }
-    else if (pid > 0)
-    {
 
+        execve(arg_cmd[0], arg_cmd, envp);
+        handle_exec_error(arg_cmd[0]);
+    }
+    else if (pid > 0)  // Parent process
+    {
         int child_status;
         waitpid(pid, &child_status, 0);
+        
+        // Restore original stdout in the parent process
+        dup2(stdout_backup, 1);
+        close(stdout_backup);
+
+        if (fd != stdout_backup)
+            close(fd);
+
         if (WIFEXITED(child_status))
             ft_exit(WEXITSTATUS(child_status), SET_EXIT_STATUS);
         else if (WIFSIGNALED(child_status))
             ft_exit(128 + WTERMSIG(child_status), SET_EXIT_STATUS);
     }
-    else
+    else  // Error in fork
     {
-                    // printf("fork error\n");
-
         perror("fork");
         ft_exit(1, SET_EXIT_STATUS);
     }
     return 1;
 }
+
 char *find_command_in_path(const char *cmd, char **path_dirs)
 {
     char *cmd_with_slash = ft_strjoin("/", (char *)cmd);
@@ -422,6 +478,7 @@ char **make_array(char **args, int size)
     {
 
         char *str = args[i];
+        printf("[make array] %s\n", str);
         for (int j = 0; str[j]; j++) {
             if (str[j] == *get_splitted_char(2))
             {
@@ -441,6 +498,7 @@ static char *char_to_string(char c)
     str[1] = '\0';
     return str;
 }
+
 int exec_cmd(t_astnode *ast, t_lst *env)
 {
    if (!ast->t_cmd.args || !get_node_at(ast->t_cmd.args, 0)->arg)
@@ -457,9 +515,9 @@ int exec_cmd(t_astnode *ast, t_lst *env)
 
     for (int i = 0; i <= ast->t_cmd.args_size; i++)
     {
-        printf("[exec_cmd] before expand %s\n",lst->arg);
+        // printf("[exec_cmd] before expand %s\n",lst->arg);
         char *expanded_arg = ft_expand(lst->arg, env);
-        printf("[exec_cmd] after expand %s\n",expanded_arg);
+        // printf("[exec_cmd] after expand %s\n",expanded_arg);
         char *temp = ft_strjoin(expanded_string, expanded_arg);
         // printf("[exec_cmd] expanded_arg %s\n",expanded_arg);
         // printf("[exec_cmd] expanded_string %s\n",expanded_string);
@@ -482,18 +540,16 @@ int exec_cmd(t_astnode *ast, t_lst *env)
     // }
     if (!splitted_args)
         return 1;
-        // printf(" 2 env key %s\n",get_env(env,"a"));
+    // printf(" 2 env key %s\n",get_env(env,"a"));
 
     char **second_splitted = split_all_strings(splitted_args, *get_splitted_char(2));
-        // printf(" 3 env key %s\n",get_env(env,"a"));
+    // printf(" 3 env key %s\n",get_env(env,"a"));
 
     // use split_all_strings function here , and before that use second delimiter for all spaces outside quotes, but the others should be kept as they are
     char **real_args = make_array(second_splitted, ast->t_cmd.args_size);
     // printf(" 4 env key %s\n",get_env(env,"a"));
 
     char *cmd_path = arg_cmds(real_args[0], env);
-    //     printf(" [exec_cmd] after changing second delimiter to space %s\n",cmd_path);
-    // printf(" 5 env key %s\n",get_env(env,"a"));
 
     if (cmd_path)
     {
@@ -505,21 +561,10 @@ int exec_cmd(t_astnode *ast, t_lst *env)
         // Free splitted_args before returning
         return 127;
     }
-    // printf(" 6 env key %s\n",get_env(env,"a"));
-    // change args number here TODO
     int result;
-    // printf("real_args arg\n");
-    // for(int i = 0;  i < 2;i++)
-    // {
-    //     printf("[exec_cmd] last version of args [%d] %s\n",i,real_args[i]);
-    // }
     if (is_builtin_command(real_args[0]))
         result = execute_builtin(real_args, ast, env);
     else
         result = execute_external(real_args, ast, env);
-
-    // Free splitted_args
-
-
     return result;
 }

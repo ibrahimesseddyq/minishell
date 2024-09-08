@@ -29,7 +29,7 @@ char *ft_itoa(int num)
         str[0] = '-';
     return str;
 }
-char *ft_expand(char *line, t_lst *env)
+char *ft_expand_heredoc(char *line, t_lst *env)
 {
     int is_inside_quotes = 0;
     char current_quote = 0;
@@ -213,3 +213,4 @@ char *ft_expand(char *line, t_lst *env)
     expanded_line[expanded_index] = '\0';
     return expanded_line;
 }
+
