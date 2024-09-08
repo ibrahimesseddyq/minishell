@@ -59,7 +59,7 @@ int main(int ac, char **av, char *env[])
 			// printf("aftertokeizing\n");
 			if (!analyse_syntax(token_list))
 			{
-				ft_exit(2, SET_EXIT_STATUS);
+				ft_exit(258, SET_EXIT_STATUS);
 			}
 			else
 			{

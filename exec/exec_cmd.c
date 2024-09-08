@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/08 10:39:52 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/08 11:31:31 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -286,18 +286,14 @@ void expand_arguments(t_astnode *ast, t_lst *env)
         }
     }
 
-    // while (head)
-    // {
-    //     // printf("argument %s\n", head->arg);
-    //     head = head->next;
-    // }
+
     ast->t_cmd.args_size = i;
 }
 int	is_builtin_command(const char *cmd)
 {
 	return (!ft_strcmp((char *)cmd, "echo") || !ft_strcmp((char *)cmd, "cd") ||
 			!ft_strcmp((char *)cmd, "pwd") || !ft_strcmp((char *)cmd, "env") ||
-			!ft_strcmp((char *)cmd, "exit") || !ft_strcmp((char *)cmd, "export"));
+			!ft_strcmp((char *)cmd, "exit") || !ft_strcmp((char *)cmd, "export") || !ft_strcmp((char *)cmd, "unset"));
 }
 
 int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
@@ -318,7 +314,10 @@ int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
 		my_exit(arg_cmd, ast->t_cmd.args_size);
 	else if (!ft_strcmp(arg_cmd[0], "export"))
     {
-        // printf("before export %s\n",arg_cmd[1]);
+		ft_export(arg_cmd, env);
+    }
+    else if (!ft_strcmp(arg_cmd[0], "unset"))
+    {
 		ft_export(arg_cmd, env);
     }
     dup2(stdout_backup, 1);
