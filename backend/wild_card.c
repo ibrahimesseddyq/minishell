@@ -107,12 +107,9 @@ int main() {
 
     char **found_files = NULL;
     int found_count = 0;
-
     wildcard(pattern, 0, ".", levels, &found_files, &found_count);
-
     for (int i = 0; i < found_count; i++) {
         printf("%s\n", found_files[i]);
     }
-
     return 0;
 }
