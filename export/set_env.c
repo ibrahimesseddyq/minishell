@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:11:05 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/09 05:09:52 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/09 08:51:42 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,45 +69,102 @@ char *trim_quotes(char *str)
 }
 void ft_export(char **str, t_lst *lst)
 {
-	int exist;
-	char **str_split;
-	int i;
-	char *str_trimmed;
+    int exist;
+    int append_mode;
+    char *key;
+    char *value;
+    int i;
+    char *temp;
 
-	i = 1;
-	for(int i = 0; str[i]; i++)
-	{
-		printf("[ft_export] str %s\n",str[i]);
-	}
-	if (!str[1])
-	{
-		print_export(lst);
-	}
-	else
-	{
-		while(str[i])
-		{
-			exist = get_symbol_exist(str[i], '=');
-			if(exist)
-			{
-				// printf("[ft_export] str %s\n",str[i]);
-				str_split = ft_split(str[i], '=');
-				if(!str_split)
-					return ;
-				if(str_split[1])
-					str_trimmed = trim_quotes(str_split[1]);
-				else
-					str_trimmed = "";
-				set_env(lst, str_split[0], str_trimmed, exist);
-			}
-			else
-			{
-				set_env(lst, str[i], "", exist);
-			}
-			i++;
-		} 
-	}
+    i = 1;
+    if (!str[1])
+    {
+        print_export(lst);
+    }
+    else
+    {
+        while (str[i])
+        {
+
+            append_mode = get_symbol_exist(str[i], '+') && get_symbol_exist(str[i], '=');
+            if (append_mode)
+            {
+                temp = strdup(str[i]);
+
+                key = strtok(temp, "+=");
+
+                value = ft_strchr(str[i], '=');
+                if (value)
+                    value++;
+
+                if (value && *value)
+                    value = trim_quotes(value);
+                else
+                    value = "";
+
+                append_env(lst, key, value);
+            }
+            else
+            {
+                exist = get_symbol_exist(str[i], '=');
+                if (exist)
+                {
+                    temp = strdup(str[i]);
+
+                    key = strtok(temp, "=");
+
+                    value = ft_strchr(str[i], '=');
+                    if (value)
+                        value++;
+
+                    if (value && *value)
+                        value = trim_quotes(value);
+                    else
+                        value = "";
+
+                    set_env(lst, key, value, exist);
+                }
+                else
+                {
+                    set_env(lst, str[i], "", exist);
+                }
+            }
+            i++;
+        }
+    }
 }
+
+void append_env(t_lst *lst, char *key, char *new_value)
+{
+    t_lst *tmp;
+    char *existing_value;
+    char *combined_value;
+
+    tmp = lst;
+    while (lst)
+    {
+        if (ft_strcmp(lst->key, key) == 0)
+        {
+            existing_value = lst->value ? lst->value : "";
+
+            combined_value = malloc(ft_strlen(existing_value) + ft_strlen(new_value) + 1);
+            if (!combined_value)
+                return; 
+            strcpy(combined_value, existing_value);
+            strcat(combined_value, new_value);
+
+            lst->value = combined_value;
+
+            return;
+        }
+        lst = lst->next;
+    }
+
+    lst = tmp;
+    ft_lstadd_back_env(&lst, ft_lstadd_new_env(key, new_value, '='));
+}
+
+
 void	set_env(t_lst *lst, char *key, char *new_value, int sign)
 {
 	t_lst *new;
@@ -115,13 +172,11 @@ void	set_env(t_lst *lst, char *key, char *new_value, int sign)
 
 	new = NULL;
 	tmp = lst;
-	// printf("set env called\n");
 	while (lst)
 	{
 
 		if (ft_strcmp(lst->key, key) == 0)
 		{
-			// printf("key1 %s key2 %s\nvalue1 %s value2 %s\n",key, lst->key,new_value, lst->value);
 			if (new_value)
 				lst->value = ft_strdup(new_value);
 			else

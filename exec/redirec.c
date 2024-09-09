@@ -21,7 +21,7 @@ static char	*arg_cmds(char *cmd)
 
 int pipex(char **cmd1, char **cmd2)
 {
-int		i;
+	int		i;
 	int		j;
 	int		pipfd[2];
 	int		pid;

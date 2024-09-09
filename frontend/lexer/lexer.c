@@ -1,5 +1,5 @@
 #include "../frontend.h"
-#define WORD ".[]\\-_\"\'&$/*"
+#define WORD ".[]\\-_\"\'&$/*+;"
 #define INITIAL_BUFFER_SIZE 256
 #define BUFFER_GROWTH_FACTOR 2
 t_lexer* init_lexer(char *input) {

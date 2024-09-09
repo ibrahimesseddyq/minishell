@@ -26,7 +26,8 @@ int my_exit(char **argv, int argc)
     int error_exist;
 
     error_exist = 0;
-
+    if (!argv[1])
+        ft_exit(0, EXIT_PROGRAM);
     if (argc > 2)
     {
         printf("minishell: exit: too many arguments\n");
@@ -41,10 +42,13 @@ int my_exit(char **argv, int argc)
         {
             printf("minishell: exit: %s: numeric argument required\n", argv[1]);
             ft_exit(255, SET_EXIT_STATUS);
-            return (0);
+            ft_exit(255, EXIT_PROGRAM);
         }
         else
+        {
+            ft_exit(exit_value % 256, SET_EXIT_STATUS);
             ft_exit(exit_value % 256, EXIT_PROGRAM);
+        }
     }
-    return 1;
+    return (1);
 }

@@ -58,22 +58,18 @@ int ft_cd(int argc, char **argv, int mode, t_lst *env)
     char *expanded_dir = NULL;
     char *previous_pwd = ft_pwd();
     char *pwd = ft_strdup(ft_pwd());
-    printf("[cd] argc %d\n",argc);
     if (!previous_pwd || !pwd)
     {
         perror("cd");
-        ft_exit(EXIT_FAIL, mode);
+        ft_exit(1 , mode);
         return 1;
     }
     set_env(env, "OLDPWD", previous_pwd, 1);
-    for(int i = 0; argv[i]; i++)
-    {
-        printf("argv[%d] %s\n",i,argv[i]);
-    }
+
     if (argc > 2)
     {
         fprintf(stderr, "minishell: cd: too many arguments\n");
-        ft_exit(EXIT_FAIL, mode);
+        ft_exit(1 , mode);
         return 1;
     }
 
@@ -83,7 +79,7 @@ int ft_cd(int argc, char **argv, int mode, t_lst *env)
         if (!dir)
         {
             fprintf(stderr, "minishell: cd: HOME not set\n");
-            ft_exit(EXIT_FAIL, mode);
+            ft_exit(1 , mode);
             return 1;
         }
     }
@@ -93,7 +89,7 @@ int ft_cd(int argc, char **argv, int mode, t_lst *env)
         if (!dir || !*dir)
         {
             fprintf(stderr, "minishell: cd: OLDPWD not set\n");
-            ft_exit(EXIT_FAIL, mode);
+            ft_exit(1 , mode);
             return 1;
         }
     }
