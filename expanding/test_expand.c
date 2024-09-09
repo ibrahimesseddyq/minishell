@@ -151,7 +151,7 @@ char *ft_expand(char *line, t_lst *env)
                     strncpy(varName, &start[i], varNameLen);
                     varName[varNameLen] = '\0';
                     i += varNameLen;
-
+                    printf("var name %s\n", get_env(env, varName));
                     char *value2 = ft_strdup(get_env(env, varName));
                     // printf("get env %s\n",value2);
                     char *value = value2;

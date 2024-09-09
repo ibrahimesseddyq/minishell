@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:11:05 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/01 02:03:30 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/09 05:09:52 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,10 @@ void ft_export(char **str, t_lst *lst)
 	char *str_trimmed;
 
 	i = 1;
-
+	for(int i = 0; str[i]; i++)
+	{
+		printf("[ft_export] str %s\n",str[i]);
+	}
 	if (!str[1])
 	{
 		print_export(lst);

@@ -15,7 +15,7 @@
 #define MNSH_PATH_MAX 4096
 #define SUCCESS 1
 #define FAILURE -1
-
+#define IS_EXPORT 8
 
 typedef struct stat t_stat;
 typedef enum
