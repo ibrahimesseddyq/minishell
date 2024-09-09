@@ -15,7 +15,7 @@
 #define MNSH_PATH_MAX 4096
 #define SUCCESS 1
 #define FAILURE -1
-
+#define IS_EXPORT 8
 
 typedef struct stat t_stat;
 typedef enum
@@ -146,4 +146,8 @@ char	**ft_split_quotes(char const *s, char c);
  char *get_splitted_char(int index);
  char **split_all_strings(char **array, char delimiter);
 char *ft_expand_redir(char *line, t_lst *env);
+
+char *ft_expand_heredoc(char *line, t_lst *env);
+int unset(char **args, t_lst *lst);
+void append_env(t_lst *lst, char *key, char *new_value);
 #endif

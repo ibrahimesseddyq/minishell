@@ -17,30 +17,60 @@
 
 void exec_pip(t_astnode *ast, t_lst *env)
 {
+    int pipfd[2];
+    int prev_pipe_read = -1;
+    pid_t last_pid = -1;
 
-	int		pipfd[2];
-	int		pid;
-	int		pid2;
+    while (ast->type == NODE_PIPE) {
+        pipe(pipfd);
 
-	pipe(pipfd);
-	pid = fork();
-	if (pid == 0)
-	{
-		dup2(pipfd[1], 1);
-		close(pipfd[0]);
-		exec_cmd_line(ast->binary.left, env);
-		exit(0);
-	}
-	pid2 = fork();
-	if (pid2 == 0)
-	{
-		dup2(pipfd[0], 0);
-		close(pipfd[1]);
-		exec_cmd_line(ast->binary.right, env);
-		exit(0);
-	}
-	close(pipfd[1]);
-	close(pipfd[0]);
-	waitpid(pid2, NULL, 0);
-	waitpid(pid, NULL, 0);
+        pid_t pid = fork();
+        if (pid == 0) {
+            // Child process
+            if (prev_pipe_read != -1) {
+                dup2(prev_pipe_read, STDIN_FILENO);
+                close(prev_pipe_read);
+            }
+            dup2(pipfd[1], STDOUT_FILENO);
+            close(pipfd[0]);
+            close(pipfd[1]);
+
+            exec_cmd_line(ast->binary.left, env);
+            exit(0);
+        } else if (pid < 0) {
+            perror("fork");
+            exit(1);
+        }
+
+        // Parent process
+        if (prev_pipe_read != -1)
+            close(prev_pipe_read);
+        close(pipfd[1]);
+        prev_pipe_read = pipfd[0];
+
+        ast = ast->binary.right;
+    }
+
+    // Last command in the pipeline
+    last_pid = fork();
+    if (last_pid == 0) {
+        // Child process for last command
+        if (prev_pipe_read != -1) {
+            dup2(prev_pipe_read, STDIN_FILENO);
+            close(prev_pipe_read);
+        }
+        exec_cmd_line(ast, env);
+        exit(0);
+    } else if (last_pid < 0) {
+        perror("fork");
+        exit(1);
+    }
+
+    // Parent process
+    if (prev_pipe_read != -1)
+        close(prev_pipe_read);
+
+    // Wait only for the last process
+    waitpid(last_pid, NULL, 0);
 }
+

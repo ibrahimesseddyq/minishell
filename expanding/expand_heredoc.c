@@ -7,28 +7,6 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Assuming these are defined elsewhere
-
-char *ft_itoa(int num)
-{
-    int temp_num = num;
-    int len = 1;
-    int sign = num < 0 ? -1 : 1;
-    if (num < 0) len++; // account for negative sign
-    // Calculate the length of the number
-    while (temp_num /= 10)
-        len++;
-    char *str = gcalloc(len + 1); // +1 for null terminator
-    if (!str) return NULL;
-    str[len] = '\0'; // null terminator
-    while (len--) {
-        str[len] = (num % 10) * sign + '0';
-        num /= 10;
-    }
-    if (sign == -1)
-        str[0] = '-';
-    return str;
-}
 char *ft_expand_heredoc(char *line, t_lst *env)
 {
     int is_inside_quotes = 0;
@@ -69,7 +47,7 @@ char *ft_expand_heredoc(char *line, t_lst *env)
             continue;
         }
         // printf("[ft_expand]    is inside quote %d and current one %c\n",is_inside_quotes, current_quote);
-        if (!is_inside_quotes || (is_inside_quotes && current_quote == '\"'))
+        if (!is_inside_quotes || (is_inside_quotes && (current_quote == '\"' || current_quote == '\'')))
         {
             // printf("[ft_expand]    isnt inside single quote , char %c\n",start[i]);
             if(is_inside_quotes && start[i] == ' ')
@@ -202,11 +180,6 @@ char *ft_expand_heredoc(char *line, t_lst *env)
                 // printf("charachter is %c\n",start[i]);
                 expanded_line[expanded_index++] = start[i++];
             }
-        }
-        else
-        {
-            expanded_line[expanded_index++] = start[i];
-            i++; 
         }
     }
 
