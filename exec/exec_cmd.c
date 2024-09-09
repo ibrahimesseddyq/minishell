@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/09 15:04:08 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/09 18:13:12 by armanov          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -526,61 +526,96 @@ int builtins_error(t_arg_node *lst)
     }
     return (0);
 }
-int exec_cmd(t_astnode *ast, t_lst *env)
+int exec_cmd(t_astnode *ast, t_lst *env, int in_fd, int out_fd)
 {
-   if (!ast->t_cmd.args || !get_node_at(ast->t_cmd.args, 0)->arg)
+    if (!ast->t_cmd.args || !get_node_at(ast->t_cmd.args, 0)->arg)
         return 0;
 
-    t_arg_node *lst = ast->t_cmd.args;
-    which_to_split_with(list_to_array(lst), 1);
-    which_to_split_with(list_to_array(lst), 2);
-    printf("c is %c %c\n",which_to_split_with(list_to_array(lst), 1),which_to_split_with(list_to_array(lst), 2));
-    char *expanded_string = ft_strdup("");
-    if (builtins_error(lst))
-        return (1);
-    for (int i = 0; i <= ast->t_cmd.args_size; i++)
-    {
-        char *expanded_arg = ft_expand(lst->arg, env);
-        char *temp = ft_strjoin(expanded_string, expanded_arg);
+    pid_t pid = fork();
+    if (pid == -1) {
+        perror("fork");
+        return -1;
+    }
 
-
-        expanded_string = temp;
-        if (lst->next)
-        {
-
-            temp = ft_strjoin(expanded_string, ft_strdup(char_to_string(*get_splitted_char(1))));
-            expanded_string = temp;
+    if (pid == 0) { // Child process
+        // Set up input redirection
+        if (in_fd != STDIN_FILENO) {
+            if (dup2(in_fd, STDIN_FILENO) == -1) {
+                perror("dup2 for input");
+                exit(1);
+            }
+            close(in_fd);
         }
-        lst = lst->next;
-    }
-    char **splitted_args = ft_split_quotes(expanded_string,*get_splitted_char(1));
 
-    if (!splitted_args)
-        return 1;
+        // Set up output redirection
+        if (out_fd != STDOUT_FILENO) {
+            if (dup2(out_fd, STDOUT_FILENO) == -1) {
+                perror("dup2 for output");
+                exit(1);
+            }
+            close(out_fd);
+        }
 
-    char **second_splitted = split_all_strings(splitted_args, *get_splitted_char(2));
+        t_arg_node *lst = ast->t_cmd.args;
+        which_to_split_with(list_to_array(lst), 1);
+        which_to_split_with(list_to_array(lst), 2);
+        printf("c is %c %c\n",which_to_split_with(list_to_array(lst), 1),which_to_split_with(list_to_array(lst), 2));
+        char *expanded_string = ft_strdup("");
+        if (builtins_error(lst))
+            return (1);
+        for (int i = 0; i <= ast->t_cmd.args_size; i++)
+        {
+            char *expanded_arg = ft_expand(lst->arg, env);
+            char *temp = ft_strjoin(expanded_string, expanded_arg);
 
-    char **real_args = make_array(second_splitted, ast->t_cmd.args_size);
-    for(int i = 0; real_args[i]; i++)
-    {
-        printf("[real args] %s\n", real_args[i]);
-    }
-    char *cmd_path = arg_cmds(real_args[0], env);
 
-    if (cmd_path)
-    {
-        real_args[0] = cmd_path;
+            expanded_string = temp;
+            if (lst->next)
+            {
+
+                temp = ft_strjoin(expanded_string, ft_strdup(char_to_string(*get_splitted_char(1))));
+                expanded_string = temp;
+            }
+            lst = lst->next;
+        }
+        char **splitted_args = ft_split_quotes(expanded_string,*get_splitted_char(1));
+
+        if (!splitted_args)
+            return 1;
+
+        char **second_splitted = split_all_strings(splitted_args, *get_splitted_char(2));
+
+        char **real_args = make_array(second_splitted, ast->t_cmd.args_size);
+        for(int i = 0; real_args[i]; i++)
+        {
+            printf("[real args] %s\n", real_args[i]);
+        }
+        char *cmd_path = arg_cmds(real_args[0], env);
+
+        if (cmd_path)
+        {
+            real_args[0] = cmd_path;
+        }
+        else
+        {
+            fprintf(stderr, "minishell: %s: command not found\n", real_args[0]);
+            ft_exit(127, SET_EXIT_STATUS);
+            return 127;
+        }
+
+        int result;
+        if (is_builtin_command(real_args[0]))
+            result = execute_builtin(real_args, ast, env);
+        else
+            result = execute_external(real_args, ast, env);
+
+        exit(result); // Exit after executing the command
     }
-    else
-    {
-        fprintf(stderr, "minishell: %s: command not found\n", real_args[0]);
-        ft_exit(127, SET_EXIT_STATUS);
-        return 127;
+    else { // Parent process
+        // Close unused file descriptors in the parent
+        if (in_fd != STDIN_FILENO) close(in_fd);
+        if (out_fd != STDOUT_FILENO) close(out_fd);
+
+        return pid; // Return the child's PID
     }
-    int result;
-    if (is_builtin_command(real_args[0]))
-        result = execute_builtin(real_args, ast, env);
-    else
-        result = execute_external(real_args, ast, env);
-    return result;
 }
