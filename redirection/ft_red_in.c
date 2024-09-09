@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:22:35 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/09 14:27:29 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/09 16:31:27 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int check_and_open_file(const char *file, int flags, mode_t mode)
 
     return fd;
 }
-int	ft_red_in(t_astnode *ast, t_lst *env)
+int	ft_red_in(t_astnode *ast, t_lst *env, int is_last)
 {
 	int fd;
 
@@ -61,6 +61,7 @@ int	ft_red_in(t_astnode *ast, t_lst *env)
 	{
 
 		fd = check_and_open_file(ast->t_cmd.redirections->redir->file , O_RDONLY, 0644);
+		printf("sortie redir\n");
 		if (fd == -2)
 			return (-2);
 		if (fd < 0)
@@ -68,7 +69,8 @@ int	ft_red_in(t_astnode *ast, t_lst *env)
 			close(fd);
 			exit(1);
 		}
-		dup2(fd, 0);
+		if (is_last)
+			dup2(fd, 0);
 		// close(fd);
 	}
 	else
@@ -83,8 +85,8 @@ int	ft_red_in(t_astnode *ast, t_lst *env)
 			close (fd);
 			exit(1);
 		}
-		dup2(fd, 0);
-		close(fd);
+		if (is_last)
+			dup2(fd, 0);
 
 	}
 	return (fd);

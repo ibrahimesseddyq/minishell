@@ -1,0 +1,2 @@
+export var=te"st // FAILED Should print syntax error
+cat | cat | ls // khass t executa ls w ndir entrer jouj mrat

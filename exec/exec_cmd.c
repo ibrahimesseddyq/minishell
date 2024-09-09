@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/09 14:33:35 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/09 15:04:08 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -534,6 +534,7 @@ int exec_cmd(t_astnode *ast, t_lst *env)
     t_arg_node *lst = ast->t_cmd.args;
     which_to_split_with(list_to_array(lst), 1);
     which_to_split_with(list_to_array(lst), 2);
+    printf("c is %c %c\n",which_to_split_with(list_to_array(lst), 1),which_to_split_with(list_to_array(lst), 2));
     char *expanded_string = ft_strdup("");
     if (builtins_error(lst))
         return (1);

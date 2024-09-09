@@ -134,7 +134,7 @@ char *ft_expand_redir(char *line, t_lst *env)
                     int varNameLen = 0;
                     while (start[i + varNameLen] && start[i + varNameLen] != ' ' &&
                            start[i + varNameLen] != '\'' && start[i + varNameLen] != '\"' &&
-                           start[i + varNameLen] != '/' && start[i + varNameLen] != '$')
+                           start[i + varNameLen] != '/' && start[i + varNameLen] != '$' && start[i + varNameLen] != '=')
                     {
                         varNameLen++;
                     }

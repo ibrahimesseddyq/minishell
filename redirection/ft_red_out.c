@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:22:07 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/09 14:28:59 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/09 16:31:54 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,7 +56,7 @@ static int check_and_open_file(const char *file, int flags, mode_t mode)
     return fd;
 }
 
-int ft_red_out(t_astnode *ast, t_lst *env)
+int ft_red_out(t_astnode *ast, t_lst *env, int is_last)
 {
 					int devnull;
     int fd = 0;
@@ -79,7 +79,8 @@ int ft_red_out(t_astnode *ast, t_lst *env)
 				printf("fd is -2\n");
 				return (-2);
 			}
-			dup2(fd, 1);
+            if (is_last)
+			    dup2(fd, 1);
 
         } else if (redir->type == NODE_REDIRECT_APPEND) {
             // Handle output redirection with append
@@ -91,7 +92,8 @@ int ft_red_out(t_astnode *ast, t_lst *env)
 
 				return (-2);
 			}
-			dup2(fd, 1);
+            if (is_last)
+			    dup2(fd, 1);
         }
     }
     

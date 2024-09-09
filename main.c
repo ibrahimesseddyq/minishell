@@ -48,7 +48,7 @@ int main(int ac, char **av, char *env[])
 		if (!t)
 		{
 			printf("exit 2\n");
-			gc_free_all();
+			// gc_free_all();
 			exit(2); 
 		}
 		if(t)
