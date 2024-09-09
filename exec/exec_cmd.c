@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/08 11:31:31 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/09 14:22:41 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ void handle_exec_error(const char *cmd)
         fprintf(stderr, "minishell: %s: Permission denied\n", cmd);
         ft_exit(126, SET_EXIT_STATUS);
     } else if (errno == ENOENT) {
-        fprintf(stderr, "minishell: %s: No such file or directory\n", cmd);
+        fprintf(stderr, "minishell: %s: No such file or directory 1\n", cmd);
         ft_exit(127, SET_EXIT_STATUS);
     } else if (errno == ENOTDIR) {
         fprintf(stderr, "minishell: %s: Not a directory\n", cmd);
@@ -337,7 +337,7 @@ int check_file(char **argv)
     if(access(argv[0], F_OK) == -1)
     {
         if(is_abs_rel)
-            fprintf(stderr, "minishell: %s: No such file or directory\n", argv[0]);
+            fprintf(stderr, "minishell: %s: No such file or directory 2\n", argv[0]);
         else
             fprintf(stderr, "minishell: %s: command not found\n", argv[0]);
         ft_exit(127, SET_EXIT_STATUS);
@@ -367,7 +367,8 @@ int execute_external(char **arg_cmd, t_astnode *ast, t_lst *env)
         if (!envp)
             ft_exit(1, SET_EXIT_STATUS);
 
-        if (!check_file(arg_cmd)) {
+        if (!check_file(arg_cmd))
+        {
             close(fd);
             exit(0);
         }

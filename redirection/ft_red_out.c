@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_red_out.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:22:07 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/08 10:30:38 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/09 14:28:59 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 #include <stdio.h>   // For perror(), printf()
 #include <stdlib.h>  // For exit()
 
-int check_and_open_file(const char *file, int flags, mode_t mode)
+static int check_and_open_file(const char *file, int flags, mode_t mode)
 {
     struct stat sb;
 
@@ -27,9 +27,12 @@ int check_and_open_file(const char *file, int flags, mode_t mode)
         // If stat fails, assume the file doesn't exist
         int fd = open(file, flags, mode);
         if (fd == -1) {
-            perror("Error creating/opening file");
+            if(access(file, F_OK) == 0 && access(file, W_OK) == -1)
+				printf("Permission denied\n");
+			else
+				printf("No such file or directory\n");
         	ft_exit(1, SET_EXIT_STATUS);
-					return (-2);
+			return (-2);
 
         }
         return fd;  // File successfully opened/created
@@ -52,10 +55,7 @@ int check_and_open_file(const char *file, int flags, mode_t mode)
 
     return fd;
 }
-int check_ambiguious(char *s)
-{
 
-}
 int ft_red_out(t_astnode *ast, t_lst *env)
 {
 					int devnull;
