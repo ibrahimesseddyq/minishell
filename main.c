@@ -66,7 +66,7 @@ int main(int ac, char **av, char *env[])
 				lst = tmp;
 
 				if (ast)
-					exec_cmd_line(ast, lst);
+					exec_cmd_line(ast, lst, 0, 1);
 			}
 		}
 	}

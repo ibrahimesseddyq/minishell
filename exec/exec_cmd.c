@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/10 14:59:26 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/10 18:19:56 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -529,6 +529,7 @@ int builtins_error(t_arg_node *lst)
     }
     return (0);
 }
+<<<<<<< HEAD
 int special_cases( t_arg_node *lst)
 {
     if (!ft_strcmp(lst->arg, "."))
@@ -552,9 +553,13 @@ int special_cases( t_arg_node *lst)
     return (0);
 }
 int exec_cmd(t_astnode *ast, t_lst *env)
+=======
+int exec_cmd(t_astnode *ast, t_lst *env, int in_fd, int out_fd)
+>>>>>>> b57fb53a2f81647d05e95f8b08adec576631f78c
 {
-   if (!ast->t_cmd.args || !get_node_at(ast->t_cmd.args, 0)->arg)
+    if (!ast->t_cmd.args || !get_node_at(ast->t_cmd.args, 0)->arg)
         return 0;
+<<<<<<< HEAD
     t_arg_node *lst = ast->t_cmd.args;
     if (special_cases(lst))
         return (0);
@@ -567,42 +572,105 @@ int exec_cmd(t_astnode *ast, t_lst *env)
     {
         char *expanded_arg = ft_expand(lst->arg, env);
         char *temp = ft_strjoin(expanded_string, expanded_arg);
+=======
 
-
-        expanded_string = temp;
-        if (lst->next)
-        {
-
-            temp = ft_strjoin(expanded_string, ft_strdup(char_to_string(*get_splitted_char(1))));
-            expanded_string = temp;
-        }
-        lst = lst->next;
+    pid_t pid = fork();
+    if (pid == -1) {
+        perror("fork");
+        return -1;
     }
-    char **splitted_args = ft_split_quotes(expanded_string,*get_splitted_char(1));
+>>>>>>> b57fb53a2f81647d05e95f8b08adec576631f78c
 
+    if (pid == 0) { // Child process
+        // Set up input redirection
+        if (in_fd != STDIN_FILENO) {
+            if (dup2(in_fd, STDIN_FILENO) == -1) {
+                perror("dup2 for input");
+                exit(1);
+            }
+            close(in_fd);
+        }
+
+        // Set up output redirection
+        if (out_fd != STDOUT_FILENO) {
+            if (dup2(out_fd, STDOUT_FILENO) == -1) {
+                perror("dup2 for output");
+                exit(1);
+            }
+            close(out_fd);
+        }
+
+        t_arg_node *lst = ast->t_cmd.args;
+        which_to_split_with(list_to_array(lst), 1);
+        which_to_split_with(list_to_array(lst), 2);
+        printf("c is %c %c\n",which_to_split_with(list_to_array(lst), 1),which_to_split_with(list_to_array(lst), 2));
+        char *expanded_string = ft_strdup("");
+        if (builtins_error(lst))
+            return (1);
+        for (int i = 0; i <= ast->t_cmd.args_size; i++)
+        {
+            char *expanded_arg = ft_expand(lst->arg, env);
+            char *temp = ft_strjoin(expanded_string, expanded_arg);
+
+
+            expanded_string = temp;
+            if (lst->next)
+            {
+
+                temp = ft_strjoin(expanded_string, ft_strdup(char_to_string(*get_splitted_char(1))));
+                expanded_string = temp;
+            }
+            lst = lst->next;
+        }
+        char **splitted_args = ft_split_quotes(expanded_string,*get_splitted_char(1));
+
+<<<<<<< HEAD
     if (!splitted_args)
         return 0;
+=======
+        if (!splitted_args)
+            return 1;
+>>>>>>> b57fb53a2f81647d05e95f8b08adec576631f78c
 
-    char **second_splitted = split_all_strings(splitted_args, *get_splitted_char(2));
+        char **second_splitted = split_all_strings(splitted_args, *get_splitted_char(2));
 
+<<<<<<< HEAD
     char **real_args = make_array(second_splitted, ast->t_cmd.args_size);
 
     char *cmd_path = arg_cmds(real_args[0], env);
+=======
+        char **real_args = make_array(second_splitted, ast->t_cmd.args_size);
+        for(int i = 0; real_args[i]; i++)
+        {
+            printf("[real args] %s\n", real_args[i]);
+        }
+        char *cmd_path = arg_cmds(real_args[0], env);
+>>>>>>> b57fb53a2f81647d05e95f8b08adec576631f78c
 
-    if (cmd_path)
-    {
-        real_args[0] = cmd_path;
+        if (cmd_path)
+        {
+            real_args[0] = cmd_path;
+        }
+        else
+        {
+            fprintf(stderr, "minishell: %s: command not found\n", real_args[0]);
+            ft_exit(127, SET_EXIT_STATUS);
+            return 127;
+        }
+
+        int result;
+        if (is_builtin_command(real_args[0]))
+            result = execute_builtin(real_args, ast, env);
+        else
+            result = execute_external(real_args, ast, env);
+
+        exit(result); // Exit after executing the command
     }
-    else
-    {
-        fprintf(stderr, "minishell: %s: command not found\n", real_args[0]);
-        ft_exit(127, SET_EXIT_STATUS);
-        return 127;
+    else { // Parent process
+        // Close unused file descriptors in the parent
+        if (in_fd != STDIN_FILENO) close(in_fd);
+        if (out_fd != STDOUT_FILENO) close(out_fd);
+
+        return pid; // Return the child's PID
     }
-    int result;
-    if (is_builtin_command(real_args[0]))
-        result = execute_builtin(real_args, ast, env);
-    else
-        result = execute_external(real_args, ast, env);
-    return result;
 }

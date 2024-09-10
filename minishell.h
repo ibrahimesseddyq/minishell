@@ -121,11 +121,11 @@ typedef struct s_astnode {
 } t_astnode;
 
 char	*get_next_line(int fd);
-void	exec_cmd_line(t_astnode *ast, t_lst *env);
-int		exec_cmd(t_astnode *ast, t_lst *env);
+pid_t	exec_cmd_line(t_astnode *ast, t_lst *env, int in_fd, int out_fd);
+int		exec_cmd(t_astnode *ast, t_lst *env, int in_fd, int out_fd);
 void	exec_pip(t_astnode *ast, t_lst *env);
-void	exec_and(t_astnode *ast, t_lst *env);
-void	exec_or(t_astnode *ast, t_lst *env);
+pid_t	exec_and(t_astnode *ast, t_lst *env, int in_fd, int out_fd);
+pid_t	exec_or(t_astnode *ast, t_lst *env, int in_fd, int out_fd);
 t_lst	*envp(char **env);
 char	*get_env(t_lst *env, char *the_env);
 void	set_env(t_lst *lst, char *key, char *new_value, int sign);
