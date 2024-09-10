@@ -15,19 +15,15 @@ char *ft_expand_heredoc(char *line, t_lst *env)
     char *start = line;
     int i = 0;
     int expanded_size = 64;
-    // int dollar = 0;
+
     char *expanded_line = gcalloc(expanded_size);
     if (!expanded_line) return NULL;
     int expanded_index = 0;
-    // printf("[ft_expand]    line is %s\n", line);
     while (start[i])
     {
-        // printf("this char %c inside qu %d\n", start[i], is_inside_quotes);
-        // printf("[ft_expand]    char[i] %c\n",start[i]);
         if ((start[i] == '\'' || start[i] == '\"') && !is_inside_quotes)
         {
             is_inside_quotes = 1;
-            // printf("set inside quote\n");
             current_quote = start[i];
             i++;
             continue;
@@ -36,20 +32,15 @@ char *ft_expand_heredoc(char *line, t_lst *env)
         {
              if (start[i] == '\"' && is_inside_quotes && current_quote == '\"' && start[i - 1] == '$')
             {
-                        // printf("dkhl\n");
-                        expanded_line[expanded_index++] = '$';
-
+                expanded_line[expanded_index++] = '$';
             }
-            // printf("unset inside quote\n");
             is_inside_quotes = 0;
             current_quote = 0;
-            i++;  // Skip the closing quote
+            i++;
             continue;
         }
-        // printf("[ft_expand]    is inside quote %d and current one %c\n",is_inside_quotes, current_quote);
         if (!is_inside_quotes || (is_inside_quotes && (current_quote == '\"' || current_quote == '\'')))
         {
-            // printf("[ft_expand]    isnt inside single quote , char %c\n",start[i]);
             if(is_inside_quotes && start[i] == ' ')
             {
                 expanded_line[expanded_index++] = ' ';
@@ -59,8 +50,6 @@ char *ft_expand_heredoc(char *line, t_lst *env)
             if (start[i] == '$')
             {
                 i++;
-                // printf("next char %c, inside quote %d\n",start[i ], is_inside_quotes);
-
                 if (start[i] == '?')
                 {
                     char *exit_status_str = ft_itoa(ft_exit(4, GET_EXIT_STATUS));
@@ -81,7 +70,6 @@ char *ft_expand_heredoc(char *line, t_lst *env)
                             expanded_line = new_expanded_line;
                         }
                         expanded_line[expanded_index++] = exit_status_str[j];
-                        // printf("exit_status_str[j] = %c\n", exit_status_str[j]);
                     }
                     i++;
                 }
@@ -89,24 +77,17 @@ char *ft_expand_heredoc(char *line, t_lst *env)
                 {
                     if (start[i] == '\"' || start[i] == '\'' && !is_inside_quotes)
                     {
-                            // printf("entered here\n");
-
                         continue;
                     }
                     else if(start[i] == ' ')
                     {
-                            // printf("2 entered here\n");
-
                         expanded_line[expanded_index++] = '$';
                         expanded_line[expanded_index++] = ' ';
                     }
                     else if(is_inside_quotes)
                     {
-                        // printf("3 entered here\n");
                         expanded_line[expanded_index++] = '$';
                     }
-                        // printf("4 entered here\n");
-
                     i++;
                 }
                 else
@@ -119,7 +100,6 @@ char *ft_expand_heredoc(char *line, t_lst *env)
                     {
                         varNameLen++;
                     }
-                    // printf("var len %d\n", varNameLen);
                     char *varName = gcalloc(varNameLen + 1);
                     if (!varName)
                     {
@@ -131,17 +111,14 @@ char *ft_expand_heredoc(char *line, t_lst *env)
                     i += varNameLen;
 
                     char *value2 = ft_strdup(get_env(env, varName));
-                    // printf("get env %s\n",value2);
                     char *value = value2;
                     for(int i = 0; value[i] && !is_inside_quotes; i++)
                     {
                         if(value[i] == ' ' && !is_inside_quotes)
                             value[i] = *get_splitted_char(2);
                     }
-                    // printf("[ft_expand]    value in ft_expand [%s]\n", value);
                     if (value)
                     {
-                        // Copy the expanded value without quotes
                         int j = 0;
                         while (value[j])
                         {
@@ -166,7 +143,6 @@ char *ft_expand_heredoc(char *line, t_lst *env)
             }
             else
             {
-                // printf("expanded index %d\n", expanded_index);
                 if (expanded_index >= expanded_size - 1)
                 {
                     expanded_size *= 2;
@@ -177,7 +153,6 @@ char *ft_expand_heredoc(char *line, t_lst *env)
                     }
                     expanded_line = new_expanded_line;
                 }
-                // printf("charachter is %c\n",start[i]);
                 expanded_line[expanded_index++] = start[i++];
             }
         }

@@ -48,15 +48,12 @@ int main(int ac, char **av, char *env[])
 		if (!t)
 		{
 			printf("exit 2\n");
-			// gc_free_all();
 			exit(2); 
 		}
 		if(t)
 		{
-				// printf("before tokeizing\n");
 
 			token_list = tokenize(t);
-			// printf("aftertokeizing\n");
 			if (!analyse_syntax(token_list))
 			{
 				ft_exit(258, SET_EXIT_STATUS);

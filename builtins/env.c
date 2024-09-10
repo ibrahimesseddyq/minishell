@@ -5,11 +5,11 @@ void ft_env(t_lst *env_list)
     t_lst *current = env_list;
     while (current != NULL)
     {
-        if (current->key != NULL && current->value != NULL)
+        if (current->key != NULL && current->value != NULL && current->set)
         {
             if (current->signe == '=')
             {
-                if (current->value)
+                if (current->value )
                     printf("%s%c%s\n",current->key ,current->signe ,current->value);
                 else
                     printf("%s%c\n",current->key ,current->signe);

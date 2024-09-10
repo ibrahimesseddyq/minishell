@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 23:49:30 by ynachat           #+#    #+#             */
-/*   Updated: 2024/08/18 12:17:04 by armanov          ###   ########.fr       */
+/*   Updated: 2024/09/10 15:27:10 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ t_lst *envp(char **env)
 		else
 			signe = '\0';
         new = ft_lstadd_new_env(key, value, signe);
+        new->set = 1;
         if (!new)
             return NULL;
         ft_lstadd_back_env(&lst, new);

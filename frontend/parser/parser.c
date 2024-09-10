@@ -14,7 +14,6 @@ t_astnode *create_ast_command(int ac, char **av)
     {
         t_arg_node *new_node = (t_arg_node *)gcalloc(sizeof(t_arg_node));
         new_node->arg = strdup(av[i]);
-        // printf("")
         new_node->next = NULL;
 
         if (node->t_cmd.args == NULL)
@@ -60,13 +59,11 @@ t_astnode *create_block_node(t_astnode *child) {
 }
 
 void print_redirection2(t_redir_list *redir_list, const char *type, int depth) {
-        // printf("HI2\n");
 
     if (!redir_list) return;
     t_redir_list *current = redir_list;
 
     while (current) {
-        // printf("HI\n");
         t_redir *redir = current->redir;
         for (int i = 0; i < depth; i++) {
             printf(" ");

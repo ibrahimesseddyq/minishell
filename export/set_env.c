@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:11:05 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/09 15:01:59 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/10 15:31:02 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,18 +33,20 @@ void print_export(t_lst *lst)
 	head = lst;
 	while(head)
 	{
-		if (head->signe != '=')
-		{
-			printf("declare -x %s\n",head->key);
+        if(head->set)
+        {
+            if (head->signe != '=')
+            {
+                printf("declare -x %s\n",head->key);
 
-		}
-		else if(head->value)
-		{
-			printf("declare -x %s=\"%s\"\n",head->key, head->value);
-		}
-		else
-			printf("declare -x %s=\"\"\n",head->key);
-
+            }
+            else if(head->value)
+            {
+                printf("declare -x %s=\"%s\"\n",head->key, head->value);
+            }
+            else
+                printf("declare -x %s=\"\"\n",head->key);
+        }
 		head = head->next;
 	}
 }
@@ -83,7 +85,6 @@ void ft_export(char **str, t_lst *lst)
     }
     else
     {
-        printf("str[i] %s\n", str[i]);
         while (str[i])
         {
 
@@ -181,7 +182,11 @@ void	set_env(t_lst *lst, char *key, char *new_value, int sign)
 			if (new_value)
 				lst->value = ft_strdup(new_value);
 			else
-				lst->value = ft_strdup("");
+            {
+                lst->set = 0;
+                lst->value = ft_strdup("");
+                lst->key = ft_strdup("");
+            }
 
 
 			return ;

@@ -31,10 +31,7 @@ int ft_echo(char **args)
 {
     int i = 1;
     bool n_option = false;
-    // for(int i = 0; args[i]; i++)
-    // {
-    //     printf("args[%d] = %s\n", i, args[i]);
-    // }
+
     if (nb_args(args) > 1)
     {
         // Check for -n option(s)

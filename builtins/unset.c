@@ -16,7 +16,7 @@ int unset(char **args, t_lst *lst)
     }
     for (int i = 1; i < nb_args(args); i++)
     {
-            set_env(lst,args[i], "", '=');
+            set_env(lst,args[i], NULL, '=');
     }
     return 1;
 }

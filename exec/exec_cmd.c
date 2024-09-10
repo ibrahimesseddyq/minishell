@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/09 15:04:08 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/10 14:59:26 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,9 @@ void handle_exec_error(const char *cmd)
     if (errno == EACCES) {
         fprintf(stderr, "minishell: %s: Permission denied\n", cmd);
         ft_exit(126, SET_EXIT_STATUS);
-    } else if (errno == ENOENT) {
+    } else 
+    printf("errno is %d\n",errno);
+    if (errno == ENOENT) {
         fprintf(stderr, "minishell: %s: No such file or directory 1\n", cmd);
         ft_exit(127, SET_EXIT_STATUS);
     } else if (errno == ENOTDIR) {
@@ -84,7 +86,12 @@ void handle_exec_error(const char *cmd)
     } else if (errno == ETXTBSY) {
         fprintf(stderr, "minishell: %s: Text file busy\n", cmd);
         ft_exit(126, SET_EXIT_STATUS);
-    } else {
+    } else if(errno == EISDIR)
+    {
+        fprintf(stderr, "minishell: %s: is a directory\n", cmd);
+        ft_exit(126, SET_EXIT_STATUS);
+    }
+    else{
         fprintf(stderr, "minishell: %s: Error executing command (%s)\n", cmd, strerror(errno));
         ft_exit(126, SET_EXIT_STATUS);
     }
@@ -338,12 +345,12 @@ int check_file(char **argv)
         ft_exit(127, SET_EXIT_STATUS);
         return (0);
     }
-    if(access(argv[0], X_OK) == -1)
-    {
-        fprintf(stderr, "minishell: %s: Permission denied\n", argv[0]);
-        ft_exit(127, SET_EXIT_STATUS);
-        return (0);
-    }
+    // if(access(argv[0], X_OK) == -1)
+    // {
+    //     fprintf(stderr, "minishell: %s: Permission denied\n", argv[0]);
+    //     ft_exit(127, SET_EXIT_STATUS);
+    //     return (0);
+    // }
     return (1);
 }
 
@@ -471,7 +478,6 @@ char **make_array(char **args, int size)
     {
 
         char *str = args[i];
-        printf("[make array] %s\n", str);
         for (int j = 0; str[j]; j++) {
             if (str[j] == *get_splitted_char(2))
             {
@@ -498,7 +504,6 @@ int is_num(char c)
 }
 int check_export_errors(char *str)
 {
-    printf("check export [%s]\n",str);
     if(!str || is_num(str[0]) || str[0] == '=' || !str[0] || ft_strcmp(str,"\"\"") == 0 || ft_strcmp(str,"\'\'") == 0)
         return 1;
     return 0;
@@ -513,16 +518,36 @@ int builtins_error(t_arg_node *lst)
         command = IS_EXPORT;
     while(lst)
     {
-        printf("arg %s\n",lst->arg);
         if(command == IS_EXPORT && check_export_errors(lst->arg))
         {
             ft_exit(1, SET_EXIT_STATUS);
             fprintf(stderr, "minishell: export: `%s': not a valid identifier\n", lst->arg);
             return (1);
         }
-        printf("check %d\n",check_export_errors(lst->arg));
         lst = lst->next;
         i++;
+    }
+    return (0);
+}
+int special_cases( t_arg_node *lst)
+{
+    if (!ft_strcmp(lst->arg, "."))
+    {
+        fprintf(stderr, "filename argument required\n");
+        ft_exit(2, SET_EXIT_STATUS);
+        return (1);
+    }
+    else if (!ft_strcmp(lst->arg, ".."))
+    {
+        fprintf(stderr, "Command not found\n");
+        ft_exit(127, SET_EXIT_STATUS);
+        return (1);
+    }
+    else if (lst->arg[ft_strlen(lst->arg) - 1] == '/')
+    {
+        fprintf(stderr, "Is a directory\n");
+        ft_exit(126, SET_EXIT_STATUS);
+        return (1);
     }
     return (0);
 }
@@ -530,14 +555,14 @@ int exec_cmd(t_astnode *ast, t_lst *env)
 {
    if (!ast->t_cmd.args || !get_node_at(ast->t_cmd.args, 0)->arg)
         return 0;
-
     t_arg_node *lst = ast->t_cmd.args;
+    if (special_cases(lst))
+        return (0);
     which_to_split_with(list_to_array(lst), 1);
     which_to_split_with(list_to_array(lst), 2);
-    printf("c is %c %c\n",which_to_split_with(list_to_array(lst), 1),which_to_split_with(list_to_array(lst), 2));
     char *expanded_string = ft_strdup("");
     if (builtins_error(lst))
-        return (1);
+        return (0);
     for (int i = 0; i <= ast->t_cmd.args_size; i++)
     {
         char *expanded_arg = ft_expand(lst->arg, env);
@@ -556,15 +581,12 @@ int exec_cmd(t_astnode *ast, t_lst *env)
     char **splitted_args = ft_split_quotes(expanded_string,*get_splitted_char(1));
 
     if (!splitted_args)
-        return 1;
+        return 0;
 
     char **second_splitted = split_all_strings(splitted_args, *get_splitted_char(2));
 
     char **real_args = make_array(second_splitted, ast->t_cmd.args_size);
-    for(int i = 0; real_args[i]; i++)
-    {
-        printf("[real args] %s\n", real_args[i]);
-    }
+
     char *cmd_path = arg_cmds(real_args[0], env);
 
     if (cmd_path)

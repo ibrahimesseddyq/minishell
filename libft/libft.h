@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 15:42:23 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/09 16:28:30 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/10 15:36:44 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ typedef struct s_lst {
 	char			*key;
 	char			signe;
 	char			*value;
+	int				set;
 	struct s_lst	*next;
 } t_lst;
 typedef struct s_redir {
