@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pip.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:00:51 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/09 18:13:25 by armanov          ###   ########.fr       */
+/*   Updated: 2024/09/10 21:26:04 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,20 +76,33 @@
 
 void exec_pip(t_astnode *ast, t_lst *env)
 {
-    int pipfd[2];
-    if (pipe(pipfd) == -1) {
-        perror("pipe");
-        exit(1);
-    }
 
-    pid_t left_pid = exec_cmd_line(ast->binary.left, env, STDIN_FILENO, pipfd[1]);
-    close(pipfd[1]); // Close write end in parent
+	int		pipfd[2];
+	int		pid;
+	int		pid2;
 
-    pid_t right_pid = exec_cmd_line(ast->binary.right, env, pipfd[0], STDOUT_FILENO);
-    close(pipfd[0]); // Close read end in parent
 
-    // Wait for both processes to finish
-    int status;
-    if (left_pid > 0) waitpid(left_pid, &status, 0);
-    if (right_pid > 0) waitpid(right_pid, &status, 0);
+	pipe(pipfd);
+	pid = fork();
+	if (pid == 0)
+	{
+		dup2(pipfd[1], 1);
+		close(pipfd[0]);
+		exec_cmd_line(ast->binary.left, env);
+		exit(0);
+
+	}
+	pid2 = fork();
+	if (pid2 == 0)
+	{
+		dup2(pipfd[0], 0);
+		close(pipfd[1]);
+		exec_cmd_line(ast->binary.right, env);
+		exit(0);
+
+	}
+	close(pipfd[1]);
+	close(pipfd[0]);
+	waitpid(pid2, NULL, 0);
+	waitpid(pid, NULL, 0);
 }

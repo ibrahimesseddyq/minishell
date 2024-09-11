@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/10 20:02:55 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/11 20:52:08 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -508,23 +508,22 @@ int check_export_errors(char *str)
         return 1;
     return 0;
 }
-int builtins_error(t_arg_node *lst)
+int builtins_error(char **argv)
 {
     int i;
     int command;
 
     i = 0;
-    if (ft_strcmp(lst->arg, "export") == 0)
+    if (ft_strcmp(argv[0], "export") == 0)
         command = IS_EXPORT;
-    while(lst)
+    while(argv[i])
     {
-        if(command == IS_EXPORT && check_export_errors(lst->arg))
+        if(command == IS_EXPORT && check_export_errors(argv[i]))
         {
             ft_exit(1, SET_EXIT_STATUS);
-            fprintf(stderr, "minishell: export: `%s': not a valid identifier\n", lst->arg);
+            fprintf(stderr, "minishell: export: `%s': not a valid identifier\n", argv[i]);
             return (1);
         }
-        lst = lst->next;
         i++;
     }
     return (0);
@@ -551,33 +550,33 @@ int special_cases( t_arg_node *lst)
     }
     return (0);
 }
-int exec_cmd(t_astnode *ast, t_lst *env, int in_fd, int out_fd)
+int exec_cmd(t_astnode *ast, t_lst *env)
 {
     if (!ast->t_cmd.args || !get_node_at(ast->t_cmd.args, 0)->arg)
         return 0;
-    pid_t pid = fork();
-    if (pid == -1) {
-        perror("fork");
-        return -1;
-    }
-    if (pid == 0) { // Child process
-        // Set up input redirection
-        if (in_fd != STDIN_FILENO) {
-            if (dup2(in_fd, STDIN_FILENO) == -1) {
-                perror("dup2 for input");
-                exit(1);
-            }
-            close(in_fd);
-        }
+    // pid_t pid = fork();
+    // if (pid == -1) {
+    //     perror("fork");
+    //     return -1;
+    // }
+    // if (pid == 0) { // Child process
+    //     // Set up input redirection
+    //     if (in_fd != STDIN_FILENO) {
+    //         if (dup2(in_fd, STDIN_FILENO) == -1) {
+    //             perror("dup2 for input");
+    //             exit(1);
+    //         }
+    //         close(in_fd);
+    //     }
 
-        // Set up output redirection
-        if (out_fd != STDOUT_FILENO) {
-            if (dup2(out_fd, STDOUT_FILENO) == -1) {
-                perror("dup2 for output");
-                exit(1);
-            }
-            close(out_fd);
-        }
+    //     // Set up output redirection
+    //     if (out_fd != STDOUT_FILENO) {
+    //         if (dup2(out_fd, STDOUT_FILENO) == -1) {
+    //             perror("dup2 for output");
+    //             exit(1);
+    //         }
+    //         close(out_fd);
+    //     }
 
         t_arg_node *lst = ast->t_cmd.args;
         if (special_cases(lst))
@@ -586,8 +585,7 @@ int exec_cmd(t_astnode *ast, t_lst *env, int in_fd, int out_fd)
         which_to_split_with(list_to_array(lst), 2);
         printf("c is %c %c\n",which_to_split_with(list_to_array(lst), 1),which_to_split_with(list_to_array(lst), 2));
         char *expanded_string = ft_strdup("");
-        if (builtins_error(lst))
-            return (1);
+
         for (int i = 0; i <= ast->t_cmd.args_size; i++)
         {
             char *expanded_arg = ft_expand(lst->arg, env);
@@ -611,7 +609,8 @@ int exec_cmd(t_astnode *ast, t_lst *env, int in_fd, int out_fd)
         char **second_splitted = split_all_strings(splitted_args, *get_splitted_char(2));
 
     char **real_args = make_array(second_splitted, ast->t_cmd.args_size);
-
+        if (builtins_error(real_args))
+            return (1);
     char *cmd_path = arg_cmds(real_args[0], env);
 
         if (cmd_path)
@@ -624,20 +623,22 @@ int exec_cmd(t_astnode *ast, t_lst *env, int in_fd, int out_fd)
             ft_exit(127, SET_EXIT_STATUS);
             return 127;
         }
-
+        for(int i =0; real_args[i]; i++)
+        {
+            printf("real args %s\n", real_args[i]);
+        }
         int result;
         if (is_builtin_command(real_args[0]))
             result = execute_builtin(real_args, ast, env);
         else
             result = execute_external(real_args, ast, env);
 
-        exit(result); // Exit after executing the command
-    }
-    else { // Parent process
-        // Close unused file descriptors in the parent
-        if (in_fd != STDIN_FILENO) close(in_fd);
-        if (out_fd != STDOUT_FILENO) close(out_fd);
+    // }
+    // else { // Parent process
+    //     // Close unused file descriptors in the parent
+    //     if (in_fd != STDIN_FILENO) close(in_fd);
+    //     if (out_fd != STDOUT_FILENO) close(out_fd);
 
-        return pid; // Return the child's PID
-    }
+    //     return pid; // Return the child's PID
+    // }
 }
