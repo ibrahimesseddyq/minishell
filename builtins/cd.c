@@ -103,10 +103,10 @@ int ft_cd(int argc, char **argv, int mode, t_lst *env)
         ft_exit(EXIT_SUCCESS, mode);
         return 0;
     }
-    printf("[cd] dir %s\n",dir);
+    // printf("[cd] dir %s\n",dir);
 
     expanded_dir = expand_tilde(dir, env);
-    printf("[cd] expanded dir %s\n",expanded_dir);
+    // printf("[cd] expanded dir %s\n",expanded_dir);
     if (!expanded_dir)
     {
 

@@ -18,6 +18,12 @@
 #define IS_EXPORT 8
 
 typedef struct stat t_stat;
+typedef struct s_redir_islast
+{
+	int in_islast;
+	int out_islast;
+} t_redir_islast;
+
 typedef enum
 {
 	TOKEN_EOF = 0,

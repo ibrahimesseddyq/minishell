@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:11:05 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/11 20:59:08 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/12 18:40:30 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,7 @@ void ft_export(char **str, t_lst *lst)
                 key = strtok(temp, "+=");
 
                 value = ft_strchr(str[i], '=');
-                printf("export value");
+                // printf("export value");
                 if (value)
                     value++;
 

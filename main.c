@@ -61,12 +61,14 @@ int main(int ac, char **av, char *env[])
 			else
 			{
 				add_history(t);
-				set_beginning(token_list);
+				set_beginning(token_list); 
 				ast = parse_command_line(token_list, lst);	
 				lst = tmp;
 
 				if (ast)
 					exec_cmd_line(ast, lst);
+					// printf("[Exit status] %d\n", ft_exit(1, GET_EXIT_STATUS));
+
 			}
 		}
 	}

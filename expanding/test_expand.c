@@ -133,13 +133,13 @@ char *ft_expand(char *line, t_lst *env)
                 }
                 else
                 {
-                    printf("strat %s %p\n",start, start);
+                    // printf("strat %s %p\n",start, start);
                     int varNameLen = 0;
                     while (start[i + varNameLen] && start[i + varNameLen] != ' ' &&
                            start[i + varNameLen] != '\'' && start[i + varNameLen] != '\"' &&
                            start[i + varNameLen] != '/' && start[i + varNameLen] != '$' && start[i + varNameLen] != '=')
                     {
-                        printf("varlen %d -> %c\n", varNameLen, start[i + varNameLen]);
+                        // printf("varlen %d -> %c\n", varNameLen, start[i + varNameLen]);
                         varNameLen++;
                     }
                     // printf("var len %d\n", varNameLen);

@@ -69,7 +69,7 @@ int analyse_syntax(t_tklist *list)
     }
     else
     {
-        printf("Minishell: syntax error near unexpected token `%s'\n",final_token);
+        fprintf(stderr,"Minishell: syntax error near unexpected token `%s'\n",final_token);
         return (0);
     }
 }

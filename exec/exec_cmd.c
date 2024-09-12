@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/12 13:39:26 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/12 18:39:46 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,35 +65,34 @@ void handle_exec_error(const char *cmd)
 {
     if (errno == EACCES) {
         fprintf(stderr, "minishell: %s: Permission denied\n", cmd);
-        ft_exit(126, SET_EXIT_STATUS);
+        exit(126);
     } else 
-    printf("errno is %d\n",errno);
     if (errno == ENOENT) {
         fprintf(stderr, "minishell: %s: No such file or directory 1\n", cmd);
-        ft_exit(127, SET_EXIT_STATUS);
+        exit(127);
     } else if (errno == ENOTDIR) {
         fprintf(stderr, "minishell: %s: Not a directory\n", cmd);
-        ft_exit(126, SET_EXIT_STATUS);
+        exit(126);
     } else if (errno == ENOEXEC) {
         fprintf(stderr, "minishell: %s: Exec format error 2\n", cmd);
-        ft_exit(126, SET_EXIT_STATUS);
+        exit(126);
     } else if (errno == E2BIG) {
         fprintf(stderr, "minishell: %s: Argument list too long\n", cmd);
-        ft_exit(126, SET_EXIT_STATUS);
+        exit(126);
     } else if (errno == ENOMEM) {
         fprintf(stderr, "minishell: %s: Out of memory\n", cmd);
-        ft_exit(126, SET_EXIT_STATUS);
+        exit(126);
     } else if (errno == ETXTBSY) {
         fprintf(stderr, "minishell: %s: Text file busy\n", cmd);
-        ft_exit(126, SET_EXIT_STATUS);
+        exit(126);
     } else if(errno == EISDIR)
     {
         fprintf(stderr, "minishell: %s: is a directory\n", cmd);
-        ft_exit(126, SET_EXIT_STATUS);
+        exit(126);
     }
     else{
         fprintf(stderr, "minishell: %s: Error executing command (%s)\n", cmd, strerror(errno));
-        ft_exit(126, SET_EXIT_STATUS);
+        exit(126);
     }
 }
 
@@ -359,47 +358,57 @@ int execute_external(char **arg_cmd, t_astnode *ast, t_lst *env)
     int pid = fork();
     int fd;
     int stdout_backup = dup(1);  
-
+    // printf("%s started\n", arg_cmd[0]);
     if (pid == 0)
     {
+        // printf("entered child process\n");
         fd = ft_redirection(ast, env);
         if (fd == -2)
             return (-2);
+        // printf("entered child process 2\n");
+
         char **envp = build_envp(env);
         if (!envp)
-            ft_exit(1, SET_EXIT_STATUS);
-
+            exit(1);
+        // printf("entered child process 3 \n");
         if (!check_file(arg_cmd))
         {
             close(fd);
             exit(1);
         }
-
-        execve(arg_cmd[0], arg_cmd, envp);
-        handle_exec_error(arg_cmd[0]);
+        // printf("entered child process 4 \n");
+        if(execve(arg_cmd[0], arg_cmd, envp) == -1)
+        {
+            // printf("execve failed in %s\n",arg_cmd[0]);
+            handle_exec_error(arg_cmd[0]);
+            exit(1);
+        }
+            // printf("execve didnt fail in %s\n",arg_cmd[0]);
+        exit(0);
     }
     else if (pid > 0)
     {
         int child_status;
         waitpid(pid, &child_status, 0);
-        
         dup2(stdout_backup, 1);
-        close(stdout_backup);
-
+        close(stdout_backup); 
         if (fd != stdout_backup)
             close(fd);
 
+        // printf("exit status [external exec] [%d] child status %d\n",ft_exit(5, GET_EXIT_STATUS), WEXITSTATUS(child_status));
+
         if (WIFEXITED(child_status))
-            ft_exit(WEXITSTATUS(child_status), SET_EXIT_STATUS);
+            ft_exit (WEXITSTATUS(child_status), SET_EXIT_STATUS);
         else if (WIFSIGNALED(child_status))
             ft_exit(128 + WTERMSIG(child_status), SET_EXIT_STATUS);
-        printf("exit status [external exec] [%d]\n",ft_exit(5, GET_EXIT_STATUS));
     }
     else  // Error in fork
     {
         perror("fork");
         ft_exit(1, SET_EXIT_STATUS);
     }
+    // printf("%s ended\n", arg_cmd[0]);
+
     return 1;
 }
 
@@ -584,12 +593,12 @@ int exec_cmd(t_astnode *ast, t_lst *env)
             return (0);
         which_to_split_with(list_to_array(lst), 1);
         which_to_split_with(list_to_array(lst), 2);
-        printf("c is %c %c\n",which_to_split_with(list_to_array(lst), 1),which_to_split_with(list_to_array(lst), 2));
+        // printf("c is %c %c\n",which_to_split_with(list_to_array(lst), 1),which_to_split_with(list_to_array(lst), 2));
         char *expanded_string = ft_strdup("");
 
         for (int i = 0; i <= ast->t_cmd.args_size; i++)
         {
-            printf("arg is %s\n", lst->arg);
+            // printf("arg is %s\n", lst->arg);
             char *expanded_arg = ft_expand(lst->arg, env);
             char *temp = ft_strjoin(expanded_string, expanded_arg);
 
@@ -625,10 +634,10 @@ int exec_cmd(t_astnode *ast, t_lst *env)
             ft_exit(127, SET_EXIT_STATUS);
             return 127;
         }
-        for(int i =0; real_args[i]; i++)
-        {
-            printf("real args %s\n", real_args[i]);
-        }
+        // for(int i =0; real_args[i]; i++)
+        // {
+        //     printf("[real args] %s\n", real_args[i]);
+        // }
         int result;
         if (is_builtin_command(real_args[0]))
             result = execute_builtin(real_args, ast, env);

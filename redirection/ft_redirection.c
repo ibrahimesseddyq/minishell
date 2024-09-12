@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:21:45 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/09 16:30:36 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/12 18:30:01 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,5 +38,6 @@ int	ft_redirection(t_astnode *ast, t_lst *env)
 		}
 		ast->t_cmd.redirections = ast->t_cmd.redirections->next;
 	}
+	// printf("end redir\n");
 	return (stdout_backup);
 }

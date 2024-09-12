@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:22:07 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/12 12:58:11 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/12 18:50:55 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,9 @@ static int check_and_open_file(const char *file, int flags, mode_t mode)
         int fd = open(file, flags, mode);
         if (fd == -1) {
             if(access(file, F_OK) == 0 && access(file, W_OK) == -1)
-				printf("Permission denied\n");
+				fprintf(stderr,"Permission denied\n");
 			else
-				printf("No such file or directory\n");
+				fprintf(stderr,"No such file or directory\n");
         	ft_exit(1, SET_EXIT_STATUS);
 			return (-2);
 
@@ -40,7 +40,7 @@ static int check_and_open_file(const char *file, int flags, mode_t mode)
 
     // If the file exists and is not a regular file, return an error
     if (!S_ISREG(sb.st_mode)) {
-        printf("Error: Path is not a regular file\n");
+        fprintf(stderr,"Error: Path is not a regular file\n");
         ft_exit(1, SET_EXIT_STATUS);
 				return (-2);
     }
@@ -65,11 +65,11 @@ int ft_red_out(t_astnode *ast, t_lst *env, int is_last)
     if (ast->t_cmd.redirections && ast->t_cmd.redirections->redir) {
         t_redir *redir = ast->t_cmd.redirections->redir;
         ast->t_cmd.redirections->redir->file = ft_expand_redir(ast->t_cmd.redirections->redir->file, env);
-            printf("[ft_redirection] file %s content %s\n", ast->t_cmd.redirections->redir->file, ast->t_cmd.redirections->redir->heredoc);
+            // printf("[ft_redirection] file %s content %s\n", ast->t_cmd.redirections->redir->file, ast->t_cmd.redirections->redir->heredoc);
 
         if (!ast->t_cmd.redirections->redir->file)
         {
-            printf("ambigiuos redir\n");
+            fprintf(stderr,"ambigiuos redir\n");
             return (-2);
         }
         if (redir->type == NODE_REDIRECT_OUT)
@@ -77,7 +77,6 @@ int ft_red_out(t_astnode *ast, t_lst *env, int is_last)
             fd = check_and_open_file(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
             if (fd == -2)
 			{
-				printf("fd is -2\n");
 				return (-2);
 			}
             if (is_last)
@@ -88,9 +87,6 @@ int ft_red_out(t_astnode *ast, t_lst *env, int is_last)
             fd = check_and_open_file(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0777);
 			if (fd == -2)
 			{
-				printf("fd is -2\n");
-
-
 				return (-2);
 			}
             if (is_last)

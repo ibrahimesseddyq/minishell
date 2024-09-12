@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd_line.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:09 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/10 21:21:17 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/12 15:00:24 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,5 +29,6 @@ pid_t exec_cmd_line(t_astnode *ast, t_lst *env)
          exec_or(ast, env);
     else if (ast->type == NODE_BLOCK)
         exec_cmd_line(ast->block.child, env);
+
     return 0;
 }

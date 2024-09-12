@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 01:23:26 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/10 15:24:33 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/12 18:41:19 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_strdup(char *src)
 	char	*dest;
 	int		len;
 
-	printf("%s\n",src);
+	// printf("%s\n",src);
 	if(src == NULL)
 		return ("");
 	len = ft_strlen(src) + 1;

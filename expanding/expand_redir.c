@@ -152,7 +152,6 @@ char *ft_expand_redir(char *line, t_lst *env)
                     char *value2 = ft_strdup(get_env(env, varName));
                     if(check_ambigious(value2))
                         return (NULL);
-                    printf("before expanding redir %s\n", value2);
                     // printf("get env %s\n",value2);
                     char *value = value2;
                     for(int i = 0; value[i] && !is_inside_quotes; i++)
