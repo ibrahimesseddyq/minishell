@@ -70,5 +70,5 @@ int main(int ac, char **av, char *env[])
 			}
 		}
 	}
-	return (ft_exit(0, GET_EXIT_STATUS));
+	return (ft_exit(1, GET_EXIT_STATUS));
 }

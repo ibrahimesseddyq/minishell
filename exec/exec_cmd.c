@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/11 20:52:08 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/12 13:39:26 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -372,7 +372,7 @@ int execute_external(char **arg_cmd, t_astnode *ast, t_lst *env)
         if (!check_file(arg_cmd))
         {
             close(fd);
-            exit(0);
+            exit(1);
         }
 
         execve(arg_cmd[0], arg_cmd, envp);
@@ -393,6 +393,7 @@ int execute_external(char **arg_cmd, t_astnode *ast, t_lst *env)
             ft_exit(WEXITSTATUS(child_status), SET_EXIT_STATUS);
         else if (WIFSIGNALED(child_status))
             ft_exit(128 + WTERMSIG(child_status), SET_EXIT_STATUS);
+        printf("exit status [external exec] [%d]\n",ft_exit(5, GET_EXIT_STATUS));
     }
     else  // Error in fork
     {
@@ -588,6 +589,7 @@ int exec_cmd(t_astnode *ast, t_lst *env)
 
         for (int i = 0; i <= ast->t_cmd.args_size; i++)
         {
+            printf("arg is %s\n", lst->arg);
             char *expanded_arg = ft_expand(lst->arg, env);
             char *temp = ft_strjoin(expanded_string, expanded_arg);
 

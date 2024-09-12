@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:22:35 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/09 16:31:27 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/12 12:58:41 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,13 @@ int	ft_red_in(t_astnode *ast, t_lst *env, int is_last)
 	int fd;
 
 	fd = 0;
+        ast->t_cmd.redirections->redir->file = ft_expand_redir(ast->t_cmd.redirections->redir->file, env);
+            printf("[ft_redirection] file %s content %s\n", ast->t_cmd.redirections->redir->file, ast->t_cmd.redirections->redir->heredoc);
+        if (!ast->t_cmd.redirections->redir->file)
+        {
+            printf("ambigiuos redir\n");
+            return (-2);
+        }
 	if (ast->t_cmd.redirections && ast->t_cmd.redirections->redir && ast->t_cmd.redirections->redir->type == NODE_REDIRECT_IN)
 	{
 
