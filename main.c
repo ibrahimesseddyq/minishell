@@ -58,11 +58,17 @@ int main(int ac, char **av, char *env[])
 			{
 				ft_exit(258, SET_EXIT_STATUS);
 			}
+
 			else
 			{
+
 				add_history(t);
 				set_beginning(token_list); 
+											        printf("reached here 2\n");
+
 				ast = parse_command_line(token_list, lst);	
+											        printf("reached here 3\n");
+
 				lst = tmp;
 
 				if (ast)

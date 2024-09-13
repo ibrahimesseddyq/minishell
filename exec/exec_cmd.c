@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/12 18:39:46 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/12 20:29:35 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -587,7 +587,7 @@ int exec_cmd(t_astnode *ast, t_lst *env)
     //         }
     //         close(out_fd);
     //     }
-
+        printf("reached here\n");
         t_arg_node *lst = ast->t_cmd.args;
         if (special_cases(lst))
             return (0);

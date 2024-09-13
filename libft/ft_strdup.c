@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 01:23:26 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/12 18:41:19 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/12 21:05:52 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,26 @@ static char	ft_strcpy(char *dest, const char *src)
 	return (*dest);
 }
 
-char	*ft_strdup(char *src)
+char *ft_strdup(char *src)
 {
-	char	*dest;
-	int		len;
+    char *dest;
+    int len;
+	// printf("[%s]\n", src);
+    if (!src )
+    {
+        dest = (char *)gcalloc(1 * sizeof(char)); // Allocate memory for an empty string
+        if (!dest)
+            return (NULL);
+        dest[0] = '\0'; // Null-terminate the empty string
+        return dest;
+    }
 
-	// printf("%s\n",src);
-	if(src == NULL)
-		return ("");
-	len = ft_strlen(src) + 1;
-	dest = (char *)gcalloc(len * sizeof(char));
-	if (dest == NULL)
-		return (NULL);
-	ft_strcpy(dest, src);
-	return (dest);
+    len = ft_strlen(src) + 1; // Include space for the null-terminator
+    dest = (char *)gcalloc(len * sizeof(char));
+    if (!dest)
+        return (NULL);
+
+    ft_strcpy(dest, src); // Copy the string
+    return dest;
 }
+

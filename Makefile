@@ -9,7 +9,7 @@ SRC = ./frontend/lexer/lexer.c ./frontend/parser/parser.c ./frontend/parser/synt
  exec/exec_cmd_line.c exec/exec_cmd.c exec/exec_pip.c exec/exec_or.c exec/exec_and.c env/envp.c \
  export/get_env.c export/set_env.c redirection/ft_red_in.c redirection/ft_red_out.c redirection/ft_redirection.c expanding/test_expand.c expanding/expand_redir.c expanding/expand_heredoc.c ./builtins/cd.c ./builtins/pwd.c ./backend/exit_status.c ./builtins/echo.c ./builtins/unset.c ./builtins/env.c ./builtins/exit.c ./backend/gc/gcalloc.c exec/split_ai.c exec/split_utils.c
 OBJ = $(SRC:.c=.o)
-CC = gcc -g
+CC = cc -g 
 CFLAGS =
 
 # Set minishell as the default target

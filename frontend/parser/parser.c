@@ -4,9 +4,18 @@
 
 t_astnode *create_ast_command(int ac, char **av)
 {
+    printf("here %s\n",av[0]);
     t_astnode *node = (t_astnode *)gcalloc(sizeof(t_astnode));
+    if(!av || !av[0])
+        return (node);
     node->type = NODE_COMMAND;
-    node->t_cmd.cmd = strdup(av[0]);
+    		printf("reached here 11\n");
+    if (av && av[0] != NULL)
+        node->t_cmd.cmd = strdup(av[0]);
+    else
+        node->t_cmd.cmd = NULL;
+    printf("reached here 13    cmd = %s\n",node->t_cmd.cmd );
+    printf("reached here 0\n");
     node->t_cmd.args = NULL;
 
     t_arg_node *current = NULL;
@@ -14,6 +23,8 @@ t_astnode *create_ast_command(int ac, char **av)
     {
         t_arg_node *new_node = (t_arg_node *)gcalloc(sizeof(t_arg_node));
         new_node->arg = strdup(av[i]);
+            		printf("reached here 12\n");
+
         new_node->next = NULL;
 
         if (node->t_cmd.args == NULL)
@@ -156,9 +167,9 @@ t_astnode *parse_cmd(t_tklist *tokens, t_lst *lst)
     char *argv[100];  // Assuming max 100 args
 
     t_redir_list *redirections = NULL;
-
+    ft_memset(argv,0,100);
     // Handle redirections and command parsing
-    while ((token = peek_token(tokens)) && 
+    while ((token = peek_token(tokens)) &&
            (token->type == TK_WORD || 
             token->type == TK_GREATERTHAN1 || token->type == TK_GREATERTHAN2 || 
             token->type == TK_LESSERTHAN2 || token->type == TK_LESSERTHAN1)) {
@@ -194,9 +205,10 @@ t_astnode *parse_cmd(t_tklist *tokens, t_lst *lst)
                 // Handle error: expected filename after redirection operator
                 return NULL;
             }
+    		printf("reached here 8\n");
 
             redir->file = strdup(token->value);
-
+            printf("file %s\n",redir->file);
             t_redir_list *redir_node = gcalloc(sizeof(t_redir_list));
             if (!redir_node) {
                 return NULL;
@@ -211,8 +223,20 @@ t_astnode *parse_cmd(t_tklist *tokens, t_lst *lst)
     if (argc == 0 && !redirections) {
         return NULL;
     }
+    		printf("reached here 7\n");
+    t_astnode *cmd_node;
+    if (!argv)
+    {
+        printf("argv is null\n");
+        cmd_node = (t_astnode *)gcalloc(sizeof(t_astnode));
+    }
+    else
+    {
+        printf("this is else\n");
+    }
+        cmd_node = create_ast_command(argc, argv);
+        		printf("reached here 9\n");
 
-    t_astnode *cmd_node = create_ast_command(argc, argv);
     cmd_node->t_cmd.redirections = redirections;
 
     // Handle heredocs
