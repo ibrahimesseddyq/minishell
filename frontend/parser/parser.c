@@ -4,18 +4,15 @@
 
 t_astnode *create_ast_command(int ac, char **av)
 {
-    printf("here %s\n",av[0]);
     t_astnode *node = (t_astnode *)gcalloc(sizeof(t_astnode));
     if(!av || !av[0])
         return (node);
     node->type = NODE_COMMAND;
-    		printf("reached here 11\n");
     if (av && av[0] != NULL)
         node->t_cmd.cmd = strdup(av[0]);
     else
         node->t_cmd.cmd = NULL;
-    printf("reached here 13    cmd = %s\n",node->t_cmd.cmd );
-    printf("reached here 0\n");
+
     node->t_cmd.args = NULL;
 
     t_arg_node *current = NULL;
@@ -23,8 +20,6 @@ t_astnode *create_ast_command(int ac, char **av)
     {
         t_arg_node *new_node = (t_arg_node *)gcalloc(sizeof(t_arg_node));
         new_node->arg = strdup(av[i]);
-            		printf("reached here 12\n");
-
         new_node->next = NULL;
 
         if (node->t_cmd.args == NULL)
@@ -134,7 +129,6 @@ int write_heredoc_to_file(const char *delimiter, char *filename, t_lst *env)
             close(fd);
             return -1;
         }
-        printf("line is %s, delimiter is %s\n", line, delimiter);
         if (strcmp(line, delimiter) == 0)
         {
             break;
@@ -191,11 +185,10 @@ t_astnode *parse_cmd(t_tklist *tokens, t_lst *lst)
 {
     t_token *token;
     int argc = 0;
-    char *argv[100];  // Assuming max 100 args
+    char *argv[100]; 
 
     t_redir_list *redirections = NULL;
     ft_memset(argv,0,100);
-    // Handle redirections and command parsing
     while ((token = peek_token(tokens)) &&
            (token->type == TK_WORD || 
             token->type == TK_GREATERTHAN1 || token->type == TK_GREATERTHAN2 || 
@@ -205,7 +198,6 @@ t_astnode *parse_cmd(t_tklist *tokens, t_lst *lst)
             token = next_token(tokens);
             argv[argc++] = token->value;
         } else {
-            // Handle redirections
             t_redir *redir = gcalloc(sizeof(t_redir));
             if (!redir)
             {
@@ -232,10 +224,8 @@ t_astnode *parse_cmd(t_tklist *tokens, t_lst *lst)
                 // Handle error: expected filename after redirection operator
                 return NULL;
             }
-    		printf("reached here 8\n");
 
             redir->file = strdup(token->value);
-            printf("file %s\n",redir->file);
             t_redir_list *redir_node = gcalloc(sizeof(t_redir_list));
             if (!redir_node) {
                 return NULL;
@@ -250,23 +240,16 @@ t_astnode *parse_cmd(t_tklist *tokens, t_lst *lst)
     if (argc == 0 && !redirections) {
         return NULL;
     }
-    		printf("reached here 7\n");
     t_astnode *cmd_node;
     if (!argv)
     {
-        printf("argv is null\n");
         cmd_node = (t_astnode *)gcalloc(sizeof(t_astnode));
     }
-    else
-    {
-        printf("this is else\n");
-    }
+
         cmd_node = create_ast_command(argc, argv);
-        		printf("reached here 9\n");
 
     cmd_node->t_cmd.redirections = redirections;
 
-    // Handle heredocs
     t_redir_list *current_heredoc = redirections;
     while (current_heredoc) {
         if (current_heredoc->redir->type == NODE_HEREDOC) {
@@ -275,18 +258,14 @@ t_astnode *parse_cmd(t_tklist *tokens, t_lst *lst)
             {
                 return (NULL);
             }
-            // Generate a unique filename for the heredoc content
             char heredoc_file[50];
             if (write_heredoc_to_file(delimiter, heredoc_file, lst) != 0) {
-                // Handle error in writing heredoc content
                 return NULL;
             }
 
-            // Store the generated filename in the redirection structure
             current_heredoc->redir->heredoc = strdup(heredoc_file);
             if (!current_heredoc->redir->heredoc)
             {
-                // Handle memory allocation error
                 return NULL;
             }
         }
@@ -300,8 +279,6 @@ t_astnode *parse_pipe(t_tklist *tokens, t_lst *lst)
     t_astnode *node1 = parse_cmd(tokens, lst);
     if (!node1)
     {
-        // printf("null in parse_pipe 1\n");
-
         return NULL;
     }
 
@@ -310,7 +287,6 @@ t_astnode *parse_pipe(t_tklist *tokens, t_lst *lst)
         next_token(tokens);
         t_astnode *node2 = parse_cmd(tokens, lst);
         if (!node2) {
-        // printf("null in parse_pipe 2\n");
             return NULL;
         }
         node1 = create_binary_node(NODE_PIPE, node1, node2);
@@ -349,7 +325,6 @@ t_astnode *parse_command_line(t_tklist *tokens, t_lst *lst)
     t_astnode *node = parse_block(tokens, lst);
     
     if (!node) {
-        printf("null in parse_command_line 1\n");
         return NULL;
     }
 
@@ -358,7 +333,6 @@ t_astnode *parse_command_line(t_tklist *tokens, t_lst *lst)
         token = next_token(tokens);
         t_astnode *right = parse_command_line(tokens, lst);
         if (!right) {
-            printf("null in parse_command_line 2\n");
             return NULL;
         }
         if (token->type == TK_AND) {
@@ -379,19 +353,16 @@ t_astnode *parse_block(t_tklist *tokens, t_lst *lst)
         next_token(tokens);
         t_astnode *node = parse_command_line(tokens, lst);
         if (!node) {
-            // printf("null in parse_block 1\n");
             return NULL;
         }
 
         token = next_token(tokens);
         if (!token || token->type != TK_RPR) {
-            printf("null in parse_block 2\n");
             return NULL;
         }
 
         t_astnode *block_node = create_block_node(node);
         if (!block_node) {
-            printf("null in parse_block 3\n");
             return NULL;
         }
         return block_node;

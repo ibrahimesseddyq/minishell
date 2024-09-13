@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_red_out.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:22:07 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/13 14:39:45 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/13 23:21:55 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,10 @@ int ft_red_out(t_astnode *ast, t_lst *env, int is_last, int command_exist)
 {
 					int devnull;
     int fd = 0;
-    printf("[ft_red_out] rntered her\n");
-    // Check for redirections
     if (ast->t_cmd.redirections && ast->t_cmd.redirections->redir)
     {
         t_redir *redir = ast->t_cmd.redirections->redir;
         ast->t_cmd.redirections->redir->file = ft_expand_redir(ast->t_cmd.redirections->redir->file, env);
-            // printf("[ft_redirection] file %s content %s\n", ast->t_cmd.redirections->redir->file, ast->t_cmd.redirections->redir->heredoc);
 
         if (!ast->t_cmd.redirections->redir->file)
         {
@@ -85,7 +82,6 @@ int ft_red_out(t_astnode *ast, t_lst *env, int is_last, int command_exist)
                 ft_exit(0, SET_EXIT_STATUS);
         } else if (redir->type == NODE_REDIRECT_APPEND)
         {
-            // Handle output redirection with append
             fd = check_and_open_file(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0777);
 			if (fd == -2)
 				return (-2);

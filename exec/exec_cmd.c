@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/13 16:39:19 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/14 00:34:47 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -306,7 +306,7 @@ int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
     int stdout_backup;
     stdout_backup = ft_redirection(ast, env, 1);
     if (stdout_backup == -2)
-            return (-2); // Return error in child process
+            return (-2);
 	if (!ft_strcmp(arg_cmd[0], "echo"))
 		ft_echo(arg_cmd);
 	else if (!ft_strcmp(arg_cmd[0], "cd"))
@@ -357,32 +357,27 @@ int execute_external(char **arg_cmd, t_astnode *ast, t_lst *env)
     int pid = fork();
     int fd;
     int stdout_backup = dup(1);  
-    // printf("%s started\n", arg_cmd[0]);
     if (pid == 0)
     {
-        // printf("entered child process\n");
+
         fd = ft_redirection(ast, env, 1);
         if (fd == -2)
             return (-2);
-        // printf("entered child process 2\n");
-
+ 
         char **envp = build_envp(env);
         if (!envp)
             exit(1);
-        // printf("entered child process 3 \n");
         if (!check_file(arg_cmd))
         {
             close(fd);
             exit(127);
         }
-        // printf("entered child process 4 \n");
+
         if(execve(arg_cmd[0], arg_cmd, envp) == -1)
         {
-            // printf("execve failed in %s\n",arg_cmd[0]);
             handle_exec_error(arg_cmd[0]);
             exit(1);
         }
-            // printf("execve didnt fail in %s\n",arg_cmd[0]);
         exit(0);
     }
     else if (pid > 0)
@@ -394,20 +389,17 @@ int execute_external(char **arg_cmd, t_astnode *ast, t_lst *env)
         if (fd != stdout_backup)
             close(fd);
 
-        // printf("exit status [external exec] [%d] child status %d\n",ft_exit(5, GET_EXIT_STATUS), WEXITSTATUS(child_status));
-
         if (WIFEXITED(child_status))
             ft_exit (WEXITSTATUS(child_status), SET_EXIT_STATUS);
         else if (WIFSIGNALED(child_status))
             ft_exit(128 + WTERMSIG(child_status), SET_EXIT_STATUS);
     }
-    else  // Error in fork
+    else 
     {
         perror("fork");
         ft_exit(1, SET_EXIT_STATUS);
     }
-    // printf("%s ended\n", arg_cmd[0]);
-
+    
     return 1;
 }
 
@@ -574,77 +566,78 @@ int special_cases( t_arg_node *lst)
 
     return (0);
  }
+ int initial_builtin_errors(t_arg_node * args)
+ {
+    char *cmd;
+    t_arg_node *arg;
+
+    cmd = args->arg;
+    if((!ft_strcmp(cmd, "unset") || !ft_strcmp(cmd, "export")))
+    {
+        arg = args->next;
+        while(arg)
+        {
+            if(!ft_strcmp(arg, "\"\"") || !ft_strcmp(arg, "\'\'"))
+            {
+                write(2, "invalid identifier\n", 20);
+                ft_exit(257, SET_EXIT_STATUS);
+            }
+            arg = arg->next;
+        }
+    }
+ }
 int exec_cmd(t_astnode *ast, t_lst *env)
 {
+    char *expanded_string;
+    t_arg_node *lst;
+    int i;
 
-
-        printf("reached here\n");
-        t_arg_node *lst = ast->t_cmd.args;
-        if(no_command_case(lst, env, ast))
-            return (1);
-        if (!ast->t_cmd.args || !get_node_at(ast->t_cmd.args, 0)->arg)
-            return 0;
-        if (special_cases(lst))
-            return (0);
-        which_to_split_with(list_to_array(lst), 1);
-        which_to_split_with(list_to_array(lst), 2);
-        // printf("c is %c %c\n",which_to_split_with(list_to_array(lst), 1),which_to_split_with(list_to_array(lst), 2));
-        char *expanded_string = ft_strdup("");
-
-        for (int i = 0; i <= ast->t_cmd.args_size; i++)
+    lst = ast->t_cmd.args;
+    i = 0;
+    if (no_command_case(lst, env, ast))
+        return (1);
+    if (!ast->t_cmd.args || !get_node_at(ast->t_cmd.args, 0)->arg)
+        return (0);
+    if (special_cases(lst))
+        return (0);
+    which_to_split_with(list_to_array(lst), 1);
+    which_to_split_with(list_to_array(lst), 2);
+    expanded_string = ft_strdup("");
+    while (i <= ast->t_cmd.args_size)
+    {
+        char *expanded_arg = ft_expand(lst->arg, env);
+        char *temp = ft_strjoin(expanded_string, expanded_arg);
+        expanded_string = temp;
+        if (lst->next)
         {
-            // printf("arg is %s\n", lst->arg);
-            char *expanded_arg = ft_expand(lst->arg, env);
-            char *temp = ft_strjoin(expanded_string, expanded_arg);
-
-
+            temp = ft_strjoin(expanded_string, ft_strdup(char_to_string(*get_splitted_char(1))));
             expanded_string = temp;
-            if (lst->next)
-            {
-
-                temp = ft_strjoin(expanded_string, ft_strdup(char_to_string(*get_splitted_char(1))));
-                expanded_string = temp;
-            }
-            lst = lst->next;
         }
-        char **splitted_args = ft_split_quotes(expanded_string,*get_splitted_char(1));
+        lst = lst->next;
+        i++;
+    }
+    char **splitted_args = ft_split_quotes(expanded_string,*get_splitted_char(1));
 
     if (!splitted_args)
         return 0;
 
-        char **second_splitted = split_all_strings(splitted_args, *get_splitted_char(2));
+    char **second_splitted = split_all_strings(splitted_args, *get_splitted_char(2));
 
     char **real_args = make_array(second_splitted, ast->t_cmd.args_size);
-        if (builtins_error(real_args))
-            return (1);
+    if (builtins_error(real_args))
+        return (1);
     char *cmd_path = arg_cmds(real_args[0], env);
-
-        if (cmd_path)
-        {
-            real_args[0] = cmd_path;
-        }
-        else
-        {
-            fprintf(stderr, "minishell: %s: command not found\n", real_args[0]);
-            ft_exit(127, SET_EXIT_STATUS);
-            return 127;
-        }
-        // for(int i =0; real_args[i]; i++)
-        // {
-        //     printf("[real args] %s\n", real_args[i]);
-        // }
-        int result;
-        if (is_builtin_command(real_args[0]))
-            result = execute_builtin(real_args, ast, env);
-        else
-            result = execute_external(real_args, ast, env);
-
-    // }
-    // else { // Parent process
-    //     // Close unused file descriptors in the parent
-    //     if (in_fd != STDIN_FILENO) close(in_fd);
-    //     if (out_fd != STDOUT_FILENO) close(out_fd);
-
-    //     return pid; // Return the child's PID
-    // }
+    if (cmd_path)
+        real_args[0] = cmd_path;
+    else
+    {
+        fprintf(stderr, "minishell: %s: command not found\n", real_args[0]);
+        ft_exit(127, SET_EXIT_STATUS);
+        return (127);
+    }
+    int result;
+    if (is_builtin_command(real_args[0]))
+        result = execute_builtin(real_args, ast, env);
+    else
+        result = execute_external(real_args, ast, env);
 }

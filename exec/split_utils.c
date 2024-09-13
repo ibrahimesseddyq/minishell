@@ -1,8 +1,8 @@
 #include <stdlib.h>
 #include <string.h>
 
-// Helper function to count occurrences of a delimiter in a string
-static int count_delimiter_occurrences(char *s, char delimiter) {
+static int count_delimiter_occurrences(char *s, char delimiter)
+{
     int count = 0;
     while (*s) {
         if (*s == delimiter) {
@@ -13,8 +13,8 @@ static int count_delimiter_occurrences(char *s, char delimiter) {
     return count;
 }
 
-// Helper function to split a single string using a delimiter
-static char **split_string(char *s, char delimiter) {
+static char **split_string(char *s, char delimiter)
+{
     int count = count_delimiter_occurrences(s, delimiter) + 1;
     char **result = malloc((count + 1) * sizeof(char *));
     if (!result) return NULL;
@@ -33,15 +33,14 @@ static char **split_string(char *s, char delimiter) {
         start = end + 1;
     }
 
-    result[index] = strdup(start); // Last segment
+    result[index] = strdup(start); 
     if (!result[index]) {
         return NULL;
     }
-    result[++index] = NULL; // Null-terminate the result array
+    result[++index] = NULL;
     return result;
 }
 
-// Function to split all strings in the given array
 char **split_all_strings(char **array, char delimiter)
 {
     if (!array) return NULL;
@@ -66,6 +65,6 @@ char **split_all_strings(char **array, char delimiter)
         }
 
     }
-    result[result_index] = NULL; // Null-terminate the result array
+    result[result_index] = NULL;
     return result;
 }

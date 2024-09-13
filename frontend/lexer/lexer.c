@@ -1,5 +1,5 @@
 #include "../frontend.h"
-#define WORD ".[]\\-_\"\'&$/*+;"
+#define WORD ".[]\\-_\"\'&$/*+;="
 #define INITIAL_BUFFER_SIZE 256
 #define BUFFER_GROWTH_FACTOR 2
 t_lexer* init_lexer(char *input) {
@@ -36,12 +36,10 @@ char* get_word(t_lexer *lexer)
     char quote_char = '\0';
 
     while (lexer->currentchar != '\0') {
-        // Check if we need to resize the buffer
         if (i >= buffer_size - 1) {
             buffer_size *= BUFFER_GROWTH_FACTOR;
             char *new_result = (char *)realloc(result, buffer_size * sizeof(char));
             if (!new_result) {
-                // Handle memory allocation failure
                 return result;
             }
             result = new_result;

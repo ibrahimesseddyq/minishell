@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_red_in.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:22:35 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/13 14:38:27 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/13 23:05:12 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ static int check_and_open_file(const char *file, int flags, mode_t mode)
 int	ft_red_in(t_astnode *ast, t_lst *env, int is_last, int command_exist)
 {
 	int fd;
+	// printf("HI ft_red_in!!!!!!!!!!!!!!!!!!\n");
 
 	fd = 0;
         ast->t_cmd.redirections->redir->file = ft_expand_redir(ast->t_cmd.redirections->redir->file, env);
@@ -74,8 +75,11 @@ int	ft_red_in(t_astnode *ast, t_lst *env, int is_last, int command_exist)
 			close(fd);
 			exit(1);
 		}
-		if (is_last && command_exist)
+		if (1)
+		{
+			// printf("duped fd %d\n", fd);
 			dup2(fd, 0);
+		}
         if (!command_exist && fd)
             ft_exit(0, SET_EXIT_STATUS);
 	}
@@ -94,5 +98,7 @@ int	ft_red_in(t_astnode *ast, t_lst *env, int is_last, int command_exist)
         if (!command_exist && fd)
             ft_exit(0, SET_EXIT_STATUS);
 	}
+		// printf("fd is %d\n",fd);
+
 	return (fd);
 }
