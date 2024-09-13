@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:22:35 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/12 18:51:12 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/13 14:38:27 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int check_and_open_file(const char *file, int flags, mode_t mode)
 
     return fd;
 }
-int	ft_red_in(t_astnode *ast, t_lst *env, int is_last)
+int	ft_red_in(t_astnode *ast, t_lst *env, int is_last, int command_exist)
 {
 	int fd;
 
@@ -74,8 +74,10 @@ int	ft_red_in(t_astnode *ast, t_lst *env, int is_last)
 			close(fd);
 			exit(1);
 		}
-		if (is_last)
+		if (is_last && command_exist)
 			dup2(fd, 0);
+        if (!command_exist && fd)
+            ft_exit(0, SET_EXIT_STATUS);
 	}
 	else
 	{
@@ -87,9 +89,10 @@ int	ft_red_in(t_astnode *ast, t_lst *env, int is_last)
 			close (fd);
 			exit(1);
 		}
-		if (is_last)
+		if (is_last && command_exist)
 			dup2(fd, 0);
-
+        if (!command_exist && fd)
+            ft_exit(0, SET_EXIT_STATUS);
 	}
 	return (fd);
 }

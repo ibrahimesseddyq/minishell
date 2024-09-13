@@ -60,6 +60,8 @@
     "minishell.h": "c",
     "frontend.h": "c",
     "unistd.h": "c",
-    "stdlib.h": "c"
+    "stdlib.h": "c",
+    "stdio.h": "c",
+    "string.h": "c"
   }
 }

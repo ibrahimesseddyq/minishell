@@ -62,7 +62,7 @@ int analyse_syntax(t_tklist *list)
                 curr_token = -1;
         }
     }
-    // printf("end - curr token %d parentheses %d and e %d\n",curr_token, parentheses, e);
+    printf("end - curr token %d parentheses %d and e %d\n",curr_token, parentheses, e);
     if (curr_token == 0 && parentheses == 0 && (e == 2 || e ==4))
     {
         return (1);

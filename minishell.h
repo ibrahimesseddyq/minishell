@@ -7,6 +7,7 @@
 #include <sys/wait.h> 
 #include <readline/readline.h>
 #include <readline/history.h>
+#include <stdbool.h>
 
 #define EXIT_PROGRAM 4
 #define SET_EXIT_STATUS 2
@@ -135,9 +136,9 @@ pid_t	exec_or(t_astnode *ast, t_lst *env);
 t_lst	*envp(char **env);
 char	*get_env(t_lst *env, char *the_env);
 void	set_env(t_lst *lst, char *key, char *new_value, int sign);
-int	ft_red_in(t_astnode *ast, t_lst *env, int is_last);
-int		ft_red_out(t_astnode *ast, t_lst *env, int is_last);
-int	ft_redirection(t_astnode *ast, t_lst *env);
+int	ft_red_in(t_astnode *ast, t_lst *env, int is_last, int command_exist);
+int ft_red_out(t_astnode *ast, t_lst *env, int is_last, int command_exist);
+int	ft_redirection(t_astnode *ast, t_lst *env, int command_exist);
 char	*ft_expand(char *line, t_lst *env);
 int		ft_cd(int argc, char **argv, int mode, t_lst *env);
 char	*ft_pwd(void);
@@ -157,4 +158,5 @@ char *ft_expand_heredoc(char *line, t_lst *env);
 int unset(char **args, t_lst *lst);
 void append_env(t_lst *lst, char *key, char *new_value);
 int get_env_isset(t_lst *env, char *the_env);
+char *ft_expand_delimiter(char *line, t_lst *env);
 #endif

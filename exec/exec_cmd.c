@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/12 20:29:35 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/13 16:39:19 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -304,7 +304,7 @@ int	is_builtin_command(const char *cmd)
 int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
 {
     int stdout_backup;
-    stdout_backup = ft_redirection(ast, env);
+    stdout_backup = ft_redirection(ast, env, 1);
     if (stdout_backup == -2)
             return (-2); // Return error in child process
 	if (!ft_strcmp(arg_cmd[0], "echo"))
@@ -338,18 +338,17 @@ int check_file(char **argv)
     if(access(argv[0], F_OK) == -1)
     {
         if(is_abs_rel)
-            fprintf(stderr, "minishell: %s: No such file or directory 2\n", argv[0]);
+        {
+            fprintf(stderr, "No such file or directory\n", argv[0]);
+        }
         else
+        {
             fprintf(stderr, "minishell: %s: command not found\n", argv[0]);
+        }
         ft_exit(127, SET_EXIT_STATUS);
         return (0);
     }
-    // if(access(argv[0], X_OK) == -1)
-    // {
-    //     fprintf(stderr, "minishell: %s: Permission denied\n", argv[0]);
-    //     ft_exit(127, SET_EXIT_STATUS);
-    //     return (0);
-    // }
+
     return (1);
 }
 
@@ -362,7 +361,7 @@ int execute_external(char **arg_cmd, t_astnode *ast, t_lst *env)
     if (pid == 0)
     {
         // printf("entered child process\n");
-        fd = ft_redirection(ast, env);
+        fd = ft_redirection(ast, env, 1);
         if (fd == -2)
             return (-2);
         // printf("entered child process 2\n");
@@ -374,7 +373,7 @@ int execute_external(char **arg_cmd, t_astnode *ast, t_lst *env)
         if (!check_file(arg_cmd))
         {
             close(fd);
-            exit(1);
+            exit(127);
         }
         // printf("entered child process 4 \n");
         if(execve(arg_cmd[0], arg_cmd, envp) == -1)
@@ -540,6 +539,7 @@ int builtins_error(char **argv)
 }
 int special_cases( t_arg_node *lst)
 {
+
     if (!ft_strcmp(lst->arg, "."))
     {
         fprintf(stderr, "filename argument required\n");
@@ -560,35 +560,30 @@ int special_cases( t_arg_node *lst)
     }
     return (0);
 }
+ int no_command_case(t_arg_node *lst, t_lst *env, t_astnode *ast)
+ {
+    int stdout_backup;
+
+    if(!lst)
+    {
+        stdout_backup = ft_redirection(ast, env, 0);
+        if (stdout_backup == -2)
+            return (-2);
+        close(stdout_backup);
+    }
+
+    return (0);
+ }
 int exec_cmd(t_astnode *ast, t_lst *env)
 {
-    if (!ast->t_cmd.args || !get_node_at(ast->t_cmd.args, 0)->arg)
-        return 0;
-    // pid_t pid = fork();
-    // if (pid == -1) {
-    //     perror("fork");
-    //     return -1;
-    // }
-    // if (pid == 0) { // Child process
-    //     // Set up input redirection
-    //     if (in_fd != STDIN_FILENO) {
-    //         if (dup2(in_fd, STDIN_FILENO) == -1) {
-    //             perror("dup2 for input");
-    //             exit(1);
-    //         }
-    //         close(in_fd);
-    //     }
 
-    //     // Set up output redirection
-    //     if (out_fd != STDOUT_FILENO) {
-    //         if (dup2(out_fd, STDOUT_FILENO) == -1) {
-    //             perror("dup2 for output");
-    //             exit(1);
-    //         }
-    //         close(out_fd);
-    //     }
+
         printf("reached here\n");
         t_arg_node *lst = ast->t_cmd.args;
+        if(no_command_case(lst, env, ast))
+            return (1);
+        if (!ast->t_cmd.args || !get_node_at(ast->t_cmd.args, 0)->arg)
+            return 0;
         if (special_cases(lst))
             return (0);
         which_to_split_with(list_to_array(lst), 1);

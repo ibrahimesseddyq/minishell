@@ -117,6 +117,7 @@ int write_heredoc_to_file(const char *delimiter, char *filename, t_lst *env)
     static int file_counter;
     char *expanded_line;
 
+    delimiter = ft_expand_delimiter(delimiter, env);
     sprintf(filename, "heredoc_file_%d", file_counter++);
     file_counter =1;
     int fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
@@ -159,7 +160,33 @@ int write_heredoc_to_file(const char *delimiter, char *filename, t_lst *env)
     close(fd);
     return 0;
 }
+bool is_valid_quotes(const char *str)
+{
+    int single_quote_count = 0;
+    int double_quote_count = 0;
 
+    for (int i = 0; str[i] != '\0'; i++) {
+        if (str[i] == '\'') {
+            single_quote_count++;
+        } else if (str[i] == '"') {
+            double_quote_count++;
+        }
+    }
+
+    return (single_quote_count % 2 == 0) && (double_quote_count % 2 == 0);
+}
+int heredoc_delimiter_valid(char *del)
+{
+    int quotes_valid;
+
+    quotes_valid = is_valid_quotes(del);
+    if (!quotes_valid)
+    {
+        write(2,"syntax error in quotes\n", 24);
+        return 0;
+    }
+    return (1);
+}
 t_astnode *parse_cmd(t_tklist *tokens, t_lst *lst)
 {
     t_token *token;
@@ -244,7 +271,10 @@ t_astnode *parse_cmd(t_tklist *tokens, t_lst *lst)
     while (current_heredoc) {
         if (current_heredoc->redir->type == NODE_HEREDOC) {
             char *delimiter = current_heredoc->redir->file;
-
+            if (!heredoc_delimiter_valid(delimiter))
+            {
+                return (NULL);
+            }
             // Generate a unique filename for the heredoc content
             char heredoc_file[50];
             if (write_heredoc_to_file(delimiter, heredoc_file, lst) != 0) {
@@ -268,8 +298,9 @@ t_astnode *parse_cmd(t_tklist *tokens, t_lst *lst)
 t_astnode *parse_pipe(t_tklist *tokens, t_lst *lst)
 {
     t_astnode *node1 = parse_cmd(tokens, lst);
-    if (!node1) {
-        printf("null in parse_pipe 1\n");
+    if (!node1)
+    {
+        // printf("null in parse_pipe 1\n");
 
         return NULL;
     }
@@ -279,7 +310,7 @@ t_astnode *parse_pipe(t_tklist *tokens, t_lst *lst)
         next_token(tokens);
         t_astnode *node2 = parse_cmd(tokens, lst);
         if (!node2) {
-        printf("null in parse_pipe 2\n");
+        // printf("null in parse_pipe 2\n");
             return NULL;
         }
         node1 = create_binary_node(NODE_PIPE, node1, node2);
@@ -348,7 +379,7 @@ t_astnode *parse_block(t_tklist *tokens, t_lst *lst)
         next_token(tokens);
         t_astnode *node = parse_command_line(tokens, lst);
         if (!node) {
-            printf("null in parse_block 1\n");
+            // printf("null in parse_block 1\n");
             return NULL;
         }
 

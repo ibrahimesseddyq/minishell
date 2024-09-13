@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:22:07 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/12 18:50:55 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/13 14:39:45 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,8 @@ static int check_and_open_file(const char *file, int flags, mode_t mode)
     if (stat(file, &sb) == -1) {
         // If stat fails, assume the file doesn't exist
         int fd = open(file, flags, mode);
-        if (fd == -1) {
+        if (fd == -1)
+        {
             if(access(file, F_OK) == 0 && access(file, W_OK) == -1)
 				fprintf(stderr,"Permission denied\n");
 			else
@@ -56,13 +57,14 @@ static int check_and_open_file(const char *file, int flags, mode_t mode)
     return fd;
 }
 
-int ft_red_out(t_astnode *ast, t_lst *env, int is_last)
+int ft_red_out(t_astnode *ast, t_lst *env, int is_last, int command_exist)
 {
 					int devnull;
     int fd = 0;
-
+    printf("[ft_red_out] rntered her\n");
     // Check for redirections
-    if (ast->t_cmd.redirections && ast->t_cmd.redirections->redir) {
+    if (ast->t_cmd.redirections && ast->t_cmd.redirections->redir)
+    {
         t_redir *redir = ast->t_cmd.redirections->redir;
         ast->t_cmd.redirections->redir->file = ft_expand_redir(ast->t_cmd.redirections->redir->file, env);
             // printf("[ft_redirection] file %s content %s\n", ast->t_cmd.redirections->redir->file, ast->t_cmd.redirections->redir->heredoc);
@@ -76,21 +78,21 @@ int ft_red_out(t_astnode *ast, t_lst *env, int is_last)
         {
             fd = check_and_open_file(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
             if (fd == -2)
-			{
 				return (-2);
-			}
-            if (is_last)
+            if (is_last && command_exist)
 			    dup2(fd, 1);
-
-        } else if (redir->type == NODE_REDIRECT_APPEND) {
+            if (!command_exist && fd)
+                ft_exit(0, SET_EXIT_STATUS);
+        } else if (redir->type == NODE_REDIRECT_APPEND)
+        {
             // Handle output redirection with append
             fd = check_and_open_file(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0777);
 			if (fd == -2)
-			{
 				return (-2);
-			}
-            if (is_last)
+            if (is_last && command_exist)
 			    dup2(fd, 1);
+            if (!command_exist && fd)
+                ft_exit(0, SET_EXIT_STATUS);
         }
     }
     
