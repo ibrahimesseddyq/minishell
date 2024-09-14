@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_lstadd_new_env.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 21:55:33 by ynachat           #+#    #+#             */
-/*   Updated: 2024/08/18 12:00:14 by armanov          ###   ########.fr       */
+/*   Updated: 2024/09/14 01:15:54 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,5 +25,6 @@ t_lst	*ft_lstadd_new_env(char *key, char *value, char signe)
 	index->signe = signe;
     index->value = value;
 	index->next = NULL;
+	index->set = 1;
 	return (index);
 }

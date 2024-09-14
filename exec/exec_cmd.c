@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/14 00:34:47 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/14 00:51:51 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -570,14 +570,17 @@ int special_cases( t_arg_node *lst)
  {
     char *cmd;
     t_arg_node *arg;
+    t_arg_node *tmp;
 
     cmd = args->arg;
+    tmp = args;
+    
     if((!ft_strcmp(cmd, "unset") || !ft_strcmp(cmd, "export")))
     {
         arg = args->next;
         while(arg)
         {
-            if(!ft_strcmp(arg, "\"\"") || !ft_strcmp(arg, "\'\'"))
+            if(!ft_strcmp(arg->arg, "\"\"") || !ft_strcmp(arg->arg, "\'\'"))
             {
                 write(2, "invalid identifier\n", 20);
                 ft_exit(257, SET_EXIT_STATUS);
@@ -585,6 +588,7 @@ int special_cases( t_arg_node *lst)
             arg = arg->next;
         }
     }
+    return (0);
  }
 int exec_cmd(t_astnode *ast, t_lst *env)
 {
@@ -594,6 +598,7 @@ int exec_cmd(t_astnode *ast, t_lst *env)
 
     lst = ast->t_cmd.args;
     i = 0;
+    initial_builtin_errors(lst);
     if (no_command_case(lst, env, ast))
         return (1);
     if (!ast->t_cmd.args || !get_node_at(ast->t_cmd.args, 0)->arg)

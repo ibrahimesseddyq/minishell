@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:11:05 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/13 23:26:14 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/14 01:18:38 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,7 +123,6 @@ void ft_export(char **str, t_lst *lst)
                         value = trim_quotes(value);
                     else
                         value = "";
-
                     set_env(lst, key, value, exist);
                 }
                 else
@@ -134,6 +133,8 @@ void ft_export(char **str, t_lst *lst)
             i++;
         }
     }
+    if (ft_exit(1, GET_EXIT_STATUS) == 257)
+        ft_exit(1, SET_EXIT_STATUS);
 }
 
 void append_env(t_lst *lst, char *key, char *new_value)
@@ -176,11 +177,16 @@ void	set_env(t_lst *lst, char *key, char *new_value, int sign)
 	tmp = lst;
 	while (lst)
 	{
-
 		if (ft_strcmp(lst->key, key) == 0)
 		{
 			if (new_value)
+            {
 				lst->value = ft_strdup(new_value);
+                if (sign)
+                    lst->signe = '=';
+                lst->set = 1;
+
+            }
 			else
             {
                 lst->set = 0;
@@ -198,6 +204,5 @@ void	set_env(t_lst *lst, char *key, char *new_value, int sign)
 		new = ft_lstadd_new_env(key, new_value, '=');
 	else
 		new = ft_lstadd_new_env(key, new_value, '\0');
-
 	ft_lstadd_back_env(&lst, new);
 }
