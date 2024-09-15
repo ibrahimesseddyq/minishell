@@ -17,6 +17,8 @@
 #define SUCCESS 1
 #define FAILURE -1
 #define IS_EXPORT 8
+#define INITIAL_ARRAY_SIZE 10
+#define ARRAY_INCREMENT 10
 
 typedef struct stat t_stat;
 typedef struct s_redir_islast
@@ -159,4 +161,5 @@ int unset(char **args, t_lst *lst);
 void append_env(t_lst *lst, char *key, char *new_value);
 int get_env_isset(t_lst *env, char *the_env);
 char *ft_expand_delimiter(char *line, t_lst *env);
+char	*get_splitted_char(int index);
 #endif

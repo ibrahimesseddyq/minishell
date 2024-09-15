@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:22:35 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/13 23:05:12 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/15 00:05:43 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,6 @@ int	ft_red_in(t_astnode *ast, t_lst *env, int is_last, int command_exist)
 		}
 		if (1)
 		{
-			// printf("duped fd %d\n", fd);
 			dup2(fd, 0);
 		}
         if (!command_exist && fd)
