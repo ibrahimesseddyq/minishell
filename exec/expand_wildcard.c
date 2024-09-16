@@ -1,43 +1,71 @@
-void expand_wildcards_in_list(t_arg_node *args)
+#include <dirent.h>
+#include <stdlib.h>
+#include <unistd.h>
+#include <stdio.h>
+#include <string.h>
+
+#include "../minishell.h"
+#include "../frontend/frontend.h"
+
+int	match_pattern(char *str, char *pattern)
 {
-	t_arg_node *current = args;
-
-	while (current)
+	while (*pattern)
 	{
-		if (strchr(current->arg, '*'))
+		if (*pattern == '*')
 		{
-			char **expanded_args = expand_wildcard(current->arg);
-
-			if (expanded_args && expanded_args[0])
-			{
-				t_arg_node *new_start_node = replace_node_args(current, expanded_args, count_args(expanded_args));
-				if (new_start_node)
-				{
-					current = new_start_node;
-					while (current && current->next)
-					{
-						current = current->next;
-					}
-				}
-			}
+			while (*pattern == '*')
+				pattern++;
+			if (!*pattern)
+				return (1);
+			while (*str && *str != *pattern)
+				str++;
 		}
-		current = current->next;
+		if (*str != *pattern)
+			return (0);
+		str++;
+		pattern++;
 	}
+	return (*str == '\0');
 }
-char	**expand_wildcard(const char *pattern)
+
+char	**get_matching_files(char *pattern, int *file_count)
 {
-	glob_t globbuf;
-	char **result = NULL;
+	DIR				*dir;
+	struct dirent	*entry;
+	char			**files;
+	int				i;
 
-	if (glob(pattern, GLOB_NOCHECK, NULL, &globbuf) == 0)
+	*file_count = 0;
+	if (!(dir = opendir(".")))
+		return (NULL);
+	if (!(files = malloc(sizeof(char *) * 100)))
+		return (NULL);
+	i = 0;
+	while ((entry = readdir(dir)) != NULL)
 	{
-		result = gcalloc(sizeof(char *) * (globbuf.gl_pathc + 1));
-		for (size_t i = 0; i < globbuf.gl_pathc; i++)
-		{
-			result[i] = ft_strdup(globbuf.gl_pathv[i]);
-		}
-		result[globbuf.gl_pathc] = NULL;
+		if (match_pattern(entry->d_name, pattern))
+			files[i++] = strdup(entry->d_name);
 	}
+	files[i] = NULL;
+	*file_count = i;
+	closedir(dir);
+	return (files);
+}
 
-	return result;
+int	main(void)
+{
+	char	**files;
+	int		count;
+	int		i;
+
+	files = get_matching_files("exec*.c", &count);
+	i = 0;
+	while (i < count)
+	{
+		printf("%s\n", files[i]);
+		free(files[i]);
+		i++;
+	}
+	free(files);
+	return (0);
 }

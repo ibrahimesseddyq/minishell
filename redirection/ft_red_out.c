@@ -6,25 +6,23 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:22:07 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/13 23:21:55 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/16 17:08:06 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 #include "../frontend/frontend.h"
-#include <fcntl.h>   // For open()
-#include <unistd.h>  // For write(), dup2(), close()
-#include <sys/stat.h> // For stat()
-#include <stdio.h>   // For perror(), printf()
-#include <stdlib.h>  // For exit()
+#include <fcntl.h>
+#include <unistd.h>
+#include <sys/stat.h>
+#include <stdio.h>
+#include <stdlib.h>
 
 static int check_and_open_file(const char *file, int flags, mode_t mode)
-{
+{ 
     struct stat sb;
 
-    // Check if the file or path exists
     if (stat(file, &sb) == -1) {
-        // If stat fails, assume the file doesn't exist
         int fd = open(file, flags, mode);
         if (fd == -1)
         {

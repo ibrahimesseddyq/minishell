@@ -8,6 +8,10 @@
 #include <readline/readline.h>
 #include <readline/history.h>
 #include <stdbool.h>
+#include <dirent.h>
+#include <fnmatch.h>
+#include <errno.h>
+#include <glob.h>
 
 #define EXIT_PROGRAM 4
 #define SET_EXIT_STATUS 2
@@ -19,7 +23,6 @@
 #define IS_EXPORT 8
 #define INITIAL_ARRAY_SIZE 10
 #define ARRAY_INCREMENT 10
-
 typedef struct stat t_stat;
 typedef struct s_redir_islast
 {
@@ -155,6 +158,7 @@ char	**ft_split_quotes(char const *s, char c);
  char *get_splitted_char(int index);
  char **split_all_strings(char **array, char delimiter);
 char *ft_expand_redir(char *line, t_lst *env);
+int	count_env_vars(t_lst *env);
 
 char *ft_expand_heredoc(char *line, t_lst *env);
 int unset(char **args, t_lst *lst);
@@ -162,4 +166,26 @@ void append_env(t_lst *lst, char *key, char *new_value);
 int get_env_isset(t_lst *env, char *the_env);
 char *ft_expand_delimiter(char *line, t_lst *env);
 char	*get_splitted_char(int index);
+t_arg_node	*get_node_at(t_arg_node *lst, int pos);
+char **list_to_array(t_arg_node *lst);
+char *find_command_in_path(const char *cmd, char **path_dirs);
+int execute_external(char **arg_cmd, t_astnode *ast, t_lst *env);
+void expand_arguments(t_astnode *ast, t_lst *env);
+char **make_array(char **args, int size);
+int builtins_error(char **argv);
+int special_cases( t_arg_node *lst);
+int no_command_case(t_arg_node *lst, t_lst *env, t_astnode *ast);
+char	*char_to_string(char c);
+int	is_builtin_command(const char *cmd);
+int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env);
+int	initial_builtin_errors(t_arg_node *args);
+char	*arg_cmds(char *cmd, t_lst *env);
+char	*get_splitted_char(int index);
+void    set_splitted_char(char c, int index);
+const int	is_relative_absolute(const char *path);
+char	**build_envp(t_lst *env);
+void	handle_exec_error(const char *cmd);
+int	count_args(char **args);
+int	check_file(char **argv);
+int	check_export_errors(char *str);
 #endif

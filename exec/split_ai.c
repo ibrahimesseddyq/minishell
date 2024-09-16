@@ -6,11 +6,13 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 20:59:57 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/14 21:43:45 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/16 16:06:31 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdio.h>
+#include "../minishell.h"
+#include "../frontend/frontend.h"
 
 void	set_splitted_char(char c, int index)
 {

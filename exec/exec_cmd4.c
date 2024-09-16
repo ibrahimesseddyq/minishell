@@ -1,17 +1,26 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_cmd4.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/15 21:21:53 by ibes-sed          #+#    #+#             */
+/*   Updated: 2024/09/16 17:06:34 by ibes-sed         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 #include "../frontend/frontend.h"
-#include <dirent.h>
-#include <fnmatch.h>
-#include <errno.h>
-#include <glob.h>
 
 int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
 {
-	int stdout_backup;
+	int	stdout_backup;
 
 	stdout_backup = ft_redirection(ast, env, 1);
+	printf("command is [%s]\n", arg_cmd[0]);
 	if (stdout_backup == -2)
-			return (-2);
+		return (-2);
 	if (!ft_strcmp(arg_cmd[0], "echo"))
 		ft_echo(arg_cmd);
 	else if (!ft_strcmp(arg_cmd[0], "cd"))
@@ -31,16 +40,16 @@ int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
 	return (1);
 }
 
-int check_file(char **argv)
+int	check_file(char **argv)
 {
-	int is_abs_rel;
+	int	is_abs_rel;
 
 	is_abs_rel = 0;
-	if(is_relative_absolute(argv[0]))
+	if (is_relative_absolute(argv[0]))
 		is_abs_rel = 1;
-	if(access(argv[0], F_OK) == -1)
+	if (access(argv[0], F_OK) == -1)
 	{
-		if(is_abs_rel)
+		if (is_abs_rel)
 			write(2, "No such file or directory\n", 27);
 		else
 			write(2, "command not found\n", 19);
@@ -52,8 +61,34 @@ int check_file(char **argv)
 
 int	is_builtin_command(const char *cmd)
 {
-	return (!ft_strcmp((char *)cmd, "echo") || !ft_strcmp((char *)cmd, "cd") ||
-			!ft_strcmp((char *)cmd, "pwd") || !ft_strcmp((char *)cmd, "env") ||
-			!ft_strcmp((char *)cmd, "exit") || !ft_strcmp((char *)cmd, "export")
-			|| !ft_strcmp((char *)cmd, "unset"));
+		printf("2command is [%s]\n", cmd);
+
+	return (!ft_strcmp((char *)cmd, "echo") || !ft_strcmp((char *)cmd, "cd")
+		|| !ft_strcmp((char *)cmd, "pwd") || !ft_strcmp((char *)cmd, "env")
+		|| !ft_strcmp((char *)cmd, "exit") || !ft_strcmp((char *)cmd, "export")
+		|| !ft_strcmp((char *)cmd, "unset"));
+}
+
+int	initial_builtin_errors(t_arg_node *args)
+{
+	char		*cmd;
+	t_arg_node	*arg;
+	t_arg_node	*tmp;
+
+	cmd = args->arg;
+	tmp = args;
+	if ((!ft_strcmp(cmd, "unset") || !ft_strcmp(cmd, "export")))
+	{
+		arg = args->next;
+		while (arg)
+		{
+			if (!ft_strcmp(arg->arg, "\"\"") || !ft_strcmp(arg->arg, "\'\'"))
+			{
+				write(2, "invalid identifier\n", 20);
+				ft_exit(257, SET_EXIT_STATUS);
+			}
+			arg = arg->next;
+		}
+	}
+	return (0);
 }

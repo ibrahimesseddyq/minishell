@@ -6,14 +6,16 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 22:13:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/14 22:44:49 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/16 17:45:00 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <string.h>
+#include "../minishell.h"
+#include "../frontend/frontend.h"
 
-static int	count_delimiter_occurrences(char *s, char delimiter)
+int	count_delimiter_occurrences(char *s, char delimiter)
 {
 	int	count;
 
@@ -27,7 +29,7 @@ static int	count_delimiter_occurrences(char *s, char delimiter)
 	return (count);
 }
 
-static char	*alloc_for_split_string(char *s, char delimiter)
+char	**alloc_for_split_string(char *s, char delimiter)
 {
 	int		count;
 	char	**result;
@@ -44,6 +46,7 @@ static char	**split_string(char *s, char delimiter)
 	char	*start;
 	char	*end;
 
+	index = 0;
 	result = alloc_for_split_string(s, delimiter);
 	if (!result)
 		return (NULL);
@@ -64,7 +67,7 @@ static char	**split_string(char *s, char delimiter)
 	return (result[++index] = NULL, result);
 }
 
-static char	*alloc_for_split_all_strings(char **array, char delimiter)
+char	**alloc_for_split_all_strings(char **array, char delimiter)
 {
 	int		total_count;
 	int		i;
@@ -96,12 +99,18 @@ char	**split_all_strings(char **array, char delimiter)
 	k = 0;
 	while (array[i])
 	{
+		printf("[split_all_strings] array[i] is [%s]\n", array[i]);
 		split_result = split_string(array[i], delimiter);
 		if (!split_result)
 			return (NULL);
 		while (split_result[k])
 			result[result_index++] = split_result[k++];
+		i++;
 	}
 	result[result_index] = NULL;
+	for (int i = 0;result[i]; i++)
+	{
+		printf("[split_all_strings] result [%s]\n", result[i]);
+	}
 	return (result);
 }

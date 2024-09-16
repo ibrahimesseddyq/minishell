@@ -1,17 +1,25 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   exec_cmd3.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/15 21:19:45 by ibes-sed          #+#    #+#             */
+/*   Updated: 2024/09/15 21:21:43 by ibes-sed         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
 #include "../frontend/frontend.h"
-#include <dirent.h>
-#include <fnmatch.h>
-#include <errno.h>
-#include <glob.h>
 
 char	**split_string(char *str)
 {
-	int count;
-	char *tmp;
-	char *token;
-	char **result;
-	int i;
+	int		count;
+	char	*tmp;
+	char	*token;
+	char	**result;
+	int		i;
 
 	count = 0;
 	tmp = strdup(str);
@@ -40,19 +48,17 @@ char	*arg_cmds(char *cmd, t_lst *env)
 	char	*path;
 	char	**path_dirs;
 	char	*cmd_path;
-	
+
 	if (!cmd)
 		return (NULL);
 	if (cmd[0] == '/' || cmd[0] == '.' || is_builtin_command(cmd))
-		return ft_strdup(cmd);
+		return (ft_strdup(cmd));
 	path = get_env(env, "PATH");
 	if (!path)
 		return (ft_strdup(cmd));
-
 	path_dirs = ft_split(path, ':');
 	if (!path_dirs)
 		return (ft_strdup(cmd));
-
 	cmd_path = find_command_in_path(cmd, path_dirs);
 	if (cmd_path)
 		return (cmd_path);
@@ -67,10 +73,11 @@ int	is_absolute_path(const char *path)
 
 int	is_relative_path(const char *path)
 {
-	return (path[0] == '.' && (path[1] == '/' || (path[1] == '.' && path[2] == '/')));
+	return (path[0] == '.' && (path[1] == '/'
+			|| (path[1] == '.' && path[2] == '/')));
 }
 
-const int is_relative_absolute(const char *path)
+const int	is_relative_absolute(const char *path)
 {
 	if (is_absolute_path(path))
 		return (1);

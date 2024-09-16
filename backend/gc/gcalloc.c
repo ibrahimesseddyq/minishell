@@ -20,7 +20,7 @@ void *gcalloc(size_t size)
     int *allocated = how_many_allocated();
     void *alloc = malloc(size);
     if (alloc == NULL)
-        return NULL;
+        exit(1);
 
     t_allocation *new_node = malloc(sizeof(t_allocation));
     if (new_node == NULL)
