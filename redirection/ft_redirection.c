@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:21:45 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/13 23:21:45 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/16 19:28:35 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int *get_last_redirs(t_astnode *ast)
 int	ft_redirection(t_astnode *ast, t_lst *env, int command_exist)
 {
 	int	fd;
-	int stdout_backup = dup(1);
+
 	int last_arr[2];
 	int i;
 
@@ -48,6 +48,8 @@ int	ft_redirection(t_astnode *ast, t_lst *env, int command_exist)
 	last_arr[1] = get_last_redirs(ast)[1];
 	i = 0;
 
+	if (last_arr[0] == 0 && last_arr[1] == 0)
+		return (1);
 	while (ast->t_cmd.redirections)
 	{
 		if (ast->t_cmd.redirections->redir && (ast->t_cmd.redirections->redir->type == NODE_REDIRECT_OUT || ast->t_cmd.redirections->redir->type == NODE_REDIRECT_APPEND))
@@ -55,6 +57,8 @@ int	ft_redirection(t_astnode *ast, t_lst *env, int command_exist)
 			fd = ft_red_out(ast, env, last_arr[1] == i, command_exist);
 			if (fd == -2)
 				return (-2);
+				printf(" fd [%d]\n", fd);
+
 		}
 		else
 		{
@@ -66,5 +70,5 @@ int	ft_redirection(t_astnode *ast, t_lst *env, int command_exist)
 		ast->t_cmd.redirections = ast->t_cmd.redirections->next;
 	}
 	// printf("end redir\n");
-	return (stdout_backup);
+	return (fd);
 }

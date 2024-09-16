@@ -6,8 +6,8 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
-      "cwd": "/Users/ibes-sed/Desktop/final_mnv2",
-      "program": "/Users/ibes-sed/Desktop/final_mnv2/build/Debug/outDebug"
+      "cwd": "/Users/ibes-sed/Desktop/minimini",
+      "program": "/Users/ibes-sed/Desktop/minimini/build/Debug/outDebug"
     }
   ]
 }
