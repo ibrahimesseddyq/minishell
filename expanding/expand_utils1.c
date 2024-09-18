@@ -6,12 +6,11 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:48:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/17 12:48:34 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/17 21:59:11 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../frontend/frontend.h"
 
 char	*ft_itoa(int num)
 {
@@ -72,26 +71,6 @@ void	handle_quotes(char c, t_expand_params *params)
 		params->is_inside_quotes = 0;
 		params->current_quote = 0;
 		params->i++;
-	}
-}
-
-void	expand_token(t_expand_params *params, t_lst *env)
-{
-	if (params->expanded_line[params->i] == '$')
-	{
-		params->i++;
-		if (params->expanded_line[params->i] == '?')
-		{
-			expand_exit_status(params);
-		}
-		else
-		{
-			expand_variable(params, env);
-		}
-	}
-	else
-	{
-		append_char(params, params->expanded_line[params->i++]);
 	}
 }
 

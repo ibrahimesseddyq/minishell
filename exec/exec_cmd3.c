@@ -6,12 +6,11 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:19:45 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/15 21:21:43 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/17 21:57:23 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../frontend/frontend.h"
 
 char	**split_string(char *str)
 {

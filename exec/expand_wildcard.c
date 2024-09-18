@@ -1,11 +1,16 @@
-#include <dirent.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <stdio.h>
-#include <string.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_wildcard.c                                  :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/16 20:42:32 by ibes-sed          #+#    #+#             */
+/*   Updated: 2024/09/17 21:57:54 by ibes-sed         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../frontend/frontend.h"
 
 int	match_pattern(char *str, char *pattern)
 {
@@ -36,13 +41,17 @@ char	**get_matching_files(char *pattern, int *file_count)
 	int				i;
 
 	*file_count = 0;
-	if (!(dir = opendir(".")))
+	dir = opendir(".");
+	if (!dir)
 		return (NULL);
-	if (!(files = malloc(sizeof(char *) * 100)))
+	files = malloc(sizeof(char *) * 100);
+	if (!(files))
 		return (NULL);
 	i = 0;
-	while ((entry = readdir(dir)) != NULL)
+	entry = readdir(dir);
+	while (!entry)
 	{
+		entry = readdir(dir);
 		if (match_pattern(entry->d_name, pattern))
 			files[i++] = strdup(entry->d_name);
 	}
@@ -52,20 +61,20 @@ char	**get_matching_files(char *pattern, int *file_count)
 	return (files);
 }
 
-int	main(void)
-{
-	char	**files;
-	int		count;
-	int		i;
+// int	main(void)
+// {
+// 	char	**files;
+// 	int		count;
+// 	int		i;
 
-	files = get_matching_files("exec*.c", &count);
-	i = 0;
-	while (i < count)
-	{
-		printf("%s\n", files[i]);
-		free(files[i]);
-		i++;
-	}
-	free(files);
-	return (0);
-}
+// 	files = get_matching_files("exec*.c", &count);
+// 	i = 0;
+// 	while (i < count)
+// 	{
+// 		printf("%s\n", files[i]);
+// 		free(files[i]);
+// 		i++;
+// 	}
+// 	free(files);
+// 	return (0);
+// }

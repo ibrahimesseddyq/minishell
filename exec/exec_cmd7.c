@@ -6,12 +6,11 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 00:56:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/16 15:55:11 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/17 21:57:43 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../frontend/frontend.h"
 
 int	count_size(t_arg_node	*current)
 {
@@ -52,6 +51,7 @@ char	**list_to_array(t_arg_node *lst)
 	array[size] = NULL;
 	return (array);
 }
+
 int	special_cases2( t_arg_node *lst)
 {
 	if (!ft_strcmp(lst->arg, "\"\""))

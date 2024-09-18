@@ -6,12 +6,11 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:21:45 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/16 19:28:35 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/17 17:07:16 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../frontend/frontend.h"
 
 int *get_last_redirs(t_astnode *ast)
 {
@@ -31,7 +30,6 @@ int *get_last_redirs(t_astnode *ast)
         i++;
         current = current->next;
     }
-
     last_arr[0] = last_in;
     last_arr[1] = last_out;
     return last_arr;
@@ -40,7 +38,6 @@ int *get_last_redirs(t_astnode *ast)
 int	ft_redirection(t_astnode *ast, t_lst *env, int command_exist)
 {
 	int	fd;
-
 	int last_arr[2];
 	int i;
 
@@ -58,7 +55,6 @@ int	ft_redirection(t_astnode *ast, t_lst *env, int command_exist)
 			if (fd == -2)
 				return (-2);
 				printf(" fd [%d]\n", fd);
-
 		}
 		else
 		{

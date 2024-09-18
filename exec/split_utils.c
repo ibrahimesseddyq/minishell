@@ -6,14 +6,11 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 22:13:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/16 17:45:00 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/17 21:58:36 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <string.h>
 #include "../minishell.h"
-#include "../frontend/frontend.h"
 
 int	count_delimiter_occurrences(char *s, char delimiter)
 {
@@ -47,6 +44,8 @@ static char	**split_string(char *s, char delimiter)
 	char	*end;
 
 	index = 0;
+	result = NULL;
+	printf("[split_string] string s %s, del %d\n", s, delimiter);
 	result = alloc_for_split_string(s, delimiter);
 	if (!result)
 		return (NULL);
@@ -99,18 +98,21 @@ char	**split_all_strings(char **array, char delimiter)
 	k = 0;
 	while (array[i])
 	{
-		printf("[split_all_strings] array[i] is [%s]\n", array[i]);
+				printf("[split_all_strings] array [i] %s , del %c\n", array[i], delimiter);
+
 		split_result = split_string(array[i], delimiter);
+		printf("[split_all_strings] array [i] %s , del %c, split res [%s]\n", array[i], delimiter, split_result);
 		if (!split_result)
 			return (NULL);
 		while (split_result[k])
-			result[result_index++] = split_result[k++];
+		{
+			result[result_index++] = split_result[k];
+			k++;
+		}
 		i++;
 	}
 	result[result_index] = NULL;
-	for (int i = 0;result[i]; i++)
-	{
+	for(int i = 0; result[i]; i++)
 		printf("[split_all_strings] result [%s]\n", result[i]);
-	}
 	return (result);
 }

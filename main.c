@@ -1,5 +1,4 @@
 #include "minishell.h"
-#include "./frontend/frontend.h"
 #include <signal.h>
 
 void f()

@@ -1,17 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test_expand.c                                      :+:      :+:    :+:   */
+/*   expand_normal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:19:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/17 12:47:03 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/17 21:59:17 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../frontend/frontend.h"
 
 void	expand_variable(t_expand_params *params, t_lst *env)
 {
@@ -28,40 +27,23 @@ void	expand_variable(t_expand_params *params, t_lst *env)
 	append_string(params, value);
 }
 
-int	get_var_length(char *line, int i)
+void	expand_token(t_expand_params *params, t_lst *env)
 {
-	int	len;
-
-	len = 0;
-	while (line[i + len] && !isspace(line[i + len])
-		&& line[i + len] != '\'' && line[i + len] != '\"'
-		&& line[i + len] != '/' && line[i + len] != '$' && line[i + len] != '=')
+	if (params->expanded_line[params->i] == '$')
 	{
-		len++;
+		params->i++;
+		if (params->expanded_line[params->i] == '?')
+		{
+			expand_exit_status(params);
+		}
+		else
+		{
+			expand_variable(params, env);
+		}
 	}
-	return (len);
-}
-
-void	append_char(t_expand_params *params, char c)
-{
-	if (params->expanded_index >= params->expanded_size - 1)
+	else
 	{
-		params->expanded_size *= 2;
-		params->expanded_line
-			= realloc(params->expanded_line, params->expanded_size);
-	}
-	params->expanded_line[params->expanded_index++] = c;
-}
-
-void	append_string(t_expand_params *params, char *str)
-{
-	int	j;
-
-	j = 0;
-	while (str[j])
-	{
-		append_char(params, str[j]);
-		j++;
+		append_char(params, params->expanded_line[params->i++]);
 	}
 }
 

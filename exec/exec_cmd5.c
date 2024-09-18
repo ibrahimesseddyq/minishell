@@ -6,12 +6,11 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:10 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/16 19:32:19 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/17 21:59:22 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../frontend/frontend.h"
 
 void	setup_env_and_exec(char **arg_cmd, t_lst *env, int fd)
 {
@@ -39,7 +38,6 @@ int	execute_child(char **arg_cmd, t_astnode *ast, t_lst *env, int fd)
 	fd = ft_redirection(ast, env, 1);
 	if (fd == -2)
 		return (-2);
-
 	envp = build_envp(env);
 	if (!envp)
 		exit(1);
@@ -73,7 +71,6 @@ int	execute_external(char **arg_cmd, t_astnode *ast, t_lst *env)
 	}
 	else
 		ft_exit(1, SET_EXIT_STATUS);
-
 	return (1);
 }
 

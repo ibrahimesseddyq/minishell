@@ -6,12 +6,11 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 22:52:54 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/16 16:07:16 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/17 21:59:27 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../frontend/frontend.h"
 
 int	count_env_vars(t_lst *env)
 {

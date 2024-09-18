@@ -1,193 +1,78 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_redir.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/17 15:48:12 by ibes-sed          #+#    #+#             */
+/*   Updated: 2024/09/17 21:58:27 by ibes-sed         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
-#include "../frontend/frontend.h"
-#include <stdlib.h>
-#include <string.h>
 
-// Assuming these are defined elsewhere
-int check_ambigious(char *str)
+int	expand_variable_redir(t_expand_params *params, t_lst *env)
 {
-    int i;
+	int		varnamelen;
+	char	*varname;
+	char	*value;
 
-    i = 0;
-    if(!str[0])
-        return (1);
-    while(str[i] == ' ')
-        i++;
-    while(str[i] != ' ')
-        i++;
-    if (str[i])
-        return (1);
-    return (0);
-}
-char *ft_expand_redir(char *line, t_lst *env)
-{
-    int is_inside_quotes = 0;
-    char current_quote = 0;
-    int len = ft_strlen(line);
-    char *start = line;
-    int i = 0;
-    int expanded_size = 64;
-    char *expanded_line = gcalloc(expanded_size);
-    if (!expanded_line) return NULL;
-    int expanded_index = 0;
-    if (!start)
-    {
-        return NULL;
-    }
-    while (start[i])
-    {
-
-        if ((start[i] == '\'' || start[i] == '\"') && !is_inside_quotes)
-        {
-            is_inside_quotes = 1;
-            current_quote = start[i];
-            i++;
-            continue;
-        }
-        else if (is_inside_quotes && start[i] == current_quote)
-        {
-             if (start[i] == '\"' && is_inside_quotes && current_quote == '\"' && start[i - 1] == '$')
-            {
-                        expanded_line[expanded_index++] = '$';
-
-            }
-            is_inside_quotes = 0;
-            current_quote = 0;
-            i++;
-            continue;
-        }
-        if (!is_inside_quotes || (is_inside_quotes && current_quote == '\"'))
-        {
-            if(is_inside_quotes && start[i] == ' ')
-            {
-                expanded_line[expanded_index++] = ' ';
-                i++;
-
-            }
-            if (start[i] == '$')
-            {
-                i++;
-                if (start[i] == '?')
-                {
-                    char *exit_status_str = ft_itoa(ft_exit(4, GET_EXIT_STATUS));
-                    if (!exit_status_str)
-                    {
-                        return NULL;
-                    }
-                    for (int j = 0; exit_status_str[j]; j++)
-                    {
-                        if (expanded_index >= expanded_size - 1)
-                        {
-                            expanded_size *= 2;
-                            char *new_expanded_line = realloc(expanded_line, expanded_size);
-                            if (!new_expanded_line)
-                            {
-                                return NULL;
-                            }
-                            expanded_line = new_expanded_line;
-                        }
-                        expanded_line[expanded_index++] = exit_status_str[j];
-                    }
-                    i++;
-                }
-                else if (start[i] == ' ' || start[i] == '\0' || start[i] == '\'' || start[i] == '\"')
-                {
-                    if (start[i] == '\"' || start[i] == '\'' && !is_inside_quotes)
-                    {
-                        continue;
-                    }
-                    else if(start[i] == ' ')
-                    {
-                        expanded_line[expanded_index++] = '$';
-                        expanded_line[expanded_index++] = ' ';
-                    }
-                    else if(is_inside_quotes)
-                    {
-                        expanded_line[expanded_index++] = '$';
-                    }
-
-                    i++;
-                }
-                else
-                {
-
-                    int varNameLen = 0;
-                    while (start[i + varNameLen] && start[i + varNameLen] != ' ' &&
-                           start[i + varNameLen] != '\'' && start[i + varNameLen] != '\"' &&
-                           start[i + varNameLen] != '/' && start[i + varNameLen] != '$' && start[i + varNameLen] != '=')
-                    {
-                        varNameLen++;
-                    }
-                    char *varName = gcalloc(varNameLen + 1);
-                    if (!varName)
-                    {
-                        return NULL;
-                    }
-
-                    strncpy(varName, &start[i], varNameLen);
-                    varName[varNameLen] = '\0';
-                    i += varNameLen;
-
-                    char *value2 = ft_strdup(get_env(env, varName));
-                    if(check_ambigious(value2))
-                        return (NULL);
-                    char *value = value2;
-                    for(int i = 0; value[i] && !is_inside_quotes; i++)
-                    {
-                        if(value[i] == ' ' && !is_inside_quotes)
-                            value[i] = *get_splitted_char(2);
-                    }
-                    if (value)
-                    {
-                        int j = 0;
-                        while (value[j])
-                        {
-                            if (value[j] != '\'' && value[j] != '\"')
-                            {
-                                if (expanded_index >= expanded_size - 1)
-                                {
-                                    expanded_size *= 2;
-                                    char *new_expanded_line = realloc(expanded_line, expanded_size);
-                                    if (!new_expanded_line)
-                                    {
-                                        return NULL;
-                                    }
-                                    expanded_line = new_expanded_line;
-                                }
-                                expanded_line[expanded_index++] = value[j];
-                            }
-                            j++;
-                        }
-                    }
-                }
-            }
-            else
-            {
-                if (expanded_index >= expanded_size - 1)
-                {
-                    expanded_size *= 2;
-                    char *new_expanded_line = realloc(expanded_line, expanded_size);
-                    if (!new_expanded_line)
-                    {
-                        return NULL;
-                    }
-                    expanded_line = new_expanded_line;
-                }
-                expanded_line[expanded_index++] = start[i++];
-            }
-        }
-        else
-        {
-            expanded_line[expanded_index++] = start[i];
-            i++; 
-        }
-    }
-
-    expanded_line[expanded_index] = '\0';
-    return expanded_line;
+	varnamelen = get_var_length(params->expanded_line, params->i);
+	varname = gcalloc(varnamelen + 1);
+	strncpy(varname, &params->expanded_line[params->i], varnamelen);
+	varname[varnamelen] = '\0';
+	params->i += varnamelen;
+	value = ft_strdup(get_env(env, varname));
+	if (check_ambigious(value))
+		return (0);
+	append_string(params, value);
+	return (1);
 }
 
+int	expand_token_redir(t_expand_params *params, t_lst *env)
+{
+	if (params->expanded_line[params->i] == '$')
+	{
+		params->i++;
+		if (params->expanded_line[params->i] == '?')
+		{
+			expand_exit_status(params);
+		}
+		else
+		{
+			if (!expand_variable_redir(params, env))
+				return (0);
+		}
+	}
+	else
+	{
+		append_char(params, params->expanded_line[params->i++]);
+	}
+	return (1);
+}
+
+// tbdel f ft_redirection
+char	*ft_expand_redir(char *line, t_lst *env)
+{
+	char			*expanded_line;
+	t_expand_params	params;
+
+	expanded_line = gcalloc(64);
+	params = init_params(line, expanded_line);
+	while (line[params.i])
+	{
+		handle_quotes(line[params.i], &params);
+		if (!params.is_inside_quotes || params.current_quote == '\"')
+		{
+			if (!expand_token_redir(&params, env))
+				return (NULL);
+		}
+		else
+		{
+			append_char(&params, line[params.i++]);
+		}
+	}
+	params.expanded_line[params.expanded_index] = '\0';
+	return (params.expanded_line);
+}

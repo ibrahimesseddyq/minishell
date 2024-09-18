@@ -6,16 +6,12 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:00:51 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/14 22:52:07 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/17 21:58:13 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../frontend/frontend.h"
-#include <dirent.h>
-#include <fnmatch.h>
-#include <errno.h>
-#include <glob.h>
+
 
 void	wait_for_processes(int pid1, int pid2)
 {

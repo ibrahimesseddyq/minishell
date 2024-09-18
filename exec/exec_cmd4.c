@@ -6,16 +6,16 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:21:53 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/16 17:06:34 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/17 21:57:40 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../frontend/frontend.h"
 
 int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
 {
 	int	stdout_backup;
+	char	*pwd_dir;
 
 	stdout_backup = ft_redirection(ast, env, 1);
 	printf("command is [%s]\n", arg_cmd[0]);
@@ -26,7 +26,11 @@ int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
 	else if (!ft_strcmp(arg_cmd[0], "cd"))
 		ft_cd(ast->t_cmd.args_size + 1, arg_cmd, SET_EXIT_STATUS, env);
 	else if (!ft_strcmp(arg_cmd[0], "pwd"))
-		printf("%s\n", ft_pwd());
+	{
+		pwd_dir = ft_pwd();
+		printf("%s\n", pwd_dir);
+		free(pwd_dir);
+	}
 	else if (!ft_strcmp(arg_cmd[0], "env"))
 		ft_env(env);
 	else if (!ft_strcmp(arg_cmd[0], "exit"))
@@ -35,9 +39,7 @@ int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
 		ft_export(arg_cmd, env);
 	else if (!ft_strcmp(arg_cmd[0], "unset"))
 		unset(arg_cmd, env);
-	dup2(stdout_backup, 1);
-	close(stdout_backup);
-	return (1);
+	return (dup2(stdout_backup, 1), close(stdout_backup), 1);
 }
 
 int	check_file(char **argv)
@@ -61,8 +63,6 @@ int	check_file(char **argv)
 
 int	is_builtin_command(const char *cmd)
 {
-		printf("2command is [%s]\n", cmd);
-
 	return (!ft_strcmp((char *)cmd, "echo") || !ft_strcmp((char *)cmd, "cd")
 		|| !ft_strcmp((char *)cmd, "pwd") || !ft_strcmp((char *)cmd, "env")
 		|| !ft_strcmp((char *)cmd, "exit") || !ft_strcmp((char *)cmd, "export")

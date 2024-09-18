@@ -1,63 +1,86 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <string.h>
-#include <unistd.h>
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expand_delimiter.c                                 :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/09/17 15:46:41 by ibes-sed          #+#    #+#             */
+/*   Updated: 2024/09/17 21:58:30 by ibes-sed         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "../minishell.h"
-#include "../frontend/frontend.h"
-#include <stdlib.h>
-#include <string.h>
-char *ft_expand_delimiter(char *line, t_lst *env)
+
+int	expand_variable_redir(t_expand_params *params, t_lst *env)
 {
-    int is_inside_quotes = 0;
-    char current_quote = 0;
-    int len = ft_strlen(line);
-    char *start = line;
-    int i = 0;
-    int expanded_size = 64;
+	int		varnamelen;
+	char	*varname;
+	char	*value;
 
-    char *expanded_line = gcalloc(expanded_size);
-    if (!expanded_line) return NULL;
-    int expanded_index = 0;
-    while (start[i])
-    {
-        if ((start[i] == '\'' || start[i] == '\"') && !is_inside_quotes)
-        {
-            is_inside_quotes = 1;
-            current_quote = start[i];
-            i++;
-            continue;
-        }
-        else if (is_inside_quotes && start[i] == current_quote)
-        {
-            is_inside_quotes = 0;
-            current_quote = 0;
-            i++;
-            continue;
-        }
-        if (!is_inside_quotes || (is_inside_quotes && (current_quote == '\"' || current_quote == '\'')))
-        {
-            if(is_inside_quotes && start[i] == ' ')
-            {
-                expanded_line[expanded_index++] = ' ';
-                i++;
-
-            }
-            
-                if (expanded_index >= expanded_size - 1)
-                {
-                    expanded_size *= 2;
-                    char *new_expanded_line = realloc(expanded_line, expanded_size);
-                    if (!new_expanded_line)
-                    {
-                        return NULL;
-                    }
-                    expanded_line = new_expanded_line;
-                }
-                expanded_line[expanded_index++] = start[i++];
-        }
-    }
-
-    expanded_line[expanded_index] = '\0';
-    return expanded_line;
+	varnamelen = get_var_length(params->expanded_line, params->i);
+	varname = gcalloc(varnamelen + 1);
+	strncpy(varname, &params->expanded_line[params->i], varnamelen);
+	varname[varnamelen] = '\0';
+	params->i += varnamelen;
+	value = ft_strdup(get_env(env, varname));
+	if (check_ambigious(value))
+		return (0);
+	append_string(params, value);
+	return (1);
 }
 
+int	expand_token_redir(t_expand_params *params, t_lst *env)
+{
+	if (params->expanded_line[params->i] == '$')
+	{
+		params->i++;
+		if (params->expanded_line[params->i] == '?')
+		{
+			expand_exit_status(params);
+		}
+		else
+		{
+			if (!expand_variable_redir(params, env))
+				return (0);
+		}
+	}
+	else
+	{
+		append_char(params, params->expanded_line[params->i++]);
+	}
+	return (1);
+}
+
+void	handle_quotes(char c, t_expand_params *params)
+{
+	if ((c == '\'' || c == '\"') && !params->is_inside_quotes)
+	{
+		params->is_inside_quotes = 1;
+		params->current_quote = c;
+		params->i++;
+	}
+	else if (params->is_inside_quotes && c == params->current_quote)
+	{
+		params->is_inside_quotes = 0;
+		params->current_quote = 0;
+		params->i++;
+	}
+}
+
+// tbdel f ft_redirection
+char	*ft_expand_redir(char *line, t_lst *env)
+{
+	char			*expanded_line;
+	t_expand_params	params;
+
+	expanded_line = gcalloc(64);
+	params = init_params(line, expanded_line);
+	while (line[params.i])
+	{
+		handle_quotes(line[params.i], &params);
+		append_char(&params, line[params.i++]);
+	}
+	params.expanded_line[params.expanded_index] = '\0';
+	return (params.expanded_line);
+}

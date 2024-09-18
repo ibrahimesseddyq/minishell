@@ -6,17 +6,11 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:22:35 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/15 00:05:43 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/17 21:58:52 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../frontend/frontend.h"
-#include <fcntl.h>   // For open()
-#include <unistd.h>  // For write(), dup2(), close()
-#include <sys/stat.h> // For stat()
-#include <stdio.h>   // For perror(), printf()
-#include <stdlib.h>  // For exit()
 
 static int check_and_open_file(const char *file, int flags, mode_t mode)
 {

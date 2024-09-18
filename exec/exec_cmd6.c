@@ -6,12 +6,11 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/16 17:12:10 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/17 21:58:18 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../frontend/frontend.h"
 
 char	**make_array(char **args, int size)
 {
@@ -43,8 +42,13 @@ int	builtins_error(char **argv)
 
 	i = 0;
 	command = 0;
-
 	printf("argv is [%s]\n", argv[0]);
+	if (!argv[0])
+	{
+		write(2, "command not found\n", 19);
+		ft_exit(127, SET_EXIT_STATUS);
+		return (1);
+	}
 	if (!ft_strcmp(argv[0], "export"))
 		command = IS_EXPORT;
 	while (argv[i])

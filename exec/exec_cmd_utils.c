@@ -6,12 +6,11 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 01:06:17 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/16 01:08:26 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/17 21:59:31 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-#include "../frontend/frontend.h"
 
 int	is_num(char c)
 {

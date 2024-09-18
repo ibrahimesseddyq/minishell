@@ -71,6 +71,9 @@
     "fnmatch.h": "c",
     "errno.h": "c",
     "glob.h": "c",
-    "locale": "c"
+    "locale": "c",
+    "outfile": "c",
+    "__node_handle": "c",
+    "unordered_map": "c"
   }
 }

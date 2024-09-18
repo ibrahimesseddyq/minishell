@@ -1,4 +1,4 @@
-#include "./../frontend.h"
+#include "./../../minishell.h"
 // Just for debug
 
 // void print_redirection(t_redir_list *redir_list, const char *type, int depth) {
@@ -70,5 +70,35 @@
 //             break;
 //         default:
 //             printf("Unknown node type: %d\n", node->type);
+//     }
+// }
+// void print_redirection2(t_redir_list *redir_list, const char *type, int depth) {
+
+//     if (!redir_list) return;
+//     t_redir_list *current = redir_list;
+
+//     while (current) {
+//         t_redir *redir = current->redir;
+//         for (int i = 0; i < depth; i++) {
+//             printf(" ");
+//         }
+//         printf("%s:\n", type);
+//         if (redir->file) {
+//             for (int i = 0; i < depth + 1; i++) {
+//                 printf(" ");
+//             }
+//             printf("File: %s\n", redir->file);
+//         }
+//         if (redir->heredoc) {
+//             for (int i = 0; i < depth + 1; i++) {
+//                 printf(" ");
+//             }
+//             printf("Here Document: %s\n", redir->heredoc);
+//         }
+//         for (int i = 0; i < depth + 1; i++) {
+//             printf(" ");
+//         }
+//         printf("Type: %d\n", redir->type);
+//         current = current->next;
 //     }
 // }
