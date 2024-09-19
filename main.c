@@ -10,13 +10,14 @@ void handle_sigint(int num)
 {
 	(void)num;
     rl_replace_line("", 0);
-    // rl_on_new_line();
+    rl_on_new_line();
     rl_redisplay();
 }
 void increment_shell_level(t_lst* env)
 {
 	int shlvl;
 
+	// shlvl
 	shlvl = ft_atoi(get_env(env, "SHLVL"));
 	shlvl++;
 	set_env(env, "SHLVL", ft_itoa(shlvl), 1);
@@ -28,7 +29,7 @@ int main(int ac, char **av, char *env[])
 	(void)av;
 	(void)env;
 
-	setbuf(stdout, NULL);
+	// setbuf(stdout, NULL);
 	t_tklist *token_list;
 	t_astnode *ast;
 	t_lst *lst;
@@ -51,7 +52,8 @@ int main(int ac, char **av, char *env[])
 		}
 		if(t)
 		{
-
+			// printf("")
+			// t[8] = 0;
 			token_list = tokenize(t);
 			if (!analyse_syntax(token_list))
 			{

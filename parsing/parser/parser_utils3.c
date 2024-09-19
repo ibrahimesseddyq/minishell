@@ -6,25 +6,33 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 18:08:51 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/17 18:57:31 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/19 01:31:39 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../minishell.h"
 
-void	set_command_props(t_arg_node *current
+// typedef struct s_arg_node {
+//     char *arg;
+//     struct s_arg_node *next;
+// } t_arg_node;
+
+void	set_command_props(t_arg_node **current
 		, t_astnode *node, t_arg_node *new_node)
 {
 	new_node->next = NULL;
 	if (node->t_cmd.args == NULL)
 	{
+		printf("[set_command_props] [if] i entered here [%s]\n", new_node->arg);
 		node->t_cmd.args = new_node;
-		current = new_node;
+		*current = new_node;
 	}
 	else
 	{
-		current->next = new_node;
-		current = new_node;
+		printf("[set_command_props] [else] i entered here [%s]\n",
+			new_node->arg);
+		(*current)->next = new_node;
+		*current = new_node;
 	}
 }
 
@@ -49,7 +57,7 @@ t_astnode	*create_ast_command(int ac, char **av)
 	{
 		new_node = (t_arg_node *)gcalloc(sizeof(t_arg_node));
 		new_node->arg = strdup(av[i]);
-		set_command_props(current, node, new_node);
+		set_command_props(&current, node, new_node);
 		i++;
 	}
 	(1) && (node->t_cmd.args_size = ac - 1, node->t_cmd.redirections = NULL,

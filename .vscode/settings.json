@@ -74,6 +74,7 @@
     "locale": "c",
     "outfile": "c",
     "__node_handle": "c",
-    "unordered_map": "c"
+    "unordered_map": "c",
+    "sstream": "c"
   }
 }

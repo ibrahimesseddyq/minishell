@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 15:42:23 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/16 15:56:58 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/19 01:33:30 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <string.h>
 # include <stdio.h>
 # include <limits.h>
-#include <fcntl.h>
+# include <fcntl.h>
 
 #define DEFAULT_NB 99999
 
@@ -27,11 +27,13 @@ typedef struct s_list
 	void			*content;
 	struct s_list	*next;
 }	t_list;
+
 typedef struct s_list_string
 {
 	char			*content;
 	struct s_list	*next;
 }	t_list_string;
+
 typedef struct s_lst {
 	char			*key;
 	char			signe;
@@ -45,15 +47,18 @@ typedef struct s_redir {
 	int type;
 	int number;
 } t_redir;
+
 typedef struct s_redir_list {
-    t_redir *redir;
-    struct s_redir_list *next;
+	t_redir *redir;
+	struct s_redir_list *next;
 } t_redir_list;
+
 typedef struct s_fdnode {
-    int fd;
-    int in_use;
-    struct s_fdnode* next;
+	int fd;
+	int in_use;
+	struct s_fdnode* next;
 } t_fdnode;
+
 int				ft_atoi(const char *str);
 
 void			ft_bzero(void *s, size_t n);
@@ -138,7 +143,7 @@ void			ft_lstclear(t_list **lst, void (*del)(void*));
 
 void			ft_lstiter(t_list *lst, void (*f)(void *));
 
-t_lst	*ft_lstadd_new_env(char *key, char *value, char singe);
+t_lst			*ft_lstadd_new_env(char *key, char *value, char singe);
 
 void			ft_lstadd_back_env(t_lst **lst, t_lst *new);
 
@@ -146,9 +151,9 @@ void			ft_lst_clear_env(t_lst **lst);
 
 int				ft_strcmp(char *s1, char *s2);
 
-void	ft_lstadd_back_redir(t_redir_list **lst, t_redir_list *new);
+void			ft_lstadd_back_redir(t_redir_list **lst, t_redir_list *new);
 
-void *gcalloc(size_t size);
+void			*gcalloc(size_t size);
 
-void* ft_realloc(void* ptr, size_t new_size);
+void*			ft_realloc(void* ptr, size_t new_size);
 #endif

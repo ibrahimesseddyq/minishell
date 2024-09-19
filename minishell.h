@@ -14,6 +14,10 @@
 #include <glob.h>
 #include <sys/stat.h>
 
+
+#define EXIT_FAIL 2
+#define EXIT_SUCCESS 0
+#define NO_EXIT 0
 #define EXIT_PROGRAM 4
 #define SET_EXIT_STATUS 2
 #define GET_EXIT_STATUS 3
@@ -223,7 +227,7 @@ int	get_var_length(char *line, int i);
 void	append_string(t_expand_params *params, char *str);
 void	expand_exit_status(t_expand_params *params);
 int	append_char_to_string(char **s, char c);
-void	handle_quotes(char c, t_expand_params *params);
+void	handle_quotes2(char c, t_expand_params *params);
 void	append_char(t_expand_params *params, char c);
 int	check_ambigious(char *str);
 t_tklist	*tokenize(char *input);
@@ -231,6 +235,34 @@ int	analyse_syntax(t_tklist *list);
 void	set_beginning(t_tklist *token_list);
 t_astnode	*parse_command_line(t_tklist *tokens, t_lst *lst);
 t_astnode	*parse_cmd(t_tklist *tokens, t_lst *lst);
+t_astnode	*create_binary_node(node_type type
+		, t_astnode *left, t_astnode *right);
+t_astnode	*create_block_node(t_astnode *child);
+t_astnode	*parse_block(t_tklist *tokens, t_lst *lst);
+bool	is_valid_quotes(const char *str);
+int	there_is_quote(char *str);
+char	*allocate_buffer(size_t buffer_size);
+char	*resize_buffer(char *buffer, size_t *buffer_size);
+int	handle_escaped_characters(t_lexer *lexer, char *result, size_t *i);
+int	should_stop(t_lexer *lexer, int in_quotes);
+void	advance(t_lexer *lexer);
+char	*finalize_buffer(char *buffer, size_t i);
+int	handle_quotes(t_lexer *lexer
+	, t_quote_state *quote_state, char *result, size_t *i);
+	char	*get_word(t_lexer *lexer);
+	void	skip_whitespace(t_lexer *lexer);
+	t_token	*token_and(t_lexer *lexer);
+	t_token	*token_opening_parenthesis(t_lexer *lexer);
+	t_token	*token_r_redir(t_lexer *lexer);
+	t_token	*token_pipe(t_lexer *lexer);
+char	*trim_quotes(char *str);
+int	get_symbol_exist(char *str, char symbol);
+void	apppend_to_var(char **key, char **value,
+		char **temp, char *str, t_lst *lst);
+void	expand_token_heredoc(t_expand_params *params, t_lst *env);
+void	expand_variable_heredoc(t_expand_params *params, t_lst *env);
+void	expand_variable(t_expand_params *params, t_lst *env);
+void	expand_token(t_expand_params *params, t_lst *env, char *line);
 // t_list *lex(char *text);
 // void test_lexer(t_list *lst);
 // char *add_spaces( char *str);

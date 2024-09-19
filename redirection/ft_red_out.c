@@ -6,83 +6,83 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:22:07 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/17 21:58:58 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/19 01:01:46 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int check_and_open_file(const char *file, int flags, mode_t mode)
-{ 
-    struct stat sb;
+static int	check_and_open_file(const char *file, int flags, mode_t mode)
+{
+	struct stat	sb;
+	int			fd;
 
-    if (stat(file, &sb) == -1) {
-        int fd = open(file, flags, mode);
-        if (fd == -1)
-        {
-            if(access(file, F_OK) == 0 && access(file, W_OK) == -1)
-				fprintf(stderr,"Permission denied\n");
+	if (stat(file, &sb) == -1)
+	{
+		fd = open(file, flags, mode);
+		if (fd == -1)
+		{
+			if (access(file, F_OK) == 0 && access(file, W_OK) == -1)
+				write(2, "Permission denied\n", 19);
 			else
-				fprintf(stderr,"No such file or directory\n");
-        	ft_exit(1, SET_EXIT_STATUS);
+				write(2, "No such file or directory\n", 27);
+			ft_exit(1, SET_EXIT_STATUS);
 			return (-2);
-
-        }
-        return fd;  // File successfully opened/created
-    }
-
-    // If the file exists and is not a regular file, return an error
-    if (!S_ISREG(sb.st_mode)) {
-        fprintf(stderr,"Error: Path is not a regular file\n");
-        ft_exit(1, SET_EXIT_STATUS);
-				return (-2);
-    }
-
-    // Open the file normally if it exists
-    int fd = open(file, flags, mode);
-    if (fd == -1) {
-        perror("Error opening file");
-        ft_exit(1, SET_EXIT_STATUS);
+		}
+		return (fd);
+	}
+	if (!S_ISREG(sb.st_mode))
+	{
+		write(2, "Error: Path is not a regular file\n", 35);
+		ft_exit(1, SET_EXIT_STATUS);
 		return (-2);
-    }
-
-    return fd;
+	}
+	fd = open(file, flags, mode);
+	if (fd == -1)
+	{
+		write(2, "Error opening file\n", 20);
+		ft_exit(1, SET_EXIT_STATUS);
+		return (-2);
+	}
+	return (fd);
 }
 
-int ft_red_out(t_astnode *ast, t_lst *env, int is_last, int command_exist)
+int	ft_red_out(t_astnode *ast, t_lst *env, int is_last, int command_exist)
 {
-					int devnull;
-    int fd = 0;
-    if (ast->t_cmd.redirections && ast->t_cmd.redirections->redir)
-    {
-        t_redir *redir = ast->t_cmd.redirections->redir;
-        ast->t_cmd.redirections->redir->file = ft_expand_redir(ast->t_cmd.redirections->redir->file, env);
+	int		devnull;
+	int		fd;
+	t_redir	*redir;
 
-        if (!ast->t_cmd.redirections->redir->file)
-        {
-            fprintf(stderr,"ambigiuos redir\n");
-            return (-2);
-        }
-        if (redir->type == NODE_REDIRECT_OUT)
-        {
-            fd = check_and_open_file(redir->file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-            if (fd == -2)
-				return (-2);
-            if (is_last && command_exist)
-			    dup2(fd, 1);
-            if (!command_exist && fd)
-                ft_exit(0, SET_EXIT_STATUS);
-        } else if (redir->type == NODE_REDIRECT_APPEND)
-        {
-            fd = check_and_open_file(redir->file, O_WRONLY | O_CREAT | O_APPEND, 0777);
+	fd = 0;
+	if (ast->t_cmd.redirections && ast->t_cmd.redirections->redir)
+	{
+		redir = ast->t_cmd.redirections->redir;
+		ast->t_cmd.redirections->redir->file
+			= ft_expand_redir(ast->t_cmd.redirections->redir->file, env);
+		if (!ast->t_cmd.redirections->redir->file)
+			return (write(2, "ambigiuos redir\n", 17), -2);
+		if (redir->type == NODE_REDIRECT_OUT)
+		{
+			fd = check_and_open_file(redir->file,
+					O_WRONLY | O_CREAT | O_TRUNC, 0777);
 			if (fd == -2)
 				return (-2);
-            if (is_last && command_exist)
-			    dup2(fd, 1);
-            if (!command_exist && fd)
-                ft_exit(0, SET_EXIT_STATUS);
-        }
-    }
-    
-    return fd;
+			if (is_last && command_exist)
+				dup2(fd, 1);
+			if (!command_exist && fd)
+				ft_exit(0, SET_EXIT_STATUS);
+		}
+		else if (redir->type == NODE_REDIRECT_APPEND)
+		{
+			fd = check_and_open_file(redir->file,
+					O_WRONLY | O_CREAT | O_APPEND, 0777);
+			if (fd == -2)
+				return (-2);
+			if (is_last && command_exist)
+				dup2(fd, 1);
+			if (!command_exist && fd)
+				ft_exit(0, SET_EXIT_STATUS);
+		}
+	}
+	return (fd);
 }

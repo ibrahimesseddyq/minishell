@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/17 21:57:20 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/18 22:35:06 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ char	**generate_final_splitted(t_astnode *ast, t_lst *env, t_arg_node *lst)
 	lst = head;
 	while (i <= ast->t_cmd.args_size)
 	{
+		printf("lst->arg %s\n", lst->arg);
 		expanded_arg = ft_expand(lst->arg, env);
 		printf("expanded arg %s\n", expanded_arg);
 		temp = ft_strjoin(expanded_string, expanded_arg);
@@ -37,7 +38,7 @@ char	**generate_final_splitted(t_astnode *ast, t_lst *env, t_arg_node *lst)
 					ft_strdup(char_to_string(*get_splitted_char(1))));
 			expanded_string = temp;
 		}
-				printf("expanded string %s\n", expanded_string);
+		printf("expanded string %s\n", expanded_string);
 
 		lst = lst->next;
 		i++;

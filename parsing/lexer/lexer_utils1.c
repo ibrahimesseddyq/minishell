@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   lexer_utils.c                                      :+:      :+:    :+:   */
+/*   lexer_utils1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:12:03 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/17 16:38:03 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/19 00:04:21 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,12 @@ char	*get_word(t_lexer *lexer)
 	size_t			i;
 	t_quote_state	*quotes;
 
+	
+	quotes = malloc(sizeof(t_quote_state));
+	if (!quotes) {
+		perror("malloc failed");
+		return NULL;  // or handle the error appropriately
+	}
 	quotes->in_quotes = 0;
 	quotes->quote_char = '\0';
 	i = 0;
@@ -35,6 +41,7 @@ char	*get_word(t_lexer *lexer)
 		if (should_stop(lexer, quotes->in_quotes))
 			break ;
 		result[i++] = lexer->currentchar;
+		printf("		[get_word] lexer current char is [%c]\n", lexer->currentchar);
 		advance(lexer);
 	}
 	return (finalize_buffer(result, i));

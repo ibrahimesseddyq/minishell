@@ -6,13 +6,13 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:47:54 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/17 21:58:23 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/18 23:59:23 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	expand_variable(t_expand_params *params, t_lst *env)
+void	expand_variable_heredoc(t_expand_params *params, t_lst *env)
 {
 	int		varnamelen;
 	char	*varname;
@@ -27,7 +27,7 @@ void	expand_variable(t_expand_params *params, t_lst *env)
 	append_string(params, value);
 }
 
-void	expand_token(t_expand_params *params, t_lst *env)
+void	expand_token_heredoc(t_expand_params *params, t_lst *env)
 {
 	if (params->expanded_line[params->i] == '$')
 	{
@@ -40,7 +40,7 @@ void	expand_token(t_expand_params *params, t_lst *env)
 	}
 }
 
-char	*ft_expand(char *line, t_lst *env)
+char	*ft_expand_heredoc(char *line, t_lst *env)
 {
 	char			*expanded_line;
 	t_expand_params	params;
@@ -51,7 +51,7 @@ char	*ft_expand(char *line, t_lst *env)
 	{
 		if (!params.is_inside_quotes || params.current_quote == '\"')
 		{
-			expand_token(&params, env);
+			expand_token(&params, env, line);
 		}
 		else
 		{

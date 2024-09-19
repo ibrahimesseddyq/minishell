@@ -6,11 +6,22 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:19:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/17 21:59:17 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/19 01:35:30 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+
+// typedef struct s_expand_params
+// {
+//     int i;
+//     int expanded_size;
+//     int expanded_index;
+//     int is_inside_quotes;
+//     char current_quote;
+//     char *expanded_line;
+// } t_expand_params;
+
 
 void	expand_variable(t_expand_params *params, t_lst *env)
 {
@@ -27,7 +38,7 @@ void	expand_variable(t_expand_params *params, t_lst *env)
 	append_string(params, value);
 }
 
-void	expand_token(t_expand_params *params, t_lst *env)
+void	expand_token(t_expand_params *params, t_lst *env, char *line)
 {
 	if (params->expanded_line[params->i] == '$')
 	{
@@ -43,7 +54,8 @@ void	expand_token(t_expand_params *params, t_lst *env)
 	}
 	else
 	{
-		append_char(params, params->expanded_line[params->i++]);
+		printf("[expand_token] => [append_char]\n");
+		append_char(params, line[params->i++]);
 	}
 }
 
@@ -52,14 +64,14 @@ char	*ft_expand(char *line, t_lst *env)
 	char			*expanded_line;
 	t_expand_params	params;
 
-	expanded_line = gcalloc(64);
+	expanded_line = gcalloc(DEFAULT_NB);
 	params = init_params(line, expanded_line);
 	while (line[params.i])
 	{
-		handle_quotes(line[params.i], &params);
+		handle_quotes2(line[params.i], &params);
 		if (!params.is_inside_quotes || params.current_quote == '\"')
 		{
-			expand_token(&params, env);
+			expand_token(&params, env, line);
 		}
 		else
 		{

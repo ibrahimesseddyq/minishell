@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:39:10 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/17 17:05:14 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/18 23:22:38 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ t_token	*token_word(t_lexer *lexer)
 	char	*word;
 
 	word = get_word(lexer);
+	printf("	[token_word] word is [%s]\n", word);
 	token = (t_token *)gcalloc(sizeof(t_token));
 	token->type = TK_WORD;
 	token->value = word;
