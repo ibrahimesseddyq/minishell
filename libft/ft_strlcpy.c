@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 01:27:36 by ibes-sed          #+#    #+#             */
-/*   Updated: 2023/11/28 22:44:40 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/20 04:51:28 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t len)
 	while (src[i] && i < len - 1)
 	{
 		dst[i] = src[i];
+		printf("dst[%c] = src[%c] , %d < %d - 1(%d)\n", dst[i],src[i], i , len, len -1);
 		i++;
 	}
 	dst[i] = '\0';

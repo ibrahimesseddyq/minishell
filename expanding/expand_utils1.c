@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:48:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/18 22:15:58 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/20 05:09:36 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,21 +57,45 @@ t_expand_params	init_params(char *line, char *expanded_line)
 	params.expanded_line = expanded_line;
 	return (params);
 }
+// if ((start[i] == '\'' || start[i] == '\"') && !is_inside_quotes)
+//         {
+//             is_inside_quotes = 1;
+//             // printf("set inside quote\n");
+//             current_quote = start[i];
+//             i++;
+//             continue;
+//         }
+//         else if (is_inside_quotes && start[i] == current_quote)
+//         {
+//              if (start[i] == '\"' && is_inside_quotes && current_quote == '\"' && start[i - 1] == '$')
+//             {
+//                         // printf("dkhl\n");
+//                         expanded_line[expanded_index++] = '$';
 
-void	handle_quotes2(char c, t_expand_params *params)
+//             }
+//             // printf("unset inside quote\n");
+//             is_inside_quotes = 0;
+//             current_quote = 0;
+//             i++;  // Skip the closing quote
+//             continue;
+//         }
+int	handle_quotes2(char c, t_expand_params *params)
 {
 	if ((c == '\'' || c == '\"') && !params->is_inside_quotes)
 	{
 		params->is_inside_quotes = 1;
 		params->current_quote = c;
 		params->i++;
+		return (1);
 	}
 	else if (params->is_inside_quotes && c == params->current_quote)
 	{
 		params->is_inside_quotes = 0;
 		params->current_quote = 0;
 		params->i++;
+		return (1);
 	}
+	return (0);
 }
 
 void	expand_exit_status(t_expand_params *params)

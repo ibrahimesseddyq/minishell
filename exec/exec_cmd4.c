@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:21:53 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/17 21:57:40 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/20 01:11:24 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
 {
-	int	stdout_backup;
+	int		stdout_backup;
 	char	*pwd_dir;
 
 	stdout_backup = ft_redirection(ast, env, 1);
@@ -28,8 +28,8 @@ int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
 	else if (!ft_strcmp(arg_cmd[0], "pwd"))
 	{
 		pwd_dir = ft_pwd();
-		printf("%s\n", pwd_dir);
-		free(pwd_dir);
+		write(1, pwd_dir, ft_strlen(pwd_dir));
+		write(1, "\n", 1);
 	}
 	else if (!ft_strcmp(arg_cmd[0], "env"))
 		ft_env(env);
@@ -39,7 +39,7 @@ int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
 		ft_export(arg_cmd, env);
 	else if (!ft_strcmp(arg_cmd[0], "unset"))
 		unset(arg_cmd, env);
-	return (dup2(stdout_backup, 1), close(stdout_backup), 1);
+	return (1);
 }
 
 int	check_file(char **argv)

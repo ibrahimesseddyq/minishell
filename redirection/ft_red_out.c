@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:22:07 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/19 01:01:46 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/20 02:33:37 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,14 @@ int	ft_red_out(t_astnode *ast, t_lst *env, int is_last, int command_exist)
 	if (ast->t_cmd.redirections && ast->t_cmd.redirections->redir)
 	{
 		redir = ast->t_cmd.redirections->redir;
+		printf("redir file before [%s]\n", ast->t_cmd.redirections->redir->file);
 		ast->t_cmd.redirections->redir->file
 			= ft_expand_redir(ast->t_cmd.redirections->redir->file, env);
 		if (!ast->t_cmd.redirections->redir->file)
 			return (write(2, "ambigiuos redir\n", 17), -2);
 		if (redir->type == NODE_REDIRECT_OUT)
 		{
+			printf("redir file after [%s]\n", ast->t_cmd.redirections->redir->file);
 			fd = check_and_open_file(redir->file,
 					O_WRONLY | O_CREAT | O_TRUNC, 0777);
 			if (fd == -2)

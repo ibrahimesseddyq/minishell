@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 22:13:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/17 21:58:36 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/20 08:13:58 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,15 +98,16 @@ char	**split_all_strings(char **array, char delimiter)
 	k = 0;
 	while (array[i])
 	{
-				printf("[split_all_strings] array [i] %s , del %c\n", array[i], delimiter);
-
+		printf("[split_all_strings] before array [i] %s , del %c\n", array[i], delimiter);
 		split_result = split_string(array[i], delimiter);
-		printf("[split_all_strings] array [i] %s , del %c, split res [%s]\n", array[i], delimiter, split_result);
+		// printf("[split_all_strings] after array [i] %s , del %c, split res [%s]\n", array[i], delimiter, split_result);
 		if (!split_result)
 			return (NULL);
+		k = 0;
 		while (split_result[k])
 		{
 			result[result_index++] = split_result[k];
+			printf("result[index] [%s]\n", result[result_index - 1]);
 			k++;
 		}
 		i++;

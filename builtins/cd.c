@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:04:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/19 01:16:26 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/20 05:26:24 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,47 +75,35 @@ int	ft_cd(int argc, char **argv, int mode, t_lst *env)
 	previous_pwd = ft_pwd();
 	pwd = ft_strdup(ft_pwd());
 	if (!previous_pwd || !pwd)
-		return (ft_exit(1, mode), 1);
+		return (perror("cd"), ft_exit(1, mode), 1);
 	set_env(env, "OLDPWD", previous_pwd, 1);
 	if (argc == 1)
 	{
 		dir = get_env(env, "HOME");
 		if (!dir || !dir[0] && !get_env_isset(env, "HOME"))
-		{
-			write(2, "minishell: cd: HOME not set\n", 29);
-			ft_exit(1, mode);
-			return (1);
-		}
+			return (write(2, "minishell: cd: HOME not set\n", 29), ft_exit(1, mode), 1);
 		else if (!dir || !dir[0] && get_env_isset(env, "HOME"))
-		{
-			ft_exit(0, SET_EXIT_STATUS);
-			return (0);
-		}
+			return (ft_exit(0, SET_EXIT_STATUS), 0);
 	}
 	else if (strcmp(argv[1], "-") == 0)
 	{
 		dir = get_env(env, "OLDPWD");
 		if (!dir || !*dir)
 			return (write(2, "minishell: cd: OLDPWD not set\n", 31),
-				ft_exit(1, mode), 1);
+				ft_exit(1, SET_EXIT_STATUS), 1);
 	}
 	else
 		dir = argv[1];
 	if (strcmp(dir, ".") == 0)
-	{
-		ft_exit(EXIT_SUCCESS, mode);
-		return (0);
-	}
+		return (ft_exit(0, SET_EXIT_STATUS), 0);
 	expanded_dir = expand_tilde(dir, env);
 	if (!expanded_dir)
-		return (ft_exit(EXIT_FAIL, mode), 1);
+		return (perror("cd"), ft_exit(1, SET_EXIT_STATUS), 1);
 	if (chdir(expanded_dir) == -1)
-		return (ft_exit(EXIT_FAILURE, mode), 1);
+		return (perror("cd"), ft_exit(1, SET_EXIT_STATUS), 1);
 	new_pwd = ft_pwd();
 	if (!new_pwd)
 		return (write(2, "cd: failed to get new working directory\n", 41),
-			ft_exit(EXIT_FAIL, mode), 1);
-	set_env(env, "PWD", new_pwd, 1);
-	ft_exit(EXIT_SUCCESS, mode);
-	return (0);
+			ft_exit(1, SET_EXIT_STATUS), 1);
+	return (set_env(env, "PWD", new_pwd, 1), ft_exit(0, SET_EXIT_STATUS), 0);
 }

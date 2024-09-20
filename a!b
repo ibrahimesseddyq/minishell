@@ -1,0 +1,23 @@
+[execute_child] command before execve [/bin/ls]
+total 920
+-rw-r--r--    1 ibes-sed  candidate    1952 Sep 18 22:20 Makefile
+-rwxr-xr-x    1 ibes-sed  candidate      48 Sep 20 06:32 a!b
+drwxr-xr-x    9 ibes-sed  candidate     306 Sep 20 05:14 backend
+-rw-r--r--    1 ibes-sed  candidate     133 Sep 20 02:26 break_bash.txt
+drwxr-xr-x   14 ibes-sed  candidate     476 Sep 20 05:47 builtins
+drwxr-xr-x    5 ibes-sed  candidate     170 Sep 19 19:19 env
+drwxr-xr-x   34 ibes-sed  candidate    1156 Sep 20 05:20 exec
+drwxr-xr-x   16 ibes-sed  candidate     544 Sep 20 06:05 expanding
+drwxr-xr-x   11 ibes-sed  candidate     374 Sep 20 06:18 export
+drwxr-xr-x  105 ibes-sed  candidate    3570 Sep 20 04:51 libft
+-rw-r--r--    1 ibes-sed  candidate  182824 Sep 20 04:51 libft.a
+-rwxrwxrwx    1 ibes-sed  candidate    1965 Sep 20 01:08 main.c
+-rwxr-xr-x    1 ibes-sed  candidate  252584 Sep 20 06:18 minishell
+drwxr-xr-x    3 ibes-sed  candidate     102 Sep 13 17:35 minishell.dSYM
+-rw-r--r--    1 ibes-sed  candidate    9329 Sep 20 03:36 minishell.h
+drwxr-xr-x    6 ibes-sed  candidate     204 Sep 13 17:35 outfiles
+drwxr-xr-x    4 ibes-sed  candidate     136 Sep 17 16:02 parsing
+drwxr-xr-x    8 ibes-sed  candidate     272 Sep 20 02:33 redirection
+drwxr-xr-x    5 ibes-sed  candidate     170 Sep 13 23:12 test_files
+drwxr-xr-x    3 ibes-sed  candidate     102 Sep 13 17:35 tests
+-rw-r--r--    1 ibes-sed  candidate      50 Sep 20 05:04 tests.txt

@@ -6,12 +6,32 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/17 21:58:18 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/20 09:20:37 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+char **remove_empty_strings(char **arr, int size, int *new_size)
+{
+    int i;
+	int j;
+	char **new_arr;
 
+	i = 0;
+	j = 0;
+    new_arr = malloc(size * sizeof(char*));
+    for (i = 0; i < size; i++)
+	{
+        if (arr[i][0] != '\0')
+		{
+            new_arr[j] = arr[i];
+            j++;
+        }
+    }
+    *new_size = j;
+    new_arr = realloc(new_arr, (*new_size) * sizeof(char*));
+    return (new_arr);
+}
 char	**make_array(char **args, int size)
 {
 	int		i;
@@ -42,7 +62,10 @@ int	builtins_error(char **argv)
 
 	i = 0;
 	command = 0;
-	printf("argv is [%s]\n", argv[0]);
+	for (int i = 0; argv[i]; i++)
+	{
+		printf("argv is [%s]\n", argv[i]);		
+	}
 	if (!argv[0])
 	{
 		write(2, "command not found\n", 19);

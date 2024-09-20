@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 01:23:26 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/12 21:05:52 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/20 01:07:22 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,22 +30,21 @@ char *ft_strdup(char *src)
 {
     char *dest;
     int len;
-	// printf("[%s]\n", src);
+
     if (!src )
     {
-        dest = (char *)gcalloc(1 * sizeof(char)); // Allocate memory for an empty string
+        dest = (char *)gcalloc(1 * sizeof(char));
         if (!dest)
             return (NULL);
-        dest[0] = '\0'; // Null-terminate the empty string
+        dest[0] = '\0';
         return dest;
     }
 
-    len = ft_strlen(src) + 1; // Include space for the null-terminator
+    len = ft_strlen(src) + 1;
     dest = (char *)gcalloc(len * sizeof(char));
     if (!dest)
         return (NULL);
 
-    ft_strcpy(dest, src); // Copy the string
+    ft_strcpy(dest, src);
     return dest;
 }
-

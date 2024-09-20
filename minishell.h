@@ -13,7 +13,14 @@
 #include <errno.h>
 #include <glob.h>
 #include <sys/stat.h>
-
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <stdbool.h>
+#include <dirent.h>
+#include <sys/types.h>
+#include <sys/stat.h>
+#include <unistd.h>
 
 #define EXIT_FAIL 2
 #define EXIT_SUCCESS 0
@@ -61,6 +68,15 @@ typedef enum
 } tk_type;
 
 // Define node types
+typedef struct s_wildcard_data
+{
+    char **pattern;
+    int levels;
+    char ***found_files;
+    int *found_count;
+	struct stat st;
+} t_wildcard_data;
+
 typedef enum
 {
 	NODE_COMMAND,
@@ -77,6 +93,13 @@ typedef enum
 	NODE_REDIRECT_APPEND,
 	NODE_HEREDOC
 } node_type;
+
+typedef struct s_allocation
+{
+    void *address;
+    int freed;
+    struct s_allocation *next;
+} t_allocation;
 
 // Token structure
 typedef struct s_token
@@ -154,6 +177,7 @@ typedef struct s_expand_params
     int is_inside_quotes;
     char current_quote;
     char *expanded_line;
+    int is_inside_quotes2;
 } t_expand_params;
 
 char	*get_next_line(int fd);
@@ -227,7 +251,7 @@ int	get_var_length(char *line, int i);
 void	append_string(t_expand_params *params, char *str);
 void	expand_exit_status(t_expand_params *params);
 int	append_char_to_string(char **s, char c);
-void	handle_quotes2(char c, t_expand_params *params);
+int	handle_quotes2(char c, t_expand_params *params);
 void	append_char(t_expand_params *params, char c);
 int	check_ambigious(char *str);
 t_tklist	*tokenize(char *input);
@@ -259,10 +283,15 @@ char	*trim_quotes(char *str);
 int	get_symbol_exist(char *str, char symbol);
 void	apppend_to_var(char **key, char **value,
 		char **temp, char *str, t_lst *lst);
-void	expand_token_heredoc(t_expand_params *params, t_lst *env);
-void	expand_variable_heredoc(t_expand_params *params, t_lst *env);
-void	expand_variable(t_expand_params *params, t_lst *env);
-void	expand_token(t_expand_params *params, t_lst *env, char *line);
+void	expand_token_heredoc(t_expand_params *params, t_lst *env, char *line);
+void	expand_variable_heredoc(t_expand_params *params, t_lst *env, char *line);
+void	expand_variable(t_expand_params *params, t_lst *env, char **line);
+void	expand_token(t_expand_params *params, t_lst *env, char **line);
+void gc_free(void *ptr);
+bool matchStar(char ch, const char *pattern, const char *text);
+bool match(const char *pattern, const char *text);
+char** filterStrings(const char *pattern, const char *texts[], int numTexts, int *numMatches);
+char **remove_empty_strings(char **arr, int size, int *new_size);
 // t_list *lex(char *text);
 // void test_lexer(t_list *lst);
 // char *add_spaces( char *str);

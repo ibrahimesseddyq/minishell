@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:47:54 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/18 23:59:23 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/20 02:48:37 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,11 +23,23 @@ void	expand_variable_heredoc(t_expand_params *params, t_lst *env)
 	strncpy(varname, &params->expanded_line[params->i], varnamelen);
 	varname[varnamelen] = '\0';
 	params->i += varnamelen;
-	value = ft_strdup(get_env(env, varname));
-	append_string(params, value);
+	value = get_env(env, varname);
+	if (!value)
+	{
+		if (check_ambigious(NULL))
+			return ;
+		append_string(params, "");
+	}
+	else
+	{
+		value = ft_strdup(value);
+		if (check_ambigious(value))
+			return ;
+		append_string(params, value);
+	}
 }
 
-void	expand_token_heredoc(t_expand_params *params, t_lst *env)
+void	expand_token_heredoc(t_expand_params *params, t_lst *env, char *line)
 {
 	if (params->expanded_line[params->i] == '$')
 	{
@@ -36,7 +48,7 @@ void	expand_token_heredoc(t_expand_params *params, t_lst *env)
 	}
 	else
 	{
-		append_char(params, params->expanded_line[params->i++]);
+		append_char(params, line[params->i++]);
 	}
 }
 
@@ -51,7 +63,7 @@ char	*ft_expand_heredoc(char *line, t_lst *env)
 	{
 		if (!params.is_inside_quotes || params.current_quote == '\"')
 		{
-			expand_token(&params, env, line);
+			expand_token_heredoc(&params, env, line);
 		}
 		else
 		{

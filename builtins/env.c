@@ -6,13 +6,13 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:19:51 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/19 01:21:55 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/20 05:24:56 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	t_env(t_lst *env_list)
+void	ft_env(t_lst *env_list)
 {
 	t_lst	*current;
 
@@ -32,4 +32,5 @@ void	t_env(t_lst *env_list)
 		}
 		current = current->next;
 	}
+	ft_exit(0, SET_EXIT_STATUS);
 }

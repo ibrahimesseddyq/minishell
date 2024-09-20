@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:45:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/17 21:59:01 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/20 06:18:04 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	handle_existing_var(char *str, char **key,
 	if (*value)
 		(*value)++;
 	if (*value && **value)
-		*value = trim_quotes(*value);
+		*value = *value;
 	else
 		*value = "";
 	set_env(lst, *key, *value, 1);

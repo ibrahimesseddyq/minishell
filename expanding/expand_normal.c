@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:19:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/19 01:35:30 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/20 08:34:53 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,41 +21,75 @@
 //     char current_quote;
 //     char *expanded_line;
 // } t_expand_params;
+char	*replace_space_with_second_separator(t_expand_params *params, char *str)
+{
+	int	i;
+	char *res;
 
+	i = 0;
+	res = gcalloc(ft_strlen(str) + 1);
+	while (str[i])
+	{
+		if((str[i] == '\'' || str[i] == '\"') && !params->is_inside_quotes2)
+			params->is_inside_quotes2 = 1;
+		else if((str[i] == '\'' || str[i] == '\"') && params->is_inside_quotes2)
+			params->is_inside_quotes2 = 0;
+		printf("[replace_space_with_second_separator] str [%s]  is inside quotes [%d]\n",str, params->is_inside_quotes);
+		if(str[i] == ' ' && !params->is_inside_quotes2)
+			res[i] = *get_splitted_char(2);
+		else
+			res[i] = str[i];
+		i++;
+	}
+	res[i] = '\0';
+	return (res);
+}
 
-void	expand_variable(t_expand_params *params, t_lst *env)
+void	expand_variable(t_expand_params *params, t_lst *env, char **line)
 {
 	int		varnamelen;
 	char	*varname;
 	char	*value;
 
-	varnamelen = get_var_length(params->expanded_line, params->i);
+	varnamelen = get_var_length(*line, params->i);
+	printf("[expand_variable] varnamelen [%d] param->i [%d]  and char is [%c]\n", varnamelen, params->i, *(*line + params->i));
 	varname = gcalloc(varnamelen + 1);
-	strncpy(varname, &params->expanded_line[params->i], varnamelen);
+	strncpy(varname, *line + params->i, varnamelen );
 	varname[varnamelen] = '\0';
 	params->i += varnamelen;
-	value = ft_strdup(get_env(env, varname));
-	append_string(params, value);
+	value = get_env(env, varname);
+	
+	if (!value)
+	{
+		append_string(params, "");
+			printf("[expand_variable] variable value is [%s]\n", value);
+
+	}
+	else
+	{
+		value = ft_strdup(value);
+		value = replace_space_with_second_separator(params, value);
+		append_string(params, value);
+	}
 }
 
-void	expand_token(t_expand_params *params, t_lst *env, char *line)
+void	expand_token(t_expand_params *params, t_lst *env, char **line)
 {
-	if (params->expanded_line[params->i] == '$')
+	if ((*line)[params->i] == '$')
 	{
 		params->i++;
-		if (params->expanded_line[params->i] == '?')
+		if ((*line)[params->i] == '?')
 		{
 			expand_exit_status(params);
 		}
 		else
 		{
-			expand_variable(params, env);
+			expand_variable(params, env, line);
 		}
 	}
 	else
 	{
-		printf("[expand_token] => [append_char]\n");
-		append_char(params, line[params->i++]);
+		append_char(params, (*line)[params->i++]);
 	}
 }
 
@@ -66,12 +100,13 @@ char	*ft_expand(char *line, t_lst *env)
 
 	expanded_line = gcalloc(DEFAULT_NB);
 	params = init_params(line, expanded_line);
-	while (line[params.i])
+	while (line && line[params.i])
 	{
-		handle_quotes2(line[params.i], &params);
+		if (handle_quotes2(line[params.i], &params))
+			continue ;
 		if (!params.is_inside_quotes || params.current_quote == '\"')
 		{
-			expand_token(&params, env, line);
+			expand_token(&params, env, &line);
 		}
 		else
 		{

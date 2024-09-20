@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:50:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/18 23:08:23 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/20 03:17:07 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,11 +17,11 @@ int	check_ambigious(char *str)
 	int	i;
 
 	i = 0;
-	if (!str[0])
+	if (!str || !str[0])
 		return (1);
-	while (str[i] == ' ')
+	while (str[i] && str[i] == ' ')
 		i++;
-	while (str[i] != ' ')
+	while (str[i] && str[i] != ' ')
 		i++;
 	if (str[i])
 		return (1);

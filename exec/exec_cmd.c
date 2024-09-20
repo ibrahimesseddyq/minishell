@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/18 22:35:06 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/20 09:22:23 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ char	**generate_final_args(t_astnode *ast, t_lst *env, t_arg_node *lst)
 {
 	char		**second_splitted;
 	t_arg_node	*tmp;
+	int			*new_size;
 
 	tmp = lst;
 	while (tmp)
@@ -70,11 +71,20 @@ char	**generate_final_args(t_astnode *ast, t_lst *env, t_arg_node *lst)
 	{
 		printf("seccond splitted [%s]\n", second_splitted[i]);
 	}
-	return (make_array(second_splitted, ast->t_cmd.args_size));
+	return (remove_empty_strings(make_array(second_splitted, ast->t_cmd.args_size), ast->t_cmd.args_size, new_size));
 }
 
 void	choose_splitting_delimiter(t_arg_node	*lst)
 {
+	t_arg_node	*tmp;
+
+	tmp = lst;
+	//TO FIX
+	while(tmp)
+	{
+		printf("------- lst-> [%s]------\n", lst->arg);
+		tmp = tmp->next;
+	}
 	which_to_split_with(list_to_array(lst), 1);
 	which_to_split_with(list_to_array(lst), 2);
 }

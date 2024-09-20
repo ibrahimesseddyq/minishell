@@ -1,0 +1,10 @@
+# 1
+cat << 'lim
+# 2
+while true;
+do leaks -c bash;
+done
+// do the first one #1
+# 3
+VAR=$(printf 'A%.0s' {1..100000})
+echo "${VAR//A/}"

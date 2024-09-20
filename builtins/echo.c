@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:16:59 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/19 01:19:40 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/20 05:25:05 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,5 +62,6 @@ int	ft_echo(char **args)
 	}
 	if (!n_option)
 		write(1, "\n", 1);
+	ft_exit(0, SET_EXIT_STATUS);
 	return (SUCCESS);
 }
