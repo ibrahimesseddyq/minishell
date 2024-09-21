@@ -6,33 +6,33 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:52:42 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/17 17:59:05 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 04:01:48 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../minishell.h"
 
-t_astnode	*create_binary_node(node_type type
+t_astnode	*create_binary_node(t_node_type type
 		, t_astnode *left, t_astnode *right)
 {
 	t_astnode	*node;
 
 	node = (t_astnode *)gcalloc(sizeof(t_astnode));
 	node->type = type;
-	node->binary.left = left;
-	node->binary.right = right;
+	node->t_binary.left = left;
+	node->t_binary.right = right;
 	return (node);
 }
 
-t_astnode	*create_redirect_node(node_type type
+t_astnode	*create_redirect_node(t_node_type type
 		, t_astnode *child, char *filename)
 {
 	t_astnode	*node;
 
 	node = (t_astnode *)gcalloc(sizeof(t_astnode));
 	node->type = type;
-	node->redirect.child = child;
-	node->redirect.filename = strdup(filename);
+	node->t_redirect.child = child;
+	node->t_redirect.filename = strdup(filename);
 	return (node);
 }
 
@@ -42,7 +42,7 @@ t_astnode	*create_block_node(t_astnode *child)
 
 	node = (t_astnode *)gcalloc(sizeof(t_astnode));
 	node->type = NODE_BLOCK;
-	node->block.child = child;
+	node->t_block.child = child;
 	return (node);
 }
 

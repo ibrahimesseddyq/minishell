@@ -51,22 +51,22 @@
 //             break;
 //         case NODE_PIPE:
 //             printf("Node Pipe:\n");
-//             print_ast(node->binary.left, depth + 1);
-//             print_ast(node->binary.right, depth + 1);
+//             print_ast(node->t_binary.left, depth + 1);
+//             print_ast(node->t_binary.right, depth + 1);
 //             break;
 //         case NODE_LOGICAL_AND:
 //             printf("Node Logical AND:\n");
-//             print_ast(node->binary.left, depth + 1);
-//             print_ast(node->binary.right, depth + 1);
+//             print_ast(node->t_binary.left, depth + 1);
+//             print_ast(node->t_binary.right, depth + 1);
 //             break;
 //         case NODE_LOGICAL_OR:
 //             printf("Node Logical OR:\n");
-//             print_ast(node->binary.left, depth + 1);
-//             print_ast(node->binary.right, depth + 1);
+//             print_ast(node->t_binary.left, depth + 1);
+//             print_ast(node->t_binary.right, depth + 1);
 //             break;
 //         case NODE_BLOCK:
 //             printf("Node Block:\n");
-//             print_ast(node->block.child, depth + 1);
+//             print_ast(node->t_block.child, depth + 1);
 //             break;
 //         default:
 //             printf("Unknown node type: %d\n", node->type);

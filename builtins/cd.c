@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:04:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/20 05:26:24 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 03:00:55 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,8 @@ char	*expand_tilde(char *path, t_lst *env)
 	}
 	return (ft_strdup(path));
 }
+		//inside argc ==1 : else if (!dir || !dir[0] && get_env_isset(env, "HOME"))
+		// 	return (ft_exit(0, SET_EXIT_STATUS), 0);
 
 int	ft_cd(int argc, char **argv, int mode, t_lst *env)
 {
@@ -72,22 +74,22 @@ int	ft_cd(int argc, char **argv, int mode, t_lst *env)
 
 	dir = NULL;
 	expanded_dir = NULL;
-	previous_pwd = ft_pwd();
+	previous_pwd = get_env(env, "OLDPWD");
 	pwd = ft_strdup(ft_pwd());
 	if (!previous_pwd || !pwd)
 		return (perror("cd"), ft_exit(1, mode), 1);
-	set_env(env, "OLDPWD", previous_pwd, 1);
+	printf("argc [%d]\n", argc);
 	if (argc == 1)
 	{
 		dir = get_env(env, "HOME");
 		if (!dir || !dir[0] && !get_env_isset(env, "HOME"))
 			return (write(2, "minishell: cd: HOME not set\n", 29), ft_exit(1, mode), 1);
-		else if (!dir || !dir[0] && get_env_isset(env, "HOME"))
-			return (ft_exit(0, SET_EXIT_STATUS), 0);
+		dir = ft_strdup("/Users/ibes-sed");
 	}
 	else if (strcmp(argv[1], "-") == 0)
 	{
 		dir = get_env(env, "OLDPWD");
+		printf("PWD is [%s] and OLDPWD is [%s]\n", pwd, dir);
 		if (!dir || !*dir)
 			return (write(2, "minishell: cd: OLDPWD not set\n", 31),
 				ft_exit(1, SET_EXIT_STATUS), 1);
@@ -101,6 +103,7 @@ int	ft_cd(int argc, char **argv, int mode, t_lst *env)
 		return (perror("cd"), ft_exit(1, SET_EXIT_STATUS), 1);
 	if (chdir(expanded_dir) == -1)
 		return (perror("cd"), ft_exit(1, SET_EXIT_STATUS), 1);
+	set_env(env, "OLDPWD", previous_pwd, 1);
 	new_pwd = ft_pwd();
 	if (!new_pwd)
 		return (write(2, "cd: failed to get new working directory\n", 41),

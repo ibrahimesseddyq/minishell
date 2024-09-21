@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:48:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/20 04:55:14 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:34:49 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,15 @@ int	expand_variable_redir(t_expand_params *params, t_lst *env, char **line)
 	char	*value;
 
 	varnamelen = get_var_length(*line, params->i);
+	value = NULL;
 	printf("[expand_variable_redir] varnamelen [%d] param->i [%d] and str is [%s]\n", varnamelen, params->i, (*line + params->i));
 	varname = gcalloc(varnamelen + 1);
 	ft_strlcpy(varname, *line + params->i, varnamelen + 1);
-	printf("[expand_variable_redir] varname [%s] value [%s] param->i [%d] varnamelen [%d]\n", varname, value, params->i, varnamelen);
-
-	// varname[varnamelen] = '\0';
+	if (params->i >= DEFAULT_NB - 1)
+		handle_overflow();
 	params->i += varnamelen;
 	value = get_env(env, varname);
+	printf("[expand_variable_redir] varname [%s] value [%s] param->i [%d] varnamelen [%d]\n", varname, value, params->i, varnamelen);
 	printf("[expand_variable_redir] varname [%s] value [%s]\n", varname, value);
 	if (!value)
 	{
@@ -34,7 +35,6 @@ int	expand_variable_redir(t_expand_params *params, t_lst *env, char **line)
 			return (0);
 		append_string(params, "");
 					printf("[expand_variable] variable value is [%s]\n", value);
-
 	}
 	else
 	{
@@ -42,14 +42,15 @@ int	expand_variable_redir(t_expand_params *params, t_lst *env, char **line)
 		if (check_ambigious(value))
 			return (0);
 		append_string(params, value);
-					printf("[expand_variable] variable value is [%s]\n", value);
-
+		printf("[expand_variable] variable value is [%s]\n", value);
 	}
 	return (1);
 }
 
 int	expand_token_redir(t_expand_params *params, t_lst *env, char **line)
 {
+	if (params->i >= DEFAULT_NB - 1)
+		handle_overflow();
 	if ((*line)[params->i] == '$')
 	{
 		params->i++;

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 19:32:50 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/17 19:36:15 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:32:25 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,6 @@ int	analyse_syntax(t_tklist *list)
 		return (1);
 	else
 		return (write(2, "syntax error near unexpected token `%s'\n"
-			, final_token), write(2, final_token, ft_strlen(final_token))
+			, 41), write(2, final_token, ft_strlen(final_token))
 			, write(2, "\n", 1), 0);
 }

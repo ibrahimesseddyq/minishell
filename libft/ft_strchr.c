@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strchr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 01:22:54 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/12 18:40:58 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/21 04:20:06 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,8 @@ char	*ft_strchr(const char *s, int c)
 {
 	while (*s != '\0')
 	{
-		// printf("s %c\n",*s);
 		if ((char)*s == (char)c)
 		{
-			// printf("found %c\n",*s);
 			return ((char *)s);
 		}
 		s++;

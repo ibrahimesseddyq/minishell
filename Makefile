@@ -1,3 +1,4 @@
+NAME= minishell
 LIB = -L/Users/ibes-sed/.brew/opt/readline/lib
 INCLUDE = -I/Users/ibes-sed/.brew/opt/readline/include
 SRC_LEXER = main.c ./parsing/lexer/lexer.c
@@ -10,10 +11,9 @@ SRC = ./parsing/lexer/lexer.c ./parsing/parser/parser.c ./parsing/parser/parser_
  export/get_env.c export/set_env.c redirection/ft_red_in.c redirection/ft_red_out.c redirection/ft_redirection.c expanding/expand_normal.c expanding/expand_redir.c expanding/expand_delimiter.c expanding/expand_heredoc.c ./builtins/cd.c ./builtins/pwd.c ./backend/exit_status.c ./builtins/echo.c ./builtins/unset.c ./builtins/env.c ./builtins/exit.c ./backend/gc/gcalloc.c exec/split_ai.c exec/split_utils.c exec/exec_cmd_utils.c exec/split_utils2.c exec/exec_cmd2.c exec/exec_cmd3.c exec/exec_cmd4.c exec/exec_cmd5.c exec/exec_cmd6.c exec/exec_cmd7.c expanding/expand_utils1.c expanding/expand_utils2.c export/env_utils1.c export/env_utils2.c	
 OBJ = $(SRC:.c=.o)
 CC = cc -g -fsanitize=address
-CFLAGS =
+CFLAGS = -Wall -Wextra -Werror
 
-# Set minishell as the default target
-all: minishell
+all: $(NAME)
 
 $(LIBFT): $(LIBFT_OBJ)
 	ar rc $(LIBFT) $(LIBFT_OBJ)
@@ -35,5 +35,3 @@ clean:
 	rm -f $(OBJ_LEXER) $(LIBFT_OBJ) $(LIBFT) lexer minishell $(OBJ)
 
 re: clean minishell
-
-.PHONY: all clean re

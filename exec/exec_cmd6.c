@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/20 09:20:37 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:09:02 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,17 +20,27 @@ char **remove_empty_strings(char **arr, int size, int *new_size)
 	i = 0;
 	j = 0;
     new_arr = malloc(size * sizeof(char*));
-    for (i = 0; i < size; i++)
+    while (arr[i])
 	{
-        if (arr[i][0] != '\0')
+		printf("[remove_empty_strings] arr[i] [%s] \n", arr[i]);
+		if (arr[i][0] == '\0')
+			printf("is empty\n");
+        if (arr[i][0])
 		{
-            new_arr[j] = arr[i];
+            new_arr[j] = ft_strdup(arr[i]);
             j++;
         }
+		i++;
     }
-    *new_size = j;
+	printf("j is [%d]\n", j);
+    *new_size = j + 1;
     new_arr = realloc(new_arr, (*new_size) * sizeof(char*));
-    return (new_arr);
+	new_arr[*new_size - 1] = NULL; 
+		for (int i = 0; new_arr[i]; i++)
+	{
+		printf("[remove_empty_strings] non empty string is [%s]\n", new_arr[i]);
+	}
+    return (arr);
 }
 char	**make_array(char **args, int size)
 {
@@ -62,10 +72,7 @@ int	builtins_error(char **argv)
 
 	i = 0;
 	command = 0;
-	for (int i = 0; argv[i]; i++)
-	{
-		printf("argv is [%s]\n", argv[i]);		
-	}
+
 	if (!argv[0])
 	{
 		write(2, "command not found\n", 19);
@@ -86,6 +93,9 @@ int	builtins_error(char **argv)
 
 int	special_cases( t_arg_node *lst)
 {
+	struct stat	sb;
+
+	stat(lst->arg, &sb);
 	if (!ft_strcmp(lst->arg, "."))
 	{
 		write(2, "filename argument required\n", 28);
@@ -98,12 +108,13 @@ int	special_cases( t_arg_node *lst)
 		ft_exit(127, SET_EXIT_STATUS);
 		return (1);
 	}
-	else if (lst->arg[ft_strlen(lst->arg) - 1] == '/')
+	else if (lst->arg[ft_strlen(lst->arg) - 1] == '/' || S_ISDIR(sb.st_mode))
 	{
 		write(2, "Is a directory\n", 16);
 		ft_exit(126, SET_EXIT_STATUS);
 		return (1);
 	}
+	
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 01:23:26 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/20 01:07:22 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 04:19:37 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,25 +26,23 @@ static char	ft_strcpy(char *dest, const char *src)
 	return (*dest);
 }
 
-char *ft_strdup(char *src)
+char	*ft_strdup(char *src)
 {
-    char *dest;
-    int len;
+	char	*dest;
+	int		len;
 
-    if (!src )
-    {
-        dest = (char *)gcalloc(1 * sizeof(char));
-        if (!dest)
-            return (NULL);
-        dest[0] = '\0';
-        return dest;
-    }
-
-    len = ft_strlen(src) + 1;
-    dest = (char *)gcalloc(len * sizeof(char));
-    if (!dest)
-        return (NULL);
-
-    ft_strcpy(dest, src);
-    return dest;
+	if (!src)
+	{
+		dest = (char *)gcalloc(1 * sizeof(char));
+		if (!dest)
+			return (NULL);
+		dest[0] = '\0';
+		return (dest);
+	}
+	len = ft_strlen(src) + 1;
+	dest = (char *)gcalloc(len * sizeof(char));
+	if (!dest)
+		return (NULL);
+	ft_strcpy(dest, src);
+	return (dest);
 }

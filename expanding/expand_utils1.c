@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:48:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/20 05:09:36 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:36:40 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_expand_params	init_params(char *line, char *expanded_line)
 	t_expand_params	params;
 
 	params.i = 0;
-	params.expanded_size = 64;
+	params.expanded_size = DEFAULT_NB;
 	params.expanded_index = 0;
 	params.is_inside_quotes = 0;
 	params.current_quote = 0;

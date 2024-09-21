@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 18:08:51 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/19 19:18:55 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:30:57 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ t_astnode	*create_ast_command(int ac, char **av)
 	return (node);
 }
 
-int	write_expanded_line(const char *delimiter, char *line, int fd, t_lst *env)
+int	write_expanded_line(char *delimiter, char *line, int fd, t_lst *env)
 {
 	char	*expanded_line;
 
@@ -74,12 +74,13 @@ int	write_expanded_line(const char *delimiter, char *line, int fd, t_lst *env)
 	else
 		expanded_line = ft_expand_heredoc(line, env);
 	if (!expanded_line)
-		return (close(fd), -1);
+		return (close(fd), 0);
 	write(fd, expanded_line, strlen(expanded_line));
 	write(fd, "\n", 1);
+	return (1);
 }
 
-int	write_heredoc_to_file(const char *delimiter, char *filename, t_lst *env)
+int	write_heredoc_to_file(char *delimiter, char *filename, t_lst *env)
 {
 	static int	file_counter;
 	int			fd;
@@ -98,7 +99,8 @@ int	write_heredoc_to_file(const char *delimiter, char *filename, t_lst *env)
 			return (close(fd), -1);
 		if (strcmp(line, delimiter) == 0)
 			break ;
-		write_expanded_line(delimiter, line, fd, env);
+		if (!write_expanded_line(delimiter, line, fd, env))
+			return (-1);
 	}
 	return (close(fd), 0);
 }

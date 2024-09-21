@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:46:41 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/18 22:22:15 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:36:14 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,12 @@
 // }
 
 // tbdel f ft_redirection
-char	*ft_expand_delimiter(char *line, t_lst *env)
+char	*ft_expand_delimiter(char *line)
 {
 	char			*expanded_line;
 	t_expand_params	params;
 
-	expanded_line = gcalloc(64);
+	expanded_line = gcalloc(DEFAULT_NB);
 	params = init_params(line, expanded_line);
 	while (line[params.i])
 	{

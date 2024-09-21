@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 15:42:23 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/19 01:33:30 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 04:27:49 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <limits.h>
 # include <fcntl.h>
 
-#define DEFAULT_NB 99999
+# define DEFAULT_NB 10000
 
 typedef struct s_list
 {
@@ -34,30 +34,46 @@ typedef struct s_list_string
 	struct s_list	*next;
 }	t_list_string;
 
-typedef struct s_lst {
+typedef struct s_lst
+{
 	char			*key;
 	char			signe;
 	char			*value;
 	int				set;
 	struct s_lst	*next;
-} t_lst;
-typedef struct s_redir {
-	char *file;
-	char *heredoc;
-	int type;
-	int number;
-} t_redir;
+}	t_lst;
 
-typedef struct s_redir_list {
-	t_redir *redir;
-	struct s_redir_list *next;
-} t_redir_list;
+typedef struct s_redir
+{
+	char	*file;
+	char	*heredoc;
+	int		type;
+	int		number;
+}	t_redir;
 
-typedef struct s_fdnode {
-	int fd;
-	int in_use;
-	struct s_fdnode* next;
-} t_fdnode;
+typedef struct s_redir_list
+{
+	t_redir				*redir;
+	struct s_redir_list	*next;
+}	t_redir_list;
+
+typedef struct s_fdnode
+{
+	int					fd;
+	int					in_use;
+	struct s_fdnode		*next;
+}	t_fdnode;
+
+typedef struct s_split_quotes
+{
+	int		i;
+	int		index;
+	int		word_length;
+	char	**arr;
+	int		in_single_quote;
+	int		in_double_quote;
+	int		tail_matrice;
+}	t_split_quotes;
 
 int				ft_atoi(const char *str);
 
@@ -103,7 +119,7 @@ char			*ft_strdup(char *src);
 
 void			ft_striteri(char *s, void (*f)(unsigned int, char*));
 
-char			*ft_strjoin(char  *s1, char  *s2);
+char			*ft_strjoin(char *s1, char *s2);
 
 size_t			ft_strlcat(char *dest, const char *src, unsigned int size);
 
@@ -155,5 +171,5 @@ void			ft_lstadd_back_redir(t_redir_list **lst, t_redir_list *new);
 
 void			*gcalloc(size_t size);
 
-void*			ft_realloc(void* ptr, size_t new_size);
+void			*ft_realloc(void *ptr, size_t new_size);
 #endif

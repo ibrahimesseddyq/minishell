@@ -6,13 +6,13 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 18:32:52 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/17 19:28:38 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:28:01 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../minishell.h"
 
-t_redir	*handle_redirections(t_tklist *tokens, t_token *token)
+t_redir_list	*handle_redirections(t_tklist *tokens, t_token *token)
 {
 	t_redir			*redir;
 	t_redir_list	*redir_node;
@@ -88,6 +88,8 @@ t_astnode	*parse_cmd(t_tklist *tokens, t_lst *lst)
 	token = peek_token(tokens);
 	while (token && is_word_or_redir(token))
 	{
+		if (argc >= DEFAULT_NB - 1)
+			handle_overflow();
 		token = peek_token(tokens);
 		if (token->type == TK_WORD)
 			((1) && (token = next_token(tokens), argv[argc++] = token->value));
@@ -99,8 +101,7 @@ t_astnode	*parse_cmd(t_tklist *tokens, t_lst *lst)
 	}
 	if (argc == 0 && !redirections)
 		return (NULL);
-	if (!argv)
-		cmd_node = (t_astnode *)gcalloc(sizeof(t_astnode));
+	cmd_node = (t_astnode *)gcalloc(sizeof(t_astnode));
 	cmd_node = create_ast_command(argc, argv);
 	cmd_node->t_cmd.redirections = redirections;
 	if (!create_and_handle_heredoc(redirections, lst))

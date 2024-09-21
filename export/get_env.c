@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 22:18:32 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/17 21:58:41 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:33:43 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,16 @@ char	*get_env(t_lst *env, char *the_env)
 int	get_env_isset(t_lst *env, char *the_env)
 {
 	if (!the_env || !the_env[0])
-		return (NULL);
+		return (0);
 	if (!env)
-		return (printf("env is null\n"), NULL);
+		return (printf("env is null\n"), 0);
 	while (env)
 	{
 		if (!env->key)
-			return (NULL);
+			return (0);
 		if (strcmp(env->key, the_env) == 0)
 			return (env->set);
 		env = env->next;
 	}
-	return (NULL);
+	return (0);
 }

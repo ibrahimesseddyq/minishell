@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:09 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/17 21:57:17 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 04:01:39 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,5 @@ void	exec_cmd_line(t_astnode *ast, t_lst *env)
 	else if (ast->type == NODE_LOGICAL_OR)
 		exec_or(ast, env);
 	else if (ast->type == NODE_BLOCK)
-		exec_cmd_line(ast->block.child, env);
+		exec_cmd_line(ast->t_block.child, env);
 }

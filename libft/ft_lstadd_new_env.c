@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 21:55:33 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/14 01:15:54 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 04:36:45 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ t_lst	*ft_lstadd_new_env(char *key, char *value, char signe)
 		return (NULL);
 	index->key = key;
 	index->signe = signe;
-    index->value = value;
+	index->value = value;
 	index->next = NULL;
 	index->set = 1;
 	return (index);

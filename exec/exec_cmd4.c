@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:21:53 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/20 01:11:24 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 02:21:43 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
 	if (!ft_strcmp(arg_cmd[0], "echo"))
 		ft_echo(arg_cmd);
 	else if (!ft_strcmp(arg_cmd[0], "cd"))
-		ft_cd(ast->t_cmd.args_size + 1, arg_cmd, SET_EXIT_STATUS, env);
+		ft_cd(ast->t_cmd.args_size, arg_cmd, SET_EXIT_STATUS, env);
 	else if (!ft_strcmp(arg_cmd[0], "pwd"))
 	{
 		pwd_dir = ft_pwd();

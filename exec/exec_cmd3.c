@@ -6,41 +6,41 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:19:45 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/17 21:57:23 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/20 23:43:59 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	**split_string(char *str)
-{
-	int		count;
-	char	*tmp;
-	char	*token;
-	char	**result;
-	int		i;
+// char	**split_string(char *str)
+// {
+// 	int		count;
+// 	char	*tmp;
+// 	char	*token;
+// 	char	**result;
+// 	int		i;
 
-	count = 0;
-	tmp = strdup(str);
-	token = strtok(tmp, " ");
-	while (token)
-	{
-		count++;
-		token = strtok(NULL, " ");
-	}
-	result = gcalloc(sizeof(char *) * (count + 1));
-	i = 0;
-	tmp = strdup(str);
-	token = strtok(tmp, " ");
-	while (token)
-	{
-		result[i] = strdup(token);
-		i++;
-		token = strtok(NULL, " ");
-	}
-	result[i] = NULL;
-	return (result);
-}
+// 	count = 0;
+// 	tmp = strdup(str);
+// 	token = strtok(tmp, " ");
+// 	while (token)
+// 	{
+// 		count++;
+// 		token = strtok(NULL, " ");
+// 	}
+// 	result = gcalloc(sizeof(char *) * (count + 1));
+// 	i = 0;
+// 	tmp = strdup(str);
+// 	token = strtok(tmp, " ");
+// 	while (token)
+// 	{
+// 		result[i] = strdup(token);
+// 		i++;
+// 		token = strtok(NULL, " ");
+// 	}
+// 	result[i] = NULL;
+// 	return (result);
+// }
 
 char	*arg_cmds(char *cmd, t_lst *env)
 {

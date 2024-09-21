@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:22:07 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/20 02:33:37 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:34:00 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ static int	check_and_open_file(const char *file, int flags, mode_t mode)
 
 int	ft_red_out(t_astnode *ast, t_lst *env, int is_last, int command_exist)
 {
-	int		devnull;
 	int		fd;
 	t_redir	*redir;
 

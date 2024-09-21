@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 22:13:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/20 08:13:58 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 00:23:47 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ static char	**split_string(char *s, char delimiter)
 	int		index;
 	char	*start;
 	char	*end;
+	char	*current;
 
 	index = 0;
 	result = NULL;
@@ -53,10 +54,19 @@ static char	**split_string(char *s, char delimiter)
 	end = strchr(start, delimiter);
 	while (end)
 	{
-		result[index] = strndup(start, end - start);
-		if (!result[index])
-			return (NULL);
-		index++;
+		current = strndup(start, end - start);
+		if (!current[0] && index == 0)
+			return (ft_exit(127, SET_EXIT_STATUS), write(2, "command not found\n", 19), NULL);
+		if( current[0] != '\0')
+		{
+			result[index] = current;
+			if (!result[index])
+				return (NULL);
+			printf("result whle splitting [%s]\n", result[index]);
+			if (result[index][0] == '\0')
+				printf("empty\n");
+			index++;
+		}
 		start = end + 1;
 		end = strchr(start, delimiter);
 	}

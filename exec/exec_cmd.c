@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/20 09:22:23 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:33:10 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,6 @@ char	**generate_final_args(t_astnode *ast, t_lst *env, t_arg_node *lst)
 {
 	char		**second_splitted;
 	t_arg_node	*tmp;
-	int			*new_size;
 
 	tmp = lst;
 	while (tmp)
@@ -67,11 +66,15 @@ char	**generate_final_args(t_astnode *ast, t_lst *env, t_arg_node *lst)
 		tmp = tmp->next;
 	}
 	second_splitted = generate_final_splitted(ast, env, lst);
+	if (!second_splitted)
+		return (NULL);
 	for (int i = 0; second_splitted[i]; i++)
 	{
 		printf("seccond splitted [%s]\n", second_splitted[i]);
 	}
-	return (remove_empty_strings(make_array(second_splitted, ast->t_cmd.args_size), ast->t_cmd.args_size, new_size));
+	second_splitted = make_array(second_splitted, ast->t_cmd.args_size);
+	// second_splitted = remove_empty_strings(second_splitted, ast->t_cmd.args_size, &new_size);
+	return (second_splitted);
 }
 
 void	choose_splitting_delimiter(t_arg_node	*lst)
@@ -93,6 +96,10 @@ int	execute_command_withargs(t_astnode *ast, t_lst *env, char **real_args)
 {
 	int	result;
 
+	// for(int i = 0; real_args[i]; i++)
+	// {
+	// 	printf("real args [%s]\n", real_args[i]);
+	// }
 	if (is_builtin_command(real_args[0]))
 		result = execute_builtin(real_args, ast, env);
 	else
@@ -103,7 +110,6 @@ int	execute_command_withargs(t_astnode *ast, t_lst *env, char **real_args)
 int	exec_cmd(t_astnode *ast, t_lst *env)
 {
 	t_arg_node	*lst;
-	int			result;
 	char		**real_args;
 	char		*cmd_path;
 	t_arg_node	*tmp;
@@ -125,8 +131,8 @@ int	exec_cmd(t_astnode *ast, t_lst *env)
 	choose_splitting_delimiter(lst);
 	tmp = lst;
 	real_args = generate_final_args(ast, env, lst);
-	if (builtins_error(real_args))
-		return (1);
+	if (builtins_error(real_args) || !real_args)
+		return (0);
 	cmd_path = arg_cmds(real_args[0], env);
 	if (cmd_path)
 		real_args[0] = cmd_path;

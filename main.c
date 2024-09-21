@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:13:19 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/20 01:08:01 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 02:11:56 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ int	main(int ac, char **av, char *env[])
 				lst = tmp;
 				if (ast)
 					exec_cmd_line(ast, lst);
+				printf("exit status >>>>>. %d\n", ft_exit(2, GET_EXIT_STATUS));
 			}
 		}
 	}

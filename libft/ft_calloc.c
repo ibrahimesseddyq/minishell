@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_calloc.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: armanov <armanov@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 00:00:33 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/08/15 18:42:34 by armanov          ###   ########.fr       */
+/*   Updated: 2024/09/21 04:39:28 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,6 @@ void	*ft_calloc(size_t count, size_t size)
 {
 	void	*tmp;
 
-	// if ((count > 0 && size > SIZE_MAX / count) || (count < 0 && size < 0))
-	// {
-	// 	return (NULL);
-	// }
 	tmp = (void *)malloc(count * size);
 	if (!tmp)
 		return (NULL);

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:11:05 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/20 06:13:50 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 02:25:51 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,4 +68,5 @@ void	ft_export(char **str, t_lst *lst)
 	}
 	if (ft_exit(1, GET_EXIT_STATUS) == 257)
 		ft_exit(1, SET_EXIT_STATUS);
+	ft_exit(0, SET_EXIT_STATUS);
 }
