@@ -1,3 +1,11 @@
 ./libft // is a directory machi bdarora tssali b /\
 
 DO NOT FORGET TO UNLINK HEREDOC
+
+
+#2
+export a
+export a+=hamid
+
+#3
+ls << l << ll << l >
