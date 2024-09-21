@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:22:07 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/21 05:34:00 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:54:52 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static int	check_and_open_file(const char *file, int flags, mode_t mode)
 		fd = open(file, flags, mode);
 		if (fd == -1)
 		{
+			printf("here4\n");
 			if (access(file, F_OK) == 0 && access(file, W_OK) == -1)
 				write(2, "Permission denied\n", 19);
 			else
@@ -56,14 +57,14 @@ int	ft_red_out(t_astnode *ast, t_lst *env, int is_last, int command_exist)
 	if (ast->t_cmd.redirections && ast->t_cmd.redirections->redir)
 	{
 		redir = ast->t_cmd.redirections->redir;
-		printf("redir file before [%s]\n", ast->t_cmd.redirections->redir->file);
+		// printf("redir file before [%s]\n", ast->t_cmd.redirections->redir->file);
 		ast->t_cmd.redirections->redir->file
 			= ft_expand_redir(ast->t_cmd.redirections->redir->file, env);
 		if (!ast->t_cmd.redirections->redir->file)
 			return (write(2, "ambigiuos redir\n", 17), -2);
 		if (redir->type == NODE_REDIRECT_OUT)
 		{
-			printf("redir file after [%s]\n", ast->t_cmd.redirections->redir->file);
+			// printf("redir file after [%s]\n", ast->t_cmd.redirections->redir->file);
 			fd = check_and_open_file(redir->file,
 					O_WRONLY | O_CREAT | O_TRUNC, 0777);
 			if (fd == -2)

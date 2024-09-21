@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:50:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/20 03:17:07 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:47:03 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ void	append_char(t_expand_params *params, char c)
 			= realloc(params->expanded_line, params->expanded_size);
 	}
 	params->expanded_line[params->expanded_index++] = c;
-	printf("[append_char] ecpanded line char set [%c] to [%c]\n", params->expanded_line[params->expanded_index - 1], c);
+	// printf("[append_char] ecpanded line char set [%c] to [%c]\n", params->expanded_line[params->expanded_index - 1], c);
 }
 
 void	append_string(t_expand_params *params, char *str)
@@ -59,11 +59,11 @@ void	append_string(t_expand_params *params, char *str)
 	int	j;
 
 	j = 0;
-	printf("[append_string] str is %s\n", str);
+	// printf("[append_string] str is %s\n", str);
 	while (str[j])
 	{
 		append_char(params, str[j]);
-		printf("[append_string] str[j] %c\n", str[j]);
+		// printf("[append_string] str[j] %c\n", str[j]);
 		j++;
 	}
 }

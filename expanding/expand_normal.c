@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:19:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/20 08:34:53 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:48:01 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ char	*replace_space_with_second_separator(t_expand_params *params, char *str)
 			params->is_inside_quotes2 = 1;
 		else if((str[i] == '\'' || str[i] == '\"') && params->is_inside_quotes2)
 			params->is_inside_quotes2 = 0;
-		printf("[replace_space_with_second_separator] str [%s]  is inside quotes [%d]\n",str, params->is_inside_quotes);
+		// printf("[replace_space_with_second_separator] str [%s]  is inside quotes [%d]\n",str, params->is_inside_quotes);
 		if(str[i] == ' ' && !params->is_inside_quotes2)
 			res[i] = *get_splitted_char(2);
 		else
@@ -52,7 +52,7 @@ void	expand_variable(t_expand_params *params, t_lst *env, char **line)
 	char	*value;
 
 	varnamelen = get_var_length(*line, params->i);
-	printf("[expand_variable] varnamelen [%d] param->i [%d]  and char is [%c]\n", varnamelen, params->i, *(*line + params->i));
+	// printf("[expand_variable] varnamelen [%d] param->i [%d]  and char is [%c]\n", varnamelen, params->i, *(*line + params->i));
 	varname = gcalloc(varnamelen + 1);
 	strncpy(varname, *line + params->i, varnamelen );
 	varname[varnamelen] = '\0';
@@ -62,7 +62,7 @@ void	expand_variable(t_expand_params *params, t_lst *env, char **line)
 	if (!value)
 	{
 		append_string(params, "");
-			printf("[expand_variable] variable value is [%s]\n", value);
+			// printf("[expand_variable] variable value is [%s]\n", value);
 
 	}
 	else
@@ -99,7 +99,7 @@ char	*ft_expand(char *line, t_lst *env)
 	t_expand_params	params;
 
 	expanded_line = gcalloc(DEFAULT_NB);
-	params = init_params(line, expanded_line);
+	params = init_params(line);
 	while (line && line[params.i])
 	{
 		if (handle_quotes2(line[params.i], &params))

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:12:03 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/19 00:04:21 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:49:38 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ char	*get_word(t_lexer *lexer)
 		if (should_stop(lexer, quotes->in_quotes))
 			break ;
 		result[i++] = lexer->currentchar;
-		printf("		[get_word] lexer current char is [%c]\n", lexer->currentchar);
+		// printf("		[get_word] lexer current char is [%c]\n", lexer->currentchar);
 		advance(lexer);
 	}
 	return (finalize_buffer(result, i));

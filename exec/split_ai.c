@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 20:59:57 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/17 21:58:05 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:49:07 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	set_splitted_char(char c, int index)
 
 	splitted_char = NULL;
 	splitted_char = get_splitted_char(index);
-	printf("ptr %p\n",splitted_char);
+	// printf("ptr %p\n",splitted_char);
 	*splitted_char = c;
-	printf("set splitted char %c\n", *splitted_char);
+	// printf("set splitted char %c\n", *splitted_char);
 }
 
 int	check_if_exists( char *str, char c)
@@ -84,6 +84,6 @@ char	which_to_split_with(char **strs, int index)
 		order_of_char++;
 		found_char = c;
 	}
-	printf("[which_to_split_with] char is %c, index %d\n", c, index);
+	// printf("[which_to_split_with] char is %c, index %d\n", c, index);
 	return (set_splitted_char(c, index), c);
 }

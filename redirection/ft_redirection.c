@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:21:45 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/19 01:00:06 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:57:35 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	ft_redirection(t_astnode *ast, t_lst *env, int command_exist)
 		return (1);
 	while (ast->t_cmd.redirections)
 	{
+		printf("redir type [%d]\n", ast->t_cmd.redirections->redir->type);
 		if ((ast->t_cmd.redirections->redir->type == NODE_REDIRECT_OUT
 				|| ast->t_cmd.redirections->redir->type == NODE_REDIRECT_APPEND)
 			&& ast->t_cmd.redirections->redir)

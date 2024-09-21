@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/21 05:33:10 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:52:18 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ char	**generate_final_splitted(t_astnode *ast, t_lst *env, t_arg_node *lst)
 	lst = head;
 	while (i <= ast->t_cmd.args_size)
 	{
-		printf("lst->arg %s\n", lst->arg);
+		// printf("lst->arg %s\n", lst->arg);
 		expanded_arg = ft_expand(lst->arg, env);
-		printf("expanded arg %s\n", expanded_arg);
+		// printf("expanded arg %s\n", expanded_arg);
 		temp = ft_strjoin(expanded_string, expanded_arg);
 		expanded_string = temp;
 		if (lst->next)
@@ -38,7 +38,7 @@ char	**generate_final_splitted(t_astnode *ast, t_lst *env, t_arg_node *lst)
 					ft_strdup(char_to_string(*get_splitted_char(1))));
 			expanded_string = temp;
 		}
-		printf("expanded string %s\n", expanded_string);
+		// printf("expanded string %s\n", expanded_string);
 
 		lst = lst->next;
 		i++;
@@ -47,8 +47,8 @@ char	**generate_final_splitted(t_astnode *ast, t_lst *env, t_arg_node *lst)
 	splitted_args = ft_split_quotes(expanded_string,*get_splitted_char(1));
 	if (!splitted_args)
 		return (0);
-	printf("ast->t_cmd.args_size %d\n", ast->t_cmd.args_size);
-	printf("splitted char 1 [%c] splitted char 2 [%c]\n", *get_splitted_char(1), *get_splitted_char(2));
+	// printf("ast->t_cmd.args_size %d\n", ast->t_cmd.args_size);
+	// printf("splitted char 1 [%c] splitted char 2 [%c]\n", *get_splitted_char(1), *get_splitted_char(2));
 
 	ast->t_cmd.args_size = i;
 	return (split_all_strings(splitted_args, *get_splitted_char(2)));
@@ -62,16 +62,16 @@ char	**generate_final_args(t_astnode *ast, t_lst *env, t_arg_node *lst)
 	tmp = lst;
 	while (tmp)
 	{
-		printf("tmp2 [%s]\n", tmp->arg);
+		// printf("tmp2 [%s]\n", tmp->arg);
 		tmp = tmp->next;
 	}
 	second_splitted = generate_final_splitted(ast, env, lst);
 	if (!second_splitted)
 		return (NULL);
-	for (int i = 0; second_splitted[i]; i++)
-	{
-		printf("seccond splitted [%s]\n", second_splitted[i]);
-	}
+	// for (int i = 0; second_splitted[i]; i++)
+	// {
+	// 	printf("seccond splitted [%s]\n", second_splitted[i]);
+	// }
 	second_splitted = make_array(second_splitted, ast->t_cmd.args_size);
 	// second_splitted = remove_empty_strings(second_splitted, ast->t_cmd.args_size, &new_size);
 	return (second_splitted);
@@ -85,7 +85,7 @@ void	choose_splitting_delimiter(t_arg_node	*lst)
 	//TO FIX
 	while(tmp)
 	{
-		printf("------- lst-> [%s]------\n", lst->arg);
+		// printf("------- lst-> [%s]------\n", lst->arg);
 		tmp = tmp->next;
 	}
 	which_to_split_with(list_to_array(lst), 1);
@@ -118,7 +118,7 @@ int	exec_cmd(t_astnode *ast, t_lst *env)
 	tmp = lst;
 		while (tmp)
 	{
-		printf("tmp [%s]\n", tmp->arg);
+		// printf("tmp [%s]\n", tmp->arg);
 		tmp = tmp->next;
 	}
 	initial_builtin_errors(lst);

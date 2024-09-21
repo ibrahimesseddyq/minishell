@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:21:53 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 02:21:43 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:54:39 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ int	check_file(char **argv)
 		is_abs_rel = 1;
 	if (access(argv[0], F_OK) == -1)
 	{
+		printf("here3\n");
 		if (is_abs_rel)
 			write(2, "No such file or directory\n", 27);
 		else

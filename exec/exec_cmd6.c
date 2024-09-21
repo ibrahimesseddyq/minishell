@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 05:09:02 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:51:31 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ char **remove_empty_strings(char **arr, int size, int *new_size)
     new_arr = malloc(size * sizeof(char*));
     while (arr[i])
 	{
-		printf("[remove_empty_strings] arr[i] [%s] \n", arr[i]);
-		if (arr[i][0] == '\0')
-			printf("is empty\n");
+		// printf("[remove_empty_strings] arr[i] [%s] \n", arr[i]);
+		// if (arr[i][0] == '\0')
+		// 	printf("is empty\n");
         if (arr[i][0])
 		{
             new_arr[j] = ft_strdup(arr[i]);
@@ -32,14 +32,14 @@ char **remove_empty_strings(char **arr, int size, int *new_size)
         }
 		i++;
     }
-	printf("j is [%d]\n", j);
+	// printf("j is [%d]\n", j);
     *new_size = j + 1;
     new_arr = realloc(new_arr, (*new_size) * sizeof(char*));
 	new_arr[*new_size - 1] = NULL; 
-		for (int i = 0; new_arr[i]; i++)
-	{
-		printf("[remove_empty_strings] non empty string is [%s]\n", new_arr[i]);
-	}
+	// 	for (int i = 0; new_arr[i]; i++)
+	// {
+	// 	printf("[remove_empty_strings] non empty string is [%s]\n", new_arr[i]);
+	// }
     return (arr);
 }
 char	**make_array(char **args, int size)
@@ -52,7 +52,7 @@ char	**make_array(char **args, int size)
 	while (i <= size && args[i])
 	{
 		str = args[i];
-		printf("argv[i] inside [%s]\n", args[i]);
+		// printf("argv[i] inside [%s]\n", args[i]);
 		j = 0;
 		while (str[j])
 		{

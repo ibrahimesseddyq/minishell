@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:48:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 05:36:40 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:43:12 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ char	*ft_itoa(int num)
 	return (str);
 }
 
-t_expand_params	init_params(char *line, char *expanded_line)
+t_expand_params	init_params(char *expanded_line)
 {
 	t_expand_params	params;
 

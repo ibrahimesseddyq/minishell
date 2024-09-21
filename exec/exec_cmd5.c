@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:10 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/20 05:20:48 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:45:52 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,10 @@ void	setup_env_and_exec(char **arg_cmd, t_lst *env, int fd)
 	}
 }
 
-int	execute_child(char **arg_cmd, t_astnode *ast, t_lst *env, int fd)
+int	execute_child(char **arg_cmd, t_astnode *ast, t_lst *env)
 {
 	char	**envp;
+	int		fd;
 
 	fd = ft_redirection(ast, env, 1);
 	if (fd == -2)
@@ -43,23 +44,20 @@ int	execute_child(char **arg_cmd, t_astnode *ast, t_lst *env, int fd)
 		exit(1);
 	if (!check_file(arg_cmd))
 		(close(fd), exit(127));
-	printf("[execute_child] command before execve [%s]\n", arg_cmd[0]);
 	if (execve(arg_cmd[0], arg_cmd, envp) == -1)
 		(handle_exec_error(arg_cmd[0]), exit(1));
-	// exit(0);
 	return (1);
 }
 
 int	execute_external(char **arg_cmd, t_astnode *ast, t_lst *env)
 {
 	int		pid;
-	int		fd;
 	int		child_status;
 
 	pid = fork();
 	if (pid == 0)
 	{
-		if (execute_child(arg_cmd, ast, env, fd) == -2)
+		if (execute_child(arg_cmd, ast, env) == -2)
 			exit(1);
 		exit(0);
 	}

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 18:08:51 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 05:30:57 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:47:50 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,13 @@ void	set_command_props(t_arg_node **current
 	new_node->next = NULL;
 	if (node->t_cmd.args == NULL)
 	{
-		printf("[set_command_props] [if] i entered here [%s]\n", new_node->arg);
+		// printf("[set_command_props] [if] i entered here [%s]\n", new_node->arg);
 		node->t_cmd.args = new_node;
 		*current = new_node;
 	}
 	else
 	{
-		printf("[set_command_props] [else] i entered here [%s]\n",
-			new_node->arg);
+		// printf("[set_command_props] [else] i entered here [%s]\n",new_node->arg);
 		(*current)->next = new_node;
 		*current = new_node;
 	}
@@ -86,7 +85,7 @@ int	write_heredoc_to_file(char *delimiter, char *filename, t_lst *env)
 	int			fd;
 	char		*line;
 
-	delimiter = ft_expand_delimiter(delimiter, env);
+	delimiter = ft_expand_delimiter(delimiter);
 	sprintf(filename, "heredoc_file_%d", file_counter++);
 	file_counter = 1;
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);

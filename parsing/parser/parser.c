@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 18:32:52 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 05:28:01 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 06:08:24 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,8 +93,10 @@ t_astnode	*parse_cmd(t_tklist *tokens, t_lst *lst)
 		token = peek_token(tokens);
 		if (token->type == TK_WORD)
 			((1) && (token = next_token(tokens), argv[argc++] = token->value));
-		else
+		else if(token->type == TK_GREATERTHAN1 || token->type == TK_GREATERTHAN2 || 
+            token->type == TK_LESSERTHAN2 || token->type == TK_LESSERTHAN1)
 		{
+			printf("i'm handling redir\n");
 			redir_node = handle_redirections(tokens, token);
 			ft_lstadd_back_redir(&redirections, redir_node);
 		}

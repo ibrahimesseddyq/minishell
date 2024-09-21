@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:47:54 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/20 02:48:37 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:38:21 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ void	expand_token_heredoc(t_expand_params *params, t_lst *env, char *line)
 	if (params->expanded_line[params->i] == '$')
 	{
 		params->i++;
-		expand_variable(params, env);
+		expand_variable_heredoc(params, env);
 	}
 	else
 	{

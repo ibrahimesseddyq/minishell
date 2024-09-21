@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:19:45 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/20 23:43:59 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:40:23 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	is_relative_path(const char *path)
 			|| (path[1] == '.' && path[2] == '/')));
 }
 
-const int	is_relative_absolute(const char *path)
+int	is_relative_absolute(const char *path)
 {
 	if (is_absolute_path(path))
 		return (1);

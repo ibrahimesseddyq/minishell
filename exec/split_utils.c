@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 22:13:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 00:23:47 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:49:19 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ static char	**split_string(char *s, char delimiter)
 
 	index = 0;
 	result = NULL;
-	printf("[split_string] string s %s, del %d\n", s, delimiter);
+	// printf("[split_string] string s %s, del %d\n", s, delimiter);
 	result = alloc_for_split_string(s, delimiter);
 	if (!result)
 		return (NULL);
@@ -62,9 +62,9 @@ static char	**split_string(char *s, char delimiter)
 			result[index] = current;
 			if (!result[index])
 				return (NULL);
-			printf("result whle splitting [%s]\n", result[index]);
-			if (result[index][0] == '\0')
-				printf("empty\n");
+			// printf("result whle splitting [%s]\n", result[index]);
+			// if (result[index][0] == '\0')
+			// 	printf("empty\n");
 			index++;
 		}
 		start = end + 1;
@@ -100,15 +100,13 @@ char	**split_all_strings(char **array, char delimiter)
 	int		k;
 	char	**split_result;
 
-	if (!result)
-		return (NULL);
 	result_index = 0;
 	result = alloc_for_split_all_strings(array, delimiter);
 	i = 0;
 	k = 0;
 	while (array[i])
 	{
-		printf("[split_all_strings] before array [i] %s , del %c\n", array[i], delimiter);
+		// printf("[split_all_strings] before array [i] %s , del %c\n", array[i], delimiter);
 		split_result = split_string(array[i], delimiter);
 		// printf("[split_all_strings] after array [i] %s , del %c, split res [%s]\n", array[i], delimiter, split_result);
 		if (!split_result)
@@ -117,13 +115,13 @@ char	**split_all_strings(char **array, char delimiter)
 		while (split_result[k])
 		{
 			result[result_index++] = split_result[k];
-			printf("result[index] [%s]\n", result[result_index - 1]);
+			// printf("result[index] [%s]\n", result[result_index - 1]);
 			k++;
 		}
 		i++;
 	}
 	result[result_index] = NULL;
-	for(int i = 0; result[i]; i++)
-		printf("[split_all_strings] result [%s]\n", result[i]);
+	// for(int i = 0; result[i]; i++)
+	// 	printf("[split_all_strings] result [%s]\n", result[i]);
 	return (result);
 }

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:22:35 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/19 00:40:19 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:54:22 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@ static int	check_and_open_file(const char *file, int flags, mode_t mode)
 		fd = open(file, flags, mode);
 		if (fd == -1)
 		{
+			printf("here1\n");
 			if (access(file, F_OK) == 0 && access(file, R_OK) == -1)
 				write(2, "Permission denied\n", 19);
 			else

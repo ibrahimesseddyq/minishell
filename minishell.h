@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 05:35:32 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:50:30 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -230,7 +230,7 @@ char			*ft_expand_delimiter(char *line);
 t_arg_node		*get_node_at(t_arg_node *lst, int pos);
 char			**list_to_array(t_arg_node *lst);
 char			*find_command_in_path(const char *cmd, char **path_dirs);
-int				execute_external(char **arg_cmd, t_astnode *ast, t_lst *env);
+int				execute_child(char **arg_cmd, t_astnode *ast, t_lst *env);
 void			expand_arguments(t_astnode *ast, t_lst *env);
 char			**make_array(char **args, int size);
 int				builtins_error(char **argv);
@@ -249,7 +249,7 @@ void			handle_exec_error(const char *cmd);
 int				count_args(char **args);
 int				check_file(char **argv);
 int				check_export_errors(char *str);
-t_expand_params	init_params(char *line, char *expanded_line);
+t_expand_params	init_params(char *expanded_line);
 t_token			*get_next_token(t_lexer *lexer);
 t_token			*next_token(t_tklist *token_list);
 int				heredoc_delimiter_valid(char *del);
@@ -301,7 +301,7 @@ void			apppend_to_var(char **key, char **value,
 void			expand_token_heredoc(t_expand_params *params,
 					t_lst *env, char *line);
 void			expand_variable_heredoc(t_expand_params *params,
-					t_lst *env, char *line);
+					t_lst *env);
 void			expand_variable(t_expand_params *params,
 					t_lst *env, char **line);
 void			expand_token(t_expand_params *params, t_lst *env, char **line);
@@ -312,5 +312,6 @@ char			**filterStrings(const char *pattern,
 					const char *texts[], int numTexts, int *numMatches);
 char			**remove_empty_strings(char **arr, int size, int *new_size);
 void			handle_overflow();
+int				execute_external(char **arg_cmd, t_astnode *ast, t_lst *env);
 
 #endif

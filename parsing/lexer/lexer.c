@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:06:35 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/18 23:48:35 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 05:50:49 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ t_lexer	*init_lexer(char *input)
 void	advance(t_lexer *lexer)
 {
 	lexer->pos++;
-	printf("			[advance] lexer input is [%s]\n", lexer->input);
+	// printf("			[advance] lexer input is [%s]\n", lexer->input);
 	if (lexer->pos >= (int)ft_strlen(lexer->input))
 	{
 		lexer->currentchar = '\0';
@@ -72,11 +72,11 @@ t_tklist	*tokenize(char *input)
 	t_tklist	*token_list;
 	t_token		*token;
 
-	printf("[tokenize] input is %s\n", input);
+	// printf("[tokenize] input is %s\n", input);
 	lexer = init_lexer(input);
 	token_list = (t_tklist *)gcalloc(sizeof(t_tklist));
 	token = get_next_token(lexer);
-	printf("[tokenize] next token is [%s]\n", token->value);
+	// printf("[tokenize] next token is [%s]\n", token->value);
 	token_list->tokens = NULL;
 	token_list->curr_index = 0;
 	token_list->size = 0;
@@ -87,7 +87,7 @@ t_tklist	*tokenize(char *input)
 				token_list->size * sizeof(t_token));
 		token_list->tokens[token_list->size - 1] = *token;
 		token = get_next_token(lexer);
-		printf("[tokenize] next token is [%s]\n", token->value);
+		// printf("[tokenize] next token is [%s]\n", token->value);
 	}
 	token_list->size++;
 	token_list->tokens = (t_token *)realloc(token_list->tokens,
