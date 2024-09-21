@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:48:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 05:48:12 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 21:41:44 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ char	*ft_expand_redir(char *line, t_lst *env)
 	t_expand_params	params;
 
 	expanded_line = gcalloc(DEFAULT_NB);
-	params = init_params(line);
+	params = init_params(expanded_line);
 	while (line && line[params.i])
 	{
 		if (handle_quotes2(line[params.i], &params))

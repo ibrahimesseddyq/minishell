@@ -1,1 +1,3 @@
-./libft // is a directory machi bdarora tssali b /
+./libft // is a directory machi bdarora tssali b /\
+
+DO NOT FORGET TO UNLINK HEREDOC

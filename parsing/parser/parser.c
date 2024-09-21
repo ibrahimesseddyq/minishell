@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 18:32:52 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 06:08:24 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 21:45:51 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ t_redir_list	*handle_redirections(t_tklist *tokens, t_token *token)
 	token = next_token(tokens);
 	if (!token || token->type != TK_WORD)
 		return (NULL);
+	printf("[handle_redirections] token type %d\n", token->type);
 	redir->file = strdup(token->value);
 	redir_node = gcalloc(sizeof(t_redir_list));
 	redir_node->redir = redir;

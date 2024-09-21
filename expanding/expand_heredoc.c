@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:47:54 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 05:38:21 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/21 21:41:37 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ char	*ft_expand_heredoc(char *line, t_lst *env)
 	t_expand_params	params;
 
 	expanded_line = gcalloc(DEFAULT_NB);
-	params = init_params(line, expanded_line);
+	params = init_params(expanded_line);
 	while (line[params.i])
 	{
 		if (!params.is_inside_quotes || params.current_quote == '\"')
