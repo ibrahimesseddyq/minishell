@@ -9,3 +9,13 @@ export a+=hamid
 
 #3
 ls << l << ll << l >
+
+
+echo test |  <<lala
+
+
+echo $USER$TESTNOTFOUND$HOME$
+
+prblm in $OLDPWD
+cd ..
+cd $OLDPWD
