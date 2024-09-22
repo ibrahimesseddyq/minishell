@@ -3,45 +3,47 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd6.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 22:25:10 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/22 02:33:11 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-char **remove_empty_strings(char **arr, int size, int *new_size)
+
+char	**remove_empty_strings(char **arr, int size, int *new_size)
 {
-    int i;
-	int j;
-	char **new_arr;
+	int		i;
+	int		j;
+	char	**new_arr;
 
 	i = 0;
 	j = 0;
-    new_arr = malloc(size * sizeof(char*));
-    while (arr[i])
+	new_arr = malloc(size * sizeof(char *));
+	while (arr[i])
 	{
 		// printf("[remove_empty_strings] arr[i] [%s] \n", arr[i]);
 		// if (arr[i][0] == '\0')
 		// 	printf("is empty\n");
-        if (arr[i][0])
+		if (arr[i][0])
 		{
-            new_arr[j] = ft_strdup(arr[i]);
-            j++;
-        }
+			new_arr[j] = ft_strdup(arr[i]);
+			j++;
+		}
 		i++;
-    }
+	}
 	// printf("j is [%d]\n", j);
-    *new_size = j + 1;
-    new_arr = realloc(new_arr, (*new_size) * sizeof(char*));
-	new_arr[*new_size - 1] = NULL; 
+	*new_size = j + 1;
+	new_arr = realloc(new_arr, (*new_size) * sizeof(char *));
+	new_arr[*new_size - 1] = NULL;
 	// 	for (int i = 0; new_arr[i]; i++)
 	// {
 	// 	printf("[remove_empty_strings] non empty string is [%s]\n", new_arr[i]);
 	// }
-    return (arr);
+	return (arr);
 }
+
 char	**make_array(char **args, int size)
 {
 	int		i;
@@ -72,7 +74,6 @@ int	builtins_error(char **argv)
 
 	i = 0;
 	command = 0;
-
 	if (!argv[0])
 	{
 		write(2, "command not found\n", 19);
@@ -108,13 +109,13 @@ int	special_cases( t_arg_node *lst)
 		ft_exit(127, SET_EXIT_STATUS);
 		return (1);
 	}
-	else if ((lst->arg[ft_strlen(lst->arg) - 1] == '/' || S_ISDIR(sb.st_mode)) && !is_builtin_command(lst->arg))
+	else if ((lst->arg[ft_strlen(lst->arg) - 1] == '/'
+			|| S_ISDIR(sb.st_mode)) && !is_builtin_command(lst->arg))
 	{
 		write(2, "Is a directory\n", 16);
 		ft_exit(126, SET_EXIT_STATUS);
 		return (1);
 	}
-	
 	return (0);
 }
 

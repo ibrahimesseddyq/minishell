@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 05:50:30 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/22 03:11:46 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,7 +245,7 @@ char			*get_splitted_char(int index);
 void			set_splitted_char(char c, int index);
 int				is_relative_absolute(const char *path);
 char			**build_envp(t_lst *env);
-void			handle_exec_error(const char *cmd);
+void			handle_exec_error(void);
 int				count_args(char **args);
 int				check_file(char **argv);
 int				check_export_errors(char *str);

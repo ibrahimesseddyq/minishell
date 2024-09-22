@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:04:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 05:48:41 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/22 01:49:31 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,9 +61,8 @@ char	*expand_tilde(char *path, t_lst *env)
 	}
 	return (ft_strdup(path));
 }
-		//inside argc ==1 : else if (!dir || !dir[0] && get_env_isset(env, "HOME"))
-		// 	return (ft_exit(0, SET_EXIT_STATUS), 0);
-
+	//inside argc ==1 : else if (!dir || !dir[0] && get_env_isset(env, "HOME"))
+	// 	return (ft_exit(0, SET_EXIT_STATUS), 0);
 int	ft_cd(int argc, char **argv, int mode, t_lst *env)
 {
 	char	*dir;
@@ -83,7 +82,8 @@ int	ft_cd(int argc, char **argv, int mode, t_lst *env)
 	{
 		dir = get_env(env, "HOME");
 		if ((!dir || !dir[0]) && !get_env_isset(env, "HOME"))
-			return (write(2, "minishell: cd: HOME not set\n", 29), ft_exit(1, mode), 1);
+			return (write(2, "minishell: cd: HOME not set\n", 29),
+				ft_exit(1, mode), 1);
 		dir = ft_strdup("/Users/ibes-sed");
 	}
 	else if (strcmp(argv[1], "-") == 0)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:39:10 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 05:51:46 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/22 02:59:33 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ t_token	*token_illegal(t_lexer *lexer)
 	return (token);
 }
 
-t_token	*token_eof()
+t_token	*token_eof(void)
 {
 	t_token	*token;
 

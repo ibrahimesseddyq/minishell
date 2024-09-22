@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/21 05:52:18 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/22 02:28:35 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,10 +21,7 @@ char	**generate_final_splitted(t_astnode *ast, t_lst *env, t_arg_node *lst)
 	char		*temp;
 	t_arg_node	*head;
 
-	expanded_string = ft_strdup("");
-	head = lst;
-	i = 0;
-	lst = head;
+	(1) && (expanded_string = ft_strdup(""), head = lst, i = 0, lst = head);
 	while (i <= ast->t_cmd.args_size)
 	{
 		// printf("lst->arg %s\n", lst->arg);
@@ -39,7 +36,6 @@ char	**generate_final_splitted(t_astnode *ast, t_lst *env, t_arg_node *lst)
 			expanded_string = temp;
 		}
 		// printf("expanded string %s\n", expanded_string);
-
 		lst = lst->next;
 		i++;
 	}
@@ -49,7 +45,6 @@ char	**generate_final_splitted(t_astnode *ast, t_lst *env, t_arg_node *lst)
 		return (0);
 	// printf("ast->t_cmd.args_size %d\n", ast->t_cmd.args_size);
 	// printf("splitted char 1 [%c] splitted char 2 [%c]\n", *get_splitted_char(1), *get_splitted_char(2));
-
 	ast->t_cmd.args_size = i;
 	return (split_all_strings(splitted_args, *get_splitted_char(2)));
 }
@@ -83,7 +78,7 @@ void	choose_splitting_delimiter(t_arg_node	*lst)
 
 	tmp = lst;
 	//TO FIX
-	while(tmp)
+	while (tmp)
 	{
 		// printf("------- lst-> [%s]------\n", lst->arg);
 		tmp = tmp->next;
@@ -114,9 +109,8 @@ int	exec_cmd(t_astnode *ast, t_lst *env)
 	char		*cmd_path;
 	t_arg_node	*tmp;
 
-	lst = ast->t_cmd.args;
-	tmp = lst;
-		while (tmp)
+	(1) && (lst = ast->t_cmd.args, tmp = lst);
+	while (tmp)
 	{
 		// printf("tmp [%s]\n", tmp->arg);
 		tmp = tmp->next;

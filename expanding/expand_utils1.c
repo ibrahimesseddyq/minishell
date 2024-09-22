@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:48:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 05:43:12 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/22 02:18:19 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,7 @@ char	*ft_itoa(int num)
 	int		len;
 	int		sign;
 
-	temp_num = num;
-	len = 1;
-	sign = 1;
+	(1) && (temp_num = num, len = 1, sign = 1);
 	if (num < 0)
 	{
 		sign = -1;
@@ -33,13 +31,9 @@ char	*ft_itoa(int num)
 		temp_num /= 10;
 		len++;
 	}
-	str = gcalloc(len + 1);
-	str[len] = '\0';
+	(1) && (str = gcalloc(len + 1), str[len] = '\0');
 	while (len--)
-	{
-		str[len] = (num % 10) * sign + '0';
-		num /= 10;
-	}
+		(1) && (str[len] = (num % 10) * sign + '0', num /= 10);
 	if (sign == -1)
 		str[0] = '-';
 	return (str);
@@ -57,28 +51,7 @@ t_expand_params	init_params(char *expanded_line)
 	params.expanded_line = expanded_line;
 	return (params);
 }
-// if ((start[i] == '\'' || start[i] == '\"') && !is_inside_quotes)
-//         {
-//             is_inside_quotes = 1;
-//             // printf("set inside quote\n");
-//             current_quote = start[i];
-//             i++;
-//             continue;
-//         }
-//         else if (is_inside_quotes && start[i] == current_quote)
-//         {
-//              if (start[i] == '\"' && is_inside_quotes && current_quote == '\"' && start[i - 1] == '$')
-//             {
-//                         // printf("dkhl\n");
-//                         expanded_line[expanded_index++] = '$';
 
-//             }
-//             // printf("unset inside quote\n");
-//             is_inside_quotes = 0;
-//             current_quote = 0;
-//             i++;  // Skip the closing quote
-//             continue;
-//         }
 int	handle_quotes2(char c, t_expand_params *params)
 {
 	if ((c == '\'' || c == '\"') && !params->is_inside_quotes)

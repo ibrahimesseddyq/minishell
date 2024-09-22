@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_pip.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:00:51 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/21 05:04:55 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/22 02:36:21 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
 
 void	wait_for_processes(int pid1, int pid2)
 {
