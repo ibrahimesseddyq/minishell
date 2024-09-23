@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_normal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:19:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 21:41:40 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/22 02:19:42 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,19 +23,20 @@
 // } t_expand_params;
 char	*replace_space_with_second_separator(t_expand_params *params, char *str)
 {
-	int	i;
-	char *res;
+	int		i;
+	char	*res;
 
 	i = 0;
 	res = gcalloc(ft_strlen(str) + 1);
 	while (str[i])
 	{
-		if((str[i] == '\'' || str[i] == '\"') && !params->is_inside_quotes2)
+		if ((str[i] == '\'' || str[i] == '\"') && !params->is_inside_quotes2)
 			params->is_inside_quotes2 = 1;
-		else if((str[i] == '\'' || str[i] == '\"') && params->is_inside_quotes2)
+		else if ((str[i] == '\'' || str[i] == '\"')
+			&& params->is_inside_quotes2)
 			params->is_inside_quotes2 = 0;
 		// printf("[replace_space_with_second_separator] str [%s]  is inside quotes [%d]\n",str, params->is_inside_quotes);
-		if(str[i] == ' ' && !params->is_inside_quotes2)
+		if (str[i] == ' ' && !params->is_inside_quotes2)
 			res[i] = *get_splitted_char(2);
 		else
 			res[i] = str[i];
@@ -54,16 +55,14 @@ void	expand_variable(t_expand_params *params, t_lst *env, char **line)
 	varnamelen = get_var_length(*line, params->i);
 	// printf("[expand_variable] varnamelen [%d] param->i [%d]  and char is [%c]\n", varnamelen, params->i, *(*line + params->i));
 	varname = gcalloc(varnamelen + 1);
-	strncpy(varname, *line + params->i, varnamelen );
+	strncpy(varname, *line + params->i, varnamelen);
 	varname[varnamelen] = '\0';
 	params->i += varnamelen;
 	value = get_env(env, varname);
-	
 	if (!value)
 	{
 		append_string(params, "");
-			// printf("[expand_variable] variable value is [%s]\n", value);
-
+		// printf("[expand_variable] variable value is [%s]\n", value);
 	}
 	else
 	{

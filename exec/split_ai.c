@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_ai.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 20:59:57 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 05:49:07 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/22 02:37:20 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ char	which_to_split_with(char **strs, int index)
 	int		i;
 	int		order_of_char;
 	char	found_char;
-	
+
 	initialize_which_to_split_with(&c, &i, &order_of_char, &found_char);
 	while (order_of_char < index)
 	{

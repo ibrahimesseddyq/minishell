@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:12:03 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 05:49:38 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/22 02:57:54 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,16 +19,14 @@ char	*get_word(t_lexer *lexer)
 	size_t			i;
 	t_quote_state	*quotes;
 
-	
 	quotes = malloc(sizeof(t_quote_state));
-	if (!quotes) {
-		perror("malloc failed");
-		return NULL;  // or handle the error appropriately
+	if (!quotes)
+	{
+		perror ("malloc failed");
+		return (NULL);  // or handle the error appropriately
 	}
-	quotes->in_quotes = 0;
-	quotes->quote_char = '\0';
-	i = 0;
-	buffer_size = INITIAL_BUFFER_SIZE;
+	(1) && (quotes->in_quotes = 0, quotes->quote_char = '\0', i = 0,
+		buffer_size = INITIAL_BUFFER_SIZE);
 	result = allocate_buffer(buffer_size);
 	while (lexer->currentchar != '\0')
 	{

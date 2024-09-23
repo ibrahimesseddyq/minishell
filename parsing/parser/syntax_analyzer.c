@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   syntax_analyzer.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 19:32:50 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 05:32:25 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/22 03:05:49 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	analyse_syntax(t_tklist *list)
 		}
 	}
 	// printf("end - curr token %d parentheses %d and e %d\n",curr_token, parentheses, e);
-	if (curr_token == 0 && parentheses == 0 && (e == 2 || e ==4))
+	if (curr_token == 0 && parentheses == 0 && (e == 2 || e == 4))
 		return (1);
 	else
 		return (write(2, "syntax error near unexpected token `%s'\n"

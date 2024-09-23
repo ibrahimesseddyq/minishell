@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 22:13:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 05:49:19 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/22 02:40:31 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,7 @@ static char	**split_string(char *s, char delimiter)
 	char	*end;
 	char	*current;
 
-	index = 0;
-	result = NULL;
+	(1) && (index = 0, result = NULL);
 	// printf("[split_string] string s %s, del %d\n", s, delimiter);
 	result = alloc_for_split_string(s, delimiter);
 	if (!result)
@@ -56,8 +55,9 @@ static char	**split_string(char *s, char delimiter)
 	{
 		current = strndup(start, end - start);
 		if (!current[0] && index == 0)
-			return (ft_exit(127, SET_EXIT_STATUS), write(2, "command not found\n", 19), NULL);
-		if( current[0] != '\0')
+			return (ft_exit(127, SET_EXIT_STATUS),
+				write(2, "command not found\n", 19), NULL);
+		if (current[0] != '\0')
 		{
 			result[index] = current;
 			if (!result[index])

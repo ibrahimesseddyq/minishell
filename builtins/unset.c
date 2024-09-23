@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:28:09 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/20 05:47:16 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/22 05:57:56 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,23 +56,20 @@ int	unset(char **args, t_lst *lst)
 	int	i;
 
 	i = 1;
-	if (!args[1])
-	{
-		ft_exit(0, SET_EXIT_STATUS);
-		return (1);
-	}
-	if (!check_valid(args[1]))
-	{
-		write(2, "valid identifier\n", 18);
-		ft_exit(1, SET_EXIT_STATUS);
-	}
+	if (!args[1] && !builtins_state(-1, UNSET_BUILTIN, GET_BUILTIN))
+		return (ft_exit(0, SET_EXIT_STATUS), 1);
+
 	while (i < nb_args(args))
 	{
-		set_env(lst, args[i], NULL, '\0');
+		if(check_valid(args[i]))
+			set_env(lst, args[i], NULL, '\0');
 		i++;
 	}
-	if (ft_exit(1, GET_EXIT_STATUS) == 257)
+	if (builtins_state(-1, UNSET_BUILTIN, GET_BUILTIN))
+	{
 		ft_exit(1, SET_EXIT_STATUS);
-	ft_exit(0, SET_EXIT_STATUS);
-	return (1);
+		builtins_state(INACTIVE, UNSET_BUILTIN, SET_BUILTIN);
+		return (0);
+	}
+	return (ft_exit(0, SET_EXIT_STATUS), 1);
 }

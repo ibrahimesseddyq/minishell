@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 05:50:30 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/22 05:56:26 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@
 # define EXIT_PROGRAM 4
 # define SET_EXIT_STATUS 2
 # define GET_EXIT_STATUS 3
+# define UNSET_BUILTIN 4
+# define EXPORT_BUILTIN 2
+# define CD_BUILTIN 3
 # define EXIT_FAIL 2
 # define MNSH_PATH_MAX 4096
 # define SUCCESS 1
@@ -50,6 +53,11 @@
 # define WORD ".[]\\-_\"\'&$/*+;="
 # define INITIAL_BUFFER_SIZE 256
 # define BUFFER_GROWTH_FACTOR 2
+# define SET_BUILTIN 1
+# define GET_BUILTIN 2
+# define ACTIVE 1
+# define INACTIVE 0
+# define UNKNOWN -1
 
 typedef struct stat	t_stat;
 typedef struct s_redir_islast
@@ -193,6 +201,12 @@ typedef struct s_expand_params
 	int		is_inside_quotes2;
 }	t_expand_params;
 
+typedef struct s_builtins_state
+{
+	int	unset_error;
+	int	export_error;
+}	t_builtins_state;
+
 char			*get_next_line(int fd);
 void			exec_cmd_line(t_astnode *ast, t_lst *env);
 int				exec_cmd(t_astnode *ast, t_lst *env);
@@ -245,7 +259,7 @@ char			*get_splitted_char(int index);
 void			set_splitted_char(char c, int index);
 int				is_relative_absolute(const char *path);
 char			**build_envp(t_lst *env);
-void			handle_exec_error(const char *cmd);
+void			handle_exec_error(void);
 int				count_args(char **args);
 int				check_file(char **argv);
 int				check_export_errors(char *str);
@@ -313,5 +327,7 @@ char			**filterStrings(const char *pattern,
 char			**remove_empty_strings(char **arr, int size, int *new_size);
 void			handle_overflow();
 int				execute_external(char **arg_cmd, t_astnode *ast, t_lst *env);
+int				builtins_state(int value, int builtin, int op);
+int				check_valid(char *str);
 
 #endif

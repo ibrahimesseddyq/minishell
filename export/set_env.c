@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:11:05 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/21 05:47:07 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/22 06:05:50 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,18 +55,20 @@ void	ft_export(char **str, t_lst *lst)
 	int		i;
 
 	i = 1;
-	if (!str[1])
+	if (!str[1] && !builtins_state(-1, EXPORT_BUILTIN, GET_BUILTIN))
 		print_export(lst);
 	else
 	{
 		while (str[i])
 		{
-			// printf("[ft_export] str [%s]\n", str[i]);
+			printf("is_set\n");
 			export_var(str, lst, i);
 			i++;
 		}
 	}
-	if (ft_exit(1, GET_EXIT_STATUS) == 257)
+	if (builtins_state(-1, EXPORT_BUILTIN, GET_BUILTIN))
 		ft_exit(1, SET_EXIT_STATUS);
-	ft_exit(0, SET_EXIT_STATUS);
+	else
+		ft_exit(0, SET_EXIT_STATUS);
+	builtins_state(INACTIVE, EXPORT_BUILTIN, SET_BUILTIN);
 }

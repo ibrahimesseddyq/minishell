@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_delimiter.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:46:41 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 21:56:43 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/22 01:54:31 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,16 +81,16 @@ char	*ft_expand_delimiter(char *line)
 	{
 		if (handle_quotes2(line[params.i], &params))
 			continue ;
-		if (!params.is_inside_quotes || (params.is_inside_quotes && (params.current_quote == '\"' || params.current_quote == '\'')))
-        {
-            if(params.is_inside_quotes && line[params.i] == ' ')
-            {
-                expanded_line[params.expanded_index++] = ' ';
-                params.i++;
-
-            }
-            
-		append_char(&params, line[params.i++]);
+		if (!params.is_inside_quotes || (params.is_inside_quotes
+				&& (params.current_quote == '\"'
+					|| params.current_quote == '\'')))
+		{
+			if (params.is_inside_quotes && line[params.i] == ' ')
+			{
+				expanded_line[params.expanded_index++] = ' ';
+				params.i++;
+			}
+			append_char(&params, line[params.i++]);
 		}
 	}
 	params.expanded_line[params.expanded_index] = '\0';

@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   gcalloc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 20:17:33 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/19 22:01:00 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/22 01:46:04 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../minishell.h"
-
-#include <stdlib.h>
 
 t_allocation	**get_gc_list(void)
 {
@@ -22,18 +20,19 @@ t_allocation	**get_gc_list(void)
 	return (&gc_list);
 }
 
-int *how_many_allocated()
+int	*how_many_allocated(void)
 {
-	static int alloc;
+	static int	alloc;
+
 	return (&alloc);
 }
 
-void    *gcalloc(size_t size)
+void	*gcalloc(size_t size)
 {
-	t_allocation    **list_ptr;
-	t_allocation    *new_node;
-	int             *allocated;
-	void            *alloc;
+	t_allocation	**list_ptr;
+	t_allocation	*new_node;
+	int				*allocated;
+	void			*alloc;
 
 	allocated = how_many_allocated();
 	alloc = malloc(size);
@@ -49,7 +48,6 @@ void    *gcalloc(size_t size)
 	new_node->freed = 0;
 	new_node->next = *list_ptr;
 	*list_ptr = new_node;
-
 	return (alloc);
 }
 
@@ -59,9 +57,7 @@ void	gc_free(void *ptr)
 	t_allocation	*current;
 	t_allocation	*prev;
 
-	list_ptr = get_gc_list();
-	current = *list_ptr;
-	prev = NULL;
+	(1) && (list_ptr = get_gc_list(), current = *list_ptr, prev = NULL);
 	while (current != NULL)
 	{
 		if (current->address == ptr)
@@ -85,12 +81,14 @@ void	gc_free(void *ptr)
 
 void	gc_free_all(void)
 {
-	t_allocation **list_ptr = get_gc_list();
-	t_allocation *current = *list_ptr;
-	t_allocation *next;
+	t_allocation	**list_ptr;
+	t_allocation	*current;
+	t_allocation	*next;
+	int				freed;
 	// int *allocated = how_many_allocated();
-	int freed = 0;
-
+	list_ptr = get_gc_list();
+	current = *list_ptr;
+	freed = 0;
 	while (current != NULL)
 	{
 		next = current->next;

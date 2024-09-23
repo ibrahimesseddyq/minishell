@@ -1,7 +1,5 @@
-./libft // is a directory machi bdarora tssali b /\
 
-DO NOT FORGET TO UNLINK HEREDOC
-
+-DO NOT FORGET TO UNLINK HEREDOC
 
 #2
 export a
@@ -10,12 +8,21 @@ export a+=hamid
 #3
 ls << l << ll << l >
 
+-echo test |  <<lala
 
-echo test |  <<lala
+-echo $USER$TESTNOTFOUND$HOME$
 
-
-echo $USER$TESTNOTFOUND$HOME$
-
-prblm in $OLDPWD
+-prblm in $OLDPWD
 cd ..
 cd $OLDPWD
+
+-Garbage collector
+
+-Fd leaks
+
+-Problem in expanding 
+#1 export a="      a   b   "
+#2 when $ is at the end 
+
+-problem in Pipes
+´

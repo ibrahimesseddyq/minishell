@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 23:49:30 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/21 05:48:48 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/22 01:50:57 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,5 @@ t_lst	*envp(char **env)
 		add_to_env(key, value, signe, &lst);
 		i++;
 	}
-	// if (!lst)
-	// 	printf("IS NULL\n");
 	return (lst);
 }

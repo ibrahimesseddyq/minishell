@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd5.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:10 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 05:45:52 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/22 03:12:35 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	setup_env_and_exec(char **arg_cmd, t_lst *env, int fd)
 	}
 	if (execve(arg_cmd[0], arg_cmd, envp) == -1)
 	{
-		handle_exec_error(arg_cmd[0]);
+		handle_exec_error();
 		exit(1);
 	}
 }
@@ -45,7 +45,7 @@ int	execute_child(char **arg_cmd, t_astnode *ast, t_lst *env)
 	if (!check_file(arg_cmd))
 		(close(fd), exit(127));
 	if (execve(arg_cmd[0], arg_cmd, envp) == -1)
-		(handle_exec_error(arg_cmd[0]), exit(1));
+		(handle_exec_error(), exit(1));
 	return (1);
 }
 

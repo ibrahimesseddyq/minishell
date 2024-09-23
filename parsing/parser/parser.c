@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 18:32:52 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 21:45:51 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/22 03:03:46 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,7 @@ t_redir_list	*handle_redirections(t_tklist *tokens, t_token *token)
 	redir = gcalloc(sizeof(t_redir));
 	if (!redir)
 		return (NULL);
-	redir->file = NULL;
-	redir->heredoc = NULL;
+	(1) && (redir->file = NULL, redir->heredoc = NULL);
 	if (token->type == TK_LESSERTHAN1)
 		redir->type = NODE_REDIRECT_IN;
 	else if (token->type == TK_LESSERTHAN2)
@@ -94,7 +93,7 @@ t_astnode	*parse_cmd(t_tklist *tokens, t_lst *lst)
 		token = peek_token(tokens);
 		if (token->type == TK_WORD)
 			((1) && (token = next_token(tokens), argv[argc++] = token->value));
-		else if(token->type == TK_GREATERTHAN1 || token->type == TK_GREATERTHAN2 || 
+		else if (token->type == TK_GREATERTHAN1 || token->type == TK_GREATERTHAN2 || 
             token->type == TK_LESSERTHAN2 || token->type == TK_LESSERTHAN1)
 		{
 			printf("i'm handling redir\n");

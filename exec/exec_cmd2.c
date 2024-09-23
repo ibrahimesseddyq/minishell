@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 22:52:54 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 05:54:30 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/22 02:29:07 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ char	**build_envp(t_lst *env)
 	return (envp);
 }
 
-void	handle_exec_error()
+void	handle_exec_error(void)
 {
 	printf("here2\n");
 	if (errno == ENOENT)
