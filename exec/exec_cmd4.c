@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:21:53 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/22 06:13:00 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/24 00:34:40 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,8 @@ int	initial_builtin_errors(t_arg_node *args)
 	t_arg_node	*arg;
 	t_arg_node	*tmp;
 
+	if (!args || !args->arg)
+		return (0);
 	cmd = args->arg;
 	tmp = args;
 	if ((!ft_strcmp(cmd, "unset") || !ft_strcmp(cmd, "export")))

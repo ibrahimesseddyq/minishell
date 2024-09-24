@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:22:35 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/21 05:54:22 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/23 22:29:12 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_red_in(t_astnode *ast, t_lst *env, int is_last, int command_exist)
 		if (fd == -2)
 			return (-2);
 		if (fd < 0)
-			return (close(fd), exit(1), 1);
+			return (ft_close(&fd), exit(1), 1);
 		if (is_last && command_exist)
 			dup2(fd, 0);
 		if (!command_exist && fd)
@@ -72,7 +72,7 @@ int	ft_red_in(t_astnode *ast, t_lst *env, int is_last, int command_exist)
 		if (fd == -2)
 			return (-2);
 		if (fd < 0)
-			return (close(fd), exit(1), 1);
+			return (ft_close(&fd), exit(1), 1);
 		if (is_last && command_exist)
 			dup2(fd, 0);
 		if (!command_exist && fd)

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:13:19 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 02:11:56 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/24 03:00:20 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	handle_sigint(int num)
 {
 	(void)num;
 	rl_replace_line("", 0);
-	// rl_on_new_line();
+	rl_on_new_line();
 	rl_redisplay();
 }
 
@@ -74,6 +74,7 @@ int	main(int ac, char **av, char *env[])
 				printf("exit status >>>>>. %d\n", ft_exit(2, GET_EXIT_STATUS));
 			}
 		}
+		// clean_fd();
 	}
 	return (ft_exit(1, GET_EXIT_STATUS));
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd5.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:10 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/22 03:12:35 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/24 00:22:53 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	setup_env_and_exec(char **arg_cmd, t_lst *env, int fd)
 		exit(1);
 	if (!check_file(arg_cmd))
 	{
-		close(fd);
+		ft_close(&fd);
 		exit(127);
 	}
 	if (execve(arg_cmd[0], arg_cmd, envp) == -1)
@@ -43,7 +43,7 @@ int	execute_child(char **arg_cmd, t_astnode *ast, t_lst *env)
 	if (!envp)
 		exit(1);
 	if (!check_file(arg_cmd))
-		(close(fd), exit(127));
+		(ft_close(&fd), exit(127));
 	if (execve(arg_cmd[0], arg_cmd, envp) == -1)
 		(handle_exec_error(), exit(1));
 	return (1);
@@ -59,6 +59,7 @@ int	execute_external(char **arg_cmd, t_astnode *ast, t_lst *env)
 	{
 		if (execute_child(arg_cmd, ast, env) == -2)
 			exit(1);
+		// clean_fd();
 		exit(0);
 	}
 	else if (pid > 0)

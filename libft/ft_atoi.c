@@ -6,11 +6,10 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/11 23:59:11 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/05/12 08:18:20 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/23 21:53:21 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
 #include "libft.h"
 
 static int	ft_overf(unsigned long r, int s)

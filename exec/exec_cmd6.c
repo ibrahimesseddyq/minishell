@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd6.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/22 02:33:11 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/23 22:06:45 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ int	no_command_case(t_arg_node *lst, t_lst *env, t_astnode *ast)
 		stdout_backup = ft_redirection(ast, env, 0);
 		if (stdout_backup == -2)
 			return (-2);
-		close(stdout_backup);
+		ft_close(&stdout_backup);
 	}
 	return (0);
 }

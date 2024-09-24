@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/22 05:27:57 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/24 00:03:49 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,10 +91,6 @@ int	execute_command_withargs(t_astnode *ast, t_lst *env, char **real_args)
 {
 	int	result;
 
-	// for(int i = 0; real_args[i]; i++)
-	// {
-	// 	printf("real args [%s]\n", real_args[i]);
-	// }
 	if (is_builtin_command(real_args[0]))
 		result = execute_builtin(real_args, ast, env);
 	else

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 18:08:51 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 05:47:50 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/23 22:28:35 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ int	write_expanded_line(char *delimiter, char *line, int fd, t_lst *env)
 	else
 		expanded_line = ft_expand_heredoc(line, env);
 	if (!expanded_line)
-		return (close(fd), 0);
+		return (ft_close(&fd), 0);
 	write(fd, expanded_line, strlen(expanded_line));
 	write(fd, "\n", 1);
 	return (1);
@@ -95,13 +95,13 @@ int	write_heredoc_to_file(char *delimiter, char *filename, t_lst *env)
 	{
 		line = readline("> ");
 		if (!line)
-			return (close(fd), -1);
+			return (ft_close(&fd), -1);
 		if (strcmp(line, delimiter) == 0)
 			break ;
 		if (!write_expanded_line(delimiter, line, fd, env))
 			return (-1);
 	}
-	return (close(fd), 0);
+	return (ft_close(&fd), 0);
 }
 
 int	heredoc_delimiter_valid(char *del)

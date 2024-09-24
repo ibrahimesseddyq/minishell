@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 15:42:23 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 04:27:49 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/23 22:30:42 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 # include <limits.h>
 # include <fcntl.h>
 
-# define DEFAULT_NB 10000
+# define DEFAULT_NB 600
 
 typedef struct s_list
 {
@@ -172,4 +172,8 @@ void			ft_lstadd_back_redir(t_redir_list **lst, t_redir_list *new);
 void			*gcalloc(size_t size);
 
 void			*ft_realloc(void *ptr, size_t new_size);
+
+void			clean_fd();
+
+int				ft_close(int *fd);
 #endif
