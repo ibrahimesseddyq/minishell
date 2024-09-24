@@ -33,6 +33,7 @@
 # include <sys/types.h>
 # include <sys/stat.h>
 # include <unistd.h>
+# include <termios.h>
 
 # define EXIT_FAIL 2
 # define EXIT_SUCCESS 0
@@ -242,7 +243,7 @@ void			append_env(t_lst *lst, char *key, char *new_value);
 int				get_env_isset(t_lst *env, char *the_env);
 char			*ft_expand_delimiter(char *line);
 t_arg_node		*get_node_at(t_arg_node *lst, int pos);
-char			**list_to_array(t_arg_node *lst);
+char			**list_to_array(t_arg_node *lst, t_astnode *ast);
 char			*find_command_in_path(const char *cmd, char **path_dirs);
 int				execute_child(char **arg_cmd, t_astnode *ast, t_lst *env);
 void			expand_arguments(t_astnode *ast, t_lst *env);
@@ -329,5 +330,5 @@ void			handle_overflow();
 int				execute_external(char **arg_cmd, t_astnode *ast, t_lst *env);
 int				builtins_state(int value, int builtin, int op);
 int				check_valid(char *str);
-
+void			handle_sig(int sig);
 #endif

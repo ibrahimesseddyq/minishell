@@ -69,33 +69,7 @@ void	handle_exec_error(void)
 	exit(0);
 }
 
-t_arg_node	*replace_node_args(t_arg_node *current,
-		char **expanded_args, int count)
-{
-	t_arg_node	*prev;
-	t_arg_node	*new_node;
-	t_arg_node	*first_new_node;
-	int			i;
 
-	first_new_node = NULL;
-	new_node = NULL;
-	prev = NULL;
-	i = 0;
-	while (i < count)
-	{
-		new_node = (t_arg_node *)gcalloc(sizeof(t_arg_node));
-		new_node->arg = expanded_args[i];
-		new_node->next = NULL;
-		if (prev)
-			prev->next = new_node;
-		else
-			first_new_node = new_node;
-		prev = new_node;
-	}
-	if (prev)
-		prev->next = current->next;
-	return (prev);
-}
 
 int	count_args(char **args)
 {

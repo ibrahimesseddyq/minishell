@@ -12,7 +12,7 @@
 
 #include "../minishell.h"
 
-int	count_size(t_arg_node	*current)
+int	count_size_arg(t_arg_node	*current)
 {
 	int			size;
 
@@ -25,19 +25,33 @@ int	count_size(t_arg_node	*current)
 	return (size);
 }
 
-char	**list_to_array(t_arg_node *lst)
+int	count_size_redir(t_redir_list	*current)
 {
 	int			size;
-	t_arg_node	*current;
-	int			i;
-	char		**array;
+
+	size = 0;
+	while (current)
+	{
+		size++;
+		current = current->next;
+	}
+	return (size);
+}
+char	**list_to_array(t_arg_node *lst, t_astnode *ast)
+{
+	int				size;
+	t_arg_node		*current;
+	int				i;
+	char			**array;
+	t_redir_list	*redirs;
 
 	i = 0;
 	current = lst;
-	size = count_size(current);
+	redirs = ast->t_cmd.redirections;
+	size = count_size_arg(current) + count_size_redir(redirs);
 	array = gcalloc(sizeof(char *) * (size + 1));
 	current = lst;
-	while (i < size)
+	while (i < count_size_arg(current))
 	{
 		if (current)
 		{
@@ -46,6 +60,13 @@ char	**list_to_array(t_arg_node *lst)
 		}
 		else
 			array[i] = NULL;
+		i++;
+	}
+	while (i < size)
+	{
+    	if (redirs->redir)
+        	array[i] = ft_strdup(redirs->redir->file);
+		redirs = redirs->next;
 		i++;
 	}
 	array[size] = NULL;

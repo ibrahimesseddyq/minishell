@@ -12,13 +12,17 @@
 
 #include "minishell.h"
 #include <signal.h>
-
-void	handle_sigint(int num)
+int sig_var;
+void	handle_sig(int sig)
 {
-	(void)num;
-	rl_replace_line("", 0);
-	rl_on_new_line();
-	rl_redisplay();
+	if (sig == SIGINT)
+	{
+		sig_var = 1;
+		printf("\n");
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+	}
 }
 
 void	increment_shell_level(t_lst *env)
@@ -30,7 +34,18 @@ void	increment_shell_level(t_lst *env)
 	set_env(env, "SHLVL", ft_itoa(shlvl), 1);
 }
 
-	// setbuf(stdout, NULL);
+void	initialize()
+{
+	signal(SIGQUIT, handle_sig);
+	signal(SIGINT, handle_sig);
+	sig_var = 0;
+	rl_catch_signals = 0;
+	if (!isatty(0))
+	{
+		write(2, "non interactive mode is unavailable\n", 37);
+		ft_exit(1, EXIT_PROGRAM);
+	}
+}
 int	main(int ac, char **av, char *env[])
 {
 	t_tklist	*token_list;
@@ -42,9 +57,7 @@ int	main(int ac, char **av, char *env[])
 	(void)ac;
 	(void)av;
 	(void)env;
-	signal(SIGQUIT, SIG_IGN);
-	signal(SIGINT, handle_sigint);
-	rl_catch_signals = 0;
+	initialize();
 	lst = envp(env);
 	increment_shell_level(lst);
 	tmp = lst;
@@ -74,6 +87,7 @@ int	main(int ac, char **av, char *env[])
 				printf("exit status >>>>>. %d\n", ft_exit(2, GET_EXIT_STATUS));
 			}
 		}
+		sig_var = 0;
 		// clean_fd();
 	}
 	return (ft_exit(1, GET_EXIT_STATUS));

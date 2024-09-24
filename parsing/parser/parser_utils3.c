@@ -86,6 +86,8 @@ int	write_heredoc_to_file(char *delimiter, char *filename, t_lst *env)
 	char		*line;
 
 	delimiter = ft_expand_delimiter(delimiter);
+		signal(SIGINT, handle_sig);
+
 	sprintf(filename, "heredoc_file_%d", file_counter++);
 	file_counter = 1;
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);

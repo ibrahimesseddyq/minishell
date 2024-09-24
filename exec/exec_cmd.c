@@ -72,7 +72,7 @@ char	**generate_final_args(t_astnode *ast, t_lst *env, t_arg_node *lst)
 	return (second_splitted);
 }
 
-void	choose_splitting_delimiter(t_arg_node	*lst)
+void	choose_splitting_delimiter(t_arg_node	*lst, t_astnode *ast)
 {
 	t_arg_node	*tmp;
 
@@ -83,8 +83,8 @@ void	choose_splitting_delimiter(t_arg_node	*lst)
 		// printf("------- lst-> [%s]------\n", lst->arg);
 		tmp = tmp->next;
 	}
-	which_to_split_with(list_to_array(lst), 1);
-	which_to_split_with(list_to_array(lst), 2);
+	which_to_split_with(list_to_array(lst, ast), 1);
+	which_to_split_with(list_to_array(lst, ast), 2);
 }
 
 int	execute_command_withargs(t_astnode *ast, t_lst *env, char **real_args)
@@ -119,7 +119,7 @@ int	exec_cmd(t_astnode *ast, t_lst *env)
 		return (0);
 	if (special_cases(lst))
 		return (0);
-	choose_splitting_delimiter(lst);
+	choose_splitting_delimiter(lst, ast);
 	tmp = lst;
 	real_args = generate_final_args(ast, env, lst);
 	if (builtins_error(real_args) || !real_args)

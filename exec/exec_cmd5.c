@@ -36,6 +36,9 @@ int	execute_child(char **arg_cmd, t_astnode *ast, t_lst *env)
 	char	**envp;
 	int		fd;
 
+
+	signal(SIGINT, SIG_DFL);
+	signal(SIGQUIT, SIG_DFL);
 	fd = ft_redirection(ast, env, 1);
 	if (fd == -2)
 		return (-2);
@@ -53,7 +56,11 @@ int	execute_external(char **arg_cmd, t_astnode *ast, t_lst *env)
 {
 	int		pid;
 	int		child_status;
+	struct termios	state;
 
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
+	tcgetattr(STDOUT_FILENO, &state);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -72,6 +79,10 @@ int	execute_external(char **arg_cmd, t_astnode *ast, t_lst *env)
 	}
 	else
 		ft_exit(1, SET_EXIT_STATUS);
+	if (WIFSIGNALED(child_status) && WTERMSIG(child_status) == SIGQUIT)
+	tcsetattr(STDOUT_FILENO, TCSANOW, &state);
+	signal(SIGINT, handle_sig);
+	signal(SIGQUIT, handle_sig);
 	return (1);
 }
 

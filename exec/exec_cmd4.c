@@ -79,12 +79,10 @@ int	initial_builtin_errors(t_arg_node *args)
 {
 	char		*cmd;
 	t_arg_node	*arg;
-	t_arg_node	*tmp;
 
 	if (!args || !args->arg)
 		return (0);
 	cmd = args->arg;
-	tmp = args;
 	if ((!ft_strcmp(cmd, "unset") || !ft_strcmp(cmd, "export")))
 	{
 		printf("command [%s]\n", cmd);
