@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wild_card.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 23:47:30 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/22 01:42:14 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/26 00:10:55 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	**filterstrings(const char *pattern
 	int		i;
 
 	*numMatches = 0;
-	matches = malloc(numTexts * sizeof(char *));
+	matches = gcalloc(numTexts * sizeof(char *));
 	i = 0;
 	if (!matches)
 		return (NULL);
@@ -40,7 +40,7 @@ char	**filterstrings(const char *pattern
 		if (match(pattern, texts[i]))
 		{
 			matches[*numMatches]
-				= malloc((strlen(texts[i]) + 1) * sizeof(char));
+				= gcalloc((strlen(texts[i]) + 1) * sizeof(char));
 			if (!matches[*numMatches])
 				return (NULL);
 			strcpy(matches[*numMatches], texts[i]);
@@ -53,10 +53,10 @@ char	**filterstrings(const char *pattern
 
 void	add_to_found(char ***found_files, int *found_count, const char *file)
 {
-	*found_files = realloc(*found_files, (*found_count + 1) * sizeof(char *));
+	*found_files = ft_realloc(*found_files, (*found_count) * sizeof(char *), (*found_count + 1) * sizeof(char *));
 	if (!(*found_files))
 		return ;
-	(*found_files)[*found_count] = malloc((strlen(file) + 1) * sizeof(char));
+	(*found_files)[*found_count] = gcalloc((strlen(file) + 1) * sizeof(char));
 	if (!(*found_files)[*found_count])
 		return ;
 	strcpy((*found_files)[*found_count], file);
@@ -77,11 +77,11 @@ char	**get_files(const char *dir, int *numFiles)
 	{
 		if (strcmp(ep->d_name, ".") != 0 && strcmp(ep->d_name, "..") != 0)
 		{
-			files = realloc(files, (*numFiles + 1) * sizeof(char *));
+			files = ft_realloc(files, (*numFiles) * sizeof(char *), (*numFiles + 1) * sizeof(char *));
 			if (!files)
 				return (NULL);
 			files[*numFiles]
-				= malloc((strlen(ep->d_name) + 1) * sizeof(char));
+				= gcalloc((strlen(ep->d_name) + 1) * sizeof(char));
 			if (!files[*numFiles])
 				return (NULL);
 			strcpy(files[*numFiles], ep->d_name);

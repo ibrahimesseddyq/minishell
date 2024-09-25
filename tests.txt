@@ -18,7 +18,7 @@ cd $OLDPWD
 
 -Garbage collector
 
--Fd leaks
+-Fd leaks // till now no leak but you should test
 
 -Problem in expanding 
 #1 export a="      a   b   "
@@ -27,6 +27,8 @@ cd $OLDPWD
 -problem in Pipes
 ´
 
-echo "ls" > ls.sh
-cat | ls and then ctrl + | should quit  and exit.st 131
 <<s andd crtl-D the exit status should be 1 instead of 0
+
+<< dsd
+xxxx
+// CTRL D should exit b 0 not 258

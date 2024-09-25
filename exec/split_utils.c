@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_utils.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 22:13:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/22 02:40:31 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/26 00:10:00 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ char	**alloc_for_split_string(char *s, char delimiter)
 	char	**result;
 
 	count = count_delimiter_occurrences(s, delimiter) + 1;
-	result = malloc((count + 1) * sizeof(char *));
+	result = gcalloc((count + 1) * sizeof(char *));
 	return (result);
 }
 
@@ -88,7 +88,7 @@ char	**alloc_for_split_all_strings(char **array, char delimiter)
 		return (NULL);
 	while (array[i])
 		total_count += count_delimiter_occurrences(array[i++], delimiter) + 1;
-	result = malloc((total_count + 1) * sizeof(char *));
+	result = gcalloc((total_count + 1) * sizeof(char *));
 	return (result);
 }
 

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:45:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/20 06:18:04 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/26 00:09:35 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	append_env(t_lst *lst, char *key, char *new_value)
 				existing_value = lst->value;
 			else
 				existing_value = "";
-			combined_value = malloc(ft_strlen(existing_value)
+			combined_value = gcalloc(ft_strlen(existing_value)
 					+ ft_strlen(new_value) + 1);
 			strcpy(combined_value, existing_value);
 			strcat(combined_value, new_value);

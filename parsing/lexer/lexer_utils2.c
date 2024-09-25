@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:11:55 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/17 16:37:55 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/25 21:41:13 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*finalize_buffer(char *buffer, size_t i)
 	char	*final_buffer;
 
 	buffer[i] = '\0';
-	final_buffer = (char *)realloc(buffer, (i + 1) * sizeof(char));
+	final_buffer = (char *)ft_realloc(buffer, i * sizeof(char), (i + 1) * sizeof(char));
 	if (final_buffer)
 		return (final_buffer);
 	else

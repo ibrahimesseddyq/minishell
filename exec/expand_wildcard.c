@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 20:42:32 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/17 21:57:54 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/26 00:10:05 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ char	**get_matching_files(char *pattern, int *file_count)
 	dir = opendir(".");
 	if (!dir)
 		return (NULL);
-	files = malloc(sizeof(char *) * 100);
+	files = gcalloc(sizeof(char *) * 100);
 	if (!(files))
 		return (NULL);
 	i = 0;

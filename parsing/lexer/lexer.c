@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:06:35 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 05:50:49 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/25 21:41:41 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,14 +83,14 @@ t_tklist	*tokenize(char *input)
 	while (token->type != TOKEN_EOF)
 	{
 		token_list->size++;
-		token_list->tokens = (t_token *)realloc(token_list->tokens,
+		token_list->tokens = (t_token *)ft_realloc(token_list->tokens, (token_list->size - 1) * sizeof(t_token), 
 				token_list->size * sizeof(t_token));
 		token_list->tokens[token_list->size - 1] = *token;
 		token = get_next_token(lexer);
 		// printf("[tokenize] next token is [%s]\n", token->value);
 	}
 	token_list->size++;
-	token_list->tokens = (t_token *)realloc(token_list->tokens,
+	token_list->tokens = (t_token *)ft_realloc(token_list->tokens, (token_list->size - 1) * sizeof(t_token), 
 			token_list->size * sizeof(t_token));
 	token_list->tokens[token_list->size - 1] = *token;
 	return (token_list);

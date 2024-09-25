@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils1.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:12:03 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/22 02:57:54 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/26 00:09:04 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ char	*get_word(t_lexer *lexer)
 	size_t			i;
 	t_quote_state	*quotes;
 
-	quotes = malloc(sizeof(t_quote_state));
+	quotes = gcalloc(sizeof(t_quote_state));
 	if (!quotes)
 	{
 		perror ("malloc failed");
@@ -53,9 +53,11 @@ char	*allocate_buffer(size_t buffer_size)
 char	*resize_buffer(char *buffer, size_t *buffer_size)
 {
 	char	*new_buffer;
-
+	size_t	old_size;
+	
+	old_size = *buffer_size;
 	*buffer_size *= BUFFER_GROWTH_FACTOR;
-	new_buffer = (char *)realloc(buffer, (*buffer_size) * sizeof(char));
+	new_buffer = (char *)ft_realloc(buffer,  old_size * sizeof(char), (*buffer_size) * sizeof(char));
 	if (new_buffer)
 		return (new_buffer);
 	else

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/22 05:56:26 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/25 21:38:20 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -331,4 +331,5 @@ int				execute_external(char **arg_cmd, t_astnode *ast, t_lst *env);
 int				builtins_state(int value, int builtin, int op);
 int				check_valid(char *str);
 void			handle_sig(int sig);
+
 #endif

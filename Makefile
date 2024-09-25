@@ -10,7 +10,7 @@ SRC = ./parsing/lexer/lexer.c ./parsing/parser/parser.c ./parsing/parser/parser_
  exec/exec_cmd_line.c exec/exec_cmd.c exec/exec_pip.c exec/exec_or.c exec/exec_and.c env/envp.c \
  export/get_env.c export/set_env.c redirection/ft_red_in.c redirection/ft_red_out.c redirection/ft_redirection.c expanding/expand_normal.c expanding/expand_redir.c expanding/expand_delimiter.c expanding/expand_heredoc.c ./builtins/cd.c ./builtins/pwd.c ./backend/exit_status.c ./builtins/echo.c ./builtins/unset.c ./builtins/env.c ./builtins/exit.c ./backend/gc/gcalloc.c exec/split_ai.c exec/split_utils.c exec/exec_cmd_utils.c exec/split_utils2.c exec/exec_cmd2.c exec/exec_cmd3.c exec/exec_cmd4.c exec/exec_cmd5.c exec/exec_cmd6.c exec/exec_cmd7.c expanding/expand_utils1.c expanding/expand_utils2.c export/env_utils1.c export/env_utils2.c	
 OBJ = $(SRC:.c=.o)
-CC = cc -g -fsanitize=address
+CC = cc -g
 CFLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)

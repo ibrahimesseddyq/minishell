@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:22:07 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/21 05:54:52 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/24 10:16:55 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,5 +86,6 @@ int	ft_red_out(t_astnode *ast, t_lst *env, int is_last, int command_exist)
 				ft_exit(0, SET_EXIT_STATUS);
 		}
 	}
+	printf("redout end\n");
 	return (fd);
 }

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/23 22:06:45 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/26 00:10:10 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**remove_empty_strings(char **arr, int size, int *new_size)
 
 	i = 0;
 	j = 0;
-	new_arr = malloc(size * sizeof(char *));
+	new_arr = gcalloc(size * sizeof(char *));
 	while (arr[i])
 	{
 		// printf("[remove_empty_strings] arr[i] [%s] \n", arr[i]);
@@ -35,7 +35,7 @@ char	**remove_empty_strings(char **arr, int size, int *new_size)
 	}
 	// printf("j is [%d]\n", j);
 	*new_size = j + 1;
-	new_arr = realloc(new_arr, (*new_size) * sizeof(char *));
+	new_arr = ft_realloc(new_arr,  j * sizeof(char *), (*new_size) * sizeof(char *));
 	new_arr[*new_size - 1] = NULL;
 	// 	for (int i = 0; new_arr[i]; i++)
 	// {

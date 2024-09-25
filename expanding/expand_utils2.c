@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:50:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 21:55:29 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/25 21:40:46 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,14 @@ int	get_var_length(char *line, int i)
 
 void	append_char(t_expand_params *params, char c)
 {
+	int	old_size;
+
+	old_size = 0;
 	if (params->expanded_index >= params->expanded_size - 1)
 	{
+		old_size = params->expanded_size;
 		params->expanded_size *= 2;
-		params->expanded_line
-			= realloc(params->expanded_line, params->expanded_size);
+		params->expanded_line = ft_realloc(params->expanded_line, old_size, params->expanded_size);
 	}
 	params->expanded_line[params->expanded_index++] = c;
 	// printf("[append_char] ecpanded line char set [%c] to [%c]\n", params->expanded_line[params->expanded_index - 1], c);

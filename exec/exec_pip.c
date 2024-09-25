@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:00:51 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/24 00:24:45 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/25 19:42:03 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,14 +58,14 @@ void	exec_pip(t_astnode *ast, t_lst *env)
 	int		pid2;
 
 	pipe(pipfd);
-	pid = fork();
+	pid = ft_fork();
 	if (pid == 0)
 	{
 		ft_close(&pipfd[0]);
 		handle_child_process(ast->t_binary.left, env, -1, pipfd[1]);
 		// clean_fd();
 	}
-	pid2 = fork();
+	pid2 = ft_fork();
 	if (pid2 == 0)
 	{
 		ft_close(&pipfd[1]);

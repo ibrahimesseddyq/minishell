@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   gcalloc.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 20:17:33 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/22 01:46:04 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/26 00:11:04 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,11 +35,11 @@ void	*gcalloc(size_t size)
 	void			*alloc;
 
 	allocated = how_many_allocated();
-	alloc = malloc(size);
+	alloc = gcalloc(size);
 	if (alloc == NULL)
 		exit(1);
 	ft_memset(alloc, 0, size);
-	new_node = malloc(sizeof(t_allocation));
+	new_node = gcalloc(sizeof(t_allocation));
 	list_ptr = get_gc_list();
 	if (new_node == NULL)
 		return (free(alloc), NULL);

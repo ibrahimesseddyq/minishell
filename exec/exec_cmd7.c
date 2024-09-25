@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 00:56:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/17 21:57:43 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/24 10:13:48 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,12 +62,15 @@ char	**list_to_array(t_arg_node *lst, t_astnode *ast)
 			array[i] = NULL;
 		i++;
 	}
-	while (i < size)
+	if(redirs)
 	{
-    	if (redirs->redir)
-        	array[i] = ft_strdup(redirs->redir->file);
-		redirs = redirs->next;
-		i++;
+		while (i < size && redirs)
+		{
+			if (redirs->redir)
+				array[i] = ft_strdup(redirs->redir->file);
+			redirs = redirs->next;
+			i++;
+		}
 	}
 	array[size] = NULL;
 	return (array);

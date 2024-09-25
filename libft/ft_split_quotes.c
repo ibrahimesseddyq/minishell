@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 04:20:21 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 05:09:38 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/26 00:09:20 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ static int	initialize_vars_state(t_split_quotes *state, char *s, char c)
 	state->in_single_quote = 0;
 	state->in_double_quote = 0;
 	state->tail_matrice = count_words(s, c);
-	state->arr = (char **)malloc((sizeof(char *)) * (state->tail_matrice + 1));
+	state->arr = (char **)gcalloc((sizeof(char *)) * (state->tail_matrice + 1));
 	if (!state->arr || state->tail_matrice == -1)
 		return (0);
 	return (1);
@@ -62,7 +62,7 @@ char	*ft_strndup(const char *s, size_t n)
 	char	*dup;
 	size_t	i;
 
-	dup = (char *)malloc(sizeof(char) * (n + 1));
+	dup = (char *)gcalloc(sizeof(char) * (n + 1));
 	if (!dup)
 		return (NULL);
 	i = 0;

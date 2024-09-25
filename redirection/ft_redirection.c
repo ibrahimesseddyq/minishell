@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:21:45 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/21 05:57:35 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/24 10:16:07 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,5 +69,6 @@ int	ft_redirection(t_astnode *ast, t_lst *env, int command_exist)
 		}
 		ast->t_cmd.redirections = ast->t_cmd.redirections->next;
 	}
+	printf("redirection end\n");
 	return (fd);
 }
