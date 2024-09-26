@@ -13,6 +13,20 @@
 #include "minishell.h"
 #include <signal.h>
 int sig_var;
+
+// void	signal_ctlc(int sig)
+// {
+// 	if (sig == SIGINT)
+// 	{
+// 		write(STDERR_FILENO, "\n", 1);
+// 		rl_replace_line("", 0);
+// 		rl_on_new_line();
+// 		rl_redisplay();
+// 	}
+// }
+
+
+
 void	handle_sig(int sig)
 {
 	if (sig == SIGINT)
@@ -59,6 +73,7 @@ int	main(int ac, char **av, char *env[])
 	(void)ac;
 	(void)av;
 	(void)env;
+	// signal(SIGQUIT, SIG_IGN);
 	initialize();
 	lst = envp(env);
 	increment_shell_level(lst);

@@ -35,11 +35,11 @@ void	*gcalloc(size_t size)
 	void			*alloc;
 
 	allocated = how_many_allocated();
-	alloc = gcalloc(size);
+	alloc = malloc(size);
 	if (alloc == NULL)
 		exit(1);
 	ft_memset(alloc, 0, size);
-	new_node = gcalloc(sizeof(t_allocation));
+	new_node = malloc(sizeof(t_allocation));
 	list_ptr = get_gc_list();
 	if (new_node == NULL)
 		return (free(alloc), NULL);

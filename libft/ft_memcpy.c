@@ -38,7 +38,7 @@ void		*ft_memcpy(void *s1, const void *s2, size_t n)
 	char	*dest;
 	char	*src;
 	
-	printf("[memcpy]n [%zu], s1 [%s] s2[%s]\n", n, s1, s2);
+	// printf("[memcpy]n [%zu], s1 [%s] s2[%s]\n", n, s1, s2);
 	dest = (char*)s1;
 	src = (char*)s2;
 	i = 0;

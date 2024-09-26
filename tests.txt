@@ -32,3 +32,7 @@ cd $OLDPWD
 << dsd
 xxxx
 // CTRL D should exit b 0 not 258
+
+when i do ps i find more than one minishell
+
+i should handle fd leaks when signaling HEREDOC

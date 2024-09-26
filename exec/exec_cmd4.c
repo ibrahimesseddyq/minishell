@@ -21,7 +21,7 @@ int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
 	stdout_backup = dup(STDOUT_FILENO); // Backup stdout
 	redir_ret = ft_redirection(ast, env, 1);
 	printf("command is [%s]\n", arg_cmd[0]);
-	if (stdout_backup == -2)
+	if (redir_ret == -2)
 		return (-2);
 	if (!ft_strcmp(arg_cmd[0], "echo"))
 		ft_echo(arg_cmd);

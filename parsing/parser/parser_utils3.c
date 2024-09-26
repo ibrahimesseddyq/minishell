@@ -16,6 +16,12 @@
 //     char *arg;
 //     struct s_arg_node *next;
 // } t_arg_node;
+void	ft_handler(int sig)
+{
+	printf("entred ft_handler\n");
+	if (sig == SIGINT)
+		close(0);
+}
 
 void	set_command_props(t_arg_node **current
 		, t_astnode *node, t_arg_node *new_node)
@@ -85,8 +91,9 @@ int	write_heredoc_to_file(char *delimiter, char *filename, t_lst *env)
 	int			fd;
 	char		*line;
 
+	signal(SIGINT, ft_handler);
 	delimiter = ft_expand_delimiter(delimiter);
-		signal(SIGINT, handle_sig);
+		// signal(SIGINT, handle_sig);
 
 	sprintf(filename, "heredoc_file_%d", file_counter++);
 	file_counter = 1;

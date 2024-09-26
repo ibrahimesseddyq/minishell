@@ -69,8 +69,6 @@ void	handle_exec_error(void)
 	exit(0);
 }
 
-
-
 int	count_args(char **args)
 {
 	int	i;

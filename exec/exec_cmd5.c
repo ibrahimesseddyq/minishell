@@ -39,6 +39,7 @@ int	execute_child(char **arg_cmd, t_astnode *ast, t_lst *env)
 
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
+
 	fd = ft_redirection(ast, env, 1);
 	if (fd == -2)
 		return (-2);
