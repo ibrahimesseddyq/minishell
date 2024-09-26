@@ -63,6 +63,8 @@ int	create_and_handle_heredoc(t_redir_list *redirections, t_lst *lst)
 		}
 		current_heredoc = current_heredoc->next;
 	}
+	signal(SIGINT, handle_sig);
+	signal(SIGQUIT, handle_sig);
 	return (1);
 }
 

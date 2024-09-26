@@ -103,6 +103,13 @@ int	write_heredoc_to_file(char *delimiter, char *filename, t_lst *env)
 	while (1)
 	{
 		line = readline("> ");
+
+		if (!ttyname(0))
+		{
+			open(ttyname(2), O_RDWR);
+			close(fd);
+			return (1);
+		}
 		if (!line)
 			return (ft_close(&fd), -1);
 		if (strcmp(line, delimiter) == 0)
