@@ -5,10 +5,7 @@
 export a
 export a+=hamid
 
-#3
-ls << l << ll << l >
 
--echo test |  <<lala
 
 -echo $USER$TESTNOTFOUND$HOME$
 
@@ -36,3 +33,7 @@ xxxx
 when i do ps i find more than one minishell
 
 i should handle fd leaks when signaling HEREDOC
+ls | grep "" // lmouchkil kayn f ""
+
+
+// exit nbr // nbr > long long || nbr < long long

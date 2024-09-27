@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 18:08:51 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/23 22:28:35 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/27 00:55:10 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int	write_heredoc_to_file(char *delimiter, char *filename, t_lst *env)
 		{
 			open(ttyname(2), O_RDWR);
 			close(fd);
-			return (1);
+			return (0);
 		}
 		if (!line)
 			return (ft_close(&fd), -1);

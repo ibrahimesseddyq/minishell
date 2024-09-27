@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:12:03 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/26 00:09:04 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/27 03:06:21 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ char	*get_word(t_lexer *lexer)
 	quotes = gcalloc(sizeof(t_quote_state));
 	if (!quotes)
 	{
-		perror ("malloc failed");
 		return (NULL);  // or handle the error appropriately
 	}
 	(1) && (quotes->in_quotes = 0, quotes->quote_char = '\0', i = 0,

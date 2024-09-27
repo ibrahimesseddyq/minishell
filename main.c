@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:13:19 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/25 21:53:21 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/27 03:08:03 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ int sig_var;
 // }
 
 
-
+void f()
+{
+	system("leaks minishell");
+}
 void	handle_sig(int sig)
 {
 	if (sig == SIGINT)
@@ -38,7 +41,9 @@ void	handle_sig(int sig)
 		rl_redisplay();
 	}
 	else
-		gc_free_all();
+	{
+
+	}
 }
 
 void	increment_shell_level(t_lst *env)
@@ -75,6 +80,7 @@ int	main(int ac, char **av, char *env[])
 	(void)env;
 	// signal(SIGQUIT, SIG_IGN);
 	initialize();
+	atexit(f);
 	lst = envp(env);
 	increment_shell_level(lst);
 	tmp = lst;
@@ -84,6 +90,7 @@ int	main(int ac, char **av, char *env[])
 		if (!t)
 		{
 			printf("exit 2\n");
+			gc_free_all();
 			exit(2);
 		}
 		if (t)

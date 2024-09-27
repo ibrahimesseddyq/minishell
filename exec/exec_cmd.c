@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/24 10:15:17 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/27 03:42:10 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,7 @@ void	choose_splitting_delimiter(t_arg_node	*lst, t_astnode *ast)
 	}
 	which_to_split_with(list_to_array(lst, ast), 1);
 	which_to_split_with(list_to_array(lst, ast), 2);
+	which_to_split_with(list_to_array(lst, ast), 3);
 }
 
 int	execute_command_withargs(t_astnode *ast, t_lst *env, char **real_args)

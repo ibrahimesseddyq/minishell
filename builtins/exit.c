@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:22:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 04:46:53 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/27 03:03:52 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,8 @@ int	check_error_exist(char *str)
 
 int	my_exit(char **argv, int argc)
 {
-	long	exit_value;
-	int		error_exist;
+	__int128	exit_value;
+	int			error_exist;
 
 	error_exist = 0;
 	if (!argv[1])
@@ -49,7 +49,7 @@ int	my_exit(char **argv, int argc)
 	else
 	{
 		error_exist = check_error_exist(argv[1]);
-		exit_value = atoi(argv[1]);
+		exit_value = ft_atoi128(argv[1]);
 		if (exit_value > INT_MAX || exit_value < INT_MIN || error_exist)
 		{
 			write(2, "numeric argument required\n", 27);
