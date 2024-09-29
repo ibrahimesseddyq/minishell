@@ -59,6 +59,7 @@
   "files.associations": {
     "__node_handle": "c",
     "stdlib.h": "c",
-    "libft.h": "c"
+    "libft.h": "c",
+    "minishell.h": "c"
   }
 }

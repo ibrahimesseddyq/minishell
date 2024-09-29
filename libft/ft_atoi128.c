@@ -20,9 +20,9 @@ __int128	ft_atoi128(const char *str)
 	while (str[i] >= '0' && str[i] <= '9')
 	{
 		r = (r * 10) + str[i] - '0';
-		str++;
+		i++;
 	}
 	if (s % 2 == 0)
-		return ((int)r);
-	return ((int)-r);
+		return (r);
+	return (-r);
 }

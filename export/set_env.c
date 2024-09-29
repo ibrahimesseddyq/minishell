@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:11:05 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/22 06:05:50 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/27 13:47:30 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,9 @@ void	set_env(t_lst *lst, char *key, char *new_value, int sign)
 	new = choose_add_set_env(key, new_value, sign);
 	ft_lstadd_back_env(&lst, new);
 }
+
+
+
 
 void	ft_export(char **str, t_lst *lst)
 {

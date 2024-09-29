@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/25 21:38:20 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/28 07:59:10 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -322,7 +322,7 @@ void			expand_variable(t_expand_params *params,
 void			expand_token(t_expand_params *params, t_lst *env, char **line);
 void			gc_free(void *ptr);
 bool			matchStar(char ch, const char *pattern, const char *text);
-bool			match(const char *pattern, const char *text);
+int	match(char *pattern, const char *text);
 char			**filterStrings(const char *pattern,
 					const char *texts[], int numTexts, int *numMatches);
 char			**remove_empty_strings(char **arr, int size, int *new_size);
@@ -331,5 +331,11 @@ int				execute_external(char **arg_cmd, t_astnode *ast, t_lst *env);
 int				builtins_state(int value, int builtin, int op);
 int				check_valid(char *str);
 void			handle_sig(int sig);
+char			*expand_wildcard(char *pwd, int level, t_wildcard_data *data);
+char    		*ft_strcpy(char *s1, char *s2);
+char			*ft_strcat(char *dest, char *src);
+void add_heredoc_to_list(char *heredoc_file);
+t_list **get_heredoc_list();
+void    unlink_heredocs();
 
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:48:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/22 02:05:47 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/28 08:07:34 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,8 @@ char	*ft_expand_redir(char *line, t_lst *env)
 			append_char(&params, line[params.i++]);
 		}
 	}
+	if (params.expanded_index >= DEFAULT_NB - 1)
+		handle_overflow();
 	params.expanded_line[params.expanded_index] = '\0';
 	return (params.expanded_line);
 }

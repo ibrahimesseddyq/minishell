@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:00:51 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/25 19:42:03 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/28 03:08:07 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,13 @@ void	wait_for_processes(int pid1, int pid2)
 	waitpid(pid1, &cmd_status2, 0);
 	if (WIFEXITED(cmd_status))
 	{
-		write(2, "first exited\n", 14);
+		// write(2, "first exited\n", 14);
 		ft_exit(WEXITSTATUS(cmd_status), SET_EXIT_STATUS);
 	}
 	else if (WIFSIGNALED(cmd_status))
 		ft_exit(128 + WTERMSIG(cmd_status), SET_EXIT_STATUS);
 	
-		if (WIFEXITED(cmd_status2))
-	{
-		write(2, "second exited\n", 15);
-		// ft_exit(WEXITSTATUS(cmd_status2), SET_EXIT_STATUS);
-	}
+
 }
 
 void	handle_child_process(t_astnode *cmd,

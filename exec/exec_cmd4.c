@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:21:53 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/25 19:12:11 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/28 03:07:27 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
 	
 	stdout_backup = dup(STDOUT_FILENO); // Backup stdout
 	redir_ret = ft_redirection(ast, env, 1);
-	printf("command is [%s]\n", arg_cmd[0]);
+	// printf("command is [%s]\n", arg_cmd[0]);
 	if (redir_ret == -2)
 		return (-2);
 	if (!ft_strcmp(arg_cmd[0], "echo"))
@@ -55,7 +55,7 @@ int	check_file(char **argv)
 		is_abs_rel = 1;
 	if (access(argv[0], F_OK) == -1)
 	{
-		printf("here3\n");
+		// printf("here3\n");
 		if (is_abs_rel)
 			write(2, "No such file or directory\n", 27);
 		else
@@ -89,7 +89,7 @@ int	initial_builtin_errors(t_arg_node *args)
 	cmd = args->arg;
 	if ((!ft_strcmp(cmd, "unset") || !ft_strcmp(cmd, "export")))
 	{
-		printf("command [%s]\n", cmd);
+		// printf("command [%s]\n", cmd);
 		arg = args->next;
 		while (arg)
 		{

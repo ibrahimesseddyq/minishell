@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/26 00:10:10 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/28 01:24:52 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,18 +43,35 @@ char	**remove_empty_strings(char **arr, int size, int *new_size)
 	// }
 	return (arr);
 }
+char	*get_empty_str()
+{
+	char	*empty_str;
 
+	empty_str = NULL;
+	empty_str = gcalloc(2);
+	empty_str[0] = *get_splitted_char(3);
+	empty_str[1] = '\0';
+	return (empty_str);
+}
 char	**make_array(char **args, int size)
 {
 	int		i;
 	int		j;
 	char	*str;
+	char	*empty_str;
 
 	i = 0;
+	empty_str = get_empty_str();
 	while (i <= size && args[i])
 	{
 		str = args[i];
 		// printf("argv[i] inside [%s]\n", args[i]);
+		if (!ft_strcmp(str, empty_str))
+		{
+			args[i] = ft_strdup("");
+			i++;
+			continue ;
+		}
 		j = 0;
 		while (str[j])
 		{
@@ -67,30 +84,30 @@ char	**make_array(char **args, int size)
 	return (args);
 }
 
-int	builtins_error(char **argv)
-{
-	int	i;
-	int	command;
+// int	builtins_error(char **argv)
+// {
+// 	int	i;
+// 	int	command;
 
-	i = 0;
-	command = 0;
-	if (!argv[0])
-	{
-		write(2, "command not found\n", 19);
-		ft_exit(127, SET_EXIT_STATUS);
-		return (1);
-	}
-	if (!ft_strcmp(argv[0], "export"))
-		command = IS_EXPORT;
-	while (argv[i])
-	{
-		if (command == IS_EXPORT && check_export_errors(argv[i]))
-			return (ft_exit(1, SET_EXIT_STATUS),
-				write(2, "not a valid identifier\n", 24), 1);
-		i++;
-	}
-	return (0);
-}
+// 	i = 0;
+// 	command = 0;
+// 	// if (!argv[0])
+// 	// {
+// 	// 	write(2, "command not found\n", 19);
+// 	// 	ft_exit(127, SET_EXIT_STATUS);
+// 	// 	return (1);
+// 	// }
+// 	// if (!ft_strcmp(argv[0], "export"))
+// 	// 	command = IS_EXPORT;
+// 	// while (argv[i])
+// 	// {
+// 	// 	if (command == IS_EXPORT && check_export_errors(argv[i]))
+// 	// 		return (ft_exit(1, SET_EXIT_STATUS),
+// 	// 			write(2, "not a valid identifier\n", 24), 1);
+// 	// 	i++;
+// 	// }
+// 	return (0);
+// }
 
 int	special_cases( t_arg_node *lst)
 {

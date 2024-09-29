@@ -1,11 +1,6 @@
-
--DO NOT FORGET TO UNLINK HEREDOC
-
 #2
 export a
 export a+=hamid
-
-
 
 -echo $USER$TESTNOTFOUND$HOME$
 
@@ -21,7 +16,7 @@ cd $OLDPWD
 #1 export a="      a   b   "
 #2 when $ is at the end 
 
--problem in Pipes
+-problem in Pipes // Maybe OK should be tested more
 ´
 
 <<s andd crtl-D the exit status should be 1 instead of 0
@@ -30,10 +25,15 @@ cd $OLDPWD
 xxxx
 // CTRL D should exit b 0 not 258
 
-when i do ps i find more than one minishell
-
+ 
 i should handle fd leaks when signaling HEREDOC
-ls | grep "" // lmouchkil kayn f ""
 
 
-// exit nbr // nbr > long long || nbr < long long
+// protect NB_DEFAULT from stack_overflow and heap_overflow
+
+// recheck export and unset
+
+change the space by the del in wildcard phase
+// error in heredoc printing no such file or dir
+
+// there is a problem also in the functionning of heredoc

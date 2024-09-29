@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:13:19 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/27 03:08:03 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/28 07:57:13 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	main(int ac, char **av, char *env[])
 	(void)env;
 	// signal(SIGQUIT, SIG_IGN);
 	initialize();
-	atexit(f);
+	// atexit(f);
 	lst = envp(env);
 	increment_shell_level(lst);
 	tmp = lst;
@@ -112,6 +112,7 @@ int	main(int ac, char **av, char *env[])
 			}
 		}
 		sig_var = 0;
+		unlink_heredocs();
 	}
 	gc_free_all();
 	return (ft_exit(1, GET_EXIT_STATUS));

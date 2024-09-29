@@ -6,11 +6,44 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/27 03:42:10 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/28 03:07:02 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
+char	*get_expanded_string(t_lst *env, t_arg_node *lst)
+{
+	char *exp_str_empty;
+	char *expanded_str;
+
+	exp_str_empty = NULL;
+	expanded_str = ft_expand(lst->arg, env);
+	if (!ft_strcmp(lst->arg, "\"\"") || !ft_strcmp(lst->arg, "\'\'") || !expanded_str[0])
+	{
+		exp_str_empty = (char *)gcalloc(2);
+		exp_str_empty[0] = *get_splitted_char(3);
+		exp_str_empty[1] = '\0';
+		return (exp_str_empty);
+	}
+	else
+		return (expanded_str);
+}
+
+char	*expand_wd(char *expanded_arg)
+{
+	char *pattern[] = {"*", "*.c", NULL}; // Searching all files in first level, then all .c files in second level
+	char **found_files = NULL;
+	int found_count = 0;
+	t_wildcard_data data;
+	char *pwd = "."; // Current directory
+
+	pattern[0] = ft_strdup(expanded_arg);
+	pattern[1] = ft_strdup("");
+	data.pattern = pattern;
+	data.found_files = &found_files;
+	data.found_count = &found_count;
+	return (expand_wildcard(pwd, 0, &data));
+}
 
 char	**generate_final_splitted(t_astnode *ast, t_lst *env, t_arg_node *lst)
 {
@@ -25,8 +58,8 @@ char	**generate_final_splitted(t_astnode *ast, t_lst *env, t_arg_node *lst)
 	while (i <= ast->t_cmd.args_size)
 	{
 		// printf("lst->arg %s\n", lst->arg);
-		expanded_arg = ft_expand(lst->arg, env);
-		// printf("expanded arg %s\n", expanded_arg);
+		expanded_arg = get_expanded_string(env, lst);
+		expanded_arg = expand_wd(expanded_arg);
 		temp = ft_strjoin(expanded_string, expanded_arg);
 		expanded_string = temp;
 		if (lst->next)
@@ -40,7 +73,7 @@ char	**generate_final_splitted(t_astnode *ast, t_lst *env, t_arg_node *lst)
 		i++;
 	}
 	lst = head;
-	splitted_args = ft_split_quotes(expanded_string,*get_splitted_char(1));
+	splitted_args = ft_split_quotes(expanded_string, *get_splitted_char(1));
 	if (!splitted_args)
 		return (0);
 	// printf("ast->t_cmd.args_size %d\n", ast->t_cmd.args_size);
@@ -68,7 +101,10 @@ char	**generate_final_args(t_astnode *ast, t_lst *env, t_arg_node *lst)
 	// 	printf("seccond splitted [%s]\n", second_splitted[i]);
 	// }
 	second_splitted = make_array(second_splitted, ast->t_cmd.args_size);
-	// second_splitted = remove_empty_strings(second_splitted, ast->t_cmd.args_size, &new_size);
+	// for (int i = 0; second_splitted[i]; i++)
+	// {
+	// 	printf("seccond splitted [%s]\n", second_splitted[i]);
+	// }
 	return (second_splitted);
 }
 
@@ -80,7 +116,6 @@ void	choose_splitting_delimiter(t_arg_node	*lst, t_astnode *ast)
 	//TO FIX
 	while (tmp)
 	{
-		// printf("------- lst-> [%s]------\n", lst->arg);
 		tmp = tmp->next;
 	}
 	which_to_split_with(list_to_array(lst, ast), 1);
@@ -96,7 +131,7 @@ int	execute_command_withargs(t_astnode *ast, t_lst *env, char **real_args)
 		result = execute_builtin(real_args, ast, env);
 	else
 		result = execute_external(real_args, ast, env);
-	printf("exit status here is [%d]\n", ft_exit(127, GET_EXIT_STATUS));
+	// printf("exit status here is [%d]\n", ft_exit(127, GET_EXIT_STATUS));
 	return (result);
 }
 
@@ -108,7 +143,7 @@ int	exec_cmd(t_astnode *ast, t_lst *env)
 	t_arg_node	*tmp;
 
 	(1) && (lst = ast->t_cmd.args, tmp = lst);
-	printf("execcmd\n");
+	// printf("execcmd\n");
 	initial_builtin_errors(lst);
 	if (no_command_case(lst, env, ast))
 		return (1);
@@ -119,9 +154,13 @@ int	exec_cmd(t_astnode *ast, t_lst *env)
 	choose_splitting_delimiter(lst, ast);
 	tmp = lst;
 	real_args = generate_final_args(ast, env, lst);
-	if (builtins_error(real_args) || !real_args)
+	if (!real_args || initial_builtin_errors(lst))
 		return (0);
 	cmd_path = arg_cmds(real_args[0], env);
+	// for (int i = 0; real_args[i]; i++)
+	// {
+	// 	printf("real_args [%s]\n", real_args[i]);
+	// }
 	if (cmd_path)
 		real_args[0] = cmd_path;
 	else

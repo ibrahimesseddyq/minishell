@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 20:33:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/22 05:42:29 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/28 05:17:11 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	ft_exit(int new_status, int mode)
 
 	if (mode == EXIT_PROGRAM)
 	{
-		exit(status);
+		exit(new_status);
 	}
 	else if (mode == GET_EXIT_STATUS)
 		return (status);
@@ -36,14 +36,14 @@ int builtins_state(int value, int builtin, int op)
 	if (builtin == EXPORT_BUILTIN)
 	{
 		if (op == SET_BUILTIN)
-			return (state.export_error = value, printf("set1\n"), value);
+			return (state.export_error = value, value);
 		else
 			return (state.export_error);
 	}
 	else if (builtin == UNSET_BUILTIN)
 	{
 		if (op == SET_BUILTIN)
-			return (state.unset_error = value,printf("set2 %d\n", value), value);
+			return (state.unset_error = value, value);
 		else
 			return (state.unset_error);	
 	}
