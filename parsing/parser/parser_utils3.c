@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 18:08:51 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/27 00:55:10 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/29 06:33:52 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,13 @@
 // } t_arg_node;
 void	ft_handler(int sig)
 {
-	printf("entred ft_handler\n");
 	if (sig == SIGINT)
+	{
 		close(0);
+		sig_var = 1;
+		printf("entred ft_handler, setting ex st to 1\n");
+		ft_exit(1, SET_EXIT_STATUS);
+	}
 }
 
 void	set_command_props(t_arg_node **current
@@ -95,7 +99,8 @@ int	write_heredoc_to_file(char *delimiter, char *filename, t_lst *env)
 	delimiter = ft_expand_delimiter(delimiter);
 		// signal(SIGINT, handle_sig);
 
-	sprintf(filename, "heredoc_file_%d", file_counter++);
+	ft_sprintf(filename, "heredoc_file_%d", file_counter++);
+	printf("filename is [%s]\n", filename);
 	file_counter = 1;
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
@@ -107,11 +112,18 @@ int	write_heredoc_to_file(char *delimiter, char *filename, t_lst *env)
 		if (!ttyname(0))
 		{
 			open(ttyname(2), O_RDWR);
-			close(fd);
+				printf("signale est declanche [%d]\n", sig_var);
+
+			// close(fd);
+			if(sig_var)
+				return (ft_close(&fd), -1);
 			return (0);
 		}
+		printf("reached here\n");
+
 		if (!line)
-			return (ft_close(&fd), -1);
+			return (ft_close(&fd), 0);
+
 		if (strcmp(line, delimiter) == 0)
 			break ;
 		if (!write_expanded_line(delimiter, line, fd, env))

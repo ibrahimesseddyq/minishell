@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/28 07:59:10 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/29 06:29:25 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -337,5 +337,7 @@ char			*ft_strcat(char *dest, char *src);
 void add_heredoc_to_list(char *heredoc_file);
 t_list **get_heredoc_list();
 void    unlink_heredocs();
+int	ft_sprintf(char *str, const char *format, int num);
 
+extern int sig_var;
 #endif

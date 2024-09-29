@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 18:32:52 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/27 00:59:01 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/29 04:25:39 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	create_and_handle_heredoc(t_redir_list *redirections, t_lst *lst)
 	}
 	signal(SIGINT, handle_sig);
 	signal(SIGQUIT, handle_sig);
+	printf("[create_and_handle_heredoc] returned 1\n");
 	return (1);
 }
 
@@ -110,5 +111,6 @@ t_astnode	*parse_cmd(t_tklist *tokens, t_lst *lst)
 	cmd_node->t_cmd.redirections = redirections;
 	if (!create_and_handle_heredoc(redirections, lst))
 		return (NULL);
+		printf("ex st at parse_cmd is [%d]\n", ft_exit(1, GET_EXIT_STATUS));
 	return (cmd_node);
 }

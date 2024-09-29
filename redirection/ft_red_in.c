@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:22:35 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/28 03:09:52 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/29 04:27:28 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,7 @@ int	ft_red_in(t_astnode *ast, t_lst *env, int is_last, int command_exist)
 			dup2(fd, 0);
 		if (!command_exist && fd)
 			ft_exit(0, SET_EXIT_STATUS);
+		printf("ex st at red in is [%d]\n", ft_exit(2, GET_EXIT_STATUS));
 	}
 	return (fd);
 }

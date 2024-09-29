@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/28 03:07:02 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/29 05:27:05 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,11 +127,13 @@ int	execute_command_withargs(t_astnode *ast, t_lst *env, char **real_args)
 {
 	int	result;
 
+	printf("exit status here 1 is [%d]\n", ft_exit(127, GET_EXIT_STATUS));
+
 	if (is_builtin_command(real_args[0]))
 		result = execute_builtin(real_args, ast, env);
 	else
 		result = execute_external(real_args, ast, env);
-	// printf("exit status here is [%d]\n", ft_exit(127, GET_EXIT_STATUS));
+	printf("exit status here 2 is [%d]\n", ft_exit(127, GET_EXIT_STATUS));
 	return (result);
 }
 
