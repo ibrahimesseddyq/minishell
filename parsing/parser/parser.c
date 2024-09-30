@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 18:32:52 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/29 07:51:30 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/30 16:44:14 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@ int	create_and_handle_heredoc(t_redir_list *redirections, t_lst *lst)
 			if (write_heredoc_to_file(delimiter, heredoc_file, lst) != 0)
 				return (ft_exit(1, SET_EXIT_STATUS), 0);
 			current_heredoc->redir->heredoc = strdup(heredoc_file);
+			add_heredoc_to_list(current_heredoc->redir->heredoc);
 			if (!current_heredoc->redir->heredoc)
 				return (0);
 		}

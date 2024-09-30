@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/28 01:24:52 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/30 15:01:55 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,17 +135,29 @@ int	special_cases( t_arg_node *lst)
 	}
 	return (0);
 }
-
+int	command_is_empty(char *str)
+{
+	if(!ft_strcmp("\"\"", str) || !ft_strcmp("\'\'", str))
+		return (1);
+	return (0);
+}
 int	no_command_case(t_arg_node *lst, t_lst *env, t_astnode *ast)
 {
 	int	stdout_backup;
 
-	if (!lst)
+	stdout_backup = -1;
+	if (!lst || command_is_empty(lst->arg))
 	{
 		stdout_backup = ft_redirection(ast, env, 0);
 		if (stdout_backup == -2)
 			return (-2);
 		ft_close(&stdout_backup);
+		if (command_is_empty(lst->arg))
+		{
+			write(2, "Command not found\n", 19);
+			ft_exit(127, SET_EXIT_STATUS);
+			return (1);
+		}
 	}
 	return (0);
 }
