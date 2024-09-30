@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/29 06:29:25 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/30 14:02:57 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@
 # define IS_EXPORT 8
 # define INITIAL_ARRAY_SIZE 10
 # define ARRAY_INCREMENT 10
-# define WORD ".[]\\-_\"\'&$/*+;="
+# define WORD ".[]-_\"\'$/*+=^"
 # define INITIAL_BUFFER_SIZE 256
 # define BUFFER_GROWTH_FACTOR 2
 # define SET_BUILTIN 1
@@ -314,9 +314,9 @@ int				get_symbol_exist(char *str, char symbol);
 void			apppend_to_var(char **key, char **value,
 					char **temp, char *str, t_lst *lst);
 void			expand_token_heredoc(t_expand_params *params,
-					t_lst *env, char *line);
-void			expand_variable_heredoc(t_expand_params *params,
-					t_lst *env);
+					t_lst *env, char **line);
+void	expand_variable_heredoc(t_expand_params *params, t_lst *env, char **line);
+
 void			expand_variable(t_expand_params *params,
 					t_lst *env, char **line);
 void			expand_token(t_expand_params *params, t_lst *env, char **line);

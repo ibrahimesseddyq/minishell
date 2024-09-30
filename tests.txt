@@ -18,6 +18,26 @@ cd $OLDPWD
 
 - handle CTRL D and CTRL C  in herdoc when executing builtins
 
+// syntax analyzer fails to detect the source of the problem and output garbage value
+
+// > * should print ambiguous redir
+
+// there is a problem when executing
+echo "$" or echo $ // doesnt print $
+but there is no problem in
+echo '$' // prints $
+
+- export A- doesnt work as it should
+
+// doesnt expand var on herdoc
+
+
+// doesnt unlink Heredoc files
+
+
+
+
+// this "" output permission denied instead of command not found
 ############### Notes
 
 -Garbage collector
@@ -33,3 +53,18 @@ i should handle fd leaks when signaling HEREDOC
 
 // recheck export and unset
  // test bonus
+
+// check expand in Heredoc and after redir // to check
+
+
+
+
+
+
+
+recheck this test i think it fails:
+cat < Makefile > out >> out1 | wc -l out1 > out2
+cat < Makefile > out >> out1 | wc -l out1 > out2
+/bin/rm -f out
+/bin/rm -f out1
+/bin/rm -f out2

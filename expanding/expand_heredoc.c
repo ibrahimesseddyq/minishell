@@ -6,24 +6,25 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:47:54 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 21:41:37 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/30 14:03:07 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	expand_variable_heredoc(t_expand_params *params, t_lst *env)
+void	expand_variable_heredoc(t_expand_params *params, t_lst *env, char **line)
 {
 	int		varnamelen;
 	char	*varname;
 	char	*value;
 
-	varnamelen = get_var_length(params->expanded_line, params->i);
+	varnamelen = get_var_length(*line, params->i);
 	varname = gcalloc(varnamelen + 1);
-	strncpy(varname, &params->expanded_line[params->i], varnamelen);
+	strncpy(varname, *line + params->i, varnamelen);
 	varname[varnamelen] = '\0';
 	params->i += varnamelen;
 	value = get_env(env, varname);
+	printf("value expanded in herdoc [%s]\n", value);
 	if (!value)
 	{
 		if (check_ambigious(NULL))
@@ -39,16 +40,18 @@ void	expand_variable_heredoc(t_expand_params *params, t_lst *env)
 	}
 }
 
-void	expand_token_heredoc(t_expand_params *params, t_lst *env, char *line)
+void	expand_token_heredoc(t_expand_params *params, t_lst *env, char **line)
 {
-	if (params->expanded_line[params->i] == '$')
+	if ((*line)[params->i] == '$')
 	{
+			printf("HII HERDEOC 3\n");
+
 		params->i++;
-		expand_variable_heredoc(params, env);
+		expand_variable_heredoc(params, env, line);
 	}
 	else
 	{
-		append_char(params, line[params->i++]);
+		append_char(params, (*line)[params->i++]);
 	}
 }
 
@@ -58,17 +61,13 @@ char	*ft_expand_heredoc(char *line, t_lst *env)
 	t_expand_params	params;
 
 	expanded_line = gcalloc(DEFAULT_NB);
+	printf("HII HERDEOC\n");
 	params = init_params(expanded_line);
 	while (line[params.i])
 	{
-		if (!params.is_inside_quotes || params.current_quote == '\"')
-		{
-			expand_token_heredoc(&params, env, line);
-		}
-		else
-		{
-			append_char(&params, line[params.i++]);
-		}
+			printf("HII HERDEOC 2\n");
+
+		expand_token_heredoc(&params, env, &line);
 	}
 	params.expanded_line[params.expanded_index] = '\0';
 	return (params.expanded_line);

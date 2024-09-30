@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:52:42 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/21 04:01:48 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/30 13:51:38 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,11 @@ int	there_is_quote(char *str)
 	int	i;
 
 	i = 0;
+	printf("str in there is a quote [%s]\n", str);
 	while (str[i])
 	{
 		if (str[i] == '\'' || str[i] == '\"')
-			return (1);
+			return (printf("fnd a quote\n"), 1);
 		i++;
 	}
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 18:08:51 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/29 06:33:52 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/30 13:53:08 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@ void	ft_handler(int sig)
 	{
 		close(0);
 		sig_var = 1;
-		printf("entred ft_handler, setting ex st to 1\n");
 		ft_exit(1, SET_EXIT_STATUS);
 	}
 }
@@ -78,6 +77,7 @@ int	write_expanded_line(char *delimiter, char *line, int fd, t_lst *env)
 {
 	char	*expanded_line;
 
+	printf("delimiter 2 [%s], is there a quote [%d]\n", delimiter, there_is_quote(delimiter));
 	if (there_is_quote(delimiter))
 		expanded_line = line;
 	else
@@ -94,13 +94,14 @@ int	write_heredoc_to_file(char *delimiter, char *filename, t_lst *env)
 	static int	file_counter;
 	int			fd;
 	char		*line;
+	char		*non_expanded_delimiter;
 
 	signal(SIGINT, ft_handler);
+	non_expanded_delimiter = delimiter;
 	delimiter = ft_expand_delimiter(delimiter);
 		// signal(SIGINT, handle_sig);
 
 	ft_sprintf(filename, "heredoc_file_%d", file_counter++);
-	printf("filename is [%s]\n", filename);
 	file_counter = 1;
 	fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (fd < 0)
@@ -112,21 +113,17 @@ int	write_heredoc_to_file(char *delimiter, char *filename, t_lst *env)
 		if (!ttyname(0))
 		{
 			open(ttyname(2), O_RDWR);
-				printf("signale est declanche [%d]\n", sig_var);
-
 			// close(fd);
 			if(sig_var)
 				return (ft_close(&fd), -1);
 			return (0);
 		}
-		printf("reached here\n");
-
 		if (!line)
 			return (ft_close(&fd), 0);
 
 		if (strcmp(line, delimiter) == 0)
 			break ;
-		if (!write_expanded_line(delimiter, line, fd, env))
+		if (!write_expanded_line(non_expanded_delimiter, line, fd, env))
 			return (-1);
 	}
 	return (ft_close(&fd), 0);

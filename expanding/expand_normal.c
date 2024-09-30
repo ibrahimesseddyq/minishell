@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_normal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:19:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/22 02:19:42 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/09/30 08:04:52 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,11 @@ void	expand_token(t_expand_params *params, t_lst *env, char **line)
 {
 	if ((*line)[params->i] == '$')
 	{
+		if ((((*line)[params->i + 1] == '\'' || (*line)[params->i + 1] == '"' ||  (*line)[params->i + 1] == ' ') && params->is_inside_quotes) || !(*line)[params->i + 1])
+		{
+			append_char(params, (*line)[params->i++]);
+			return ;
+		}
 		params->i++;
 		if ((*line)[params->i] == '?')
 		{

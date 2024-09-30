@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:11:05 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/27 13:47:30 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/09/29 07:50:51 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,6 @@ void	ft_export(char **str, t_lst *lst)
 	{
 		while (str[i])
 		{
-			printf("is_set\n");
 			export_var(str, lst, i);
 			i++;
 		}
