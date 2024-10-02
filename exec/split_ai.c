@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_ai.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 20:59:57 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/22 02:37:20 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/02 06:32:09 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,20 +41,18 @@ int	check_if_exists( char *str, char c)
 
 char	get_next_char( char c)
 {
-	if (c < 33)
-		return (33);
-	else if (c >= 33 && c < 126)
+
+	if (c >= 5 && c < 126)
 		return (c + 1);
 	else if (c == 126)
-		return (33);
-	else
-		return (33);
+		return (5);
+	return (5);
 }
 
 void	initialize_which_to_split_with(char *c, int *i,
 		int *order_of_char, char *found_char)
 {
-	*c = get_next_char(32);
+	*c = get_next_char(33);
 	*i = 0;
 	*order_of_char = 0;
 	*found_char = 0;

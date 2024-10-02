@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/29 07:50:33 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/01 11:11:44 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,22 @@ char	*get_expanded_string(t_lst *env, t_arg_node *lst)
 }
 
 char	*expand_wd(char *expanded_arg)
+{
+	char *pattern[] = {"*", "*.c", NULL}; // Searching all files in first level, then all .c files in second level
+	char **found_files = NULL;
+	int found_count = 0;
+	t_wildcard_data data;
+	char *pwd = "."; // Current directory
+
+	pattern[0] = ft_strdup(expanded_arg);
+	pattern[1] = ft_strdup("");
+	data.pattern = pattern;
+	data.found_files = &found_files;
+	data.found_count = &found_count;
+	return (expand_wildcard(pwd, 0, &data));
+}
+
+char	*expand_wd_redir(char *expanded_arg)
 {
 	char *pattern[] = {"*", "*.c", NULL}; // Searching all files in first level, then all .c files in second level
 	char **found_files = NULL;
@@ -73,6 +89,7 @@ char	**generate_final_splitted(t_astnode *ast, t_lst *env, t_arg_node *lst)
 		i++;
 	}
 	lst = head;
+	printf("epanded string [%s]\n", expanded_string);
 	splitted_args = ft_split_quotes(expanded_string, *get_splitted_char(1));
 	if (!splitted_args)
 		return (0);
@@ -163,7 +180,7 @@ int	exec_cmd(t_astnode *ast, t_lst *env)
 	if (cmd_path)
 		real_args[0] = cmd_path;
 	else
-		return (write(2, "command not found\n", 19),
+		return (write(2, "command not found 1 \n", 19),
 			ft_exit(127, SET_EXIT_STATUS), 127);
 	return (execute_command_withargs(ast, env, real_args));
 }

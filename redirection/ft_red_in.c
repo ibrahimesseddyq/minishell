@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:22:35 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/29 07:51:36 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/01 03:59:48 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,32 @@ static int	check_and_open_file(const char *file, int flags, mode_t mode)
 			, ft_exit(1, SET_EXIT_STATUS), -2);
 	return (fd);
 }
+int check_ambiguious_wildcard(char *str)
+{
+	char *del;
+	int	i;
+
+	i = 0;
+	del = get_splitted_char(1);
+	while (str[i])
+	{
+		if (str[i] == *del)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+int	handle_ambiguous(char *str)
+{
+	if (check_ambiguious_wildcard(str))
+	{
+		write(2, "ambiguous redir\n", 17);
+		ft_exit(1, SET_EXIT_STATUS);
+		return (-1);
+	}
+	return (1);
+}
 
 int	ft_red_in(t_astnode *ast, t_lst *env, int is_last, int command_exist)
 {
@@ -51,6 +77,9 @@ int	ft_red_in(t_astnode *ast, t_lst *env, int is_last, int command_exist)
 		= ft_expand_redir(ast->t_cmd.redirections->redir->file, env);
 	if (!ast->t_cmd.redirections->redir->file)
 		return (write(2, "ambigiuos redir\n", 17), -2);
+	ast->t_cmd.redirections->redir->file = expand_wd(ast->t_cmd.redirections->redir->file);
+	if (handle_ambiguous(ast->t_cmd.redirections->redir->file) == -1)
+		return (-1);
 	if (ast->t_cmd.redirections && ast->t_cmd.redirections->redir
 		&& ast->t_cmd.redirections->redir->type == NODE_REDIRECT_IN)
 	{

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 22:13:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/26 00:10:00 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/02 08:23:59 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,20 +51,23 @@ static char	**split_string(char *s, char delimiter)
 		return (NULL);
 	start = s;
 	end = strchr(start, delimiter);
+	printf("\n\nstart [%s]  end is [%s]\n\n", start, end);
 	while (end)
 	{
 		current = strndup(start, end - start);
-		if (!current[0] && index == 0)
-			return (ft_exit(127, SET_EXIT_STATUS),
-				write(2, "command not found\n", 19), NULL);
+			printf("\n\ncurrent [%s]\n\n", current);
+
+		// if (!current[0] && index == 0)
+		// 	return (ft_exit(127, SET_EXIT_STATUS),
+		// 		write(2, "command not found 6\n", 19), NULL);
 		if (current[0] != '\0')
 		{
 			result[index] = current;
 			if (!result[index])
 				return (NULL);
-			// printf("result whle splitting [%s]\n", result[index]);
-			// if (result[index][0] == '\0')
-			// 	printf("empty\n");
+			printf("result whle splitting [%s]\n", result[index]);
+			if (result[index][0] == '\0')
+				printf("empty\n");
 			index++;
 		}
 		start = end + 1;
@@ -73,7 +76,13 @@ static char	**split_string(char *s, char delimiter)
 	result[index] = strdup(start);
 	if (!result[index])
 		return (NULL);
-	return (result[++index] = NULL, result);
+	result[++index] = NULL;
+	printf("result\n\n");
+	for(int i = 0; result[i]; i++)
+	{
+		printf("result[i] [%s]\n", result)
+	}
+	return (result);
 }
 
 char	**alloc_for_split_all_strings(char **array, char delimiter)

@@ -60,6 +60,7 @@
     "__node_handle": "c",
     "stdlib.h": "c",
     "libft.h": "c",
-    "minishell.h": "c"
+    "minishell.h": "c",
+    "__locale": "c"
   }
 }
