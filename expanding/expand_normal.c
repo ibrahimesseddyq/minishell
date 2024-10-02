@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:19:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/30 08:04:52 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/02 09:46:43 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	*replace_space_with_second_separator(t_expand_params *params, char *str)
 			&& params->is_inside_quotes2)
 			params->is_inside_quotes2 = 0;
 		// printf("[replace_space_with_second_separator] str [%s]  is inside quotes [%d]\n",str, params->is_inside_quotes);
-		if (str[i] == ' ' && !params->is_inside_quotes2)
+		if (str[i] == ' ' && params->is_inside_quotes2)
 			res[i] = *get_splitted_char(2);
 		else
 			res[i] = str[i];

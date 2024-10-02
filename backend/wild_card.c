@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 23:47:30 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/01 11:05:24 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/02 09:06:19 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,33 +166,33 @@ void	wildcard(const char *pwd, int level, t_wildcard_data *data)
 	
 }
 
-static char	*replace_spaces(char *str)
-{
-	char	*new_str;
-	int		i, j, count = 0;
-	char	replace_with;
+// static char	*replace_spaces(char *str)
+// {
+// 	char	*new_str;
+// 	int		i, j, count = 0;
+// 	char	replace_with;
 
-	replace_with = *get_splitted_char(2);
+// 	replace_with = *get_splitted_char(2);
 
-	for (i = 0; str[i]; i++)
-		if (str[i] == ' ')
-			count++;
-	new_str = (char *)malloc(strlen(str) + count + 1);
-	if (!new_str)
-		return (NULL);
-	i = 0;
-	j = 0;
-	while (str[i])
-	{
-		if (str[i] == ' ')
-			new_str[j++] = replace_with;
-		else
-			new_str[j++] = str[i];
-		i++;
-	}
-	new_str[j] = '\0';
-	return (new_str);
-}
+// 	for (i = 0; str[i]; i++)
+// 		if (str[i] == ' ')
+// 			count++;
+// 	new_str = (char *)malloc(strlen(str) + count + 1);
+// 	if (!new_str)
+// 		return (NULL);
+// 	i = 0;
+// 	j = 0;
+// 	while (str[i])
+// 	{
+// 		if (str[i] == ' ')
+// 			new_str[j++] = replace_with;
+// 		else
+// 			new_str[j++] = str[i];
+// 		i++;
+// 	}
+// 	new_str[j] = '\0';
+// 	return (new_str);
+// }
 
 
 char	*expand_wildcard(char *pwd, int level, t_wildcard_data *data)
@@ -213,14 +213,13 @@ char	*expand_wildcard(char *pwd, int level, t_wildcard_data *data)
 	while (i < *(data->found_count))
 	{
 		expanded_result = ft_realloc(expanded_result, strlen(expanded_result), strlen(expanded_result) + strlen((*data->found_files)[i]) + 2); 
-		(*data->found_files)[i] = replace_spaces((*data->found_files)[i]);
+		// (*data->found_files)[i] = replace_spaces((*data->found_files)[i]); do not remove
 		ft_strcat(expanded_result, (*data->found_files)[i]);
 		// printf("found files:[%s]\n", (*data->found_files)[i]);
 		if (i < *(data->found_count) - 1)
 			ft_strcat(expanded_result, del); 
 		i++;
 	}
-	printf("expanded_result [%s]\n", expanded_result);
 	return expanded_result;
 }
 
@@ -248,7 +247,6 @@ char	*expand_wildcard_redir(char *pwd, int level, t_wildcard_data *data)
 			ft_strcat(expanded_result, del); 
 		i++;
 	}
-	printf("expanded_result redir [%s]\n", expanded_result);
 	return expanded_result;
 }
 

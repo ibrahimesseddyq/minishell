@@ -9,7 +9,10 @@ cd $OLDPWD
 
 -Problem in expanding 
 #1 export a="      a   b   "
-#2 when $ is at the end 
+and in 
+#2 export
+    export a="e f"
+    export $a="abc"
 
 
 - change the space by the del in wildcard phase just in expand_wild card no need in expand wildcard redir

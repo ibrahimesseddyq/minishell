@@ -1,8 +1,6 @@
 #include "./../../minishell.h"
 
 
-
-
 void add_heredoc_to_list(char *heredoc_file)
 {
     t_list  **lst;
@@ -31,12 +29,9 @@ void    unlink_heredocs()
     t_list *lst;
     t_list *tmp;
 
-    printf("HI UNLINNK\n");
     lst = *get_heredoc_list();
     if (!lst)
         return ;
-    printf("HI UNLINNK 22\n");
-
     tmp = lst;
     if (!tmp)
         printf("no tmp\n");
