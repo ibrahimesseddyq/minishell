@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:11:05 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/29 07:50:51 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/02 15:25:55 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,15 +58,31 @@ void	ft_export(char **str, t_lst *lst)
 	int		i;
 
 	i = 1;
+	t_lst *tmp;
+	tmp = lst;
+	while(tmp)
+	{
+		if (ft_strcmp(tmp->key, "l") == 0)
+			printf("\n\nis set[%d] signe[%c] key=[%s] value [%s]\n\n", tmp->set, tmp->signe, tmp->key, tmp->value);
+		tmp = tmp->next;
+	}
+	tmp = lst;
 	if (!str[1] && !builtins_state(-1, EXPORT_BUILTIN, GET_BUILTIN))
 		print_export(lst);
 	else
 	{
-		while (str[i])
+		printf("\n\nstr is [%s]\n\n", str[i]);
+		while (str[i] && str[i][0])
 		{
 			export_var(str, lst, i);
 			i++;
 		}
+	}
+	while(tmp)
+	{
+		if (!ft_strcmp(tmp->key, "l"))
+			printf("\n\n2 is set[%d] signe[%c] key=[%s] value [%s]\n\n", tmp->set, tmp->signe, tmp->key, tmp->value);
+		tmp = tmp->next;
 	}
 	if (builtins_state(-1, EXPORT_BUILTIN, GET_BUILTIN))
 		ft_exit(1, SET_EXIT_STATUS);
