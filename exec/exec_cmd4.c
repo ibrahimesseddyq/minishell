@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:21:53 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/01 11:11:49 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/03 10:42:07 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,12 +73,21 @@ int	is_builtin_command(const char *cmd)
 		|| !ft_strcmp((char *)cmd, "exit") || !ft_strcmp((char *)cmd, "export")
 		|| !ft_strcmp((char *)cmd, "unset"));
 }
-int	check_valid2(char *str)
+
+int check_invalid(t_arg_node *arg, char *cmd)
 {
-	if (str[0] == '?' || str[0] == '=' || str[0] == '-')
-		return (0);
+	if (!ft_strcmp(arg->arg, "\"\"") || !ft_strcmp(arg->arg, "\'\'")
+		|| (!check_valid2(arg->arg) && !ft_strcmp(cmd, "export")) || (!check_valid1(arg->arg) && !ft_strcmp(cmd, "unset")))
+	{
+		write(2, "invalid identifier\n", 20);
+		if (!ft_strcmp(cmd, "export"))
+		builtins_state(ACTIVE, EXPORT_BUILTIN, SET_BUILTIN);
+		else if (!ft_strcmp(cmd, "unset"))
+		builtins_state(ACTIVE, UNSET_BUILTIN, SET_BUILTIN);
+	}
 	return (1);
 }
+
 int	initial_builtin_errors(t_arg_node *args)
 {
 	char		*cmd;
@@ -93,14 +102,8 @@ int	initial_builtin_errors(t_arg_node *args)
 		arg = args->next;
 		while (arg)
 		{
-			if (!ft_strcmp(arg->arg, "\"\"") || !ft_strcmp(arg->arg, "\'\'") || !check_valid2(arg->arg))
-			{
-				write(2, "invalid identifier\n", 20);
-				if (!ft_strcmp(cmd, "export"))
-					builtins_state(ACTIVE, EXPORT_BUILTIN, SET_BUILTIN);
-				else if (!ft_strcmp(cmd, "unset"))
-					builtins_state(ACTIVE, UNSET_BUILTIN, SET_BUILTIN);
-			}
+			printf("cmd is [%s] and arg is [%s]\n", cmd, arg->arg);
+			check_invalid(arg, cmd);
 			arg = arg->next;
 		}
 	}

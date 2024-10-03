@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/01 08:10:01 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/03 10:38:50 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -341,5 +341,7 @@ t_list **get_heredoc_list();
 void    unlink_heredocs();
 int	ft_sprintf(char *str, const char *format, int num);
 char	*expand_wildcard_redir(char *pwd, int level, t_wildcard_data *data);
+int	check_valid2(char *str);
+int	check_valid1(char *str);
 extern int sig_var;
 #endif
