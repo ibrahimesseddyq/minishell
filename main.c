@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:13:19 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/28 07:57:13 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/03 12:33:49 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,16 @@ void	initialize()
 		ft_exit(1, EXIT_PROGRAM);
 	}
 }
+int valid_quotes_main(char *line)
+{
+	int	quotes_valid;
+
+	quotes_valid = is_valid_quotes(line);
+	if (!quotes_valid)
+		return (write(2, "syntax error in quotes\n", 24), 0);
+	return (1);
+}
+
 int	main(int ac, char **av, char *env[])
 {
 	t_tklist	*token_list;
@@ -96,7 +106,7 @@ int	main(int ac, char **av, char *env[])
 		if (t)
 		{
 			token_list = tokenize(t);
-			if (!analyse_syntax(token_list))
+			if (!analyse_syntax(token_list) || !valid_quotes_main(t))
 			{
 				ft_exit(258, SET_EXIT_STATUS);
 			}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:04:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/22 01:49:31 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/03 11:44:30 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	ft_cd(int argc, char **argv, int mode, t_lst *env)
 		return (perror("cd"), ft_exit(1, SET_EXIT_STATUS), 1);
 	if (chdir(expanded_dir) == -1)
 		return (perror("cd"), ft_exit(1, SET_EXIT_STATUS), 1);
-	set_env(env, "OLDPWD", previous_pwd, 1);
+	set_env(env, "OLDPWD", pwd, 1);
 	new_pwd = ft_pwd();
 	if (!new_pwd)
 		return (write(2, "cd: failed to get new working directory\n", 41),

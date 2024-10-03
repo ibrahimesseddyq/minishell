@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 18:08:51 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/30 13:53:08 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/03 12:34:43 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,6 +135,7 @@ int	heredoc_delimiter_valid(char *del)
 
 	quotes_valid = is_valid_quotes(del);
 	if (!quotes_valid)
-		return (write(2, "syntax error in quotes\n", 24), 0);
+		return (ft_exit(258, SET_EXIT_STATUS),
+			write(2, "syntax error in quotes\n", 24), 0);
 	return (1);
 }

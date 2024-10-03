@@ -1,15 +1,8 @@
 ############## Errors & TODO (certain)
--prblm in $OLDPWD
-cd ..
-cd $OLDPWD
 
-cd
-
-- change the space by the del in wildcard phase just in expand_wild card no need in expand wildcard redir
+syntax error when "'
 
 - handle CTRL D and CTRL C  in herdoc when executing builtins
-
-export "" a=a // more than one 
 
 ############### Notes
 
