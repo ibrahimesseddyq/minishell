@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:22:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/05 10:58:40 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/05 12:51:15 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,6 @@ int	my_exit(char **argv, int argc)
 	error_exist = 0;
 	if (!argv[1])
 		ft_exit(0, EXIT_PROGRAM);
-	// printf("fatet\n");
-	if (argc > 2)
-		return (write(2, "minishell: exit: too many arguments\n"
-				, 37), ft_exit(EXIT_FAILURE, SET_EXIT_STATUS), 0);
-	else
-	{
-			// printf("fatet 2\n");
 
 		error_exist = check_error_exist(argv[1]);
 		exit_value = ft_atoi128(argv[1]);
@@ -59,14 +52,14 @@ int	my_exit(char **argv, int argc)
 			write(2, "numeric argument required\n", 27);
 			ft_exit(255, EXIT_PROGRAM);
 		}
-		else
+		else if (!error_exist && argc < 3)
 		{
-			// printf("fatet 5\n");
 			
 			ft_exit(exit_value % 256, EXIT_PROGRAM);
 		}
-	}
-		// printf("fatet 3\n");
+	if (argc > 2)
+		return (write(2, "minishell: exit: too many arguments\n"
+				, 37), ft_exit(EXIT_FAILURE, SET_EXIT_STATUS), 1);
 
 	ft_exit(0, SET_EXIT_STATUS);
 	return (1);
