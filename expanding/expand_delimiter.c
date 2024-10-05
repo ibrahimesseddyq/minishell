@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_delimiter.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:46:41 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/22 01:54:31 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/05 10:59:03 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	*ft_expand_delimiter(char *line)
 
 	expanded_line = gcalloc(DEFAULT_NB);
 	params = init_params(expanded_line);
-	printf("delimiter is [%s]\n", line);
+	// printf("delimiter is [%s]\n", line);
 	while (line[params.i])
 	{
 		if (handle_quotes2(line[params.i], &params))

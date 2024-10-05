@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:28:09 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/03 10:40:08 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/05 10:57:49 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,8 @@ int	unset(char **args, t_lst *lst)
 			empty = 1;
 		if(check_valid1(args[i]))
 			set_env(lst, args[i], NULL, '\0');
+		else
+			return (ft_exit(1, SET_EXIT_STATUS), 0);
 		i++;
 	}
 	if (empty)

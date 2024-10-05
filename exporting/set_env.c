@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:11:05 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/03 11:27:19 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/05 10:59:18 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,13 +67,13 @@ void	ft_export(char **str, t_lst *lst)
 		print_export(lst);
 	else
 	{
-		printf("\n\nstr is [%s]\n\n", str[i]);
+		// printf("\n\nstr is [%s]\n\n", str[i]);
 		while (str[i])
 		{
-			printf("str export is [%s]\n", str[i]);
+			// printf("str export is [%s]\n", str[i]);
 			if (check_valid2(str[i]) && str[i][0])
 			{
-				printf("entered export\n");
+				// printf("entered export\n");
 				export_var(str, lst, i);
 			}
 			i++;

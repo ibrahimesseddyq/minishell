@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 18:08:51 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/03 12:34:43 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/05 10:59:55 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	write_expanded_line(char *delimiter, char *line, int fd, t_lst *env)
 {
 	char	*expanded_line;
 
-	printf("delimiter 2 [%s], is there a quote [%d]\n", delimiter, there_is_quote(delimiter));
+	// printf("delimiter 2 [%s], is there a quote [%d]\n", delimiter, there_is_quote(delimiter));
 	if (there_is_quote(delimiter))
 		expanded_line = line;
 	else

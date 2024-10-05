@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/03 10:31:57 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/05 10:58:53 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ char	**generate_final_splitted(t_astnode *ast, t_lst *env, t_arg_node *lst)
 	{
 		// printf("lst->arg %s\n", lst->arg);
 		expanded_arg = get_expanded_string(env, lst);
-		printf("expanded ard [%s]\n", expanded_arg);
+		// printf("expanded ard [%s]\n", expanded_arg);
 		expanded_arg = expand_wd(expanded_arg);
 		temp = ft_strjoin(expanded_string, expanded_arg);
 		expanded_string = temp;
@@ -85,7 +85,7 @@ char	**generate_final_splitted(t_astnode *ast, t_lst *env, t_arg_node *lst)
 					ft_strdup(char_to_string(*get_splitted_char(1))));
 			expanded_string = temp;
 		}
-		printf("expanded string %s\n", expanded_string);
+		// printf("expanded string %s\n", expanded_string);
 		lst = lst->next;
 		i++;
 	}
@@ -144,10 +144,10 @@ int	execute_command_withargs(t_astnode *ast, t_lst *env, char **real_args)
 {
 	int	result;
 
-	for (int i=0; real_args[i]; i++)
-	{
-		printf("args is [%s]\n", real_args[i]);
-	}
+	// for (int i=0; real_args[i]; i++)
+	// {
+	// 	printf("args is [%s]\n", real_args[i]);
+	// }
 	if (is_builtin_command(real_args[0]))
 		result = execute_builtin(real_args, ast, env);
 	else

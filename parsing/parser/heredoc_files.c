@@ -33,11 +33,11 @@ void    unlink_heredocs()
     if (!lst)
         return ;
     tmp = lst;
-    if (!tmp)
-        printf("no tmp\n");
+    // if (!tmp)
+    //     printf("no tmp\n");
     while(tmp)
     {
-        printf("filename [%s]\n", tmp->content);
+        // printf("filename [%s]\n", tmp->content);
         unlink(tmp->content);
         tmp = tmp->next;
     }
