@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   expand_heredoc.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:47:54 by ibes-sed          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/10/06 19:59:53 by ibes-sed         ###   ########.fr       */
+=======
+/*   Updated: 2024/10/06 16:20:42 by ynachat          ###   ########.fr       */
+>>>>>>> dfe972dee838b74ef85a77f2f8237ae47c2d66e9
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +63,6 @@ char	*ft_expand_heredoc(char *line, t_lst *env)
 	t_expand_params	params;
 
 	expanded_line = gcalloc(DEFAULT_NB);
-	printf("HII HERDEOC\n");
 	params = init_params(expanded_line);
 	while (line[params.i])
 	{

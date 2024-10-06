@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_red_in.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:22:35 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/06 15:51:36 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 16:20:01 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,6 +103,6 @@ int	ft_red_in(t_astnode *ast, t_lst *env, int is_last, int command_exist)
 	else
 	{
 		return (handle_file_open_and_dup_heredoc
-			(ast->t_cmd.redirections->redir->file, is_last, command_exist));
+			(ast->t_cmd.redirections->redir->heredoc, is_last, command_exist));
 	}
 }
