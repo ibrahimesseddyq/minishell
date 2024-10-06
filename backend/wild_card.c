@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 23:47:30 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/02 09:06:19 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 12:28:40 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,7 +110,7 @@ char	**get_files(const char *dir, int *numFiles)
 	ep = readdir(dp);
 	while (ep)
 	{
-		if (strcmp(ep->d_name, ".") != 0 && strcmp(ep->d_name, "..") != 0)
+		if (strcmp(ep->d_name, ".") != 0 && strcmp(ep->d_name, "..") != 0 && ep->d_name[0] != '.')
 		{
 			files = ft_realloc(files, (*numFiles) * sizeof(char *), (*numFiles + 1) * sizeof(char *));
 			if (!files)

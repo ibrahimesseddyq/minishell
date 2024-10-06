@@ -6,66 +6,50 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:22:35 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/01 03:59:48 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 15:30:43 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	check_and_open_file(const char *file, int flags, mode_t mode)
+static int	handle_file_open_and_dup_in(const char *file,
+		int is_last, int command_exist)
 {
-	struct stat	sb;
-	int			fd;
+	int	fd;
 
-	if (stat(file, &sb) == -1)
+	fd = check_and_open_file(file, O_RDONLY, 0644);
+	if (fd == -2)
+		return (-2);
+	if (fd < 0)
 	{
-		fd = open(file, flags, mode);
-		if (fd == -1)
-		{
-			// printf("here1\n");
-			if (access(file, F_OK) == 0 && access(file, R_OK) == -1)
-				write(2, "Permission denied\n", 19);
-			else
-				write(2, "No such file or directory\n", 27);
-			ft_exit(1, SET_EXIT_STATUS);
-			return (-2);
-		}
-		return (fd);
+		ft_close(&fd);
+		exit(1);
 	}
-	if (!S_ISREG(sb.st_mode))
-		return (write(2, "Error: Path is not a regular file\n", 35)
-			, ft_exit(1, SET_EXIT_STATUS), -2);
-	fd = open(file, flags, mode);
-	if (fd == -1)
-		return (write(2, "Error opening file", 19)
-			, ft_exit(1, SET_EXIT_STATUS), -2);
+	if (is_last && command_exist)
+		dup2(fd, 0);
+	if (!command_exist && fd)
+		ft_exit(0, SET_EXIT_STATUS);
 	return (fd);
 }
-int check_ambiguious_wildcard(char *str)
-{
-	char *del;
-	int	i;
 
-	i = 0;
-	del = get_splitted_char(1);
-	while (str[i])
-	{
-		if (str[i] == *del)
-			return (1);
-		i++;
-	}
-	return (0);
-}
-
-int	handle_ambiguous(char *str)
+static int	handle_file_open_and_dup_heredoc(const char *file,
+		int is_last, int command_exist)
 {
-	if (check_ambiguious_wildcard(str))
+	int	fd;
+
+	fd = check_and_open_file(file, O_RDONLY | O_CREAT, 0644);
+	if (fd == -2)
+		return (-2);
+	if (fd < 0)
 	{
-		write(2, "ambiguous redir\n", 17);
-		ft_exit(1, SET_EXIT_STATUS);
-		return (-1);
+		ft_close(&fd);
+		exit(1);
 	}
-	return (1);
+	if (is_last && command_exist)
+		dup2(fd, 0);
+	if (!command_exist && fd)
+		ft_exit(0, SET_EXIT_STATUS);
+	return (fd);
 }
 
 int	ft_red_in(t_astnode *ast, t_lst *env, int is_last, int command_exist)
@@ -77,35 +61,19 @@ int	ft_red_in(t_astnode *ast, t_lst *env, int is_last, int command_exist)
 		= ft_expand_redir(ast->t_cmd.redirections->redir->file, env);
 	if (!ast->t_cmd.redirections->redir->file)
 		return (write(2, "ambigiuos redir\n", 17), -2);
-	ast->t_cmd.redirections->redir->file = expand_wd(ast->t_cmd.redirections->redir->file);
+	ast->t_cmd.redirections->redir->file
+		= expand_wd(ast->t_cmd.redirections->redir->file);
 	if (handle_ambiguous(ast->t_cmd.redirections->redir->file) == -1)
 		return (-1);
 	if (ast->t_cmd.redirections && ast->t_cmd.redirections->redir
 		&& ast->t_cmd.redirections->redir->type == NODE_REDIRECT_IN)
 	{
-		fd = check_and_open_file(ast->t_cmd.redirections->redir->file,
-				O_RDONLY, 0644);
-		if (fd == -2)
-			return (-2);
-		if (fd < 0)
-			return (ft_close(&fd), exit(1), 1);
-		if (is_last && command_exist)
-			dup2(fd, 0);
-		if (!command_exist && fd)
-			ft_exit(0, SET_EXIT_STATUS);
+		return (handle_file_open_and_dup_in
+			(ast->t_cmd.redirections->redir->file, is_last, command_exist));
 	}
 	else
 	{
-		fd = check_and_open_file(ast->t_cmd.redirections->redir->heredoc,
-				O_RDONLY | O_CREAT, 0644);
-		if (fd == -2)
-			return (-2);
-		if (fd < 0)
-			return (ft_close(&fd), exit(1), 1);
-		if (is_last && command_exist)
-			dup2(fd, 0);
-		if (!command_exist && fd)
-			ft_exit(0, SET_EXIT_STATUS);
+		return (handle_file_open_and_dup_heredoc
+			(ast->t_cmd.redirections->redir->file, is_last, command_exist));
 	}
-	return (fd);
 }

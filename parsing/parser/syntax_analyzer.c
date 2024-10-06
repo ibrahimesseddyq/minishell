@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 19:32:50 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/03 12:31:24 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 14:54:18 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ int	analyse_syntax(t_tklist *list)
 	e = 0;
 	token = NULL;
 	curr_token = next_token(list)->type;
+		// printf("token is [%d]\n", curr_toke);
+
 	if (!curr_token)
 		return (0);
 	if (curr_token == TK_LPR)
@@ -43,6 +45,7 @@ int	analyse_syntax(t_tklist *list)
 	{
 		e = tr[e][curr_token];
 		token = next_token(list);
+		// printf("token is [%d]\n", token->type);
 		curr_token = token->type;
 		final_token = token->value;
 		if (curr_token == TK_LPR)

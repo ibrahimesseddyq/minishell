@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 22:13:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/02 09:42:13 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 12:29:06 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,5 @@ char	**split_all_strings(char **array, char delimiter)
 		i++;
 	}
 	result[result_index] = NULL;
-	for(int i = 0; result[i]; i++)
-		printf("[split_all_strings] result [%s]\n", result[i]);
 	return (result);
 }

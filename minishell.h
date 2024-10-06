@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 12:00:43 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 15:17:48 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@
 # include <sys/stat.h>
 # include <unistd.h>
 # include <termios.h>
+#include <signal.h>
 
 # define EXIT_FAIL 2
 # define EXIT_SUCCESS 0
@@ -344,5 +345,6 @@ char	*expand_wildcard_redir(char *pwd, int level, t_wildcard_data *data);
 int	check_valid2(char *str);
 int	check_valid1(char *str);
 char	*ft_pwd2(void);
-extern int sig_var;
+t_token	*token_closing_parenthesis(t_lexer *lexer);
+extern int g_sig_var;
 #endif

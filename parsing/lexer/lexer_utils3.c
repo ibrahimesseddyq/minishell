@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:39:10 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/22 02:59:33 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/06 14:52:29 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ t_token	*get_next_token(t_lexer *lexer)
 		if (lexer->currentchar == '(')
 			return (token_opening_parenthesis(lexer));
 		if (lexer->currentchar == ')')
-			return (token_opening_parenthesis(lexer));
+			return (token_closing_parenthesis(lexer));
 		if (lexer->currentchar == '>')
 			return (token_r_redir(lexer));
 		if (lexer->currentchar == '<')

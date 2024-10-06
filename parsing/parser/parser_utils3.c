@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 18:08:51 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/05 10:59:55 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 15:08:58 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	ft_handler(int sig)
 	if (sig == SIGINT)
 	{
 		close(0);
-		sig_var = 1;
+		g_sig_var = 1;
 		ft_exit(1, SET_EXIT_STATUS);
 	}
 }
@@ -114,7 +114,7 @@ int	write_heredoc_to_file(char *delimiter, char *filename, t_lst *env)
 		{
 			open(ttyname(2), O_RDWR);
 			// close(fd);
-			if(sig_var)
+			if(g_sig_var)
 				return (ft_close(&fd), -1);
 			return (0);
 		}
