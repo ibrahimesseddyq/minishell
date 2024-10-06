@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 12:04:09 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 12:05:00 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,13 +145,6 @@ int	no_command_case(t_arg_node *lst, t_lst *env, t_astnode *ast)
 	int	stdout_backup;
 
 	stdout_backup = -1;
-	t_arg_node *tmp;
-	tmp = lst;
-	while (tmp)
-	{
-		printf("[%s]\n", tmp->arg);
-		tmp = tmp->next;
-	}
 	if (!lst || (lst && command_is_empty(lst->arg)))
 	{
 		stdout_backup = ft_redirection(ast, env, 0);
