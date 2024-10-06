@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:13:19 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 15:18:23 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 15:53:40 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int	main(int ac, char **av, char *env[])
 	t_lst		*lst;
 	char		*t;
 
-	(1) && ((void)ac, (void)av, 1);
+	(void)((1) && (token_list = NULL, ast = NULL, (void)ac, (void)av, 1));
 	initialize();
 	lst = envp(env);
 	increment_shell_level(lst);

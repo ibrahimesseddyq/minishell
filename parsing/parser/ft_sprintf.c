@@ -1,6 +1,19 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_sprintf.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/06 15:47:54 by ibes-sed          #+#    #+#             */
+/*   Updated: 2024/10/06 15:48:38 by ibes-sed         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include <unistd.h>
 
 void	ft_reverse(char *str);
+
 int	ft_strlen(const char *str)
 {
 	int	len;
@@ -21,11 +34,7 @@ int	ft_itoa_sp(int n, char *str)
 	i = 0;
 	neg = 0;
 	if (num == 0)
-	{
-		str[i++] = '0';
-		str[i] = '\0';
-		return (i);
-	}
+		return (str[i++] = '0', str[i] = '\0', i);
 	if (num < 0)
 	{
 		neg = 1;
@@ -39,7 +48,7 @@ int	ft_itoa_sp(int n, char *str)
 	}
 	str[i] = '\0';
 	if (neg)
-		ft_reverse(str + 1); // Reverse only after '-'
+		ft_reverse(str + 1);
 	else
 		ft_reverse(str);
 	return (i);

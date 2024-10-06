@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:12:03 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/27 03:06:21 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 15:47:05 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,9 +21,7 @@ char	*get_word(t_lexer *lexer)
 
 	quotes = gcalloc(sizeof(t_quote_state));
 	if (!quotes)
-	{
-		return (NULL);  // or handle the error appropriately
-	}
+		return (NULL);
 	(1) && (quotes->in_quotes = 0, quotes->quote_char = '\0', i = 0,
 		buffer_size = INITIAL_BUFFER_SIZE);
 	result = allocate_buffer(buffer_size);
@@ -38,7 +36,6 @@ char	*get_word(t_lexer *lexer)
 		if (should_stop(lexer, quotes->in_quotes))
 			break ;
 		result[i++] = lexer->currentchar;
-		// printf("		[get_word] lexer current char is [%c]\n", lexer->currentchar);
 		advance(lexer);
 	}
 	return (finalize_buffer(result, i));
@@ -53,10 +50,11 @@ char	*resize_buffer(char *buffer, size_t *buffer_size)
 {
 	char	*new_buffer;
 	size_t	old_size;
-	
+
 	old_size = *buffer_size;
 	*buffer_size *= BUFFER_GROWTH_FACTOR;
-	new_buffer = (char *)ft_realloc(buffer,  old_size * sizeof(char), (*buffer_size) * sizeof(char));
+	new_buffer = (char *)ft_realloc
+		(buffer, old_size * sizeof(char), (*buffer_size) * sizeof(char));
 	if (new_buffer)
 		return (new_buffer);
 	else
