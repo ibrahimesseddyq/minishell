@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/03 10:38:50 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 12:00:43 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -249,7 +249,7 @@ int				execute_child(char **arg_cmd, t_astnode *ast, t_lst *env);
 void			expand_arguments(t_astnode *ast, t_lst *env);
 char			**make_array(char **args, int size);
 int				builtins_error(char **argv);
-int				special_cases( t_arg_node *lst);
+int	special_cases(char *cmd);
 int				no_command_case(t_arg_node *lst, t_lst *env, t_astnode *ast);
 char			*char_to_string(char c);
 int				is_builtin_command(const char *cmd);
@@ -343,5 +343,6 @@ int	ft_sprintf(char *str, const char *format, int num);
 char	*expand_wildcard_redir(char *pwd, int level, t_wildcard_data *data);
 int	check_valid2(char *str);
 int	check_valid1(char *str);
+char	*ft_pwd2(void);
 extern int sig_var;
 #endif

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/05 10:58:53 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 12:00:15 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,11 +169,11 @@ int	exec_cmd(t_astnode *ast, t_lst *env)
 		return (1);
 	if (!ast->t_cmd.args || !get_node_at(ast->t_cmd.args, 0)->arg)
 		return (0);
-	if (special_cases(lst))
-		return (0);
 	choose_splitting_delimiter(lst, ast);
 	tmp = lst;
 	real_args = generate_final_args(ast, env, lst);
+	if (special_cases(real_args[0]))
+		return (0);
 	if (!real_args)
 		return (0);
 	cmd_path = arg_cmds(real_args[0], env);

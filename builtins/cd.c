@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:04:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/03 11:44:30 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/05 15:15:09 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,22 +74,38 @@ int	ft_cd(int argc, char **argv, int mode, t_lst *env)
 	dir = NULL;
 	expanded_dir = NULL;
 	previous_pwd = get_env(env, "OLDPWD");
-	pwd = ft_strdup(ft_pwd());
+
+	pwd = ft_strdup(ft_pwd2());
+	if (!pwd)
+    {
+        // Current directory doesn't exist, reset to HOME
+        char *home = get_env(env, "HOME");
+		set_env(env, "PWD", home, 1);
+        if (!home)
+            return (write(2, "minishell: cd: HOME not set\n", 29),
+                ft_exit(1, SET_EXIT_STATUS), 1);
+        if (chdir(home) == -1)
+            return (perror("cd"), ft_exit(1, SET_EXIT_STATUS), 1);
+        write(2, "minishell: cd: current directory was deleted, reset to HOME\n", 60);
+        pwd = ft_strdup(home);
+        if (!pwd)
+            return (perror("cd"), ft_exit(1, SET_EXIT_STATUS), 1);
+    }
 	if (!previous_pwd || !pwd)
 		return (perror("cd"), ft_exit(1, mode), 1);
-	// printf("argc [%d]\n", argc);
+	printf("argc [%d]\n", argc);
 	if (argc == 1)
 	{
 		dir = get_env(env, "HOME");
 		if ((!dir || !dir[0]) && !get_env_isset(env, "HOME"))
 			return (write(2, "minishell: cd: HOME not set\n", 29),
 				ft_exit(1, mode), 1);
-		dir = ft_strdup("/Users/ibes-sed");
+		dir = ft_strdup(get_env(env, "HOME"));
 	}
 	else if (strcmp(argv[1], "-") == 0)
 	{
 		dir = get_env(env, "OLDPWD");
-		// printf("PWD is [%s] and OLDPWD is [%s]\n", pwd, dir);
+		printf("PWD is [%s] and OLDPWD is [%s]\n", pwd, dir);
 		if (!dir || !*dir)
 			return (write(2, "minishell: cd: OLDPWD not set\n", 31),
 				ft_exit(1, SET_EXIT_STATUS), 1);
@@ -99,12 +115,15 @@ int	ft_cd(int argc, char **argv, int mode, t_lst *env)
 	if (strcmp(dir, ".") == 0)
 		return (ft_exit(0, SET_EXIT_STATUS), 0);
 	expanded_dir = expand_tilde(dir, env);
+		printf("after tilde \n");
+
 	if (!expanded_dir)
 		return (perror("cd"), ft_exit(1, SET_EXIT_STATUS), 1);
+
 	if (chdir(expanded_dir) == -1)
 		return (perror("cd"), ft_exit(1, SET_EXIT_STATUS), 1);
 	set_env(env, "OLDPWD", pwd, 1);
-	new_pwd = ft_pwd();
+	new_pwd = ft_pwd2();
 	if (!new_pwd)
 		return (write(2, "cd: failed to get new working directory\n", 41),
 			ft_exit(1, SET_EXIT_STATUS), 1);

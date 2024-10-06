@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/01 11:11:57 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 12:04:09 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,27 +109,26 @@ char	**make_array(char **args, int size)
 // 	return (0);
 // }
 
-int	special_cases( t_arg_node *lst)
+int	special_cases(char *cmd)
 {
 	struct stat	sb;
 
-	stat(lst->arg, &sb);
-	if (!ft_strcmp(lst->arg, "."))
+	stat(cmd, &sb);
+	if (!ft_strcmp(cmd, "."))
 	{
 		write(2, "filename argument required\n", 28);
 		ft_exit(2, SET_EXIT_STATUS);
 		return (1);
 	}
-	else if (!ft_strcmp(lst->arg, ".."))
+	else if (!ft_strcmp(cmd, ".."))
 	{
 		write(2, "Command not found 3 \n", 19);
 		ft_exit(127, SET_EXIT_STATUS);
 		return (1);
 	}
-	else if ((lst->arg[ft_strlen(lst->arg) - 1] == '/'
-			|| S_ISDIR(sb.st_mode)) && !is_builtin_command(lst->arg))
+	else if (((cmd[ft_strlen(cmd) - 1] == '/' && S_ISDIR(sb.st_mode)) || S_ISDIR(sb.st_mode)) && !is_builtin_command(cmd))
 	{
-		write(2, "Is a directory\n", 16);
+		write(2, "Is a directory \n", 16);
 		ft_exit(126, SET_EXIT_STATUS);
 		return (1);
 	}
@@ -146,13 +145,20 @@ int	no_command_case(t_arg_node *lst, t_lst *env, t_astnode *ast)
 	int	stdout_backup;
 
 	stdout_backup = -1;
-	if (!lst || command_is_empty(lst->arg))
+	t_arg_node *tmp;
+	tmp = lst;
+	while (tmp)
+	{
+		printf("[%s]\n", tmp->arg);
+		tmp = tmp->next;
+	}
+	if (!lst || (lst && command_is_empty(lst->arg)))
 	{
 		stdout_backup = ft_redirection(ast, env, 0);
 		if (stdout_backup == -2)
 			return (-2);
 		ft_close(&stdout_backup);
-		if (command_is_empty(lst->arg))
+		if (lst && command_is_empty(lst->arg))
 		{
 			write(2, "Command not found 4\n", 19);
 			ft_exit(127, SET_EXIT_STATUS);
