@@ -11,6 +11,8 @@ cmd is [export] and arg is [ARG="*"]
 
 /usr/bin/printf "%s\n" "*"* | sort
 
+$FGFGJK // random var
+
 ############### Notes
 
 -Garbage collector

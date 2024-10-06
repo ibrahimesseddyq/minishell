@@ -1,7 +1,20 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser_printer.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/06 16:40:22 by ibes-sed          #+#    #+#             */
+/*   Updated: 2024/10/06 16:41:15 by ibes-sed         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "./../../minishell.h"
 // Just for debug
 
-// void print_redirection(t_redir_list *redir_list, const char *type, int depth) {
+// void print_redirection(t_redir_list *redir_list,
+//         const char *type, int depth) {
 //     if (!redir_list) return;
 //     t_redir_list *current = redir_list;
 
@@ -47,7 +60,8 @@
 //                 }
 //                 // printf("Arg: %s\n", node->t_cmd.args[i]);
 //             }
-//             print_redirection(node->t_cmd.redirections, "Redirections", depth + 1);
+//             print_redirection(node->t_cmd.redirections, 
+//                  "Redirections", depth + 1);
 //             break;
 //         case NODE_PIPE:
 //             printf("Node Pipe:\n");
@@ -72,7 +86,8 @@
 //             printf("Unknown node type: %d\n", node->type);
 //     }
 // }
-// void print_redirection2(t_redir_list *redir_list, const char *type, int depth) {
+// void print_redirection2(t_redir_list *redir_list,
+//              const char *type, int depth) {
 
 //     if (!redir_list) return;
 //     t_redir_list *current = redir_list;

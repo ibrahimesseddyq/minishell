@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:48:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/30 08:05:03 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 20:04:47 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,22 +19,17 @@ int	expand_variable_redir(t_expand_params *params, t_lst *env, char **line)
 	char	*value;
 
 	varnamelen = get_var_length(*line, params->i);
-	value = NULL;
-	// printf("[expand_variable_redir] varnamelen [%d] param->i [%d] and str is [%s]\n", varnamelen, params->i, (*line + params->i));
-	varname = gcalloc(varnamelen + 1);
+	(1) && (value = NULL, varname = gcalloc(varnamelen + 1));
 	ft_strlcpy(varname, *line + params->i, varnamelen + 1);
 	if (params->i >= DEFAULT_NB - 1)
 		handle_overflow();
 	params->i += varnamelen;
 	value = get_env(env, varname);
-	// printf("[expand_variable_redir] varname [%s] value [%s] param->i [%d] varnamelen [%d]\n", varname, value, params->i, varnamelen);
-	// printf("[expand_variable_redir] varname [%s] value [%s]\n", varname, value);
 	if (!value)
 	{
 		if (check_ambigious(NULL))
 			return (0);
 		append_string(params, "");
-		// printf("[expand_variable] variable value is [%s]\n", value);
 	}
 	else
 	{
@@ -42,7 +37,6 @@ int	expand_variable_redir(t_expand_params *params, t_lst *env, char **line)
 		if (check_ambigious(value))
 			return (0);
 		append_string(params, value);
-		// printf("[expand_variable] variable value is [%s]\n", value);
 	}
 	return (1);
 }
@@ -53,16 +47,17 @@ int	expand_token_redir(t_expand_params *params, t_lst *env, char **line)
 		handle_overflow();
 	if ((*line)[params->i] == '$')
 	{
-		if ((((*line)[params->i + 1] == '\'' || (*line)[params->i + 1] == '"' ||  (*line)[params->i + 1] == ' ') && params->is_inside_quotes) || !(*line)[params->i + 1])
+		if ((((*line)[params->i + 1] == '\''
+				|| (*line)[params->i + 1] == '"'
+			|| (*line)[params->i + 1] == ' ')
+			&& params->is_inside_quotes) || !(*line)[params->i + 1])
 		{
 			append_char(params, (*line)[params->i++]);
 			return (1);
 		}
 		params->i++;
 		if ((*line)[params->i] == '?')
-		{
 			expand_exit_status(params);
-		}
 		else
 		{
 			if (!expand_variable_redir(params, env, line))
@@ -70,14 +65,10 @@ int	expand_token_redir(t_expand_params *params, t_lst *env, char **line)
 		}
 	}
 	else
-	{
-		// printf("[expand_token_redir] char is [%d]\n", params->expanded_line[params->i]);
 		append_char(params, (*line)[params->i++]);
-	}
 	return (1);
 }
 
-// tbdel f ft_redirection
 char	*ft_expand_redir(char *line, t_lst *env)
 {
 	char			*expanded_line;

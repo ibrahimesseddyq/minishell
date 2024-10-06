@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:28:09 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/05 10:57:49 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 21:47:56 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,24 +55,23 @@ int	is_empty(char *str)
 {
 	if (!str[0])
 		return (1);
-	return (0);	
+	return (0);
 }
 
 int	unset(char **args, t_lst *lst)
 {
 	int	i;
-	int empty;
+	int	empty;
 
 	empty = 0;
 	i = 1;
 	if (!args[1] && !builtins_state(-1, UNSET_BUILTIN, GET_BUILTIN))
 		return (ft_exit(0, SET_EXIT_STATUS), 1);
-
 	while (i < nb_args(args))
 	{
 		if (is_empty(args[i]))
 			empty = 1;
-		if(check_valid1(args[i]))
+		if (check_valid1(args[i]))
 			set_env(lst, args[i], NULL, '\0');
 		else
 			return (ft_exit(1, SET_EXIT_STATUS), 0);

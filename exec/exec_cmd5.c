@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:10 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/02 09:08:06 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 21:42:17 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,10 +36,8 @@ int	execute_child(char **arg_cmd, t_astnode *ast, t_lst *env)
 	char	**envp;
 	int		fd;
 
-
 	signal(SIGINT, SIG_DFL);
 	signal(SIGQUIT, SIG_DFL);
-
 	fd = ft_redirection(ast, env, 1);
 	if (fd == -2)
 		return (-2);
@@ -48,7 +46,6 @@ int	execute_child(char **arg_cmd, t_astnode *ast, t_lst *env)
 		exit(1);
 	if (!check_file(arg_cmd))
 		(ft_close(&fd), exit(127));
-
 	if (execve(arg_cmd[0], arg_cmd, envp) == -1)
 		(handle_exec_error(), exit(1));
 	return (1);
@@ -56,8 +53,8 @@ int	execute_child(char **arg_cmd, t_astnode *ast, t_lst *env)
 
 int	execute_external(char **arg_cmd, t_astnode *ast, t_lst *env)
 {
-	int		pid;
-	int		child_status;
+	int				pid;
+	int				child_status;
 	struct termios	state;
 
 	signal(SIGINT, SIG_IGN);
@@ -68,7 +65,6 @@ int	execute_external(char **arg_cmd, t_astnode *ast, t_lst *env)
 	{
 		if (execute_child(arg_cmd, ast, env) == -2)
 			exit(1);
-		// clean_fd();
 		exit(0);
 	}
 	else if (pid > 0)

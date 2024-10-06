@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:27:33 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/05 15:14:59 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 21:48:08 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,7 @@ char	*ft_pwd(void)
 	ft_exit(0, SET_EXIT_STATUS);
 	return (path);
 }
+
 char	*ft_pwd2(void)
 {
 	char	*dir;

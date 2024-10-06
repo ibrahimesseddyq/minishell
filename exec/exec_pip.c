@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:00:51 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/28 03:08:07 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 20:30:32 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,13 +21,10 @@ void	wait_for_processes(int pid1, int pid2)
 	waitpid(pid1, &cmd_status2, 0);
 	if (WIFEXITED(cmd_status))
 	{
-		// write(2, "first exited\n", 14);
 		ft_exit(WEXITSTATUS(cmd_status), SET_EXIT_STATUS);
 	}
 	else if (WIFSIGNALED(cmd_status))
 		ft_exit(128 + WTERMSIG(cmd_status), SET_EXIT_STATUS);
-	
-
 }
 
 void	handle_child_process(t_astnode *cmd,
@@ -41,7 +38,7 @@ void	handle_child_process(t_astnode *cmd,
 	if (read_fd != -1)
 	{
 		dup2(read_fd, 0);
-			ft_close(&read_fd);
+		ft_close(&read_fd);
 	}
 	exec_cmd_line(cmd, env);
 	exit(ft_exit(5, GET_EXIT_STATUS));
@@ -59,14 +56,12 @@ void	exec_pip(t_astnode *ast, t_lst *env)
 	{
 		ft_close(&pipfd[0]);
 		handle_child_process(ast->t_binary.left, env, -1, pipfd[1]);
-		// clean_fd();
 	}
 	pid2 = ft_fork();
 	if (pid2 == 0)
 	{
 		ft_close(&pipfd[1]);
 		handle_child_process(ast->t_binary.right, env, pipfd[0], -1);
-		// clean_fd();
 	}
 	ft_close(&pipfd[1]);
 	ft_close(&pipfd[0]);

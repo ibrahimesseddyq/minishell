@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 15:42:23 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/28 02:25:37 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 19:46:39 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -171,15 +171,16 @@ void			ft_lstadd_back_redir(t_redir_list **lst, t_redir_list *new);
 
 void			*gcalloc(size_t size);
 
-void			*ft_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+void			*ft_realloc(void *ptr,
+					unsigned int old_size, unsigned int new_size);
 
-void			clean_fd();
+void			clean_fd(void);
 
 int				ft_close(int *fd);
 
 char			*ft_getcwd(char *buf, size_t size);
 
-pid_t			ft_fork();
+pid_t			ft_fork(void);
 
 __int128		ft_atoi128(const char *str);
 

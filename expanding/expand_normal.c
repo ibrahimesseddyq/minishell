@@ -6,21 +6,12 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:19:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/02 09:46:43 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 20:01:45 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-// typedef struct s_expand_params
-// {
-//     int i;
-//     int expanded_size;
-//     int expanded_index;
-//     int is_inside_quotes;
-//     char current_quote;
-//     char *expanded_line;
-// } t_expand_params;
 char	*replace_space_with_second_separator(t_expand_params *params, char *str)
 {
 	int		i;
@@ -35,7 +26,6 @@ char	*replace_space_with_second_separator(t_expand_params *params, char *str)
 		else if ((str[i] == '\'' || str[i] == '\"')
 			&& params->is_inside_quotes2)
 			params->is_inside_quotes2 = 0;
-		// printf("[replace_space_with_second_separator] str [%s]  is inside quotes [%d]\n",str, params->is_inside_quotes);
 		if (str[i] == ' ' && params->is_inside_quotes2)
 			res[i] = *get_splitted_char(2);
 		else
@@ -53,7 +43,6 @@ void	expand_variable(t_expand_params *params, t_lst *env, char **line)
 	char	*value;
 
 	varnamelen = get_var_length(*line, params->i);
-	// printf("[expand_variable] varnamelen [%d] param->i [%d]  and char is [%c]\n", varnamelen, params->i, *(*line + params->i));
 	varname = gcalloc(varnamelen + 1);
 	strncpy(varname, *line + params->i, varnamelen);
 	varname[varnamelen] = '\0';
@@ -62,7 +51,6 @@ void	expand_variable(t_expand_params *params, t_lst *env, char **line)
 	if (!value)
 	{
 		append_string(params, "");
-		// printf("[expand_variable] variable value is [%s]\n", value);
 	}
 	else
 	{
@@ -76,7 +64,10 @@ void	expand_token(t_expand_params *params, t_lst *env, char **line)
 {
 	if ((*line)[params->i] == '$')
 	{
-		if ((((*line)[params->i + 1] == '\'' || (*line)[params->i + 1] == '"' ||  (*line)[params->i + 1] == ' ') && params->is_inside_quotes) || !(*line)[params->i + 1])
+		if ((((*line)[params->i + 1] == '\''
+				|| (*line)[params->i + 1] == '"'
+			|| (*line)[params->i + 1] == ' ')
+				&& params->is_inside_quotes) || !(*line)[params->i + 1])
 		{
 			append_char(params, (*line)[params->i++]);
 			return ;

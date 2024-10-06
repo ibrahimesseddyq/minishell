@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:21:53 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/03 10:42:07 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 21:45:23 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,9 @@ int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
 	int		stdout_backup;
 	int		redir_ret;
 	char	*pwd_dir;
-	
-	stdout_backup = dup(STDOUT_FILENO); // Backup stdout
+
+	stdout_backup = dup(STDOUT_FILENO);
 	redir_ret = ft_redirection(ast, env, 1);
-	// printf("command is [%s]\n", arg_cmd[0]);
 	if (redir_ret == -2)
 		return (-2);
 	if (!ft_strcmp(arg_cmd[0], "echo"))
@@ -42,7 +41,7 @@ int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
 	else if (!ft_strcmp(arg_cmd[0], "unset"))
 		unset(arg_cmd, env);
 	dup2(stdout_backup, STDOUT_FILENO);
-    close(stdout_backup);
+	close(stdout_backup);
 	return (1);
 }
 
@@ -55,7 +54,6 @@ int	check_file(char **argv)
 		is_abs_rel = 1;
 	if (access(argv[0], F_OK) == -1)
 	{
-		// printf("here3\n");
 		if (is_abs_rel)
 			write(2, "No such file or directory\n", 27);
 		else
@@ -74,16 +72,17 @@ int	is_builtin_command(const char *cmd)
 		|| !ft_strcmp((char *)cmd, "unset"));
 }
 
-int check_invalid(t_arg_node *arg, char *cmd)
+int	check_invalid(t_arg_node *arg, char *cmd)
 {
 	if (!ft_strcmp(arg->arg, "\"\"") || !ft_strcmp(arg->arg, "\'\'")
-		|| (!check_valid2(arg->arg) && !ft_strcmp(cmd, "export")) || (!check_valid1(arg->arg) && !ft_strcmp(cmd, "unset")))
+		|| (!check_valid2(arg->arg) && !ft_strcmp(cmd, "export"))
+		|| (!check_valid1(arg->arg) && !ft_strcmp(cmd, "unset")))
 	{
 		write(2, "invalid identifier\n", 20);
 		if (!ft_strcmp(cmd, "export"))
-		builtins_state(ACTIVE, EXPORT_BUILTIN, SET_BUILTIN);
+			builtins_state(ACTIVE, EXPORT_BUILTIN, SET_BUILTIN);
 		else if (!ft_strcmp(cmd, "unset"))
-		builtins_state(ACTIVE, UNSET_BUILTIN, SET_BUILTIN);
+			builtins_state(ACTIVE, UNSET_BUILTIN, SET_BUILTIN);
 	}
 	return (1);
 }
@@ -98,7 +97,6 @@ int	initial_builtin_errors(t_arg_node *args)
 	cmd = args->arg;
 	if ((!ft_strcmp(cmd, "unset") || !ft_strcmp(cmd, "export")))
 	{
-		// printf("command [%s]\n", cmd);
 		arg = args->next;
 		while (arg)
 		{

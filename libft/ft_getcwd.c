@@ -1,10 +1,21 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_getcwd.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2024/10/06 19:53:48 by ibes-sed          #+#    #+#             */
+/*   Updated: 2024/10/06 19:54:20 by ibes-sed         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "libft.h"
 
-char *ft_getcwd(char *buf, size_t size)
+char	*ft_getcwd(char *buf, size_t size)
 {
-    char    *ret;
+	char	*ret;
 
-    ret = getcwd(buf, size);
-    return (ret);
+	ret = getcwd(buf, size);
+	return (ret);
 }

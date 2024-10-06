@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 15:47:54 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 15:48:38 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 15:59:27 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,7 @@ int	ft_itoa_sp(int n, char *str)
 		return (str[i++] = '0', str[i] = '\0', i);
 	if (num < 0)
 	{
-		neg = 1;
-		num = -num;
+		(1) && (neg = 1, num = -num);
 		str[i++] = '-';
 	}
 	while (num > 0)
@@ -77,25 +76,25 @@ int	ft_sprintf(char *str, const char *format, int num)
 	int		i;
 	int		total_len;
 	int		num_len;
-	char	int_buffer[12]; // For integer conversion
+	char	int_buffer[12];
+	int		j;
 
-	total_len = 0;
-	i = 0;
+	(1) && (total_len = 0, i = 0, j = 0);
 	while (format[i])
 	{
 		if (format[i] == '%' && format[i + 1] == 'd')
 		{
-			num_len = ft_itoa_sp(num, int_buffer); // Convert number to string
-			for (int j = 0; j < num_len; j++)   // Copy the converted number
+			num_len = ft_itoa_sp(num, int_buffer);
+			while (j < num_len)
+			{
 				str[total_len++] = int_buffer[j];
-			i++; // Skip 'd'
+				j++;
+			}
+			i++;
 		}
 		else
-		{
 			str[total_len++] = format[i];
-		}
 		i++;
 	}
-	str[total_len] = '\0'; // Null-terminate the result string
-	return (total_len);
+	return (str[total_len] = '\0', total_len);
 }

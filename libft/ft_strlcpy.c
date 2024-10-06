@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 01:27:36 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/28 02:24:38 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 19:47:52 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,16 @@ size_t	ft_strlcpy(char *dst, const char *src, size_t len)
 	return (j);
 }
 
-char    *ft_strcpy(char *s1, char *s2)
-  {
-      int i;
- 
-      i = 0;
-      while (s2[i])
-      {
-          s1[i] = s2[i];
-          i++;
-      }
-      s1[i] = s2[i];
-      return (s1);
-  }
+char	*ft_strcpy(char *s1, char *s2)
+{
+	int	i;
+
+	i = 0;
+	while (s2[i])
+	{
+		s1[i] = s2[i];
+		i++;
+	}
+	s1[i] = s2[i];
+	return (s1);
+}

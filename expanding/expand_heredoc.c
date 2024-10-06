@@ -6,13 +6,14 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:47:54 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/30 14:03:07 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 19:59:53 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	expand_variable_heredoc(t_expand_params *params, t_lst *env, char **line)
+void	expand_variable_heredoc(t_expand_params *params,
+			t_lst *env, char **line)
 {
 	int		varnamelen;
 	char	*varname;
@@ -24,7 +25,6 @@ void	expand_variable_heredoc(t_expand_params *params, t_lst *env, char **line)
 	varname[varnamelen] = '\0';
 	params->i += varnamelen;
 	value = get_env(env, varname);
-	printf("value expanded in herdoc [%s]\n", value);
 	if (!value)
 	{
 		if (check_ambigious(NULL))
@@ -44,8 +44,6 @@ void	expand_token_heredoc(t_expand_params *params, t_lst *env, char **line)
 {
 	if ((*line)[params->i] == '$')
 	{
-			printf("HII HERDEOC 3\n");
-
 		params->i++;
 		expand_variable_heredoc(params, env, line);
 	}
@@ -65,8 +63,6 @@ char	*ft_expand_heredoc(char *line, t_lst *env)
 	params = init_params(expanded_line);
 	while (line[params.i])
 	{
-			printf("HII HERDEOC 2\n");
-
 		expand_token_heredoc(&params, env, &line);
 	}
 	params.expanded_line[params.expanded_index] = '\0';

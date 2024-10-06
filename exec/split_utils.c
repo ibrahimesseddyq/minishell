@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 22:13:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 12:29:06 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 20:31:37 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,58 +36,9 @@ char	**alloc_for_split_string(char *s, char delimiter)
 	return (result);
 }
 
-// static char	**split_string(char *s, char delimiter)
-// {
-// 	char	**result;
-// 	int		index;
-// 	char	*start;
-// 	char	*end;
-// 	char	*current;
-
-// 	(1) && (index = 0, result = NULL);
-// 	// printf("[split_string] string s %s, del %d\n", s, delimiter);
-// 	result = alloc_for_split_string(s, delimiter);
-// 	if (!result)
-// 		return (NULL);
-// 	start = s;
-// 	end = strchr(start, delimiter);
-// 	printf("\n\nstart [%s]  end is [%s]\n\n", start, end);
-// 	while (end)
-// 	{
-// 		current = strndup(start, end - start);
-// 			printf("\n\ncurrent [%s]\n\n", current);
-
-// 		// if (!current[0] && index == 0)
-// 		// 	return (ft_exit(127, SET_EXIT_STATUS),
-// 		// 		write(2, "command not found 6\n", 19), NULL);
-// 		if (current[0] != '\0')
-// 		{
-// 			result[index] = current;
-// 			if (!result[index])
-// 				return (NULL);
-// 			printf("result whle splitting [%s]\n", result[index]);
-// 			if (result[index][0] == '\0')
-// 				printf("empty\n");
-// 			index++;
-// 		}
-// 		start = end + 1;
-// 		end = strchr(start, delimiter);
-// 	}
-// 	result[index] = strdup(start);
-// 	if (!result[index])
-// 		return (NULL);
-// 	result[++index] = NULL;
-// 	printf("result\n\n");
-// 	for(int i = 0; result[i]; i++)
-// 	{
-// 		printf("result[i] [%s]\n", result)
-// 	}
-// 	return (result);
-// }
-
 static char	**split_string(char *s, char delimiter)
 {
-	return ft_split(s, delimiter);
+	return (ft_split(s, delimiter));
 }
 
 char	**alloc_for_split_all_strings(char **array, char delimiter)
@@ -120,16 +71,13 @@ char	**split_all_strings(char **array, char delimiter)
 	k = 0;
 	while (array[i])
 	{
-		// printf("[split_all_strings] before array [i] %s , del %c\n", array[i], delimiter);
 		split_result = split_string(array[i], delimiter);
-		// printf("[split_all_strings] after array [i] %s , del %c, split res [%s]\n", array[i], delimiter, split_result);
 		if (!split_result)
 			return (NULL);
 		k = 0;
 		while (split_result[k])
 		{
 			result[result_index++] = split_result[k];
-			// printf("result[index] [%s]\n", result[result_index - 1]);
 			k++;
 		}
 		i++;

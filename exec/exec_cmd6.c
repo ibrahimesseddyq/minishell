@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 12:05:00 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 21:46:48 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,6 @@ char	**remove_empty_strings(char **arr, int size, int *new_size)
 	new_arr = gcalloc(size * sizeof(char *));
 	while (arr[i])
 	{
-		// printf("[remove_empty_strings] arr[i] [%s] \n", arr[i]);
-		// if (arr[i][0] == '\0')
-		// 	printf("is empty\n");
 		if (arr[i][0])
 		{
 			new_arr[j] = ft_strdup(arr[i]);
@@ -33,17 +30,14 @@ char	**remove_empty_strings(char **arr, int size, int *new_size)
 		}
 		i++;
 	}
-	// printf("j is [%d]\n", j);
 	*new_size = j + 1;
-	new_arr = ft_realloc(new_arr,  j * sizeof(char *), (*new_size) * sizeof(char *));
+	new_arr = ft_realloc
+		(new_arr, j * sizeof(char *), (*new_size) * sizeof(char *));
 	new_arr[*new_size - 1] = NULL;
-	// 	for (int i = 0; new_arr[i]; i++)
-	// {
-	// 	printf("[remove_empty_strings] non empty string is [%s]\n", new_arr[i]);
-	// }
 	return (arr);
 }
-char	*get_empty_str()
+
+char	*get_empty_str(void)
 {
 	char	*empty_str;
 
@@ -53,6 +47,7 @@ char	*get_empty_str()
 	empty_str[1] = '\0';
 	return (empty_str);
 }
+
 char	**make_array(char **args, int size)
 {
 	int		i;
@@ -65,7 +60,6 @@ char	**make_array(char **args, int size)
 	while (i <= size && args[i])
 	{
 		str = args[i];
-		// printf("argv[i] inside [%s]\n", args[i]);
 		if (!ft_strcmp(str, empty_str))
 		{
 			args[i] = ft_strdup("");
@@ -84,31 +78,6 @@ char	**make_array(char **args, int size)
 	return (args);
 }
 
-// int	builtins_error(char **argv)
-// {
-// 	int	i;
-// 	int	command;
-
-// 	i = 0;
-// 	command = 0;
-// 	// if (!argv[0])
-// 	// {
-// 	// 	write(2, "command not found\n", 19);
-// 	// 	ft_exit(127, SET_EXIT_STATUS);
-// 	// 	return (1);
-// 	// }
-// 	// if (!ft_strcmp(argv[0], "export"))
-// 	// 	command = IS_EXPORT;
-// 	// while (argv[i])
-// 	// {
-// 	// 	if (command == IS_EXPORT && check_export_errors(argv[i]))
-// 	// 		return (ft_exit(1, SET_EXIT_STATUS),
-// 	// 			write(2, "not a valid identifier\n", 24), 1);
-// 	// 	i++;
-// 	// }
-// 	return (0);
-// }
-
 int	special_cases(char *cmd)
 {
 	struct stat	sb;
@@ -126,37 +95,12 @@ int	special_cases(char *cmd)
 		ft_exit(127, SET_EXIT_STATUS);
 		return (1);
 	}
-	else if (((cmd[ft_strlen(cmd) - 1] == '/' && S_ISDIR(sb.st_mode)) || S_ISDIR(sb.st_mode)) && !is_builtin_command(cmd))
+	else if (((cmd[ft_strlen(cmd) - 1] == '/' && S_ISDIR(sb.st_mode))
+			|| S_ISDIR(sb.st_mode)) && !is_builtin_command(cmd))
 	{
 		write(2, "Is a directory \n", 16);
 		ft_exit(126, SET_EXIT_STATUS);
 		return (1);
-	}
-	return (0);
-}
-int	command_is_empty(char *str)
-{
-	if(!ft_strcmp("\"\"", str) || !ft_strcmp("\'\'", str))
-		return (1);
-	return (0);
-}
-int	no_command_case(t_arg_node *lst, t_lst *env, t_astnode *ast)
-{
-	int	stdout_backup;
-
-	stdout_backup = -1;
-	if (!lst || (lst && command_is_empty(lst->arg)))
-	{
-		stdout_backup = ft_redirection(ast, env, 0);
-		if (stdout_backup == -2)
-			return (-2);
-		ft_close(&stdout_backup);
-		if (lst && command_is_empty(lst->arg))
-		{
-			write(2, "Command not found 4\n", 19);
-			ft_exit(127, SET_EXIT_STATUS);
-			return (1);
-		}
 	}
 	return (0);
 }

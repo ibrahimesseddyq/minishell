@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 18:32:52 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/30 16:44:14 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 16:13:34 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,21 @@ int	is_word_or_redir(t_token *token)
 	return (0);
 }
 
+t_astnode	*allocate_cmd(t_redir_list	*redirections,
+			char **argv, int argc, t_lst *lst)
+{
+	t_astnode		*cmd_node;
+
+	if (argc == 0 && !redirections)
+		return (NULL);
+	cmd_node = (t_astnode *)gcalloc(sizeof(t_astnode));
+	cmd_node = create_ast_command(argc, argv);
+	cmd_node->t_cmd.redirections = redirections;
+	if (!create_and_handle_heredoc(redirections, lst))
+		return (NULL);
+	return (cmd_node);
+}
+
 t_astnode	*parse_cmd(t_tklist *tokens, t_lst *lst)
 {
 	t_token			*token;
@@ -84,7 +99,6 @@ t_astnode	*parse_cmd(t_tklist *tokens, t_lst *lst)
 	int				argc;
 	char			*argv[DEFAULT_NB];
 	t_redir_list	*redirections;
-	t_astnode		*cmd_node;
 
 	(1) && (redirections = NULL, argc = 0, ft_memset(argv, 0, DEFAULT_NB));
 	token = peek_token(tokens);
@@ -95,19 +109,13 @@ t_astnode	*parse_cmd(t_tklist *tokens, t_lst *lst)
 		token = peek_token(tokens);
 		if (token->type == TK_WORD)
 			((1) && (token = next_token(tokens), argv[argc++] = token->value));
-		else if (token->type == TK_GREATERTHAN1 || token->type == TK_GREATERTHAN2 || 
-            token->type == TK_LESSERTHAN2 || token->type == TK_LESSERTHAN1)
+		else if (token->type == TK_GREATERTHAN1
+			|| token->type == TK_GREATERTHAN2
+			|| token->type == TK_LESSERTHAN2 || token->type == TK_LESSERTHAN1)
 		{
 			redir_node = handle_redirections(tokens, token);
 			ft_lstadd_back_redir(&redirections, redir_node);
 		}
 	}
-	if (argc == 0 && !redirections)
-		return (NULL);
-	cmd_node = (t_astnode *)gcalloc(sizeof(t_astnode));
-	cmd_node = create_ast_command(argc, argv);
-	cmd_node->t_cmd.redirections = redirections;
-	if (!create_and_handle_heredoc(redirections, lst))
-		return (NULL);
-	return (cmd_node);
+	return (allocate_cmd(redirections, argv, argc, lst));
 }

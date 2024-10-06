@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:50:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/25 21:40:46 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/06 20:05:14 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,10 @@ void	append_char(t_expand_params *params, char c)
 	{
 		old_size = params->expanded_size;
 		params->expanded_size *= 2;
-		params->expanded_line = ft_realloc(params->expanded_line, old_size, params->expanded_size);
+		params->expanded_line = ft_realloc
+			(params->expanded_line, old_size, params->expanded_size);
 	}
 	params->expanded_line[params->expanded_index++] = c;
-	// printf("[append_char] ecpanded line char set [%c] to [%c]\n", params->expanded_line[params->expanded_index - 1], c);
 }
 
 void	append_string(t_expand_params *params, char *str)
@@ -62,11 +62,9 @@ void	append_string(t_expand_params *params, char *str)
 	int	j;
 
 	j = 0;
-	// printf("[append_string] str is %s\n", str);
 	while (str[j])
 	{
 		append_char(params, str[j]);
-		// printf("[append_string] str[j] %c\n", str[j]);
 		j++;
 	}
 }
