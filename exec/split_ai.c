@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 20:59:57 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 20:31:03 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/07 14:33:11 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	get_next_char( char c)
 void	initialize_which_to_split_with(char *c, int *i,
 		int *order_of_char, char *found_char)
 {
-	*c = get_next_char(5);
+	*c = get_next_char(33);
 	*i = 0;
 	*order_of_char = 0;
 	*found_char = 0;

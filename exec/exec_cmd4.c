@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:21:53 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 21:45:23 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/07 16:01:48 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,12 @@
 int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
 {
 	int		stdout_backup;
+	int		stdin_backup;
 	int		redir_ret;
 	char	*pwd_dir;
 
 	stdout_backup = dup(STDOUT_FILENO);
+	stdin_backup = dup(STDIN_FILENO);
 	redir_ret = ft_redirection(ast, env, 1);
 	if (redir_ret == -2)
 		return (-2);
@@ -41,7 +43,9 @@ int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
 	else if (!ft_strcmp(arg_cmd[0], "unset"))
 		unset(arg_cmd, env);
 	dup2(stdout_backup, STDOUT_FILENO);
+	dup2(stdin_backup, STDIN_FILENO);
 	close(stdout_backup);
+	close(stdin_backup);
 	return (1);
 }
 

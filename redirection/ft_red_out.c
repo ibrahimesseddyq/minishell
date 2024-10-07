@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:22:07 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/06 15:36:52 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/07 15:29:07 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,25 +17,18 @@ static int	check_and_open_file(const char *file, int flags, mode_t mode)
 	struct stat	sb;
 	int			fd;
 
-	if (stat(file, &sb) == -1)
+	stat(file, &sb);
+	fd = open(file, flags, mode);
+	if (fd == -1)
 	{
-		fd = open(file, flags, mode);
-		if (fd == -1)
-		{
-			if (access(file, F_OK) == 0 && access(file, W_OK) == -1)
-				write(2, "Permission denied\n", 19);
-			else
-				write(2, "No such file or directory\n", 27);
-			return (ft_exit(1, SET_EXIT_STATUS), -2);
-		}
-		return (fd);
+		if (access(file, F_OK) == 0 && access(file, W_OK) == -1)
+			write(2, "Permission denied\n", 19);
+		else
+			write(2, "No such file or directory\n", 27);
+		return (ft_exit(1, SET_EXIT_STATUS), -2);
 	}
 	if (!S_ISREG(sb.st_mode))
 		return (write(2, "Error: Path is not a regular file\n", 35)
-			, ft_exit(1, SET_EXIT_STATUS), -2);
-	fd = open(file, flags, mode);
-	if (fd == -1)
-		return (write(2, "Error opening file\n", 20)
 			, ft_exit(1, SET_EXIT_STATUS), -2);
 	return (fd);
 }

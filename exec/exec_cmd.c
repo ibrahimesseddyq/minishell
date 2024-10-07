@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/06 20:07:54 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/07 15:06:43 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,11 @@ char	**generate_final_splitted(t_astnode *ast, t_lst *env, t_arg_node *lst)
 	splitted_args = ft_split_quotes(expanded_string, *get_splitted_char(1));
 	if (!splitted_args)
 		return (0);
+	// printf("split a [%c] == [%c]\n", splitted_args[0][0], *get_splitted_char(3));
+	// 	for (int i = 0; splitted_args[i]; i++)
+	// 	{
+	// 		printf("splitted arg is [[%s]\n", splitted_args[i]);
+	// 	}
 	ast->t_cmd.args_size = i;
 	return (split_all_strings(splitted_args, *get_splitted_char(2)));
 }
@@ -90,9 +95,14 @@ int	exec_cmd(t_astnode *ast, t_lst *env)
 	choose_splitting_delimiter(lst, ast);
 	tmp = lst;
 	real_args = generate_final_args(ast, env, lst);
+	// for(int i=0; real_args[i]; i++)
+	// {
+	// 	printf("real_args[%s]\n", real_args[i]);
+	// }
+	// printf("char of real args[%d]\n", real_args[0][0]);
 	if (special_cases(real_args[0]))
 		return (0);
-	if (!real_args)
+	if (!real_args || !real_args[0] || !real_args[0][0])
 		return (0);
 	cmd_path = arg_cmds(real_args[0], env);
 	if (cmd_path)
