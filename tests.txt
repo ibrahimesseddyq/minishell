@@ -14,12 +14,6 @@ cmd is [export] and arg is [ARG="*"]
 
 minishell.h 
 
-exit 9223372036854775807
-exit 9223372036854775808
-exit -9223372036854775807
-exit -9223372036854775808
-exit -9223372036854775809
-
 touch tmp_out1                              OK
 touch tmp_out2                             OK
 /bin/echo 42 >tmp_out*                             OK

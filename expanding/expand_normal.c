@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:19:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 20:01:45 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/07 18:58:47 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,7 @@ char	*ft_expand(char *line, t_lst *env)
 		if (!params.is_inside_quotes || params.current_quote == '\"')
 		{
 			expand_token(&params, env, &line);
+			
 		}
 		else
 		{
