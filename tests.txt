@@ -26,8 +26,9 @@ rm -f "tmp_out*"                             KO
 /usr/bin/printf "%s\n" "*" | sort           KO
 
 /usr/bin/printf "%s\n" '*' | sort           KO
-
-
+export test=" arg1 arg2 "
+echo 'echo $1' > tmp_test_sh  found fd leaks
+ls > outfiles/permission_issue
 ############### Notes
 
 -Garbage collector
@@ -46,6 +47,7 @@ i should handle fd leaks when signaling HEREDOC
 
 // check expand in Heredoc and after redir // to check
 
+export accept just some chars
 
 
 

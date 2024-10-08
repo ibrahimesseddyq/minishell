@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:22:35 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/07 15:30:04 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/08 14:44:13 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,9 @@ static int	check_and_open_file(const char *file, int flags, mode_t mode)
 	}
 	if (!S_ISREG(sb.st_mode))
 		return (write(2, "Error: Path is not a regular file\n", 35)
+			, ft_exit(1, SET_EXIT_STATUS), -2);
+    if (access(file, R_OK) == -1)
+		return (write(2, "Permission Denied\n", 19)
 			, ft_exit(1, SET_EXIT_STATUS), -2);
 	return (fd);
 }

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 19:32:50 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/07 18:23:49 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/08 14:58:04 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,6 @@ static int	process_tokens(t_tklist *list, int (*tr)[11], char **final_token)
 		*final_token = token->value;
 		curr_token = process_token(&parentheses, &token);
 	}
-	printf("curr tok [%d] par [%d]  e [%d]\n", curr_token, parentheses, e);
 	return (curr_token == 0 && parentheses == 0 && (e == 2 || e == 4));
 }
 

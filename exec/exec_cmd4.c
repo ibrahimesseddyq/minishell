@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:21:53 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/07 16:01:48 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/08 14:57:53 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,13 @@ int	check_file(char **argv)
 		if (is_abs_rel)
 			write(2, "No such file or directory\n", 27);
 		else
-			write(2, "command not found 2 \n", 19);
+			write(2, "command not found\n", 19);
+		ft_exit(127, SET_EXIT_STATUS);
+		return (0);
+	}
+	else if (!access(argv[0], F_OK) && (argv[0][0] != '.' && argv[0][0] != '/' ))
+	{
+		write(2, "command not found\n", 19);
 		ft_exit(127, SET_EXIT_STATUS);
 		return (0);
 	}

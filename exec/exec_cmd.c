@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/07 15:06:43 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/08 14:56:42 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ int	exec_cmd(t_astnode *ast, t_lst *env)
 	if (cmd_path)
 		real_args[0] = cmd_path;
 	else
-		return (write(2, "command not found 1 \n", 19),
+		return (write(2, "command not found\n", 19),
 			ft_exit(127, SET_EXIT_STATUS), 127);
 	return (execute_command_withargs(ast, env, real_args));
 }

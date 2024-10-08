@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:10 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/07 14:40:52 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/08 14:57:22 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ int	execute_child(char **arg_cmd, t_astnode *ast, t_lst *env)
 		exit(1);
 	if (!check_file(arg_cmd))
 		(ft_close(&fd), exit(127));
-	printf("arg_cmd[0] is [%s]\n", arg_cmd[0]);
 	if (execve(arg_cmd[0], arg_cmd, envp) == -1)
 		(handle_exec_error(), exit(1));
 	return (1);

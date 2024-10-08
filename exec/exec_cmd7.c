@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 00:56:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 21:46:00 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/08 14:56:51 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	special_cases2( t_arg_node *lst)
 	}
 	else if (!ft_strcmp(lst->arg, "\'\'"))
 	{
-		write(2, "Command not found 5\n", 19);
+		write(2, "Command not found\n", 19);
 		ft_exit(127, SET_EXIT_STATUS);
 		return (1);
 	}
