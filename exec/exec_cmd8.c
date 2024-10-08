@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 21:46:03 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/08 14:56:55 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/08 15:05:03 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,10 +39,8 @@ int	check_valid2(char *str)
 		if (is_valid_key_export(str[i]))
 			return (0);
 		if (str[i] == '=')
-			equal = 1;
+				return (1);
 		if (str[i] == '+' && str[i + 1] != '=')
-			return (0);
-		if (str[i] == '*' && equal == 0)
 			return (0);
 		i++;
 	}
