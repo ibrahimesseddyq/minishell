@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 16:42:56 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 19:35:52 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/08 15:30:19 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,7 @@ int	write_heredoc_to_file(char *delimiter, char *filename, t_lst *env)
 {
 	static int		file_counter;
 	t_heredoc_data	data;
+	int				res;
 
 	signal(SIGINT, ft_handler);
 	data.non_expanded_delimiter = delimiter;
@@ -62,5 +63,7 @@ int	write_heredoc_to_file(char *delimiter, char *filename, t_lst *env)
 	if (data.fd < 0)
 		return (-1);
 	data.env = env;
-	return (read_and_process_lines(&data));
+	res = read_and_process_lines(&data);
+	close(data.fd);
+	return (res);
 }

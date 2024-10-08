@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:50:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 20:05:14 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/08 16:14:46 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,14 @@ int	check_ambigious(char *str)
 		return (1);
 	return (0);
 }
-
+int	valid_for_expansion(char c)
+{
+	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '_')
+	{
+		return (1);
+	}
+	return (0);
+}
 int	get_var_length(char *line, int i)
 {
 	int	len;
@@ -35,7 +42,7 @@ int	get_var_length(char *line, int i)
 	len = 0;
 	while (line[i + len] && !isspace(line[i + len])
 		&& line[i + len] != '\'' && line[i + len] != '\"'
-		&& line[i + len] != '/' && line[i + len] != '$' && line[i + len] != '=')
+		&& line[i + len] != '/' && line[i + len] != '$' && line[i + len] != '=' && valid_for_expansion(line[i + len]))
 	{
 		len++;
 	}
