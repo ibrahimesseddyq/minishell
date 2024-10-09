@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 18:32:52 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/09 22:41:41 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/09 23:38:26 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ int	create_and_handle_heredoc(t_redir_list *redirections, t_lst *lst)
 		if (current_heredoc->redir->type == NODE_HEREDOC)
 		{
 			delimiter = current_heredoc->redir->file;
-			printf("entered\n");
+			// printf("entered\n");
 			if (!heredoc_delimiter_valid(delimiter))
 				return (0);
-			printf("is valid [%d]\n", heredoc_delimiter_valid(delimiter));
+			// printf("is valid [%d]\n", heredoc_delimiter_valid(delimiter));
 			if (write_heredoc_to_file(delimiter, heredoc_file, lst) != 0)
 				return (ft_exit(1, SET_EXIT_STATUS), 0);
 			current_heredoc->redir->heredoc = ft_strdup(heredoc_file);

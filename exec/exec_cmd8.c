@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 21:46:03 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/08 15:05:03 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/10 00:44:20 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ static int is_valid_key_export(char c)
 	return (!(
 				('0' <= c && c <= '9')
 				|| ('a' <= c && c <= 'z')
-				|| ('A' <= c && c <= 'Z') || c == '*'
-				|| c == '_' || c == '=' || c == '+' || c== '\"' || c == '\'' || c == '$'
+				|| ('A' <= c && c <= 'Z')
+				|| c == '_' || c == '=' || c == '+'
 			));
 }
 int	check_valid2(char *str)
@@ -28,6 +28,7 @@ int	check_valid2(char *str)
 
 	if (!str || !str[0])
 		return (0);
+	printf("str is [%s]\n", str);
 	i = 0;
 	equal = 0;
 	if (str && (str[0] == '=' || str[0] == '+'))
@@ -37,6 +38,8 @@ int	check_valid2(char *str)
 		if ('0' <= str[i] && str[i] <= '9' && i == 0)
 			return (0);
 		if (is_valid_key_export(str[i]))
+			return (0);
+		if (((str[i] == '=' || str[i] == '+') && i == 0))
 			return (0);
 		if (str[i] == '=')
 				return (1);

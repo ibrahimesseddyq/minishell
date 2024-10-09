@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/08 14:56:42 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/10 00:30:46 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	exec_cmd(t_astnode *ast, t_lst *env)
 	t_arg_node	*tmp;
 
 	(1) && (lst = ast->t_cmd.args, tmp = lst);
-	initial_builtin_errors(lst);
+	// initial_builtin_errors(lst);
 	if (no_command_case(lst, env, ast))
 		return (1);
 	if (!ast->t_cmd.args || !get_node_at(ast->t_cmd.args, 0)->arg)

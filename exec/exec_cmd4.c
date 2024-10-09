@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd4.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:21:53 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/09 22:29:48 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/10 00:29:54 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,8 +112,8 @@ int	initial_builtin_errors(t_arg_node *args)
 		arg = args->next;
 		while (arg)
 		{
-			printf("cmd is [%s] and arg is [%s]\n", cmd, arg->arg);
-			check_invalid(arg, cmd);
+			// printf("cmd is [%s] and arg is [%s]\n", cmd, arg->arg);
+			// check_invalid(arg, cmd);
 			arg = arg->next;
 		}
 	}

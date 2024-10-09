@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:28:09 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 21:47:56 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/10 00:42:21 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,12 @@ int	unset(char **args, t_lst *lst)
 {
 	int	i;
 	int	empty;
+	int error;
 
 	empty = 0;
 	i = 1;
-	if (!args[1] && !builtins_state(-1, UNSET_BUILTIN, GET_BUILTIN))
+	error = 0;
+	if (!args[1])
 		return (ft_exit(0, SET_EXIT_STATUS), 1);
 	while (i < nb_args(args))
 	{
@@ -74,13 +76,13 @@ int	unset(char **args, t_lst *lst)
 		if (check_valid1(args[i]))
 			set_env(lst, args[i], NULL, '\0');
 		else
-			return (ft_exit(1, SET_EXIT_STATUS), 0);
+		{
+			write(2, "invalid identifier\n", 20);
+			error = 1;
+		}
 		i++;
 	}
-	if (empty)
-	{
-		ft_exit(1, SET_EXIT_STATUS);
-		return (0);
-	}
+	if (empty || error)
+		return (ft_exit(1, SET_EXIT_STATUS), 0);
 	return (ft_exit(0, SET_EXIT_STATUS), 1);
 }

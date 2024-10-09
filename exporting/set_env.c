@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:11:05 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/06 19:58:08 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/10 00:43:12 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,11 @@ void	set_env(t_lst *lst, char *key, char *new_value, int sign)
 void	ft_export(char **str, t_lst *lst)
 {
 	int		i;
+	int error;
 
 	i = 1;
-	if (!str[1] && !builtins_state(-1, EXPORT_BUILTIN, GET_BUILTIN))
+	error = 0;
+	if (!str[1])
 		print_export(lst);
 	else
 	{
@@ -65,12 +67,16 @@ void	ft_export(char **str, t_lst *lst)
 			{
 				export_var(str, lst, i);
 			}
+			else
+			{
+				write(2, "invalid identifier\n", 20);
+				error = 1;
+			}
 			i++;
 		}
 	}
-	if (builtins_state(-1, EXPORT_BUILTIN, GET_BUILTIN))
+	if (error)
 		ft_exit(1, SET_EXIT_STATUS);
 	else
 		ft_exit(0, SET_EXIT_STATUS);
-	builtins_state(INACTIVE, EXPORT_BUILTIN, SET_BUILTIN);
 }
