@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 18:08:51 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 16:44:16 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/09 22:41:28 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,14 +51,14 @@ t_astnode	*create_ast_command(int ac, char **av)
 		return (node);
 	node->type = NODE_COMMAND;
 	if (av && av[0] != NULL)
-		node->t_cmd.cmd = strdup(av[0]);
+		node->t_cmd.cmd = ft_strdup(av[0]);
 	else
 		node->t_cmd.cmd = NULL;
 	(1) && (node->t_cmd.args = NULL, current = NULL);
 	while (i < ac)
 	{
 		new_node = (t_arg_node *)gcalloc(sizeof(t_arg_node));
-		new_node->arg = strdup(av[i]);
+		new_node->arg = ft_strdup(av[i]);
 		set_command_props(&current, node, new_node);
 		i++;
 	}

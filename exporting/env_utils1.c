@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:44:36 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/17 21:59:06 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/09 22:40:22 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	*trim_quotes(char *str)
 void	apppend_to_var(char **key, char **value,
 		char **temp, char *str, t_lst *lst)
 {
-	*temp = strdup(str);
+	*temp = ft_strdup(str);
 	*key = strtok(*temp, "+=");
 	*value = ft_strchr(str, '=');
 	if (*value)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   wildcard2.c                                        :+:      :+:    :+:   */
+/*   wild_card2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 21:55:38 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 22:03:45 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/09 21:30:10 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ char	**filterstrings(char *pattern
 	int		i;
 
 	*numMatches = 0;
-	matches = malloc(numTexts * sizeof(char *));
+	matches = gcalloc(numTexts * sizeof(char *));
 	i = 0;
 	if (!matches)
 		return (NULL);

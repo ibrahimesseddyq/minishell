@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   lexer_utils3.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:39:10 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 15:47:34 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/09 22:41:06 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_token	*token_eof(void)
 
 	token = (t_token *)gcalloc(sizeof(t_token));
 	token->type = TOKEN_EOF;
-	token->value = strdup("EOF");
+	token->value = ft_strdup("EOF");
 	return (token);
 }
 

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_wildcard.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 20:42:32 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/26 00:10:05 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/09 22:37:41 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ char	**get_matching_files(char *pattern, int *file_count)
 	{
 		entry = readdir(dir);
 		if (match_pattern(entry->d_name, pattern))
-			files[i++] = strdup(entry->d_name);
+			files[i++] = ft_strdup(entry->d_name);
 	}
 	files[i] = NULL;
 	*file_count = i;
