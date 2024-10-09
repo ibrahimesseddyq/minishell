@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:39:10 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 15:47:34 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/09 23:15:53 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ t_token	*get_next_token(t_lexer *lexer)
 {
 	while (lexer->currentchar != '\0')
 	{
-		if (isspace(lexer->currentchar) || lexer->currentchar == '\n')
+		if (ft_isspace(lexer->currentchar) || lexer->currentchar == '\n')
 		{
 			skip_whitespace(lexer);
 			continue ;

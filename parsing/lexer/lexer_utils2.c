@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:11:55 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 15:47:26 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/09 23:16:18 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_token	*peek_next_token(t_tklist *token_list, int offset)
 
 int	should_stop(t_lexer *lexer, int in_quotes)
 {
-	return (!in_quotes && (isspace(lexer->currentchar)
+	return (!in_quotes && (ft_isspace(lexer->currentchar)
 			|| lexer->currentchar == '|' || lexer->currentchar == '&'
 			|| lexer->currentchar == ';' || lexer->currentchar == '('
 			|| lexer->currentchar == ')' || lexer->currentchar == '>'

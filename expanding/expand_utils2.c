@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:50:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/08 16:21:25 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/09 23:16:23 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int	get_var_length(char *line, int i)
 	int	len;
 
 	len = 0;
-	while (line[i + len] && !isspace(line[i + len])
+	while (line[i + len] && !ft_isspace(line[i + len])
 		&& line[i + len] != '\'' && line[i + len] != '\"'
 		&& line[i + len] != '/' && line[i + len] != '$' && line[i + len] != '=' && valid_for_expansion(line[i + len]))
 	{
