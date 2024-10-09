@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:50:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/08 16:14:46 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/08 16:21:25 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	check_ambigious(char *str)
 }
 int	valid_for_expansion(char c)
 {
-	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || c == '_')
+	if ((c >= 'A' && c <= 'Z') || (c >= 'a' && c <= 'z') || (c >= '0' && c <= '9') || c == '_')
 	{
 		return (1);
 	}

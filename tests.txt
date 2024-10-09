@@ -12,7 +12,6 @@ cmd is [export] and arg is [ARG="*"]
 
 
 
-minishell.h 
 
 touch tmp_out1                              OK
 touch tmp_out2                             OK
@@ -28,7 +27,6 @@ rm -f "tmp_out*"                             KO
 /usr/bin/printf "%s\n" '*' | sort           KO
 export test=" arg1 arg2 "
 echo 'echo $1' > tmp_test_sh  found fd leaks
-ls > outfiles/permission_issue
 ############### Notes
 
 -Garbage collector

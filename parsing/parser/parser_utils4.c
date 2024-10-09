@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 16:42:56 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/08 15:30:19 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/09 19:35:09 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,10 @@ static int	handle_tty_input(int fd)
 static int	process_line(char *line, t_heredoc_data *data)
 {
 	if (!line)
-		return (ft_close(&data->fd), 0);
+		return (0);
+	// printf("line [%s] del [%s]\n", line, data->delimiter);
 	if (strcmp(line, data->delimiter) == 0)
-		return (1);
+		return (0);
 	if (!write_expanded_line(data->non_expanded_delimiter,
 			line, data->fd, data->env))
 		return (-1);
@@ -46,6 +47,7 @@ static int	read_and_process_lines(t_heredoc_data *data)
 		if (result != 2)
 			return (result);
 	}
+	return (0);
 }
 
 int	write_heredoc_to_file(char *delimiter, char *filename, t_lst *env)
@@ -65,5 +67,6 @@ int	write_heredoc_to_file(char *delimiter, char *filename, t_lst *env)
 	data.env = env;
 	res = read_and_process_lines(&data);
 	close(data.fd);
+	// printf("res [%d]\n", res);
 	return (res);
 }
