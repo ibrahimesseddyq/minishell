@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 21:59:37 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/09 23:21:01 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -369,5 +369,6 @@ void			initialize_analyzer(char **final_token,
 int				special_cases(char *cmd);
 char			*get_expanded_string(t_lst *env, t_arg_node *lst);
 char	**filterstrings(char *pattern, char *texts[], int numTexts, int *numMatches);
+int ft_isspace(char c);
 extern int g_sig_var;
 #endif
