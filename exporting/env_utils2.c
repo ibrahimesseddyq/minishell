@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:45:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 19:58:26 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/09 22:40:52 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	handle_existing_var(char *str, char **key,
 		char **value, char **temp, t_lst *lst)
 {
-	*temp = strdup(str);
+	*temp = ft_strdup(str);
 	*key = strtok(*temp, "=");
 	*value = ft_strchr(str, '=');
 	if (*value)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wild_card.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 23:47:30 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 21:56:31 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/09 22:37:29 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ char	*expand_wildcard(char *pwd, int level, t_wildcard_data *data)
 	del[0] = *get_splitted_char(1);
 	del[1] = '\0';
 	if (*(data->found_count) == 0)
-		return (strdup(data->pattern[level]));
+		return (ft_strdup(data->pattern[level]));
 	i = 0;
 	expanded_result = gcalloc(1);
 	while (i < *(data->found_count))
@@ -119,7 +119,7 @@ char	*expand_wildcard_redir(char *pwd, int level, t_wildcard_data *data)
 	del[0] = *get_splitted_char(1);
 	del[1] = '\0';
 	if (*(data->found_count) == 0)
-		return (strdup(data->pattern[level]));
+		return (ft_strdup(data->pattern[level]));
 	i = 0;
 	expanded_result = gcalloc(1);
 	while (i < *(data->found_count))

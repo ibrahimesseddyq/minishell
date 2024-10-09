@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:39:10 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/09 23:15:53 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/09 23:20:04 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ t_token	*token_eof(void)
 
 	token = (t_token *)gcalloc(sizeof(t_token));
 	token->type = TOKEN_EOF;
-	token->value = strdup("EOF");
+	token->value = ft_strdup("EOF");
 	return (token);
 }
 

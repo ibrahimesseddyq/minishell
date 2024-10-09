@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:13:19 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/09 20:05:13 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/09 21:39:47 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	g_sig_var;
 void	execute(t_tklist *token_list, t_astnode *ast, t_lst *lst, char *t)
 {
 	token_list = tokenize(t);
-ß	if (token_list->size > 1)
+	if (token_list->size > 1)
 		add_history(t);
 	if (!analyse_syntax(token_list) || !valid_quotes_main(t))
 		ft_exit(258, SET_EXIT_STATUS);
@@ -53,6 +53,7 @@ int	main(int ac, char **av, char *env[])
 		if (t)
 			execute(token_list, ast, lst, t);
 		g_sig_var = 0;
+		printf("\nexit status: [%d]\n", ft_exit(1, GET_EXIT_STATUS));
 		unlink_heredocs();
 		free(t);
 	}

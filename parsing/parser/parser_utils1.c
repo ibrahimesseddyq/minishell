@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:52:42 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 16:02:15 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/09 22:41:18 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ t_astnode	*create_redirect_node(t_node_type type
 	node = (t_astnode *)gcalloc(sizeof(t_astnode));
 	node->type = type;
 	node->t_redirect.child = child;
-	node->t_redirect.filename = strdup(filename);
+	node->t_redirect.filename = ft_strdup(filename);
 	return (node);
 }
 
