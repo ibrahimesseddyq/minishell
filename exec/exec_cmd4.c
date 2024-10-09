@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:21:53 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/08 14:57:53 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/09 20:19:21 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,7 @@ int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
 		unset(arg_cmd, env);
 	dup2(stdout_backup, STDOUT_FILENO);
 	dup2(stdin_backup, STDIN_FILENO);
+	ft_close(&redir_ret);
 	close(stdout_backup);
 	close(stdin_backup);
 	return (1);

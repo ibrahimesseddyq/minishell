@@ -58,3 +58,49 @@ cat < Makefile > out >> out1 | wc -l out1 > out2
 /bin/rm -f out
 /bin/rm -f out1
 /bin/rm -f out2
+
+
+// 
+int	ft_redirection(t_astnode *ast, t_lst *env, int command_exist)
+{
+	int	fd;
+	int	last_arr[2];
+	int	i;
+
+	(1) && (last_arr[0] = get_last_redirs(ast)[0],
+		last_arr[1] = get_last_redirs(ast)[1], i = -1);
+	if (last_arr[0] == 0 && last_arr[1] == 0)
+		return (1);
+	while (ast->t_cmd.redirections)
+	{
+		if ((ast->t_cmd.redirections->redir->type == NODE_REDIRECT_OUT
+				|| ast->t_cmd.redirections->redir->type == NODE_REDIRECT_APPEND)
+			&& ast->t_cmd.redirections->redir)
+		{
+			fd = ft_red_out(ast, env, last_arr[1] == ++i, command_exist);
+			if (last_arr[1] != i)
+			{
+				printf("fd is [%d]\n", fd);
+				ft_close(&fd);
+			}
+		}
+		else
+		{
+			fd = ft_red_in(ast, env, last_arr[0] == ++i, command_exist);
+			if (last_arr[0] != i)
+				ft_close(&fd);
+		}
+		if (fd == -2)
+			return (-2);
+		ast->t_cmd.redirections = ast->t_cmd.redirections->next;
+	}
+	return (fd);
+}
+
+
+RED LBAL MEN HADI !!!!!!!!!!!!!!!
+			if (last_arr[1] != i)
+			{
+				printf("fd is [%d]\n", fd);
+				ft_close(&fd);
+			}
