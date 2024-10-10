@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/10 20:41:35 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/10 21:36:31 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,14 @@ int	execute_command_withargs(t_astnode *ast, t_lst *env, char **real_args)
 		result = execute_external(real_args, ast, env);
 	return (result);
 }
+char **handle_empty_var_beginning(char **real_args)
+{
+    int i = 0;
+
+    while (real_args && real_args[i] && (!real_args[i][0] || real_args[i][0] == '\0'))
+        i++;
+    return (real_args[i] ? real_args + i : NULL);
+}
 
 int	exec_cmd(t_astnode *ast, t_lst *env)
 {
@@ -124,11 +132,12 @@ int	exec_cmd(t_astnode *ast, t_lst *env)
 	choose_splitting_delimiter(lst, ast);
 	tmp = lst;
 	real_args = generate_final_args(ast, env, lst);
-	// for(int i=0; real_args[i]; i++)
-	// {
-	// 	printf("real_args[%s]\n", real_args[i]);
-	// }
-	// printf("char of real args[%d]\n", real_args[0][0]);
+	printf("char of real args[%d]\n", real_args[0][0]);
+	real_args = handle_empty_var_beginning(real_args);
+	for(int i=0; real_args[i]; i++)
+	{
+		printf("real_args[%s]\n", real_args[i]);
+	}
 	if (special_cases(real_args[0]))
 		return (0);
 	if (!real_args || !real_args[0] || !real_args[0][0])
