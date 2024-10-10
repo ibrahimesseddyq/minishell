@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 16:42:56 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/09 19:35:09 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/10 21:43:03 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	process_line(char *line, t_heredoc_data *data)
 	if (!line)
 		return (0);
 	// printf("line [%s] del [%s]\n", line, data->delimiter);
-	if (strcmp(line, data->delimiter) == 0)
+	if (ft_strcmp(line, data->delimiter) == 0)
 		return (0);
 	if (!write_expanded_line(data->non_expanded_delimiter,
 			line, data->fd, data->env))
@@ -46,6 +46,7 @@ static int	read_and_process_lines(t_heredoc_data *data)
 		result = process_line(line, data);
 		if (result != 2)
 			return (result);
+		free(line);
 	}
 	return (0);
 }

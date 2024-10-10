@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wild_card.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 23:47:30 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/09 22:37:29 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/10 21:40:40 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ char	**get_files(const char *dir, int *numFiles)
 	ep = readdir(dp);
 	while (ep)
 	{
-		if (strcmp(ep->d_name, ".") != 0 && strcmp(ep->d_name, "..") != 0 && ep->d_name[0] != '.')
+		if (ft_strcmp(ep->d_name, ".") != 0 && ft_strcmp(ep->d_name, "..") != 0 && ep->d_name[0] != '.')
 		{
 			files = ft_realloc
 				(files, (*numFiles) * sizeof(char *), (*numFiles + 1) * sizeof(char *));
