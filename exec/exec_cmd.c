@@ -6,49 +6,79 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/10 00:30:46 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/10 20:12:35 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	**generate_final_splitted(t_astnode *ast, t_lst *env, t_arg_node *lst)
+int star_inside_quotes(const char *str)
 {
-	int			i;
-	char		*expanded_string;
-	char		**splitted_args;
-	char		*expanded_arg;
-	char		*temp;
-	t_arg_node	*head;
+    int inside_quotes;
 
-	(1) && (expanded_string = ft_strdup(""), head = lst, i = 0, lst = head);
-	while (i <= ast->t_cmd.args_size)
+	inside_quotes = 0;
+    while (*str)
 	{
-		expanded_arg = get_expanded_string(env, lst);
-		expanded_arg = expand_wd(expanded_arg);
-		temp = ft_strjoin(expanded_string, expanded_arg);
-		expanded_string = temp;
-		if (lst->next)
-		{
-			temp = ft_strjoin(expanded_string,
-					ft_strdup(char_to_string(*get_splitted_char(1))));
-			expanded_string = temp;
-		}
-		lst = lst->next;
-		i++;
-	}
-	lst = head;
-	splitted_args = ft_split_quotes(expanded_string, *get_splitted_char(1));
-	if (!splitted_args)
-		return (0);
-	// printf("split a [%c] == [%c]\n", splitted_args[0][0], *get_splitted_char(3));
-	// 	for (int i = 0; splitted_args[i]; i++)
-	// 	{
-	// 		printf("splitted arg is [[%s]\n", splitted_args[i]);
-	// 	}
-	ast->t_cmd.args_size = i;
-	return (split_all_strings(splitted_args, *get_splitted_char(2)));
+        if (*str == '"')
+            inside_quotes = !inside_quotes;
+        
+        if (*str == '*' && inside_quotes)
+            return (1);
+        str++;
+    }
+    
+    return (0);
 }
+
+char **generate_final_splitted(t_astnode *ast, t_lst *env, t_arg_node *lst)
+{
+    t_state_fs state;
+
+    // Initialize the struct variables
+    state.expanded_string = ft_strdup("");
+    state.lst = lst;
+    state.head = lst;
+    state.i = 0;
+    state.star_inside = 0;
+
+    // Main loop
+    while (state.i <= ast->t_cmd.args_size) {
+        if (star_inside_quotes(state.lst->arg)) {
+            state.star_inside = 1;
+        }
+
+        state.expanded_arg = get_expanded_string(env, state.lst);
+
+        if (!state.star_inside)
+		{
+            state.expanded_arg = expand_wd(state.expanded_arg);
+        }
+
+        state.temp = ft_strjoin(state.expanded_string, state.expanded_arg);
+        state.expanded_string = state.temp;
+
+        if (state.lst->next) {
+            state.temp = ft_strjoin(state.expanded_string,
+                                    ft_strdup(char_to_string(*get_splitted_char(1))));
+            state.expanded_string = state.temp;
+        }
+
+        state.lst = state.lst->next;
+        state.i++;
+        state.star_inside = 0; // Reset for next iteration
+    }
+
+    state.lst = state.head;
+    state.splitted_args = ft_split_quotes(state.expanded_string, *get_splitted_char(1));
+
+    if (!state.splitted_args) {
+        return 0;
+    }
+
+    ast->t_cmd.args_size = state.i;
+
+    return split_all_strings(state.splitted_args, *get_splitted_char(2));
+}
+
 
 char	**generate_final_args(t_astnode *ast, t_lst *env, t_arg_node *lst)
 {

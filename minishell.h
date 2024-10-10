@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/09 23:21:01 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/10 20:05:40 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -169,6 +169,17 @@ typedef struct s_heredoc_data
     int     fd;
     t_lst   *env;
 } t_heredoc_data;
+
+typedef struct s_state {
+    int         i;
+    int         star_inside;
+    char        *expanded_string;
+    char        **splitted_args;
+    char        *expanded_arg;
+    char        *temp;
+    t_arg_node  *lst;
+    t_arg_node  *head;
+} t_state_fs;
 
 typedef struct s_astnode
 {
