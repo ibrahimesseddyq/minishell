@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/10 20:12:35 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/10 20:41:35 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,50 +33,41 @@ char **generate_final_splitted(t_astnode *ast, t_lst *env, t_arg_node *lst)
 {
     t_state_fs state;
 
-    // Initialize the struct variables
     state.expanded_string = ft_strdup("");
     state.lst = lst;
     state.head = lst;
     state.i = 0;
     state.star_inside = 0;
-
-    // Main loop
-    while (state.i <= ast->t_cmd.args_size) {
-        if (star_inside_quotes(state.lst->arg)) {
+    while (state.i <= ast->t_cmd.args_size)
+	{
+        if (star_inside_quotes(state.lst->arg))
             state.star_inside = 1;
-        }
-
         state.expanded_arg = get_expanded_string(env, state.lst);
-
         if (!state.star_inside)
-		{
             state.expanded_arg = expand_wd(state.expanded_arg);
-        }
-
         state.temp = ft_strjoin(state.expanded_string, state.expanded_arg);
         state.expanded_string = state.temp;
 
-        if (state.lst->next) {
+        if (state.lst->next)
+		{
             state.temp = ft_strjoin(state.expanded_string,
                                     ft_strdup(char_to_string(*get_splitted_char(1))));
             state.expanded_string = state.temp;
         }
-
         state.lst = state.lst->next;
         state.i++;
-        state.star_inside = 0; // Reset for next iteration
+        state.star_inside = 0;
     }
-
     state.lst = state.head;
     state.splitted_args = ft_split_quotes(state.expanded_string, *get_splitted_char(1));
-
-    if (!state.splitted_args) {
-        return 0;
-    }
-
+	for(int i = 0; state.splitted_args[i]; i++)
+	{
+		printf("splitted_args [%s]\n", state.splitted_args[i]);
+	}
+    if (!state.splitted_args)
+        return (0);
     ast->t_cmd.args_size = state.i;
-
-    return split_all_strings(state.splitted_args, *get_splitted_char(2));
+    return (split_all_strings(state.splitted_args, *get_splitted_char(2)));
 }
 
 
@@ -85,9 +76,17 @@ char	**generate_final_args(t_astnode *ast, t_lst *env, t_arg_node *lst)
 	char		**second_splitted;
 
 	second_splitted = generate_final_splitted(ast, env, lst);
+	for(int i = 0; second_splitted[i]; i++)
+	{
+		printf("second_splitted 1 [%s]\n", second_splitted[i]);
+	}
 	if (!second_splitted)
 		return (NULL);
 	second_splitted = make_array(second_splitted, ast->t_cmd.args_size);
+	for(int i = 0; second_splitted[i]; i++)
+	{
+		printf("second_splitted 2 [%s]\n", second_splitted[i]);
+	}
 	return (second_splitted);
 }
 

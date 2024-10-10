@@ -6,12 +6,12 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:19:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/08 16:12:46 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/10 20:43:53 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
+// params->is_inside_quotes2 istead of params->is_inside_quotes
 char	*replace_space_with_second_separator(t_expand_params *params, char *str)
 {
 	int		i;
@@ -19,6 +19,7 @@ char	*replace_space_with_second_separator(t_expand_params *params, char *str)
 
 	i = 0;
 	res = gcalloc(ft_strlen(str) + 1);
+	// params->is_inside_quotes2 = 0;
 	while (str[i])
 	{
 		if ((str[i] == '\'' || str[i] == '\"') && !params->is_inside_quotes2)
@@ -26,7 +27,8 @@ char	*replace_space_with_second_separator(t_expand_params *params, char *str)
 		else if ((str[i] == '\'' || str[i] == '\"')
 			&& params->is_inside_quotes2)
 			params->is_inside_quotes2 = 0;
-		if (str[i] == ' ' && params->is_inside_quotes2)
+		printf("is_inside quote [%d], res [%s]\n", params->is_inside_quotes2, str);
+		if (str[i] == ' ' && !params->is_inside_quotes2)
 			res[i] = *get_splitted_char(2);
 		else
 			res[i] = str[i];
