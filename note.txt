@@ -1,3 +1,7 @@
 expansion split by " ", \n and TAB
 
 f split lmochkil kayn f is_inside_quotes variable , tytexpanda lkan arg ms la kan command la
+
+THEL:
+kayn mouchkil f export a="    a     b "
+fesh kykoun $a argument machi cmd

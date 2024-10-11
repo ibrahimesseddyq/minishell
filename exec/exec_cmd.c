@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/10 21:36:31 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/11 19:55:35 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,17 +76,17 @@ char	**generate_final_args(t_astnode *ast, t_lst *env, t_arg_node *lst)
 	char		**second_splitted;
 
 	second_splitted = generate_final_splitted(ast, env, lst);
-	for(int i = 0; second_splitted[i]; i++)
-	{
-		printf("second_splitted 1 [%s]\n", second_splitted[i]);
-	}
+	// for(int i = 0; second_splitted[i]; i++)
+	// {
+	// 	printf("second_splitted 1 [%s]\n", second_splitted[i]);
+	// }
 	if (!second_splitted)
 		return (NULL);
 	second_splitted = make_array(second_splitted, ast->t_cmd.args_size);
-	for(int i = 0; second_splitted[i]; i++)
-	{
-		printf("second_splitted 2 [%s]\n", second_splitted[i]);
-	}
+	// for(int i = 0; second_splitted[i]; i++)
+	// {
+	// 	printf("second_splitted 2 [%s]\n", second_splitted[i]);
+	// }
 	return (second_splitted);
 }
 

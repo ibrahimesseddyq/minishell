@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd4.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:21:53 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/11 17:57:31 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/11 20:01:43 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
 		ft_cd(ast->t_cmd.args_size, arg_cmd, SET_EXIT_STATUS, env);
 	else if (!ft_strcmp(arg_cmd[0], "pwd"))
 	{
-		pwd_dir = ft_pwd();
+		pwd_dir = ft_pwd(env);
 		write(1, pwd_dir, ft_strlen(pwd_dir));
 		write(1, "\n", 1);
 	}
@@ -46,7 +46,7 @@ int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
 	dup2(stdin_backup, STDIN_FILENO);
 	if (redir_ret != 1)
 		ft_close(&redir_ret);
-	printf("close [%d] [%d]\n", stdout_backup, stdin_backup);
+	// printf("close [%d] [%d]\n", stdout_backup, stdin_backup);
 	ft_close(&stdout_backup);
 	ft_close(&stdin_backup);
 	return (1);
@@ -56,7 +56,7 @@ int	check_file(char **argv)
 {
 	int	is_abs_rel;
 
-	printf("hi 1\n");
+	// printf("hi 1\n");
 	is_abs_rel = 0;
 	if (is_relative_absolute(argv[0]))
 		is_abs_rel = 1;

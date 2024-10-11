@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:19:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/10 20:43:53 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/11 19:52:01 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,15 +19,18 @@ char	*replace_space_with_second_separator(t_expand_params *params, char *str)
 
 	i = 0;
 	res = gcalloc(ft_strlen(str) + 1);
-	// params->is_inside_quotes2 = 0;
+	params->is_inside_quotes2 = 0;
 	while (str[i])
 	{
 		if ((str[i] == '\'' || str[i] == '\"') && !params->is_inside_quotes2)
+		{
+			// printf("is inside quote\n");
 			params->is_inside_quotes2 = 1;
+		}
 		else if ((str[i] == '\'' || str[i] == '\"')
 			&& params->is_inside_quotes2)
 			params->is_inside_quotes2 = 0;
-		printf("is_inside quote [%d], res [%s]\n", params->is_inside_quotes2, str);
+		// printf("is_inside quote [%d], char [%c] ,res [%s]\n", params->is_inside_quotes2, str[i], str);
 		if (str[i] == ' ' && !params->is_inside_quotes2)
 			res[i] = *get_splitted_char(2);
 		else

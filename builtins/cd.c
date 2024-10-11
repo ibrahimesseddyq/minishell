@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:04:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 21:52:04 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/11 20:11:01 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ int	ft_cd(int argc, char **argv, int mode, t_lst *env)
 	expanded_dir = NULL;
 	previous_pwd = get_env(env, "OLDPWD");
 
-	pwd = ft_strdup(ft_pwd2());
+	pwd = ft_strdup(ft_pwd());
 	if (!pwd)
 	{
 		char *home = get_env(env, "HOME");

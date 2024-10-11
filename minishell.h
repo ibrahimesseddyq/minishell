@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/10 21:34:30 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/11 20:02:00 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@
 # define EXIT_FAIL 2
 # define EXIT_SUCCESS 0
 # define NO_EXIT 0
+# define SECURE_PATH "/"
 # define EXIT_PROGRAM 4
 # define SET_EXIT_STATUS 2
 # define GET_EXIT_STATUS 3
@@ -246,7 +247,7 @@ int				ft_red_out(t_astnode *ast, t_lst *env,
 int				ft_redirection(t_astnode *ast, t_lst *env, int command_exist);
 char			*ft_expand(char *line, t_lst *env);
 int				ft_cd(int argc, char **argv, int mode, t_lst *env);
-char			*ft_pwd(void);
+char			*ft_pwd(t_lst *env);
 int				ft_exit(int status, int mode);
 int				ft_echo(char **args);
 void			ft_env(t_lst *env_list);
