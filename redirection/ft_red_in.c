@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_red_in.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:22:35 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/11 16:15:19 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/11 18:02:39 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ static int	check_and_open_file(const char *file, int flags, mode_t mode)
 			write(2, "Permission denied\n", 19);
 		else
 			write(2, "No such file or directory\n", 27);
-		return (ft_close(&fd), ft_exit(1, SET_EXIT_STATUS), -2);
+		return (ft_exit(1, SET_EXIT_STATUS), -2);
 	}
 	if (!S_ISREG(sb.st_mode))
 		return (ft_close(&fd), write(2, "Error: Path is not a regular file\n", 35)

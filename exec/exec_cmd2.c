@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 22:52:54 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/07 14:35:33 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/11 16:28:40 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ char	**build_envp(t_lst *env)
 
 void	handle_exec_error(void)
 {
+		printf("hi 3\n");
 	if (errno == ENOENT)
 		(write(2, "No such file or directory \n", 29), exit(127));
 	if (errno == EACCES)

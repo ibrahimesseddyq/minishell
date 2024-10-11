@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils4.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 16:42:56 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/10 21:58:01 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/11 16:47:38 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,10 @@
 
 static int	handle_tty_input(int fd)
 {
-	open(ttyname(2), O_RDWR);
+	int	fd2;
+	fd2 = open(ttyname(2), O_RDWR);
+		printf("[handle_tty_input] fd is [%d]\n", fd2);
+
 	if (g_sig_var)
 		return (ft_close(&fd), -1);
 	return (0);
@@ -62,6 +65,7 @@ int	write_heredoc_to_file(char *delimiter, char *filename, t_lst *env)
 	ft_sprintf(filename, "heredoc_file_%d", file_counter++);
 	file_counter = 1;
 	data.fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
+	printf("[write_heredoc_to_file] fd is [%d]\n", data.fd);
 	if (data.fd < 0)
 		return (-1);
 	data.env = env;
