@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:19:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/11 19:52:01 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/11 22:31:08 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,13 +24,11 @@ char	*replace_space_with_second_separator(t_expand_params *params, char *str)
 	{
 		if ((str[i] == '\'' || str[i] == '\"') && !params->is_inside_quotes2)
 		{
-			// printf("is inside quote\n");
 			params->is_inside_quotes2 = 1;
 		}
 		else if ((str[i] == '\'' || str[i] == '\"')
 			&& params->is_inside_quotes2)
 			params->is_inside_quotes2 = 0;
-		// printf("is_inside quote [%d], char [%c] ,res [%s]\n", params->is_inside_quotes2, str[i], str);
 		if (str[i] == ' ' && !params->is_inside_quotes2)
 			res[i] = *get_splitted_char(2);
 		else
@@ -107,7 +105,6 @@ char	*ft_expand(char *line, t_lst *env)
 		if (!params.is_inside_quotes || params.current_quote == '\"')
 		{
 			expand_token(&params, env, &line);
-			
 		}
 		else
 		{

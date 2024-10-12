@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils4.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 16:42:56 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/11 16:47:38 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/11 22:45:31 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,9 +15,8 @@
 static int	handle_tty_input(int fd)
 {
 	int	fd2;
-	fd2 = open(ttyname(2), O_RDWR);
-		printf("[handle_tty_input] fd is [%d]\n", fd2);
 
+	fd2 = open(ttyname(2), O_RDWR);
 	if (g_sig_var)
 		return (ft_close(&fd), -1);
 	return (0);
@@ -27,7 +26,6 @@ static int	process_line(char *line, t_heredoc_data *data)
 {
 	if (!line)
 		return (0);
-	// printf("line [%s] del [%s]\n", line, data->delimiter);
 	if (ft_strcmp(line, data->delimiter) == 0)
 		return (0);
 	if (!write_expanded_line(data->non_expanded_delimiter,
@@ -37,7 +35,8 @@ static int	process_line(char *line, t_heredoc_data *data)
 }
 
 static int	read_and_process_lines(t_heredoc_data *data)
-{	char	*line;
+{
+	char	*line;
 	int		result;
 
 	while (1)
@@ -71,6 +70,5 @@ int	write_heredoc_to_file(char *delimiter, char *filename, t_lst *env)
 	data.env = env;
 	res = read_and_process_lines(&data);
 	close(data.fd);
-	// printf("res [%d]\n", res);
 	return (res);
 }

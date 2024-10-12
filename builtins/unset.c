@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:28:09 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/10 00:42:21 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/11 22:02:50 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	unset(char **args, t_lst *lst)
 {
 	int	i;
 	int	empty;
-	int error;
+	int	error;
 
 	empty = 0;
 	i = 1;

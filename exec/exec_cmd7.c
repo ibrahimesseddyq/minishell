@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 00:56:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/08 14:56:51 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/12 00:16:01 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,21 @@ int	count_size_redir(t_redir_list	*current)
 	return (size);
 }
 
+void	replace_args(int *i, t_arg_node **current, char ***array)
+{
+	while (*i < count_size_arg(*current))
+	{
+		if (*current)
+		{
+			*(array)[*i] = ft_strdup((*current)->arg);
+			*current = (*current)->next;
+		}
+		else
+			*(array)[*i] = NULL;
+		(*i)++;
+	}
+}
+
 char	**list_to_array(t_arg_node *lst, t_astnode *ast)
 {
 	int				size;
@@ -52,17 +67,7 @@ char	**list_to_array(t_arg_node *lst, t_astnode *ast)
 	size = count_size_arg(current) + count_size_redir(redirs);
 	array = gcalloc(sizeof(char *) * (size + 1));
 	current = lst;
-	while (i < count_size_arg(current))
-	{
-		if (current)
-		{
-			array[i] = ft_strdup(current->arg);
-			current = current->next;
-		}
-		else
-			array[i] = NULL;
-		i++;
-	}
+	replace_args(&i, &current, &array);
 	if (redirs)
 	{
 		while (i < size && redirs)

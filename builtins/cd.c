@@ -6,119 +6,90 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:04:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/11 20:11:01 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/12 01:16:31 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static void	my_string_copy(char *from, char *to)
-{
-	int	i;
-
-	i = -1;
-	while (from[++i])
-		to[i] = from[i];
-	to[i] = '\0';
-}
-
-int	append_char_to_string(char **s, char c)
-{
-	char	*r;
-	int		size;
-
-	if (!(*s))
-	{
-		r = (char *)gcalloc(sizeof(char) * 2);
-		if (!r)
-			return (-1);
-		*r = c;
-		*(r + 1) = '\0';
-		*s = r;
-		return (0);
-	}
-	size = ft_strlen(*s);
-	r = (char *)gcalloc(sizeof(char) * (size + 2));
-	if (!r)
-		return (-1);
-	my_string_copy(*s, r);
-	r[size] = c;
-	r[size + 1] = '\0';
-	*s = r;
-	return (0);
-}
-
-char	*expand_tilde(char *path, t_lst *env)
+static int	ft_handle_pwd_error(t_lst *env)
 {
 	char	*home;
 
-	if (path[0] == '~')
+	home = get_env(env, "HOME");
+	set_env(env, "PWD", home, 1);
+	if (!home)
 	{
-		home = get_env(env, "HOME");
-		if (!home)
-			return (ft_strdup(path));
-		return (ft_strjoin(home, path + 1));
+		write(2, "minishell: cd: HOME not set\n", 28);
+		return (ft_exit(1, SET_EXIT_STATUS), 1);
 	}
-	return (ft_strdup(path));
+	if (chdir(home) == -1)
+		return (perror("cd"), ft_exit(1, SET_EXIT_STATUS), 1);
+	write(2, "minishell: cd: directory reset to HOME\n", 39);
+	return (0);
 }
 
-int	ft_cd(int argc, char **argv, int mode, t_lst *env)
+static char	*ft_get_directory(int argc, char **argv, t_lst *env)
 {
 	char	*dir;
-	char	*expanded_dir;
-	char	*previous_pwd;
-	char	*pwd;
-	char	*new_pwd;
 
-	dir = NULL;
-	expanded_dir = NULL;
-	previous_pwd = get_env(env, "OLDPWD");
-
-	pwd = ft_strdup(ft_pwd());
-	if (!pwd)
-	{
-		char *home = get_env(env, "HOME");
-		set_env(env, "PWD", home, 1);
-		if (!home)
-			return (write(2, "minishell: cd: HOME not set\n", 29),
-				ft_exit(1, SET_EXIT_STATUS), 1);
-		if (chdir(home) == -1)
-			return (perror("cd"), ft_exit(1, SET_EXIT_STATUS), 1);
-		write(2, "minishell: cd: current directory was deleted, reset to HOME\n", 60);
-		pwd = ft_strdup(home);
-		if (!pwd)
-			return (perror("cd"), ft_exit(1, SET_EXIT_STATUS), 1);
-	}
-	if (!previous_pwd || !pwd)
-		return (perror("cd"), ft_exit(1, mode), 1);
 	if (argc == 1)
 	{
 		dir = get_env(env, "HOME");
 		if ((!dir || !dir[0]) && !get_env_isset(env, "HOME"))
-			return (write(2, "minishell: cd: HOME not set\n", 29),
-				ft_exit(1, mode), 1);
-		dir = ft_strdup(get_env(env, "HOME"));
+			return (write(2, "minishell: cd: HOME not set\n", 28), NULL);
+		return (ft_strdup(get_env(env, "HOME")));
 	}
-	else if (strcmp(argv[1], "-") == 0)
+	else if (ft_strcmp(argv[1], "-") == 0)
 	{
 		dir = get_env(env, "OLDPWD");
 		if (!dir || !*dir)
-			return (write(2, "minishell: cd: OLDPWD not set\n", 31),
-				ft_exit(1, SET_EXIT_STATUS), 1);
+			return (write(2, "minishell: cd: OLDPWD not set\n", 30), NULL);
+		return (ft_strdup(dir));
 	}
-	else
-		dir = argv[1];
-	if (strcmp(dir, ".") == 0)
-		return (ft_exit(0, SET_EXIT_STATUS), 0);
-	expanded_dir = expand_tilde(dir, env);
-	if (!expanded_dir)
-		return (perror("cd"), ft_exit(1, SET_EXIT_STATUS), 1);
+	return (ft_strdup(argv[1]));
+}
+
+static int	ft_change_directory(char *expanded_dir, t_lst *env, char *pwd)
+{
+	char	*new_pwd;
+
 	if (chdir(expanded_dir) == -1)
 		return (perror("cd"), ft_exit(1, SET_EXIT_STATUS), 1);
 	set_env(env, "OLDPWD", pwd, 1);
-	new_pwd = ft_pwd2();
+	new_pwd = ft_pwd(env);
 	if (!new_pwd)
-		return (write(2, "cd: failed to get new working directory\n", 41),
-			ft_exit(1, SET_EXIT_STATUS), 1);
-	return (set_env(env, "PWD", new_pwd, 1), ft_exit(0, SET_EXIT_STATUS), 0);
+	{
+		write(2, "cd: failed to get new working directory\n", 40);
+		return (ft_exit(1, SET_EXIT_STATUS), 1);
+	}
+	set_env(env, "PWD", new_pwd, 1);
+	return (ft_exit(0, SET_EXIT_STATUS), 0);
+}
+
+int	ft_cd(int argc, char **argv, t_lst *env)
+{
+	char	*pwd;
+	char	*dir;
+	char	*expanded_dir;
+
+	pwd = ft_strdup(ft_pwd(env));
+	if (!pwd)
+	{
+		if (ft_handle_pwd_error(env))
+			return (1);
+		pwd = ft_strdup(get_env(env, "HOME"));
+		if (!pwd)
+			return (perror("cd"), ft_exit(1, SET_EXIT_STATUS), 1);
+	}
+	dir = ft_get_directory(argc, argv, env);
+	if (!dir)
+		return (ft_exit(1, SET_EXIT_STATUS), 1);
+	if (ft_strcmp(dir, ".") == 0)
+		return (free(dir), ft_exit(0, SET_EXIT_STATUS), 0);
+	expanded_dir = ft_expand_tilde(dir, env);
+	free(dir);
+	if (!expanded_dir)
+		return (perror("cd"), ft_exit(1, SET_EXIT_STATUS), 1);
+	return (ft_change_directory(expanded_dir, env, pwd));
 }

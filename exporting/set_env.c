@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:11:05 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/10 00:43:12 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/11 22:32:52 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ void	set_env(t_lst *lst, char *key, char *new_value, int sign)
 void	ft_export(char **str, t_lst *lst)
 {
 	int		i;
-	int error;
+	int		error;
 
 	i = 1;
 	error = 0;
@@ -64,9 +64,7 @@ void	ft_export(char **str, t_lst *lst)
 		while (str[i])
 		{
 			if (check_valid2(str[i]) && str[i][0])
-			{
 				export_var(str, lst, i);
-			}
 			else
 			{
 				write(2, "invalid identifier\n", 20);

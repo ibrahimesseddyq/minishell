@@ -6,25 +6,26 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 21:46:03 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/10 00:44:20 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/11 22:11:04 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int is_valid_key_export(char c)
+static int	is_valid_key_export(char c)
 {
 	return (!(
-				('0' <= c && c <= '9')
-				|| ('a' <= c && c <= 'z')
-				|| ('A' <= c && c <= 'Z')
-				|| c == '_' || c == '=' || c == '+'
-			));
+			('0' <= c && c <= '9')
+			|| ('a' <= c && c <= 'z')
+			|| ('A' <= c && c <= 'Z')
+			|| c == '_' || c == '=' || c == '+'
+		));
 }
+
 int	check_valid2(char *str)
 {
 	int	i;
-	int equal;
+	int	equal;
 
 	if (!str || !str[0])
 		return (0);
@@ -42,7 +43,7 @@ int	check_valid2(char *str)
 		if (((str[i] == '=' || str[i] == '+') && i == 0))
 			return (0);
 		if (str[i] == '=')
-				return (1);
+			return (1);
 		if (str[i] == '+' && str[i + 1] != '=')
 			return (0);
 		i++;

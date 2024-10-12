@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 23:47:30 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/10 21:40:40 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/11 22:40:24 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 void	add_to_found(char ***found_files, int *found_count, const char *file)
 {
-	*found_files = ft_realloc(*found_files, (*found_count) * sizeof(char *), (*found_count + 1) * sizeof(char *));
+	*found_files = ft_realloc(*found_files, (*found_count) * sizeof(char *),
+			(*found_count + 1) * sizeof(char *));
 	if (!(*found_files))
 		return ;
 	(*found_files)[*found_count] = gcalloc((strlen(file) + 1) * sizeof(char));
@@ -22,36 +23,6 @@ void	add_to_found(char ***found_files, int *found_count, const char *file)
 		return ;
 	strcpy((*found_files)[*found_count], file);
 	(*found_count)++;
-}
-
-char	**get_files(const char *dir, int *numFiles)
-{
-	DIR				*dp;
-	struct dirent	*ep;
-	char			**files;
-
-	(1) && (*numFiles = 0, files = NULL, dp = opendir(dir));
-	if (dp == NULL)
-		return (write(2, "Couldn't open the directory\n", 28), NULL);
-	ep = readdir(dp);
-	while (ep)
-	{
-		if (ft_strcmp(ep->d_name, ".") != 0 && ft_strcmp(ep->d_name, "..") != 0 && ep->d_name[0] != '.')
-		{
-			files = ft_realloc
-				(files, (*numFiles) * sizeof(char *), (*numFiles + 1) * sizeof(char *));
-			if (!files)
-				return (NULL);
-			files[*numFiles]
-				= gcalloc((strlen(ep->d_name) + 1) * sizeof(char));
-			if (!files[*numFiles])
-				return (NULL);
-			ft_strcpy(files[*numFiles], ep->d_name);
-			(*numFiles)++;
-		}
-		ep = readdir(dp);
-	}
-	return (closedir(dp), files);
 }
 
 void	wildcard(const char *pwd, int level, t_wildcard_data *data)
@@ -99,7 +70,9 @@ char	*expand_wildcard(char *pwd, int level, t_wildcard_data *data)
 	expanded_result = gcalloc(1);
 	while (i < *(data->found_count))
 	{
-		expanded_result = ft_realloc(expanded_result, strlen(expanded_result), strlen(expanded_result) + strlen((*data->found_files)[i]) + 2);
+		expanded_result = ft_realloc(expanded_result,
+				ft_strlen(expanded_result), ft_strlen(expanded_result)
+				+ ft_strlen((*data->found_files)[i]) + 2);
 		ft_strcat(expanded_result, (*data->found_files)[i]);
 		if (i < *(data->found_count) - 1)
 			ft_strcat(expanded_result, del);
@@ -124,7 +97,9 @@ char	*expand_wildcard_redir(char *pwd, int level, t_wildcard_data *data)
 	expanded_result = gcalloc(1);
 	while (i < *(data->found_count))
 	{
-		expanded_result = ft_realloc(expanded_result, strlen(expanded_result), strlen(expanded_result) + strlen((*data->found_files)[i]) + 2);
+		expanded_result = ft_realloc(expanded_result,
+				ft_strlen(expanded_result), ft_strlen(expanded_result)
+				+ ft_strlen((*data->found_files)[i]) + 2);
 		ft_strcat(expanded_result, (*data->found_files)[i]);
 		if (i < *(data->found_count) - 1)
 			ft_strcat(expanded_result, del);

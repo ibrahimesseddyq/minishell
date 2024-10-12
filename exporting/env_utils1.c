@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils1.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:44:36 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/09 22:40:22 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/11 23:13:41 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,17 +71,16 @@ char	*trim_quotes(char *str)
 	return (str);
 }
 
-void	apppend_to_var(char **key, char **value,
-		char **temp, char *str, t_lst *lst)
+void	apppend_to_var(t_export_var *state, char *str, t_lst *lst)
 {
-	*temp = ft_strdup(str);
-	*key = strtok(*temp, "+=");
-	*value = ft_strchr(str, '=');
-	if (*value)
-		(*value)++;
-	if (*value && **value)
-		*value = trim_quotes(*value);
+	state->temp = ft_strdup(str);
+	state->key = strtok(state->temp, "+=");
+	state->value = ft_strchr(str, '=');
+	if (state->value)
+		(state->value)++;
+	if (state->value && *(state->value))
+		state->value = trim_quotes(state->value);
 	else
-		*value = "";
-	append_env(lst, *key, *value);
+		state->value = "";
+	append_env(lst, state->key, state->value);
 }

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 15:42:23 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 19:46:39 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/12 00:22:25 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,14 @@ typedef struct s_split_quotes
 	int		in_double_quote;
 	int		tail_matrice;
 }	t_split_quotes;
+
+typedef struct s_count_word
+{
+	int	i;
+	int	cnt;
+	int	in_single_quote;
+	int	in_double_quote;
+}	t_count_word;
 
 int				ft_atoi(const char *str);
 

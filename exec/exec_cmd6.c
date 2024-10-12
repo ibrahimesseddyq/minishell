@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/08 14:56:47 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/12 01:30:02 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,8 +55,7 @@ char	**make_array(char **args, int size)
 	char	*str;
 	char	*empty_str;
 
-	i = 0;
-	empty_str = get_empty_str();
+	(1) && (i = 0, empty_str = get_empty_str());
 	while (i <= size && args[i])
 	{
 		str = args[i];

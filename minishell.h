@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/11 20:02:00 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/12 01:16:15 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@
 # include <sys/stat.h>
 # include <unistd.h>
 # include <termios.h>
-#include <signal.h>
+# include <signal.h>
 
 # define EXIT_FAIL 2
 # define EXIT_SUCCESS 0
@@ -61,8 +61,8 @@
 # define ACTIVE 1
 # define INACTIVE 0
 # define UNKNOWN -1
-#define ROWS 9
-#define COLS 11
+# define ROWS 9
+# define COLS 11
 
 typedef struct stat	t_stat;
 typedef struct s_redir_islast
@@ -165,22 +165,23 @@ typedef struct s_quote_state
 
 typedef struct s_heredoc_data
 {
-    char    *delimiter;
-    char    *non_expanded_delimiter;
-    int     fd;
-    t_lst   *env;
-} t_heredoc_data;
+	char	*delimiter;
+	char	*non_expanded_delimiter;
+	int		fd;
+	t_lst	*env;
+}	t_heredoc_data;
 
-typedef struct s_state {
-    int         i;
-    int         star_inside;
-    char        *expanded_string;
-    char        **splitted_args;
-    char        *expanded_arg;
-    char        *temp;
-    t_arg_node  *lst;
-    t_arg_node  *head;
-} t_state_fs;
+typedef struct s_state
+{
+	int			i;
+	int			star_inside;
+	char		*expanded_string;
+	char		**splitted_args;
+	char		*expanded_arg;
+	char		*temp;
+	t_arg_node	*lst;
+	t_arg_node	*head;
+}	t_state_fs;
 
 typedef struct s_astnode
 {
@@ -231,6 +232,15 @@ typedef struct s_builtins_state
 	int	export_error;
 }	t_builtins_state;
 
+typedef struct s_export_var
+{
+	int		exist;
+	int		append_mode;
+	char	*key;
+	char	*value;
+	char	*temp;
+}	t_export_var;
+
 char			*get_next_line(int fd);
 void			exec_cmd_line(t_astnode *ast, t_lst *env);
 int				exec_cmd(t_astnode *ast, t_lst *env);
@@ -246,7 +256,7 @@ int				ft_red_out(t_astnode *ast, t_lst *env,
 					int is_last, int command_exist);
 int				ft_redirection(t_astnode *ast, t_lst *env, int command_exist);
 char			*ft_expand(char *line, t_lst *env);
-int				ft_cd(int argc, char **argv, int mode, t_lst *env);
+int				ft_cd(int argc, char **argv, t_lst *env);
 char			*ft_pwd(t_lst *env);
 int				ft_exit(int status, int mode);
 int				ft_echo(char **args);
@@ -334,12 +344,11 @@ t_token			*token_r_redir(t_lexer *lexer);
 t_token			*token_pipe(t_lexer *lexer);
 char			*trim_quotes(char *str);
 int				get_symbol_exist(char *str, char symbol);
-void			apppend_to_var(char **key, char **value,
-					char **temp, char *str, t_lst *lst);
+void			apppend_to_var(t_export_var *state, char *str, t_lst *lst);
 void			expand_token_heredoc(t_expand_params *params,
 					t_lst *env, char **line);
-void			expand_variable_heredoc(t_expand_params *params, t_lst *env, char **line);
-
+void			expand_variable_heredoc(t_expand_params *params,
+					t_lst *env, char **line);
 void			expand_variable(t_expand_params *params,
 					t_lst *env, char **line);
 void			expand_token(t_expand_params *params, t_lst *env, char **line);
@@ -349,21 +358,22 @@ int				match(char *pattern, const char *text);
 char			**filterStrings(const char *pattern,
 					const char *texts[], int numTexts, int *numMatches);
 char			**remove_empty_strings(char **arr, int size, int *new_size);
-void			handle_overflow();
+void			handle_overflow(void);
 int				execute_external(char **arg_cmd, t_astnode *ast, t_lst *env);
 int				builtins_state(int value, int builtin, int op);
 int				check_valid(char *str);
 void			handle_sig(int sig);
 char			*expand_wildcard(char *pwd, int level, t_wildcard_data *data);
-char    		*ft_strcpy(char *s1, char *s2);
+char			*ft_strcpy(char *s1, char *s2);
 char			*ft_strcat(char *dest, char *src);
 char			*expand_wd(char *expanded_arg);
 void			add_heredoc_to_list(char *heredoc_file);
 int				handle_ambiguous(char *str);
-t_list			**get_heredoc_list();
-void			unlink_heredocs();
+t_list			**get_heredoc_list(void);
+void			unlink_heredocs(void);
 int				ft_sprintf(char *str, const char *format, int num);
-char			*expand_wildcard_redir(char *pwd, int level, t_wildcard_data *data);
+char			*expand_wildcard_redir(char *pwd,
+					int level, t_wildcard_data *data);
 int				check_valid2(char *str);
 int				check_valid1(char *str);
 char			*ft_pwd2(void);
@@ -374,14 +384,20 @@ void			increment_shell_level(t_lst *env);
 void			handle_sig(int sig);
 void			ft_handler(int sig);
 int				heredoc_delimiter_valid(char *del);
-int				write_expanded_line(char *delimiter, char *line, int fd, t_lst *env);
-int				(*get_matrix(void))[11];
+int				write_expanded_line(char *delimiter,
+					char *line, int fd, t_lst *env);
 void			initialize_analyzer(char **final_token,
 					int *parenthesis, t_token **tk, int *e);
 int				special_cases(char *cmd);
 char			*get_expanded_string(t_lst *env, t_arg_node *lst);
-char	**filterstrings(char *pattern, char *texts[], int numTexts, int *numMatches);
-int ft_isspace(char c);
-char **handle_empty_var_beginning(char **real_args);
-extern int g_sig_var;
+char			**filterstrings(char *pattern,
+					char *texts[], int numTexts, int *numMatches);
+int				ft_isspace(char c);
+char			**handle_empty_var_beginning(char **real_args);
+int				star_inside_quotes(const char *str);
+void			choose_splitting_delimiter(t_arg_node	*lst, t_astnode *ast);
+char			**get_files(const char *dir, int *numFiles);
+char			*ft_expand_tilde(char *path, t_lst *env);
+extern int		g_sig_var;
+int				(*get_matrix(void))[11];
 #endif

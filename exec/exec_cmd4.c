@@ -6,34 +6,23 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:21:53 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/11 20:01:43 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/12 01:15:53 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
+static void	execute_builtin_command(char **arg_cmd, t_astnode *ast, t_lst *env)
 {
-	int		stdout_backup;
-	int		stdin_backup;
-	int		redir_ret;
 	char	*pwd_dir;
 
-	stdout_backup = dup(STDOUT_FILENO); // 3
-	stdin_backup = dup(STDIN_FILENO); // 4
-	redir_ret = ft_redirection(ast, env, 1);
-	if (redir_ret == -2)
-		return (ft_close(&stdin_backup), ft_close(&stdout_backup), -2);
 	if (!ft_strcmp(arg_cmd[0], "echo"))
 		ft_echo(arg_cmd);
 	else if (!ft_strcmp(arg_cmd[0], "cd"))
-		ft_cd(ast->t_cmd.args_size, arg_cmd, SET_EXIT_STATUS, env);
+		ft_cd(ast->t_cmd.args_size, arg_cmd, env);
 	else if (!ft_strcmp(arg_cmd[0], "pwd"))
-	{
-		pwd_dir = ft_pwd(env);
-		write(1, pwd_dir, ft_strlen(pwd_dir));
-		write(1, "\n", 1);
-	}
+		(1) && (pwd_dir = ft_pwd(env),
+			write(1, pwd_dir, ft_strlen(pwd_dir)), write(1, "\n", 1));
 	else if (!ft_strcmp(arg_cmd[0], "env"))
 		ft_env(env);
 	else if (!ft_strcmp(arg_cmd[0], "exit"))
@@ -42,11 +31,24 @@ int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
 		ft_export(arg_cmd, env);
 	else if (!ft_strcmp(arg_cmd[0], "unset"))
 		unset(arg_cmd, env);
-	dup2(stdout_backup, STDOUT_FILENO);
-	dup2(stdin_backup, STDIN_FILENO);
+}
+
+int	execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env)
+{
+	int		stdout_backup;
+	int		stdin_backup;
+	int		redir_ret;
+
+	stdout_backup = dup(STDOUT_FILENO);
+	stdin_backup = dup(STDIN_FILENO);
+	redir_ret = ft_redirection(ast, env, 1);
+	if (redir_ret == -2)
+		return (ft_close(&stdin_backup), ft_close(&stdout_backup), -2);
+	execute_builtin_command(arg_cmd, ast, env);
 	if (redir_ret != 1)
 		ft_close(&redir_ret);
-	// printf("close [%d] [%d]\n", stdout_backup, stdin_backup);
+	dup2(stdout_backup, STDOUT_FILENO);
+	dup2(stdin_backup, STDIN_FILENO);
 	ft_close(&stdout_backup);
 	ft_close(&stdin_backup);
 	return (1);
@@ -56,7 +58,6 @@ int	check_file(char **argv)
 {
 	int	is_abs_rel;
 
-	// printf("hi 1\n");
 	is_abs_rel = 0;
 	if (is_relative_absolute(argv[0]))
 		is_abs_rel = 1;
@@ -69,21 +70,14 @@ int	check_file(char **argv)
 		ft_exit(127, SET_EXIT_STATUS);
 		return (0);
 	}
-	else if (!access(argv[0], F_OK) && (argv[0][0] != '.' && argv[0][0] != '/' ))
+	else if (!access(argv[0], F_OK)
+		&& (argv[0][0] != '.' && argv[0][0] != '/' ))
 	{
 		write(2, "command not found\n", 19);
 		ft_exit(127, SET_EXIT_STATUS);
 		return (0);
 	}
 	return (1);
-}
-
-int	is_builtin_command(const char *cmd)
-{
-	return (!ft_strcmp((char *)cmd, "echo") || !ft_strcmp((char *)cmd, "cd")
-		|| !ft_strcmp((char *)cmd, "pwd") || !ft_strcmp((char *)cmd, "env")
-		|| !ft_strcmp((char *)cmd, "exit") || !ft_strcmp((char *)cmd, "export")
-		|| !ft_strcmp((char *)cmd, "unset"));
 }
 
 int	check_invalid(t_arg_node *arg, char *cmd)
@@ -114,8 +108,6 @@ int	initial_builtin_errors(t_arg_node *args)
 		arg = args->next;
 		while (arg)
 		{
-			// printf("cmd is [%s] and arg is [%s]\n", cmd, arg->arg);
-			// check_invalid(arg, cmd);
 			arg = arg->next;
 		}
 	}

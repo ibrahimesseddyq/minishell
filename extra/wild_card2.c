@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wild_card2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 21:55:38 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/09 21:30:10 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/12 01:12:49 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,49 @@ char	**filterstrings(char *pattern
 		i++;
 	}
 	return (matches);
+}
+
+static int	is_valid_file(char *filename)
+{
+	return (ft_strcmp(filename, ".") != 0
+		&& ft_strcmp(filename, "..") != 0 && filename[0] != '.');
+}
+
+static char	**add_file(char **files, int *numFiles, char *filename)
+{
+	files = ft_realloc(files, (*numFiles) * sizeof(char *),
+			(*numFiles + 1) * sizeof(char *));
+	if (!files)
+		return (NULL);
+	files[*numFiles] = gcalloc((ft_strlen(filename) + 1) * sizeof(char));
+	if (!files[*numFiles])
+		return (NULL);
+	ft_strcpy(files[*numFiles], filename);
+	(*numFiles)++;
+	return (files);
+}
+
+char	**get_files(const char *dir, int *numFiles)
+{
+	DIR				*dp;
+	struct dirent	*ep;
+	char			**files;
+
+	*numFiles = 0;
+	files = NULL;
+	dp = opendir(dir);
+	if (dp == NULL)
+		return (write(2, "Couldn't open the directory\n", 28), NULL);
+	ep = readdir(dp);
+	while (ep)
+	{
+		if (is_valid_file(ep->d_name))
+		{
+			files = add_file(files, numFiles, ep->d_name);
+			if (!files)
+				return (closedir(dp), NULL);
+		}
+		ep = readdir(dp);
+	}
+	return (closedir(dp), files);
 }

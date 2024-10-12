@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_red_out.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:22:07 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/11 18:03:03 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/11 22:47:49 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,8 @@ static int	check_and_open_file(const char *file, int flags, mode_t mode)
 		return (fd);
 	}
 	if (!S_ISREG(sb.st_mode))
-		return (ft_close(&fd), write(2, "Error: Path is not a regular file\n", 35)
+		return (ft_close(&fd),
+			write(2, "Error: Path is not a regular file\n", 35)
 			, ft_exit(1, SET_EXIT_STATUS), -2);
 	if (access(file, W_OK) == -1)
 		return (ft_close(&fd), write(2, "Permission Denied\n", 19)
@@ -36,6 +37,7 @@ static int	check_and_open_file(const char *file, int flags, mode_t mode)
 			, ft_exit(1, SET_EXIT_STATUS), -2);
 	return (fd);
 }
+
 static int	handle_file_open_and_dup_out(const char *file,
 		int is_last, int command_exist)
 {

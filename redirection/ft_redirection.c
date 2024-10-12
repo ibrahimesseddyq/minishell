@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirection.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:21:45 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/11 16:40:11 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/12 01:09:13 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,15 @@ int	*get_last_redirs(t_astnode *ast)
 	return (last_arr);
 }
 
+int	is_a_redirection_out(t_astnode *ast)
+{
+	if ((ast->t_cmd.redirections->redir->type == NODE_REDIRECT_OUT
+			|| ast->t_cmd.redirections->redir->type == NODE_REDIRECT_APPEND)
+		&& ast->t_cmd.redirections->redir)
+		return (1);
+	return (0);
+}
+
 int	ft_redirection(t_astnode *ast, t_lst *env, int command_exist)
 {
 	int	fd;
@@ -47,31 +56,18 @@ int	ft_redirection(t_astnode *ast, t_lst *env, int command_exist)
 	int	i;
 
 	(1) && (last_arr[0] = get_last_redirs(ast)[0],
-		last_arr[1] = get_last_redirs(ast)[1], i = -1);
+		last_arr[1] = get_last_redirs(ast)[1], i = -1, fd = -1);
 	if (last_arr[0] == 0 && last_arr[1] == 0)
 		return (1);
 	while (ast->t_cmd.redirections)
 	{
-		if ((ast->t_cmd.redirections->redir->type == NODE_REDIRECT_OUT
-				|| ast->t_cmd.redirections->redir->type == NODE_REDIRECT_APPEND)
-			&& ast->t_cmd.redirections->redir)
-		{
-					printf("daz\nlast_arr[%d]   i hiya [%d]\n fd howa [%d]\n", last_arr[1], i, fd);
+		if (is_a_redirection_out(ast))
 			fd = ft_red_out(ast, env, last_arr[1] == ++i, command_exist);
-			if (last_arr[1] != i)
-			{
-				printf("close fd is [%d]\n", fd);
-				ft_close(&fd);
-			}
-		}
 		else
-		{
-
 			fd = ft_red_in(ast, env, last_arr[0] == ++i, command_exist);
-			printf("daz\nlast_arr[%d]   i hiya [%d]\n fd howa [%d]\n", last_arr[0], i, fd);
-			if (last_arr[0] != i)
-				ft_close(&fd);
-		}
+		if ((is_a_redirection_out(ast) && last_arr[1] != i)
+			|| (!is_a_redirection_out(ast) && last_arr[0] != i))
+			ft_close(&fd);
 		if (fd == -2)
 			return (-2);
 		ast->t_cmd.redirections = ast->t_cmd.redirections->next;

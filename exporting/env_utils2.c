@@ -3,50 +3,52 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:45:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/09 22:40:52 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/12 01:20:52 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	handle_existing_var(char *str, char **key,
-		char **value, char **temp, t_lst *lst)
+void	handle_existing_var(char *str, t_export_var *state, t_lst *lst)
 {
-	*temp = ft_strdup(str);
-	*key = strtok(*temp, "=");
-	*value = ft_strchr(str, '=');
-	if (*value)
-		(*value)++;
-	if (*value && **value)
-		*value = *value;
+	state->temp = ft_strdup(str);
+	state->key = strtok(state->temp, "=");
+	state->value = ft_strchr(str, '=');
+	if (state->value)
+		state->value++;
+	if (state->value && *(state->value))
+		state->value = trim_quotes(state->value);
 	else
-		*value = "";
-	set_env(lst, *key, *value, 1);
+		state->value = "";
+	set_env(lst, state->key, state->value, 1);
 }
 
 void	export_var(char **str, t_lst *lst, int i)
 {
-	int		exist;
-	int		append_mode;
-	char	*key;
-	char	*value;
-	char	*temp;
+	t_export_var	state;
 
-	append_mode = get_symbol_exist(str[i], '+')
+	state.append_mode = get_symbol_exist(str[i], '+')
 		&& get_symbol_exist(str[i], '=');
-	if (append_mode)
-		apppend_to_var(&key, &value, &temp, str[i], lst);
+	if (state.append_mode)
+		apppend_to_var(&state, str[i], lst);
 	else
 	{
-		exist = get_symbol_exist(str[i], '=');
-		if (exist)
-			handle_existing_var(str[i], &key, &value, &temp, lst);
+		state.exist = get_symbol_exist(str[i], '=');
+		if (state.exist)
+			handle_existing_var(str[i], &state, lst);
 		else
-			set_env(lst, str[i], "", exist);
+			set_env(lst, str[i], "", state.exist);
 	}
+}
+
+static void	set_var(t_lst	*lst, char	*combined_value)
+{
+	lst->set = 1;
+	lst->signe = '=';
+	lst->value = combined_value;
 }
 
 void	append_env(t_lst *lst, char *key, char *new_value)
@@ -68,9 +70,7 @@ void	append_env(t_lst *lst, char *key, char *new_value)
 					+ ft_strlen(new_value) + 1);
 			ft_strcpy(combined_value, existing_value);
 			ft_strcat(combined_value, new_value);
-			lst->set = 1;
-			lst->signe = '=';
-			lst->value = combined_value;
+			set_var(lst, combined_value);
 			return ;
 		}
 		lst = lst->next;

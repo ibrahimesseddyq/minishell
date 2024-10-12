@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:13:19 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/09 23:37:55 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/12 01:31:15 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,9 +37,8 @@ int	main(int ac, char **av, char *env[])
 	t_lst		*lst;
 	char		*t;
 
-	(void)((1) && (token_list = NULL, ast = NULL, (void)ac, (void)av, 1));
-	initialize();
-	lst = envp(env);
+	(void)((1) && (token_list = NULL, ast = NULL,
+		(void)ac, (void)av, initialize(), lst = envp(env), 1));
 	increment_shell_level(lst);
 	while (1)
 	{
@@ -53,10 +52,9 @@ int	main(int ac, char **av, char *env[])
 		if (t)
 			execute(token_list, ast, lst, t);
 		g_sig_var = 0;
-		// printf("\nexit status: [%d]\n", ft_exit(1, GET_EXIT_STATUS));
+		printf("\nexit status: [%d]\n", ft_exit(1, GET_EXIT_STATUS));
 		unlink_heredocs();
 		free(t);
 	}
-	gc_free_all();
-	return (ft_exit(1, GET_EXIT_STATUS));
+	return (gc_free_all(), ft_exit(1, GET_EXIT_STATUS));
 }

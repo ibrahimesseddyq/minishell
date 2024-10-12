@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 04:20:21 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/09/26 00:09:20 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/12 01:21:28 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,32 +17,31 @@
 
 static int	count_words(char *s, char c)
 {
-	int	i;
-	int	cnt;
-	int	in_single_quote;
-	int	in_double_quote;
+	t_count_word	state;
 
-	(1) && (i = 0, cnt = 0, in_single_quote = 0, in_double_quote = 0);
+	(1) && (state.i = 0, state.cnt = 0,
+		state.in_single_quote = 0, state.in_double_quote = 0);
 	if (!s)
 		return (-1);
-	while (s[i])
+	while (s[state.i])
 	{
-		while (s[i] == c && s[i])
-			i++;
-		if (s[i] && s[i] != c)
+		while (s[state.i] == c && s[state.i])
+			state.i++;
+		if (s[state.i] && s[state.i] != c)
 		{
-			cnt++;
-			while (s[i] && (in_single_quote || in_double_quote || s[i] != c))
+			state.cnt++;
+			while (s[state.i] && (state.in_single_quote
+					|| state.in_double_quote || s[state.i] != c))
 			{
-				if (s[i] == '\'' && !in_double_quote)
-					in_single_quote = !in_single_quote;
-				else if (s[i] == '"' && !in_single_quote)
-					in_double_quote = !in_double_quote;
-				i++;
+				if (s[state.i] == '\'' && !state.in_double_quote)
+					state.in_single_quote = !state.in_single_quote;
+				else if (s[state.i] == '"' && !state.in_single_quote)
+					state.in_double_quote = !state.in_double_quote;
+				state.i++;
 			}
 		}
 	}
-	return (cnt);
+	return (state.cnt);
 }
 
 static int	initialize_vars_state(t_split_quotes *state, char *s, char c)
@@ -75,6 +74,15 @@ char	*ft_strndup(const char *s, size_t n)
 	return (dup);
 }
 
+void	check_in_quotes(char *s, t_split_quotes *state)
+{
+	if (s[state->word_length] == '\'' && !state->in_double_quote)
+		state->in_single_quote = !state->in_single_quote;
+	else if (s[state->word_length] == '"' && !state->in_single_quote)
+		state->in_double_quote = !state->in_double_quote;
+	state->word_length++;
+}
+
 char	**ft_split_quotes(char *s, char c)
 {
 	t_split_quotes	state;
@@ -91,11 +99,7 @@ char	**ft_split_quotes(char *s, char c)
 			&& (state.in_single_quote || state.in_double_quote
 				|| s[state.word_length] != c))
 		{
-			if (s[state.word_length] == '\'' && !state.in_double_quote)
-				state.in_single_quote = !state.in_single_quote;
-			else if (s[state.word_length] == '"' && !state.in_single_quote)
-				state.in_double_quote = !state.in_double_quote;
-			state.word_length++;
+			check_in_quotes(s, &state);
 		}
 		state.arr[state.index] = ft_strndup(s, state.word_length);
 		if (state.arr[state.index] == NULL)
