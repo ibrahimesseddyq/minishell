@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 00:56:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/12 00:16:01 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/12 10:42:00 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,11 +44,11 @@ void	replace_args(int *i, t_arg_node **current, char ***array)
 	{
 		if (*current)
 		{
-			*(array)[*i] = ft_strdup((*current)->arg);
+			(*array)[*i] = ft_strdup((*current)->arg);
 			*current = (*current)->next;
 		}
 		else
-			*(array)[*i] = NULL;
+			(*array)[*i] = NULL;
 		(*i)++;
 	}
 }

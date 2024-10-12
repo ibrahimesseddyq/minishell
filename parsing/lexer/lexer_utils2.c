@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:11:55 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/09 23:16:18 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/12 13:30:18 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	should_stop(t_lexer *lexer, int in_quotes)
 			|| lexer->currentchar == '|' || lexer->currentchar == '&'
 			|| lexer->currentchar == ';' || lexer->currentchar == '('
 			|| lexer->currentchar == ')' || lexer->currentchar == '>'
-			|| lexer->currentchar == '<'));
+			|| lexer->currentchar == '<' || lexer->currentchar == '\n'));
 }
 
 char	*finalize_buffer(char *buffer, size_t i)

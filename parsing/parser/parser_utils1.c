@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:52:42 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/09 22:41:18 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/12 10:44:54 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,21 +62,21 @@ int	there_is_quote(char *str)
 
 bool	is_valid_quotes(const char *str)
 {
-	int	single_quote_count;
-	int	double_quote_count;
 	int	i;
+	bool	single_open;
+	bool	double_open;
 
-	single_quote_count = 0;
-	double_quote_count = 0;
 	i = 0;
+	single_open = false;
+	double_open = false;
 	while (str[i] != '\0')
 	{
-		if (str[i] == '\'')
-			single_quote_count++;
-		else if (str[i] == '"')
-			double_quote_count++;
+		if (str[i] == '\'' && !double_open)
+			single_open = !single_open;
+		else if (str[i] == '"' && !single_open)
+			double_open = !double_open;
 		i++;
 	}
-	return ((single_quote_count % 2 == 0)
-		&& (double_quote_count % 2 == 0));
+	return (!single_open && !double_open);
 }
+
