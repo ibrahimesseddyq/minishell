@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/12 01:31:39 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/12 22:19:18 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,18 @@ int	execute_command_withargs(t_astnode *ast, t_lst *env, char **real_args)
 		result = execute_external(real_args, ast, env);
 	return (result);
 }
+int	handle_redirs_when_empty(t_lst *env, t_astnode *ast)
+{
+	int	stdout_backup;
 
+	stdout_backup = -1;
+
+	stdout_backup = ft_redirection(ast, env, 0);
+	if (stdout_backup == -2)
+		return (-2);
+	ft_close(&stdout_backup);
+	return (0);
+}
 int	exec_cmd(t_astnode *ast, t_lst *env)
 {
 	t_arg_node	*lst;
@@ -92,9 +103,14 @@ int	exec_cmd(t_astnode *ast, t_lst *env)
 	tmp = lst;
 	real_args = generate_final_args(ast, env, lst);
 	real_args = handle_empty_var_beginning(real_args);
-	if (special_cases(real_args[0]))
-		return (0);
+	
 	if (!real_args || !real_args[0] || !real_args[0][0])
+	{
+		if (ast->t_cmd.redirections)
+			handle_redirs_when_empty(env, ast);
+		return (0);
+	}
+	if (special_cases(real_args[0]))
 		return (0);
 	for(int i=0; real_args[i]; i++)
 	{

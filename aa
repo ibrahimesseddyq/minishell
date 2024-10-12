@@ -1,0 +1,24 @@
+List of leaks
+Makefile
+aa
+builtins
+dd
+env
+exec
+expanding
+exporting
+extra
+libft
+libft.a
+main.c
+main_utils.c
+main_utils.o
+minishell
+minishell.dSYM
+minishell.h
+note.txt
+outfiles
+parsing
+redirection
+test_files
+tmp_test_sh
