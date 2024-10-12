@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_getcwd.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 19:53:48 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 19:54:20 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/12 22:32:02 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 char	*ft_getcwd(char *buf, size_t size)
 {
 	char	*ret;
+	char	*dir;
 
-	ret = getcwd(buf, size);
+	dir = getcwd(buf, size);
+	ret = ft_strdup(dir);
 	return (ret);
 }

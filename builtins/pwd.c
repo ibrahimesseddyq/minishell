@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pwd.c                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:27:33 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/11 20:06:54 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/12 22:29:30 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,6 @@ char	*ft_pwd(t_lst *env)
 	}
 	else
 		path = ft_strdup(dir);
-	free(dir);
 	ft_exit(0, SET_EXIT_STATUS);
 	return (path);
 }
@@ -47,7 +46,6 @@ char	*ft_pwd2(void)
 	if (!ft_getcwd(dir, MNSH_PATH_MAX * sizeof(char)))
 		return (NULL);
 	path = ft_strdup(dir);
-	free(dir);
 	ft_exit(0, SET_EXIT_STATUS);
 	return (path);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:04:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/12 22:23:33 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/12 22:26:04 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	ft_cd(int argc, char **argv, t_lst *env)
 	if (ft_strcmp(dir, ".") == 0)
 		return (ft_exit(0, SET_EXIT_STATUS), 0);
 	expanded_dir = ft_expand_tilde(dir, env);
-\	if (!expanded_dir)
+	if (!expanded_dir)
 		return (perror("cd"), ft_exit(1, SET_EXIT_STATUS), 1);
 	return (ft_change_directory(expanded_dir, env, pwd));
 }
