@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/12 01:16:15 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/13 01:00:06 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,6 +224,7 @@ typedef struct s_expand_params
 	char	current_quote;
 	char	*expanded_line;
 	int		is_inside_quotes2;
+	int		is_inside_quotes3;
 }	t_expand_params;
 
 typedef struct s_builtins_state

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 15:42:23 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/12 00:22:25 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/13 00:57:09 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -191,5 +191,7 @@ char			*ft_getcwd(char *buf, size_t size);
 pid_t			ft_fork(void);
 
 __int128		ft_atoi128(const char *str);
+
+char			*ft_strncpy(char *dest, char *src, unsigned int n);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 15:17:19 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 15:18:35 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/12 23:27:55 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,7 @@ void	initialize(void)
 	if (!isatty(0))
 	{
 		write(2, "non interactive mode is unavailable\n", 37);
+		gc_free_all();
 		ft_exit(1, EXIT_PROGRAM);
 	}
 }

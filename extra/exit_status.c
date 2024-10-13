@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 20:33:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/11 22:40:05 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/12 23:30:40 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,5 +53,6 @@ int	builtins_state(int value, int builtin, int op)
 void	handle_overflow(void)
 {
 	write(2, "You aren't allowed to do that :)\n", 34);
+	gc_free_all();
 	ft_exit(1, EXIT_PROGRAM);
 }

@@ -11,7 +11,7 @@ SRC = main_utils.c ./redirection/redir_in_utils.c ./parsing/lexer/lexer.c ./pars
  exporting/get_env.c exporting/set_env.c redirection/ft_red_in.c redirection/ft_red_out.c redirection/ft_redirection.c expanding/expand_normal.c expanding/expand_redir.c expanding/expand_delimiter.c expanding/expand_heredoc.c ./builtins/cd.c ./builtins/cd_utils.c ./builtins/pwd.c ./extra/exit_status.c ./builtins/echo.c ./builtins/unset.c ./builtins/env.c ./builtins/exit.c ./extra/gc/gcalloc.c exec/split_ai.c exec/split_utils.c exec/exec_cmd_utils.c exec/split_utils2.c exec/exec_cmd2.c exec/exec_cmd3.c exec/exec_cmd4.c exec/exec_cmd5.c exec/exec_cmd6.c exec/exec_cmd7.c exec/exec_wildcard.c exec/exec_cmd8.c exec/exec_cmd9.c exec/exec_cmd10.c  expanding/expand_utils1.c expanding/expand_utils2.c exporting/env_utils1.c exporting/env_utils2.c	
 OBJ = $(SRC:.c=.o)
 CC = cc -g
-CFLAGS = -Wall -Wextra -Werror -fsanitize=address
+CFLAGS = -Wall -Wextra -Werror
 
 all: $(NAME)
 

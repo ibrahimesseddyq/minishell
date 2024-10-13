@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:19:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/11 22:31:08 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/13 01:03:04 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ void	expand_variable(t_expand_params *params, t_lst *env, char **line)
 
 	varnamelen = get_var_length(*line, params->i);
 	varname = gcalloc(varnamelen + 1);
-	strncpy(varname, *line + params->i, varnamelen);
+	ft_strncpy(varname, *line + params->i, varnamelen);
 	varname[varnamelen] = '\0';
 	params->i += varnamelen;
 	value = get_env(env, varname);
@@ -58,7 +58,8 @@ void	expand_variable(t_expand_params *params, t_lst *env, char **line)
 	else
 	{
 		value = ft_strdup(value);
-		value = replace_space_with_second_separator(params, value);
+		if (!params->is_inside_quotes3)
+			value = replace_space_with_second_separator(params, value);
 		append_string(params, value);
 	}
 }
@@ -98,12 +99,14 @@ char	*ft_expand(char *line, t_lst *env)
 
 	expanded_line = gcalloc(DEFAULT_NB);
 	params = init_params(expanded_line);
+	params.is_inside_quotes3 = 0;
 	while (line && line[params.i])
 	{
 		if (handle_quotes2(line[params.i], &params))
 			continue ;
 		if (!params.is_inside_quotes || params.current_quote == '\"')
 		{
+			params.is_inside_quotes3 = params.is_inside_quotes;
 			expand_token(&params, env, &line);
 		}
 		else

@@ -12,17 +12,21 @@ for(int i=0; real_args[i]; i++)
     printf("real_args[%s]\n", real_args[i]);
 }
 
-DONT WORK!!!!
-
-/bin/echo '$USER' "$USER" "text   text"
-/bin/echo '$USER' "$USER" "text  ' text"
-
-
-ls sometimes exist with value other than 0
-
-$? should return 1 not 01
 
 
 
-!!!!!!!!!!!
-ABORT!!! CTRL  D // Critique parce que tu peux pas anticiper quand il va se declencher 
+unset $PATH
+ECHO -nnnn
+
+<< *
+
+env -i ./minishell
+
+export a=" a     'b   c   '    d"
+"$a"
+
+$EMPTY
+
+test_files
+
+$? 127 not 0127

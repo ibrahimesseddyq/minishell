@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   envp.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 23:49:30 by ynachat           #+#    #+#             */
-/*   Updated: 2024/09/22 01:50:57 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/13 00:56:03 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,8 @@ t_lst	*envp(char **env)
 	char	*value;
 
 	lst = NULL;
+	if (!env)
+		return (gc_free_all(), ft_exit(1, EXIT_PROGRAM), NULL);
 	i = 0;
 	while (env[i])
 	{
