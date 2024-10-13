@@ -19,7 +19,3 @@ unset $PATH
 ECHO -nnnn
 
 << *
-
-$EMPTY
-
-test_files

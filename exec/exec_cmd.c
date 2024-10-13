@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/12 22:19:18 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/13 01:40:36 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,21 +95,25 @@ int	exec_cmd(t_astnode *ast, t_lst *env)
 	t_arg_node	*tmp;
 
 	(1) && (lst = ast->t_cmd.args, tmp = lst);
+	printf("hi 1\n");
 	if (no_command_case(lst, env, ast))
 		return (1);
 	if (!ast->t_cmd.args || !get_node_at(ast->t_cmd.args, 0)->arg)
 		return (0);
 	choose_splitting_delimiter(lst, ast);
 	tmp = lst;
+	printf("hi 2\n");
 	real_args = generate_final_args(ast, env, lst);
 	real_args = handle_empty_var_beginning(real_args);
-	
+	printf("hi 3\n");
 	if (!real_args || !real_args[0] || !real_args[0][0])
 	{
 		if (ast->t_cmd.redirections)
 			handle_redirs_when_empty(env, ast);
+		ft_exit(0, SET_EXIT_STATUS);
 		return (0);
 	}
+	printf("hi 4\n");
 	if (special_cases(real_args[0]))
 		return (0);
 	for(int i=0; real_args[i]; i++)
