@@ -20,13 +20,6 @@ ECHO -nnnn
 
 << *
 
-env -i ./minishell
-
-export a=" a     'b   c   '    d"
-"$a"
-
 $EMPTY
 
 test_files
-
-$? 127 not 0127

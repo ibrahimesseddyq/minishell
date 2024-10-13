@@ -6,38 +6,54 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:48:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/12 22:34:38 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/13 01:23:19 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*ft_itoa(int num)
+static int	ft_numlen(int n)
 {
-	char	*str;
-	int		temp_num;
-	int		len;
-	int		sign;
+	int	len;
 
-	(1) && (temp_num = num, len = 1, sign = 1);
-	if (num < 0)
+	len = 0;
+	if (n <= 0)
+		len = 1;
+	while (n)
 	{
-		sign = -1;
+		n /= 10;
 		len++;
 	}
-	temp_num = num;
-	while (temp_num != 0)
-	{
-		temp_num /= 10;
-		len++;
-	}
-	(1) && (str = gcalloc(len + 1), str[len] = '\0');
-	while (len--)
-		(1) && (str[len] = (num % 10) * sign + '0', num /= 10);
-	if (sign == -1)
-		str[0] = '-';
-	return (str);
+	return (len);
 }
+
+char	*ft_itoa(int n)
+{
+	char	*s;
+	int		len;
+	long	nbr;
+
+	len = ft_numlen(n);
+	nbr = n;
+	s = (char *)gcalloc(len + 1);
+	if (!s)
+		return (NULL);
+	s[len] = '\0';
+	if (nbr == 0)
+		s[0] = '0';
+	if (nbr < 0)
+	{
+		s[0] = '-';
+		nbr = -nbr;
+	}
+	while (nbr)
+	{
+		s[--len] = nbr % 10 + '0';
+		nbr /= 10;
+	}
+	return (s);
+}
+
 
 t_expand_params	init_params(char *expanded_line)
 {

@@ -6,23 +6,13 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 15:47:54 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 15:59:27 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/13 01:11:30 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <unistd.h>
+#include "./../../minishell.h"
 
 void	ft_reverse(char *str);
-
-int	ft_strlen(const char *str)
-{
-	int	len;
-
-	len = 0;
-	while (str[len])
-		len++;
-	return (len);
-}
 
 int	ft_itoa_sp(int n, char *str)
 {
@@ -80,6 +70,7 @@ int	ft_sprintf(char *str, const char *format, int num)
 	int		j;
 
 	(1) && (total_len = 0, i = 0, j = 0);
+	printf("[itoa]num is [%d]\n", num);
 	while (format[i])
 	{
 		if (format[i] == '%' && format[i + 1] == 'd')
@@ -96,5 +87,7 @@ int	ft_sprintf(char *str, const char *format, int num)
 			str[total_len++] = format[i];
 		i++;
 	}
+	printf("[itoa]num str is [%s]\n", str);
+
 	return (str[total_len] = '\0', total_len);
 }
