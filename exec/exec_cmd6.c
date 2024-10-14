@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/13 01:33:41 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/14 02:31:03 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,19 @@ char	**make_array(char **args, int size)
 	return (args);
 }
 
+int slash_exist(char *str)
+{
+	int i;
+
+	i  = 0;
+	while(str && str[i])
+	{
+		if (str[i] == '/')
+			return (1);
+		i++;
+	}
+	return (0);
+}
 int	special_cases(char *cmd)
 {
 	struct stat	sb;
@@ -94,7 +107,7 @@ int	special_cases(char *cmd)
 		ft_exit(127, SET_EXIT_STATUS);
 		return (1);
 	}
-	else if (((cmd[ft_strlen(cmd) - 1] == '/' && S_ISDIR(sb.st_mode)) && !is_builtin_command(cmd)))
+	else if ((cmd[ft_strlen(cmd) - 1] == '/' && S_ISDIR(sb.st_mode)) || (S_ISDIR(sb.st_mode) && !is_builtin_command(cmd) && slash_exist(cmd)))
 	{
 		write(2, "Is a directory \n", 16);
 		ft_exit(126, SET_EXIT_STATUS);
