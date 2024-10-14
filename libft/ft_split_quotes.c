@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 04:20:21 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/12 01:21:28 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/14 22:22:33 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,8 @@ char	*ft_strndup(const char *s, size_t n)
 	return (dup);
 }
 
-void	check_in_quotes(char *s, t_split_quotes *state)
+void	check_in_quotes( t_split_quotes *state)
 {
-	if (s[state->word_length] == '\'' && !state->in_double_quote)
-		state->in_single_quote = !state->in_single_quote;
-	else if (s[state->word_length] == '"' && !state->in_single_quote)
-		state->in_double_quote = !state->in_double_quote;
 	state->word_length++;
 }
 
@@ -89,19 +85,23 @@ char	**ft_split_quotes(char *s, char c)
 
 	if (initialize_vars_state(&state, s, c) == 0)
 		return (NULL);
-	while (state.index < state.tail_matrice)
+	while (state.index <= state.tail_matrice)
 	{
+	// printf("state.index [%d]   tail_matrice [%d]\n", state.tail_matrice, state.index);
 		state.i = 0;
 		while (*s && *s == c)
 			s++;
 		state.word_length = 0;
+		        state.in_single_quote = 0; 
+        state.in_double_quote = 0;
 		while (s[state.word_length]
-			&& (state.in_single_quote || state.in_double_quote
-				|| s[state.word_length] != c))
+			&& (s[state.word_length] != c))
 		{
-			check_in_quotes(s, &state);
+			// printf("s is [%s]\nc is [%c] \nis in double quote[%d]\nis in single quote[%d] char is [%c]\n", s, c, state.in_single_quote, state.in_double_quote, s[state.word_length]);
+			check_in_quotes( &state);
 		}
 		state.arr[state.index] = ft_strndup(s, state.word_length);
+		// printf("state.arr[state.index [%s]\n", state.arr[state.index]);
 		if (state.arr[state.index] == NULL)
 			return (NULL);
 		s += state.word_length;
