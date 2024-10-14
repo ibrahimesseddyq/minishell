@@ -19,3 +19,7 @@ unset $PATH
 ECHO -nnnn
 
 << *
+
+
+unset FKSKF // non existing then
+export

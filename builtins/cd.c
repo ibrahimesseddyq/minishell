@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:04:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/12 22:26:04 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/14 02:42:44 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static char	*ft_get_directory(int argc, char **argv, t_lst *env)
 {
 	char	*dir;
 
-	if (argc == 1)
+	if (argc == 1 || !argv[1][0])
 	{
 		dir = get_env(env, "HOME");
 		if ((!dir || !dir[0]) && !get_env_isset(env, "HOME"))
