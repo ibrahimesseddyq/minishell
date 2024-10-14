@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/13 01:00:06 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/14 23:08:02 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -397,7 +397,7 @@ int				ft_isspace(char c);
 char			**handle_empty_var_beginning(char **real_args);
 int				star_inside_quotes(const char *str);
 void			choose_splitting_delimiter(t_arg_node	*lst, t_astnode *ast);
-char			**get_files(const char *dir, int *numFiles);
+char			**get_files(const char *dir, int *numFiles, t_wildcard_data *data);
 char			*ft_expand_tilde(char *path, t_lst *env);
 extern int		g_sig_var;
 int				(*get_matrix(void))[11];
