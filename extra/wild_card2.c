@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 21:55:38 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/12 01:12:49 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/14 17:25:34 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	match(char *pattern, const char *text)
 {
 	if (*pattern == '\0' && *text == '\0')
 		return (1);
-	if (*pattern == '*')
+	if (*pattern == *get_splitted_char(4))
 	{
 		if (*(pattern + 1) == '\0')
 			return (1);

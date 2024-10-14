@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:19:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/13 01:03:04 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/14 17:24:21 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,13 +78,13 @@ void	expand_token(t_expand_params *params, t_lst *env, char **line)
 		}
 		params->i++;
 		if ((*line)[params->i] == '?')
-		{
 			expand_exit_status(params);
-		}
 		else
-		{
 			expand_variable(params, env, line);
-		}
+	}
+	if ((*line)[params->i] == '*' && !params->is_inside_quotes)
+	{
+		(*line)[params->i] = *get_splitted_char(4);
 	}
 	else
 	{

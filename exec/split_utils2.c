@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 22:19:50 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/10 21:23:04 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/14 17:17:42 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*get_splitted_char(int index)
 {
-	static char	c[3];
+	static char	c[4];
 
 	if (c[index - 1] == 0)
 		c[index - 1] = 33;
