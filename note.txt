@@ -17,7 +17,6 @@ unset FKSKF // non existing then
 export
 
 
- echo hallo 'ma\"ran' siemons
 
 ls < *
 

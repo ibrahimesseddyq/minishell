@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 21:55:38 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/14 17:25:34 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/14 22:42:28 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,10 @@ char	**filterstrings(char *pattern
 	return (matches);
 }
 
-static int	is_valid_file(char *filename)
+static int	is_valid_file(char *filename, char *pwd)
 {
 	return (ft_strcmp(filename, ".") != 0
-		&& ft_strcmp(filename, "..") != 0 && filename[0] != '.');
+		&& ft_strcmp(filename, "..") != 0 && (filename[0] != '.' && pwd[0] !='.'));
 }
 
 static char	**add_file(char **files, int *numFiles, char *filename)
@@ -94,7 +94,7 @@ char	**get_files(const char *dir, int *numFiles)
 	ep = readdir(dp);
 	while (ep)
 	{
-		if (is_valid_file(ep->d_name))
+		if (is_valid_file(ep->d_name, dir))
 		{
 			files = add_file(files, numFiles, ep->d_name);
 			if (!files)

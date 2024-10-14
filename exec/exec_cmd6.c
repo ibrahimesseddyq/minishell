@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/14 02:31:03 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/14 22:37:04 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,8 @@ char	**make_array(char **args, int size)
 		{
 			if (str[j] == *get_splitted_char(2))
 				str[j] = ' ';
+			if (str[j] == *get_splitted_char(4))
+				str[j] = '*';
 			j++;
 		}
 		i++;
