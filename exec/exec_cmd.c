@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/14 22:23:08 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/14 22:30:00 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@ void	handle_expanding_of_argument(t_state_fs	*state, t_lst *env)
 {
 	if (star_inside_quotes(state->lst->arg))
 		state->star_inside = 1;
-	printf("before normal expanding : [%s]\n", state->expanded_arg);
+	// printf("before normal expanding : [%s]\n", state->expanded_arg);
 	state->expanded_arg = get_expanded_string(env, state->lst);
-	printf("after normal expanding : [%s]\n", state->expanded_arg);
+	// printf("after normal expanding : [%s]\n", state->expanded_arg);
 	if (!state->star_inside)
 		state->expanded_arg = expand_wd(state->expanded_arg);
-	printf("after wildcard expanding : [%s]\n", state->expanded_arg);
+	// printf("after wildcard expanding : [%s]\n", state->expanded_arg);
 
 	state->temp = ft_strjoin(state->expanded_string, state->expanded_arg);
-	printf("after joining : [%s]\n", state->temp);
+	// printf("after joining : [%s]\n", state->temp);
 
 	state->expanded_string = state->temp;
 	if (state->lst->next)
@@ -134,11 +134,11 @@ int	exec_cmd(t_astnode *ast, t_lst *env)
 	choose_splitting_delimiter(lst, ast);
 	tmp = lst;
 	// printf("hi 2\n");
-	while(tmp)
-	{
-		printf("initial [%s]\n", tmp->arg);
-		tmp = tmp->next;
-	}
+	// while(tmp)
+	// {
+	// 	printf("initial [%s]\n", tmp->arg);
+	// 	tmp = tmp->next;
+	// }
 	real_args = generate_final_args(ast, env, lst);
 	real_args = handle_empty_var_beginning(real_args);
 	// printf("hi 3\n");
