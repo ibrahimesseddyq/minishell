@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:21:45 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/15 02:49:04 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/15 21:16:44 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ char	*handle_ambiguous_wd(t_redir *redir)
 	else
 		data.pattern = &redir->file;
 	data.found_count = 0;
-	
 	res = expand_wildcard_redir(".", 0, &data);
+	// printf("res size [%d]\nres line [%s]\n", res->size, res->expanded_result);
 	if (res->size != 1)
 	{
 		write(2, "ambiguious redir\n", 18);
