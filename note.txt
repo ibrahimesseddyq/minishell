@@ -10,27 +10,18 @@ for(int i=0; real_args[i]; i++)
 unset $PATH
 ECHO -nnnn
 
-<< *
 
 
 unset FKSKF // non existing then
 export
 
-
-
-ls < *
-
-
  unset PATH        OK
 tmp_x_file1         KO
 echo $?             KO
 
-touch tmp_out1
-touch tmp_out2
-/bin/echo 42 >tmp_out*
-rm -f "tmp_out*"
 
-
+<< *
+ls < * // working on this 
 cat << "$US"E"R"
 because
 we
@@ -39,6 +30,5 @@ bash
 $USER
 
 
- /usr/bin/printf "%s\n" "Mak"'e'*'*' | sort      KO
-/usr/bin/printf "%s\n" "."* | sort              KO
-/usr/bin/printf "%s\n" '*' | sort             KO
+
+

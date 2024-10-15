@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/14 23:08:02 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/15 02:48:22 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,6 +242,12 @@ typedef struct s_export_var
 	char	*temp;
 }	t_export_var;
 
+typedef struct s_wildcard_redir_res
+{
+	char	*expanded_result;
+	int		size;
+}	t_wd_redir_res;
+
 char			*get_next_line(int fd);
 void			exec_cmd_line(t_astnode *ast, t_lst *env);
 int				exec_cmd(t_astnode *ast, t_lst *env);
@@ -373,8 +379,8 @@ int				handle_ambiguous(char *str);
 t_list			**get_heredoc_list(void);
 void			unlink_heredocs(void);
 int				ft_sprintf(char *str, const char *format, int num);
-char			*expand_wildcard_redir(char *pwd,
-					int level, t_wildcard_data *data);
+t_wd_redir_res	*expand_wildcard_redir(char *pwd, int level, t_wildcard_data *data);
+
 int				check_valid2(char *str);
 int				check_valid1(char *str);
 char			*ft_pwd2(void);
@@ -399,6 +405,8 @@ int				star_inside_quotes(const char *str);
 void			choose_splitting_delimiter(t_arg_node	*lst, t_astnode *ast);
 char			**get_files(const char *dir, int *numFiles, t_wildcard_data *data);
 char			*ft_expand_tilde(char *path, t_lst *env);
+void	wildcard2(const char *pwd, int level, t_wildcard_data *data, t_wd_redir_res *res);
+void	add_to_found(char ***found_files, int *found_count, const char *file);
 extern int		g_sig_var;
 int				(*get_matrix(void))[11];
 #endif

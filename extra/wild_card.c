@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 23:47:30 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/14 23:09:47 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/15 02:47:35 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,18 +83,20 @@ char	*expand_wildcard(char *pwd, int level, t_wildcard_data *data)
 	return (expanded_result);
 }
 
-char	*expand_wildcard_redir(char *pwd, int level, t_wildcard_data *data)
+t_wd_redir_res	*expand_wildcard_redir(char *pwd, int level, t_wildcard_data *data)
 {
 	int		i;
 	char	*expanded_result;
 	char	*del;
+	t_wd_redir_res *res;
 
 	del = gcalloc(2);
-	wildcard(pwd, level, data);
+	res = gcalloc(sizeof(t_wd_redir_res));
+	wildcard2(pwd, level, data, res);
 	del[0] = *get_splitted_char(1);
 	del[1] = '\0';
 	if (*(data->found_count) == 0)
-		return (ft_strdup(data->pattern[level]));
+		return (res->expanded_result = ft_strdup(data->pattern[level]), res->size = 1, res);
 	i = 0;
 	expanded_result = gcalloc(1);
 	while (i < *(data->found_count))
@@ -107,5 +109,5 @@ char	*expand_wildcard_redir(char *pwd, int level, t_wildcard_data *data)
 			ft_strcat(expanded_result, del);
 		i++;
 	}
-	return (expanded_result);
+	return (res->expanded_result = expanded_result, res);
 }
