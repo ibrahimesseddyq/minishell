@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 23:47:30 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/14 23:09:47 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/15 21:16:19 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	add_to_found(char ***found_files, int *found_count, const char *file)
 {
+
 	*found_files = ft_realloc(*found_files, (*found_count) * sizeof(char *),
 			(*found_count + 1) * sizeof(char *));
 	if (!(*found_files))
@@ -21,7 +22,7 @@ void	add_to_found(char ***found_files, int *found_count, const char *file)
 	(*found_files)[*found_count] = gcalloc((strlen(file) + 1) * sizeof(char));
 	if (!(*found_files)[*found_count])
 		return ;
-	strcpy((*found_files)[*found_count], file);
+	ft_strcpy((*found_files)[*found_count], (char *)file);
 	(*found_count)++;
 }
 
@@ -83,18 +84,20 @@ char	*expand_wildcard(char *pwd, int level, t_wildcard_data *data)
 	return (expanded_result);
 }
 
-char	*expand_wildcard_redir(char *pwd, int level, t_wildcard_data *data)
+t_wd_redir_res	*expand_wildcard_redir(char *pwd, int level, t_wildcard_data *data)
 {
 	int		i;
 	char	*expanded_result;
 	char	*del;
+	t_wd_redir_res *res;
 
 	del = gcalloc(2);
-	wildcard(pwd, level, data);
+	res = gcalloc(sizeof(t_wd_redir_res));
+	wildcard2(pwd, level, data, res);
 	del[0] = *get_splitted_char(1);
 	del[1] = '\0';
 	if (*(data->found_count) == 0)
-		return (ft_strdup(data->pattern[level]));
+		return (res->expanded_result = ft_strdup(data->pattern[level]), res->size = 1, res);
 	i = 0;
 	expanded_result = gcalloc(1);
 	while (i < *(data->found_count))
@@ -107,5 +110,5 @@ char	*expand_wildcard_redir(char *pwd, int level, t_wildcard_data *data)
 			ft_strcat(expanded_result, del);
 		i++;
 	}
-	return (expanded_result);
+	return (res->expanded_result = expanded_result, res);
 }

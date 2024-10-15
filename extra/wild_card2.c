@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 21:55:38 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/14 23:10:00 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/15 21:16:31 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,4 +114,35 @@ char	**get_files(const char *dir, int *numFiles, t_wildcard_data *data)
 		ep = readdir(dp);
 	}
 	return (closedir(dp), files);
+}
+
+void	wildcard2(const char *pwd, int level, t_wildcard_data *data, t_wd_redir_res *res)
+{
+	char	**files;
+	char	**validpaths;
+	int		count;
+	int		validcount;
+	int		i;
+
+	// printf("pwd 2 is [%s]\n", pwd);
+	(1) && (validcount = 0, count = 0);
+	(1) && (i = 0, files = NULL, validpaths = NULL,
+			files = get_files(pwd, &count, data));
+	if (!files)
+		return (add_to_found(data->found_files
+				, data->found_count, data->pattern[level]));
+	validpaths = filterstrings(data->pattern[level],
+			(char **)files, count, &validcount);
+	if (validcount == 0)
+		add_to_found(data->found_files,
+			data->found_count, data->pattern[level]);
+	else
+	{
+		while (i < validcount)
+		{
+			add_to_found(data->found_files, data->found_count, validpaths[i]);
+			i++;
+		}
+	}
+	res->size = i;
 }

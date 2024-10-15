@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 04:20:21 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/14 22:22:33 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/15 21:14:40 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,33 +15,58 @@
 #include <limits.h>
 #include "libft.h"
 
-static int	count_words(char *s, char c)
-{
-	t_count_word	state;
+// static int	count_words(char *s, char c)
+// {
+// 	t_count_word	state;
 
-	(1) && (state.i = 0, state.cnt = 0,
-		state.in_single_quote = 0, state.in_double_quote = 0);
-	if (!s)
-		return (-1);
-	while (s[state.i])
-	{
-		while (s[state.i] == c && s[state.i])
-			state.i++;
-		if (s[state.i] && s[state.i] != c)
-		{
-			state.cnt++;
-			while (s[state.i] && (state.in_single_quote
-					|| state.in_double_quote || s[state.i] != c))
-			{
-				if (s[state.i] == '\'' && !state.in_double_quote)
-					state.in_single_quote = !state.in_single_quote;
-				else if (s[state.i] == '"' && !state.in_single_quote)
-					state.in_double_quote = !state.in_double_quote;
-				state.i++;
-			}
-		}
-	}
-	return (state.cnt);
+// 	(1) && (state.i = 0, state.cnt = 0,
+// 		state.in_single_quote = 0, state.in_double_quote = 0);
+// 	if (!s)
+// 		return (-1);
+// 	while (s[state.i])
+// 	{
+// 		while (s[state.i] == c && s[state.i])
+// 			state.i++;
+// 		if (s[state.i] && s[state.i] != c)
+// 		{
+// 			state.cnt++;
+// 			while (s[state.i] && (state.in_single_quote
+// 					|| state.in_double_quote || s[state.i] != c))
+// 			{
+// 				if (s[state.i] == '\'' && !state.in_double_quote)
+// 					state.in_single_quote = !state.in_single_quote;
+// 				else if (s[state.i] == '"' && !state.in_single_quote)
+// 					state.in_double_quote = !state.in_double_quote;
+// 				state.i++;
+// 			}
+// 		}
+// 	}
+// 	return (state.cnt);
+// }
+
+static int count_words(char *s, char c)
+{
+    int i = 0;
+    int count = 0;
+    int in_word = 0;
+
+    if (!s)
+        return -1;
+
+    while (s[i])
+    {
+        if (s[i] != c && !in_word)
+        {
+            in_word = 1;
+            count++;
+        }
+        else if (s[i] == c)
+        {
+            in_word = 0;
+        }
+        i++;
+    }
+    return count;
 }
 
 static int	initialize_vars_state(t_split_quotes *state, char *s, char c)
@@ -85,7 +110,7 @@ char	**ft_split_quotes(char *s, char c)
 
 	if (initialize_vars_state(&state, s, c) == 0)
 		return (NULL);
-	while (state.index <= state.tail_matrice)
+	while (state.index < state.tail_matrice)
 	{
 	// printf("state.index [%d]   tail_matrice [%d]\n", state.tail_matrice, state.index);
 		state.i = 0;
@@ -109,3 +134,42 @@ char	**ft_split_quotes(char *s, char c)
 	}
 	return (state.arr[state.index] = NULL, state.arr);
 }
+
+// void    check_in_quotes(char *s, t_split_quotes *state)
+// {
+//     if (s[state->word_length] == '\'' && !state->in_double_quote)
+//         state->in_single_quote = !state->in_single_quote;
+//     else if (s[state->word_length] == '"' && !state->in_single_quote)
+//         state->in_double_quote = !state->in_double_quote;
+//     state->word_length++;
+// }
+
+// char    **ft_split_quotes(char *s, char c)
+// {
+//     t_split_quotes    state;
+
+// 	printf("s is [%s]\n", s);
+//     if (initialize_vars_state(&state, s, c) == 0)
+//         return (NULL);
+// 	printf("state.index [%d] state.tail_matrice [%d]\n", state.index,state.tail_matrice);
+//     while (state.index < state.tail_matrice)
+//     {
+//         state.i = 0;
+//         while (*s && *s == c)
+//             s++;
+//         state.word_length = 0;
+//         while (s[state.word_length]
+//             && (state.in_single_quote || state.in_double_quote
+//                 || s[state.word_length] != c))
+//         {
+// 			printf("s is [%s] \nin s q[%d] \nin d q [%d]\n c is [%c]\n", s, state.in_single_quote, state.in_double_quote, s[state.word_length]);
+//             check_in_quotes(s, &state);
+//         }
+//         state.arr[state.index] = ft_strndup(s, state.word_length);
+//         if (state.arr[state.index] == NULL)
+//             return (NULL);
+//         s += state.word_length;
+//         state.index++;
+//     }
+//     return (state.arr[state.index] = NULL, state.arr);
+// }
