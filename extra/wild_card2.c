@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 21:55:38 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/15 21:16:31 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/15 22:40:08 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,8 +46,10 @@ char	**filterstrings(char *pattern
 		return (NULL);
 	while (i < numTexts)
 	{
+		printf("pattern [%s] text [%s]\n", pattern, texts[i]);
 		if (match(pattern, texts[i]))
 		{
+			printf("  matched\n");
 			matches[*numMatches]
 				= gcalloc((strlen(texts[i]) + 1) * sizeof(char));
 			if (!matches[*numMatches])
@@ -56,6 +58,10 @@ char	**filterstrings(char *pattern
 			(*numMatches)++;
 		}
 		i++;
+	}
+	for (int i = 0; matches[i]; i++)
+	{
+		printf("matches[i] : [%s]\n", matches[i]);
 	}
 	return (matches);
 }
@@ -77,18 +83,24 @@ static int	is_valid_file(char *filename, t_wildcard_data *data)
 	}
 }
 
-static char	**add_file(char **files, int *numFiles, char *filename)
+static char **add_file(char **files, int *numFiles, char *filename)
 {
-	files = ft_realloc(files, (*numFiles) * sizeof(char *),
-			(*numFiles + 1) * sizeof(char *));
-	if (!files)
-		return (NULL);
-	files[*numFiles] = gcalloc((ft_strlen(filename) + 1) * sizeof(char));
-	if (!files[*numFiles])
-		return (NULL);
-	ft_strcpy(files[*numFiles], filename);
-	(*numFiles)++;
-	return (files);
+    // Allocate space for the new file plus a NULL terminator
+    files = ft_realloc(files, (*numFiles + 1) * sizeof(char *),
+                       (*numFiles + 2) * sizeof(char *));
+    if (!files)
+        return NULL;
+
+    files[*numFiles] = gcalloc((ft_strlen(filename) + 1) * sizeof(char));
+    if (!files[*numFiles])
+    {
+        return NULL;
+    }
+
+    ft_strcpy(files[*numFiles], filename);
+    (*numFiles)++;
+    files[*numFiles] = NULL;  // Set the last element to NULL
+    return files;
 }
 
 char	**get_files(const char *dir, int *numFiles, t_wildcard_data *data)
@@ -98,6 +110,7 @@ char	**get_files(const char *dir, int *numFiles, t_wildcard_data *data)
 	char			**files;
 
 	*numFiles = 0;
+	printf("dir [%s]\nnum Files [%d]\npattern [%s]\n", dir, *numFiles, data->pattern[0]);
 	files = NULL;
 	dp = opendir(dir);
 	if (dp == NULL)
@@ -128,11 +141,20 @@ void	wildcard2(const char *pwd, int level, t_wildcard_data *data, t_wd_redir_res
 	(1) && (validcount = 0, count = 0);
 	(1) && (i = 0, files = NULL, validpaths = NULL,
 			files = get_files(pwd, &count, data));
+		for (int i = 0; files[i]; i++)
+	{
+		printf("files[i] : [%s]\n", files[i]);
+	}
 	if (!files)
 		return (add_to_found(data->found_files
 				, data->found_count, data->pattern[level]));
 	validpaths = filterstrings(data->pattern[level],
 			(char **)files, count, &validcount);
+	for (int i = 0; validpaths[i]; i++)
+	{
+		printf("valid path[i] : [%s]\n", validpaths[i]);
+	}
+		printf("i is [%d] valid count is [%d]\n", i, validcount);
 	if (validcount == 0)
 		add_to_found(data->found_files,
 			data->found_count, data->pattern[level]);
