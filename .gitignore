@@ -4,3 +4,4 @@ outfiles/*
 *.o
 */*.o
 */*/*.o
+minishell
