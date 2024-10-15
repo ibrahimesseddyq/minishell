@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 21:55:38 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/14 22:42:28 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/14 23:10:00 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,10 +60,21 @@ char	**filterstrings(char *pattern
 	return (matches);
 }
 
-static int	is_valid_file(char *filename, char *pwd)
+static int	is_valid_file(char *filename, t_wildcard_data *data)
 {
-	return (ft_strcmp(filename, ".") != 0
-		&& ft_strcmp(filename, "..") != 0 && (filename[0] != '.' && pwd[0] !='.'));
+	// printf("pwd is [%s] and fn is [%s]\n",data->pattern[0], filename);
+	if(data->pattern[0][0] != '.')
+	{
+		if(filename[0] == '.')
+			return (0);
+		return (1);
+	}
+	else
+	{
+		if(filename[0] == '.')
+			return (1);
+		return (0);
+	}
 }
 
 static char	**add_file(char **files, int *numFiles, char *filename)
@@ -80,7 +91,7 @@ static char	**add_file(char **files, int *numFiles, char *filename)
 	return (files);
 }
 
-char	**get_files(const char *dir, int *numFiles)
+char	**get_files(const char *dir, int *numFiles, t_wildcard_data *data)
 {
 	DIR				*dp;
 	struct dirent	*ep;
@@ -94,7 +105,7 @@ char	**get_files(const char *dir, int *numFiles)
 	ep = readdir(dp);
 	while (ep)
 	{
-		if (is_valid_file(ep->d_name, dir))
+		if (is_valid_file(ep->d_name, data))
 		{
 			files = add_file(files, numFiles, ep->d_name);
 			if (!files)

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 23:47:30 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/11 22:40:24 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/14 23:09:47 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,10 @@ void	wildcard(const char *pwd, int level, t_wildcard_data *data)
 	int		validcount;
 	int		i;
 
+	// printf("pwd 2 is [%s]\n", pwd);
 	(1) && (validcount = 0, count = 0);
 	(1) && (i = 0, files = NULL, validpaths = NULL,
-			files = get_files(pwd, &count));
+			files = get_files(pwd, &count, data));
 	if (!files)
 		return (add_to_found(data->found_files
 				, data->found_count, data->pattern[level]));
@@ -61,6 +62,7 @@ char	*expand_wildcard(char *pwd, int level, t_wildcard_data *data)
 	char	*del;
 
 	del = gcalloc(2);
+	// printf("pwd 3 is [%s]\n", pwd);
 	wildcard(pwd, level, data);
 	del[0] = *get_splitted_char(1);
 	del[1] = '\0';
