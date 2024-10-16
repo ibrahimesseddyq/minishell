@@ -1,33 +1,10 @@
 
-for(int i=0; real_args[i]; i++)
-{
-    printf("real_args[%s]\n", real_args[i]);
-}
-
-
-
-
-unset $PATH
-ECHO -nnnn
-
-
-
-unset FKSKF // non existing then
-export
 
  unset PATH        OK
 tmp_x_file1         KO
 echo $?             KO
 
 
-<< *
-ls < * // working on this 
-cat << "$US"E"R"
-because
-we
-love
-bash
-$USER
 
 
 

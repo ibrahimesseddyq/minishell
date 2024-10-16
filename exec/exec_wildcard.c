@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 20:07:37 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 20:28:00 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/16 02:18:37 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ char	*expand_wd(char *expanded_arg)
 	return (expand_wildcard(pwd, 0, &data));
 }
 
-char	*expand_wd_redir(char *expanded_arg)
+t_wd_redir_res	*expand_wd_redir(char *expanded_arg)
 {
 	char			**pattern;
 	char			**found_files;
@@ -63,10 +63,11 @@ char	*expand_wd_redir(char *expanded_arg)
 	pattern = gcalloc(sizeof(char *) * 2);
 	pwd = ft_strdup(".");
 	found_count = 0;
+	// printf("[expand_wd_redir] pattern[0][%s]\n", expanded_arg);
 	pattern[0] = ft_strdup(expanded_arg);
 	pattern[1] = ft_strdup("");
 	data.pattern = pattern;
 	data.found_files = &found_files;
 	data.found_count = &found_count;
-	return (expand_wildcard(pwd, 0, &data));
+	return ((expand_wildcard_redir(pwd, 0, &data)));
 }

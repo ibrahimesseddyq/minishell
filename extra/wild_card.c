@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 23:47:30 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/15 21:16:19 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/16 01:13:59 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,18 @@ char	*expand_wildcard(char *pwd, int level, t_wildcard_data *data)
 	}
 	return (expanded_result);
 }
+void	convert_wd_to_splitting_char(t_wildcard_data *data)
+{
+	int i;
 
+	i = 0;
+	while(data->pattern[0][i])
+	{
+		if(data->pattern[0][i] == '*')
+			data->pattern[0][i] = *get_splitted_char(4);
+		i++;
+	}
+}
 t_wd_redir_res	*expand_wildcard_redir(char *pwd, int level, t_wildcard_data *data)
 {
 	int		i;
@@ -93,6 +104,8 @@ t_wd_redir_res	*expand_wildcard_redir(char *pwd, int level, t_wildcard_data *dat
 
 	del = gcalloc(2);
 	res = gcalloc(sizeof(t_wd_redir_res));
+	// printf("data->pattern [%s]\n", data->pattern[0]);
+	convert_wd_to_splitting_char(data);
 	wildcard2(pwd, level, data, res);
 	del[0] = *get_splitted_char(1);
 	del[1] = '\0';
