@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 21:55:38 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/16 01:14:54 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/16 17:18:26 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static int	is_valid_file(char *filename, t_wildcard_data *data)
 	}
 }
 
-static char	**add_file(char **files, int *numFiles, char *filename)
+static char **add_file(char **files, int *numFiles, char *filename)
 {
 	files = ft_realloc(files, (*numFiles ) * sizeof(char *),
 			(*numFiles + 1) * sizeof(char *));
@@ -106,6 +106,7 @@ char	**get_files(const char *dir, int *numFiles, t_wildcard_data *data)
 	char			**files;
 
 	*numFiles = 0;
+	printf("dir [%s]\nnum Files [%d]\npattern [%s]\n", dir, *numFiles, data->pattern[0]);
 	files = NULL;
 	dp = opendir(dir);
 	if (dp == NULL)
