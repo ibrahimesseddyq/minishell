@@ -9,3 +9,10 @@ echo $?             KO
 
 
 
+touch tmp_out
+rm tmp_out
+/bin/echo 42 >tmp_o*t*
+rm -f "tmp_out*"
+
+export ARG="*"
+/usr/bin/printf "%s\n" $ARG | sort KO

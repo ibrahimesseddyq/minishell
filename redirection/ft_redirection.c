@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_redirection.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:21:45 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/16 02:19:07 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/16 18:04:53 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,14 +61,18 @@ char	*handle_ambiguous_wd(t_redir *redir)
 	data.found_count = 0;
 	res = expand_wd_redir(pattern);
 	// printf("res size [%d]\nres line [%s]\n", res->size, res->expanded_result);
-	if (res->size != 1)
+	if (res->size != 1 && res->size != 0)
 	{
 		write(2, "ambiguious redir\n", 18);
 		ft_exit(1, SET_EXIT_STATUS);
 		return (NULL);
 	}
 	// printf("str [%s]\n", res->expanded_result);
-	return (res->expanded_result);
+	// 	printf("redir->file is [%s]\n", redir->file);
+	if (!res->expanded_result)
+		return (redir->file);
+	else
+		return (res->expanded_result);
 }
 int	ft_redirection(t_astnode *ast, t_lst *env, int command_exist)
 {
@@ -82,7 +86,8 @@ int	ft_redirection(t_astnode *ast, t_lst *env, int command_exist)
 		return (1);
 	while (ast->t_cmd.redirections)
 	{
-		ast->t_cmd.redirections->redir->file =handle_ambiguous_wd(ast->t_cmd.redirections->redir);
+		ast->t_cmd.redirections->redir->file = handle_ambiguous_wd(ast->t_cmd.redirections->redir);
+		// printf("file is [%s]\n", ast->t_cmd.redirections->redir->file);
 		if(!ast->t_cmd.redirections->redir->file)
 			return (-2);
 		if (is_a_redirection_out(ast))

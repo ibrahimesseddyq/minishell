@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/16 01:54:04 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/16 17:30:10 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,10 +152,10 @@ int	exec_cmd(t_astnode *ast, t_lst *env)
 	// printf("hi 4\n");
 	if (special_cases(real_args[0]))
 		return (0);
-	for(int i=0; real_args[i]; i++)
-	{
-		printf("real_args[%s]\n", real_args[i]);
-	}
+	// for(int i=0; real_args[i]; i++)
+	// {
+	// 	printf("real_args[%s]\n", real_args[i]);
+	// }
 	cmd_path = arg_cmds(real_args[0], env);
 	if (cmd_path)
 		real_args[0] = cmd_path;
