@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/15 20:38:25 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/16 00:02:05 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -407,6 +407,7 @@ char			**get_files(const char *dir, int *numFiles, t_wildcard_data *data);
 char			*ft_expand_tilde(char *path, t_lst *env);
 void	wildcard2(const char *pwd, int level, t_wildcard_data *data, t_wd_redir_res *res);
 void	add_to_found(char ***found_files, int *found_count, const char *file);
+t_wd_redir_res	*expand_wd_redir(char *expanded_arg);
 extern int		g_sig_var;
 int				(*get_matrix(void))[11];
 #endif

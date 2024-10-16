@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 21:46:03 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/11 22:11:04 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/16 02:19:03 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	check_valid2(char *str)
 
 	if (!str || !str[0])
 		return (0);
-	printf("str is [%s]\n", str);
+	// printf("str is [%s]\n", str);
 	i = 0;
 	equal = 0;
 	if (str && (str[0] == '=' || str[0] == '+'))

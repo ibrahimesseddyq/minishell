@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:28:09 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/11 22:02:50 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/16 02:17:01 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,11 @@ int	unset(char **args, t_lst *lst)
 	{
 		if (is_empty(args[i]))
 			empty = 1;
+		if (!get_env(lst, args[i]))
+		{
+			i++;
+			continue ;
+		}
 		if (check_valid1(args[i]))
 			set_env(lst, args[i], NULL, '\0');
 		else

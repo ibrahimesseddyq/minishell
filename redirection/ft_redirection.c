@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:21:45 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/15 21:16:44 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/16 02:19:07 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,13 +52,14 @@ char	*handle_ambiguous_wd(t_redir *redir)
 {
 	t_wd_redir_res	*res;
 	t_wildcard_data data;
+	char			*pattern;
 
 	if (redir->type == NODE_HEREDOC)
-		data.pattern = &redir->heredoc;
+		pattern = redir->heredoc;
 	else
-		data.pattern = &redir->file;
+		pattern = redir->file;
 	data.found_count = 0;
-	res = expand_wildcard_redir(".", 0, &data);
+	res = expand_wd_redir(pattern);
 	// printf("res size [%d]\nres line [%s]\n", res->size, res->expanded_result);
 	if (res->size != 1)
 	{
@@ -66,6 +67,7 @@ char	*handle_ambiguous_wd(t_redir *redir)
 		ft_exit(1, SET_EXIT_STATUS);
 		return (NULL);
 	}
+	// printf("str [%s]\n", res->expanded_result);
 	return (res->expanded_result);
 }
 int	ft_redirection(t_astnode *ast, t_lst *env, int command_exist)
@@ -81,6 +83,8 @@ int	ft_redirection(t_astnode *ast, t_lst *env, int command_exist)
 	while (ast->t_cmd.redirections)
 	{
 		ast->t_cmd.redirections->redir->file =handle_ambiguous_wd(ast->t_cmd.redirections->redir);
+		if(!ast->t_cmd.redirections->redir->file)
+			return (-2);
 		if (is_a_redirection_out(ast))
 			fd = ft_red_out(ast, env, last_arr[1] == ++i, command_exist);
 		else
