@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:21:53 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/17 21:39:11 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/17 21:41:23 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,13 +71,13 @@ int	check_file(char **argv)
 		ft_exit(127, SET_EXIT_STATUS);
 		return (0);
 	}
-	else if (!access(argv[0], F_OK)
-		&& (argv[0][0] != '.' && argv[0][0] != '/' ))
-	{
-		write(2, "command not found\n", 19);
-		ft_exit(127, SET_EXIT_STATUS);
-		return (0);
-	}
+	// else if (!access(argv[0], F_OK)
+	// 	&& (argv[0][0] != '.' && argv[0][0] != '/' ))
+	// {
+	// 	write(2, "command not found\n", 19);
+	// 	ft_exit(127, SET_EXIT_STATUS);
+	// 	return (0);
+	// }
 	return (1);
 }
 
