@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:48:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/16 18:39:39 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/17 21:14:57 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,10 @@ int	expand_variable_redir(t_expand_params *params, t_lst *env, char **line)
 		handle_overflow();
 	params->i += varnamelen;
 	value = get_env(env, varname);
+	value = replace_star_outside_quotes(value);
 	if (!value)
 	{
-		if (check_ambigious(NULL))
-			return (0);
-		append_string(params, "");
+		append_string(params, get_empty_str());
 	}
 	else
 	{
@@ -94,5 +93,9 @@ char	*ft_expand_redir(char *line, t_lst *env)
 	if (params.expanded_index >= DEFAULT_NB - 1)
 		handle_overflow();
 	params.expanded_line[params.expanded_index] = '\0';
+	params.expanded_line = skip_char(params.expanded_line, *get_splitted_char(3));
+	if(params.expanded_line && !params.expanded_line[0])
+		return (NULL);
+	printf("expanded redi [%s]\n", params.expanded_line);
 	return (params.expanded_line);
 }

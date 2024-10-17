@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/16 18:47:43 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/17 21:15:25 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -410,6 +410,10 @@ void			add_to_found(char ***found_files, int *found_count, const char *file);
 t_wd_redir_res	*expand_wd_redir(char *expanded_arg);
 int				slash_exist(char *str);
 int				is_not_a_charachter(char c);
+void 			remove_ampersand_strings(char **arr);
+char			*skip_char(const char* input, char skip);
+char			*get_empty_str(void);
+char* replace_star_outside_quotes(const char* input);
 extern int		g_sig_var;
 int				(*get_matrix(void))[11];
 #endif

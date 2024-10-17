@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/14 22:37:04 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/17 17:35:22 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,12 @@ char	**make_array(char **args, int size)
 	while (i <= size && args[i])
 	{
 		str = args[i];
-		if (!ft_strcmp(str, empty_str))
-		{
-			args[i] = ft_strdup("");
-			i++;
-			continue ;
-		}
+		// if (!ft_strcmp(str, empty_str))
+		// {
+		// 	args[i] = ft_strdup("");
+		// 	i++;
+		// 	continue ;
+		// }
 		j = 0;
 		while (str[j])
 		{

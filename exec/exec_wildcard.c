@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 20:07:37 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/16 02:18:37 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/17 21:09:46 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ char	*expand_wd(char *expanded_arg)
 	char			*pwd;
 
 	found_files = NULL;
+	printf("[expand_wd] arg[%s]\n", expanded_arg);
 	pattern = gcalloc(sizeof(char *) * 2);
 	pwd = ft_strdup(".");
 	found_count = 0;

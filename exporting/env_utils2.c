@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:45:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/12 01:20:52 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/17 20:08:17 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 void	handle_existing_var(char *str, t_export_var *state, t_lst *lst)
 {
+	printf("hi2\n");
 	state->temp = ft_strdup(str);
 	state->key = strtok(state->temp, "=");
 	state->value = ft_strchr(str, '=');
@@ -23,7 +24,7 @@ void	handle_existing_var(char *str, t_export_var *state, t_lst *lst)
 		state->value = trim_quotes(state->value);
 	else
 		state->value = "";
-	set_env(lst, state->key, state->value, 1);
+	set_env(lst, state->key, state->value, state->exist);
 }
 
 void	export_var(char **str, t_lst *lst, int i)

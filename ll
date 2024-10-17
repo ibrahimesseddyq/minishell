@@ -1,4 +1,6 @@
 Makefile
+R
+a
 build
 builtins
 env
@@ -7,10 +9,13 @@ expanding
 exporting
 extra
 file_that_is_not_an_executable
+hamid 
 hmid
+ibes-sed$
 libft
 libft.a
 ll
+lldsdsds
 llls
 lls
 lol
@@ -23,11 +28,13 @@ minishell.dSYM
 minishell.h
 name
 note.txt
+ok
 outfile01
 outfiles
 parsing
 redirection
-sou
+s
+ss
 test1
 test_files
 tmp_redir_out

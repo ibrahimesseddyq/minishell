@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 22:21:06 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/14 17:18:03 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/17 19:04:46 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,24 @@ void	choose_splitting_delimiter(t_arg_node	*lst, t_astnode *ast)
 	which_to_split_with(list_to_array(lst, ast), 3);
 	which_to_split_with(list_to_array(lst, ast), 4);
 }
+void	remove_ampersand_strings(char **arr)
+{
+	size_t	read_index;
+	size_t	write_index;
+
+    if (!arr)
+		return ;
+	read_index = 0;
+    write_index= 0;
+    while (arr[read_index] != NULL)
+	{
+        if (ft_strcmp(arr[read_index], get_empty_str()) != 0)
+            arr[write_index++] = arr[read_index];
+		read_index++;
+    }
+    arr[write_index] = NULL;
+}
+
 
 char	**handle_empty_var_beginning(char **real_args)
 {

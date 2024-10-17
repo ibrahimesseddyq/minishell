@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wild_card2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 21:55:38 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/16 17:27:56 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/17 21:18:52 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,34 @@ static char **add_file(char **files, int *numFiles, char *filename)
 	return (files);
 }
 
+static void swap_strings(char **a, char **b)
+{
+    char *temp = *a;
+    *a = *b;
+    *b = temp;
+}
+
+static void bubble_sort(char **arr, int n)
+{
+    int i, j;
+    int swapped;
+
+    for (i = 0; i < n - 1; i++)
+    {
+        swapped = 0;
+        for (j = 0; j < n - i - 1; j++)
+        {
+            if (strcmp(arr[j], arr[j + 1]) > 0)
+            {
+                swap_strings(&arr[j], &arr[j + 1]);
+                swapped = 1;
+            }
+        }
+        if (swapped == 0)
+            break;
+    }
+}
+
 char	**get_files(const char *dir, int *numFiles, t_wildcard_data *data)
 {
 	DIR				*dp;
@@ -122,7 +150,10 @@ char	**get_files(const char *dir, int *numFiles, t_wildcard_data *data)
 		}
 		ep = readdir(dp);
 	}
-	return (closedir(dp), files);
+	closedir(dp);
+	if (files && *numFiles > 1)
+        bubble_sort(files, *numFiles);
+	return (files);
 }
 
 void	wildcard2(const char *pwd, int level, t_wildcard_data *data, t_wd_redir_res *res)

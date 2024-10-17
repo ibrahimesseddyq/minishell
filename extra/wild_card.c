@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 23:47:30 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/16 01:13:59 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/17 21:16:34 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,6 @@ void	wildcard(const char *pwd, int level, t_wildcard_data *data)
 	int		validcount;
 	int		i;
 
-	// printf("pwd 2 is [%s]\n", pwd);
 	(1) && (validcount = 0, count = 0);
 	(1) && (i = 0, files = NULL, validpaths = NULL,
 			files = get_files(pwd, &count, data));

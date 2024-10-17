@@ -1,34 +1,19 @@
- unset PATH        OK
+unset PATH        OK
 tmp_x_file1         KO
 echo $?             KO
 
 
-export ARG="*"
-/usr/bin/printf "%s\n" $ARG | sort KO 
 
 test1 is a directory : 
 echo DOET HET NIET > test1 | cat test1 // 9rib
 
-ls > ll$ll
-ls > "hamid $hamid"
-ls > $USE"R"
-ls > $USE'R'
-
-
-sort wildcard
 
 unset PATH
 cd /bin 
 ls
 
-export $KKKK 
-
 ls | echo $?
 
 
 exit | exit -
-
-
-export a="ssssss"
-export a 
 
