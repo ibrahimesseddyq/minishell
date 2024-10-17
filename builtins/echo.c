@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:16:59 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/07 15:09:44 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/16 18:22:24 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,16 +51,18 @@ int	ft_echo(char **args)
 			n_option = true;
 			i++;
 		}
-		while (args[i])
+		while (args[i] )
 		{
-			write(1, args[i], strlen(args[i]));
-			if (args[i + 1])
-				write(1, " ", 1);
+			if (args[i][0])
+			{
+				write(1, args[i], strlen(args[i]));
+				if (args[i + 1])
+					write(1, " ", 1);
+			}
 			i++;
 		}
 	}
 	if (!n_option)
 		write(1, "\n", 1);
-	ft_exit(0, SET_EXIT_STATUS);
-	return (SUCCESS);
+	return (ft_exit(0, SET_EXIT_STATUS), SUCCESS);
 }

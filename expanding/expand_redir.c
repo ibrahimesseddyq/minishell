@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:48:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 20:04:47 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/16 18:39:39 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,14 @@ int	expand_token_redir(t_expand_params *params, t_lst *env, char **line)
 		if ((((*line)[params->i + 1] == '\''
 				|| (*line)[params->i + 1] == '"'
 			|| (*line)[params->i + 1] == ' ')
-			&& params->is_inside_quotes) || !(*line)[params->i + 1])
+			&& params->is_inside_quotes) || !(*line)[params->i + 1] || ((*line)[params->i + 1] && is_not_a_charachter((*line)[params->i + 1])))
 		{
-			append_char(params, (*line)[params->i++]);
-			return (1);
+			return (append_char(params, (*line)[params->i++]), 1);
 		}
 		params->i++;
-		if ((*line)[params->i] == '?')
+		if (((*line)[params->i] && is_not_a_charachter((*line)[params->i])))
+			append_char(params, (*line)[params->i++]);
+		else if ((*line)[params->i] == '?')
 			expand_exit_status(params);
 		else
 		{

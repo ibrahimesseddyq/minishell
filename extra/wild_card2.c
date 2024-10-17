@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wild_card2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 21:55:38 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/16 17:18:26 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/16 17:27:56 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ char	**get_files(const char *dir, int *numFiles, t_wildcard_data *data)
 	char			**files;
 
 	*numFiles = 0;
-	printf("dir [%s]\nnum Files [%d]\npattern [%s]\n", dir, *numFiles, data->pattern[0]);
+	// printf("dir [%s]\nnum Files [%d]\npattern [%s]\n", dir, *numFiles, data->pattern[0]);
 	files = NULL;
 	dp = opendir(dir);
 	if (dp == NULL)

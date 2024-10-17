@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:19:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/14 21:13:54 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/16 18:39:54 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,16 @@ void	expand_variable(t_expand_params *params, t_lst *env, char **line)
 		append_string(params, value);
 	}
 }
-
+int is_not_a_charachter(char c)
+{
+	if (c >= 'A' && c <= 'Z')
+		return (0);
+	if (c >= 'a' && c <= 'z')
+		return (0);
+	if (c == '_' || c == '?')
+		return (0);
+	return (1);
+}
 void	expand_token(t_expand_params *params, t_lst *env, char **line)
 {
 	if ((*line)[params->i] == '$')
@@ -71,13 +80,15 @@ void	expand_token(t_expand_params *params, t_lst *env, char **line)
 		if ((((*line)[params->i + 1] == '\''
 				|| (*line)[params->i + 1] == '"'
 			|| (*line)[params->i + 1] == ' ')
-				&& params->is_inside_quotes) || !(*line)[params->i + 1])
+				&& params->is_inside_quotes) || !(*line)[params->i + 1] || ((*line)[params->i + 1] && is_not_a_charachter((*line)[params->i + 1])))
 		{
 			append_char(params, (*line)[params->i++]);
 			return ;
 		}
 		params->i++;
-		if ((*line)[params->i] == '?')
+		if (((*line)[params->i] && is_not_a_charachter((*line)[params->i])))
+			append_char(params, (*line)[params->i++]);
+		else if ((*line)[params->i] == '?')
 			expand_exit_status(params);
 		else
 			expand_variable(params, env, line);
@@ -88,9 +99,7 @@ void	expand_token(t_expand_params *params, t_lst *env, char **line)
 		append_char(params, (*line)[params->i++]);
 	}
 	else
-	{
 		append_char(params, (*line)[params->i++]);
-	}
 }
 
 char	*ft_expand(char *line, t_lst *env)
