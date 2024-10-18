@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:22:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/13 01:29:37 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/18 01:50:40 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	my_exit(char **argv, int argc)
 		return (gc_free_all(), ft_exit(0, EXIT_PROGRAM), 0);
 	error_exist = check_error_exist(argv[1]);
 	exit_value = ft_atoi128(argv[1]);
-	if (exit_value > LLONG_MAX || exit_value < LLONG_MIN || error_exist || !argv[1][0])
+	if (exit_value > LLONG_MAX || exit_value < LLONG_MIN || error_exist || !argv[1][0] || argv[1][0] == '-')
 	{
 		write(2, "numeric argument required\n", 27);
 		return (gc_free_all(), ft_exit(255, EXIT_PROGRAM));
