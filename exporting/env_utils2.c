@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:45:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/18 19:01:37 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/18 19:30:35 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,11 @@ void	handle_existing_var(char *str, t_export_var *state, t_lst *lst)
 	state->value = ft_strchr(str, '=');
 	if (state->value)
 		state->value++;
-	if (state->value && *(state->value))
-		state->value = trim_quotes(state->value);
+	// if (state->value && *(state->value))
+	// 	state->value = trim_quotes(state->value);
 	else
 		state->value = "";
+		printf("state key [%s] state value [%s]\n", state->key, state->value);
 	set_env(lst, state->key, state->value, state->exist);
 }
 
@@ -38,6 +39,7 @@ void	export_var(char **str, t_lst *lst, int i)
 	else
 	{
 		state.exist = get_symbol_exist(str[i], '=');
+		printf("state exist [%d] str[0][%s]\n", state.exist, str[1]);
 		if (state.exist)
 			handle_existing_var(str[i], &state, lst);
 		else

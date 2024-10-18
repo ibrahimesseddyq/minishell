@@ -1,27 +1,7 @@
-unset PATH        OK
-tmp_x_file1         KO
-echo $?             KO
 
 
-
-test1 is a directory : 
-echo DOET HET NIET > test1 | cat test1 // 9rib
-
-
-unset PATH
-cd /bin 
-ls
-
-ls | echo $?
-
-
-ls >> '*'
-
-% # doesnt show work for separaring
+ls >> '*' // FIXXX
 
 export x="a b"
 export y=$x
 
-
-
-export x="'"

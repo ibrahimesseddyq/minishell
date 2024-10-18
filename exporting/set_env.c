@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:11:05 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/18 19:01:01 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/18 19:30:41 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	set_env(t_lst *lst, char *key, char *new_value, int sign)
 	t_lst	*tmp;
 
 	new = NULL;
-	// printf("sign [%d] key[%s] value[%s]\n", sign, key, new_value);
+	printf("sign [%d] key[%s] value[%s]\n", sign, key, new_value);
 	tmp = lst;
 	while (lst)
 	{
@@ -62,6 +62,10 @@ void	ft_export(char **str, t_lst *lst)
 
 	i = 1;
 	error = 0;
+	for (int i = 0; str[i]; i++)
+	{
+		printf("str[%s]\n", str[i]);
+	}
 	if (!str[1])
 		print_export(lst);
 	else
