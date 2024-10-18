@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:28:09 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/16 02:17:01 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/18 19:19:21 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,7 @@ int	unset(char **args, t_lst *lst)
 	int	empty;
 	int	error;
 
-	empty = 0;
-	i = 1;
-	error = 0;
+	(1) && (empty = 0, i = 1, error = 0);
 	if (!args[1])
 		return (ft_exit(0, SET_EXIT_STATUS), 1);
 	while (i < nb_args(args))

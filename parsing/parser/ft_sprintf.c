@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_sprintf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 15:47:54 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/13 01:11:30 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/18 19:14:57 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int	ft_sprintf(char *str, const char *format, int num)
 	int		j;
 
 	(1) && (total_len = 0, i = 0, j = 0);
-	printf("[itoa]num is [%d]\n", num);
 	while (format[i])
 	{
 		if (format[i] == '%' && format[i + 1] == 'd')
@@ -88,6 +87,5 @@ int	ft_sprintf(char *str, const char *format, int num)
 		i++;
 	}
 	printf("[itoa]num str is [%s]\n", str);
-
 	return (str[total_len] = '\0', total_len);
 }

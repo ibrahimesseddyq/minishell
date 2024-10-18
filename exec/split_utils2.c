@@ -6,7 +6,7 @@
 /*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 22:19:50 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/18 02:50:02 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/18 19:22:11 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,12 +22,12 @@ char	*get_splitted_char(int index)
 }
 char	*skip_char(const char* input, char skip)
 {
-    if (input == NULL) return NULL;
-
+    if (input == NULL)
+        return NULL;
     size_t len = strlen(input);
     char* result = (char*)gcalloc(len + 1);  // +1 for null terminator
-    if (result == NULL) return NULL;  // Check for malloc failure
-
+    if (result == NULL)
+        return NULL;  // Check for malloc failure
     size_t j = 0;
     for (size_t i = 0; i < len; i++) {
         if (input[i] != skip) {
@@ -35,6 +35,5 @@ char	*skip_char(const char* input, char skip)
         }
     }
     result[j] = '\0';  // Null-terminate the result string
-
     return result;
 }

@@ -1,1 +1,0 @@
-export a="ls    -la"

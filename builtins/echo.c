@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:16:59 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/16 18:22:24 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/18 19:17:25 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int	ft_echo(char **args)
 			n_option = true;
 			i++;
 		}
-		while (args[i] )
+		while (args[i])
 		{
 			if (args[i][0])
 			{

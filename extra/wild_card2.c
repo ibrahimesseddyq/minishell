@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wild_card2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 21:55:38 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/17 21:18:52 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/18 18:54:48 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,7 +116,7 @@ static void bubble_sort(char **arr, int n)
         swapped = 0;
         for (j = 0; j < n - i - 1; j++)
         {
-            if (strcmp(arr[j], arr[j + 1]) > 0)
+            if (ft_strcmp(arr[j], arr[j + 1]) > 0)
             {
                 swap_strings(&arr[j], &arr[j + 1]);
                 swapped = 1;

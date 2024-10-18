@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/18 01:14:41 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/18 19:20:57 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,8 @@ void	handle_expanding_of_argument(t_state_fs	*state, t_lst *env)
 	if (!state->star_inside)
 		state->expanded_arg = expand_wd(state->expanded_arg);
 	// printf("after wildcard expanding : [%s]\n", state->expanded_arg);
-
 	state->temp = ft_strjoin(state->expanded_string, state->expanded_arg);
 	// printf("after joining : [%s]\n", state->temp);
-
 	state->expanded_string = state->temp;
 	if (state->lst->next)
 	{

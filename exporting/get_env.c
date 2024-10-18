@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 22:18:32 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/13 01:25:23 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/18 18:52:15 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*get_env(t_lst *env, char *the_env)
 	{
 		if (!env->key)
 			return (NULL);
-		if (strcmp(env->key, the_env) == 0)
+		if (ft_strcmp(env->key, the_env) == 0)
 			return (env->value);
 		env = env->next;
 	}
@@ -39,7 +39,7 @@ int	get_env_isset(t_lst *env, char *the_env)
 	{
 		if (!env->key)
 			return (0);
-		if (strcmp(env->key, the_env) == 0)
+		if (ft_strcmp(env->key, the_env) == 0)
 			return (env->set);
 		env = env->next;
 	}
