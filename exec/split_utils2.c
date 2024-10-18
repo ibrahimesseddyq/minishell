@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 22:19:50 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/17 19:18:25 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/18 02:50:02 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ char	*skip_char(const char* input, char skip)
     if (input == NULL) return NULL;
 
     size_t len = strlen(input);
-    char* result = (char*)malloc(len + 1);  // +1 for null terminator
+    char* result = (char*)gcalloc(len + 1);  // +1 for null terminator
     if (result == NULL) return NULL;  // Check for malloc failure
 
     size_t j = 0;
