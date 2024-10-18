@@ -17,3 +17,17 @@ ls | echo $?
 
 exit | exit -
 
+export a="ls    -la"
+
+ls >> '*'
+
+% # doesnt show work for separaring
+
+CTRL C SHOULD RETURN 1 NOT 0
+
+export x="a b"
+export y=$x
+
+
+
+export x="'"

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:48:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/17 21:14:57 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/18 01:29:44 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int	expand_token_redir(t_expand_params *params, t_lst *env, char **line)
 	{
 		if ((((*line)[params->i + 1] == '\''
 				|| (*line)[params->i + 1] == '"'
-			|| (*line)[params->i + 1] == ' ')
+			|| ft_isspace((*line)[params->i + 1]))
 			&& params->is_inside_quotes) || !(*line)[params->i + 1] || ((*line)[params->i + 1] && is_not_a_charachter((*line)[params->i + 1])))
 		{
 			return (append_char(params, (*line)[params->i++]), 1);
@@ -96,6 +96,6 @@ char	*ft_expand_redir(char *line, t_lst *env)
 	params.expanded_line = skip_char(params.expanded_line, *get_splitted_char(3));
 	if(params.expanded_line && !params.expanded_line[0])
 		return (NULL);
-	printf("expanded redi [%s]\n", params.expanded_line);
+	// printf("expanded redi [%s]\n", params.expanded_line);
 	return (params.expanded_line);
 }

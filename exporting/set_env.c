@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:11:05 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/17 21:06:38 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/18 01:20:46 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	choose_set_env(t_lst *lst, char *new_value, int sign)
 {
-	printf("new value[%s] sign[%d]\n", new_value, sign);
+	// printf("new value[%s] sign[%d]\n", new_value, sign);
 	if (new_value)
 	{
 		lst->value = ft_strdup(new_value);
@@ -39,7 +39,7 @@ void	set_env(t_lst *lst, char *key, char *new_value, int sign)
 	t_lst	*tmp;
 
 	new = NULL;
-	printf("sign [%d] key[%s] value[%s]\n", sign, key, new_value);
+	// printf("sign [%d] key[%s] value[%s]\n", sign, key, new_value);
 	tmp = lst;
 	while (lst)
 	{

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 16:42:56 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/11 22:45:31 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/18 01:18:27 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int	write_heredoc_to_file(char *delimiter, char *filename, t_lst *env)
 	ft_sprintf(filename, "heredoc_file_%d", file_counter++);
 	file_counter = 1;
 	data.fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
-	printf("[write_heredoc_to_file] fd is [%d]\n", data.fd);
+	// printf("[write_heredoc_to_file] fd is [%d]\n", data.fd);
 	if (data.fd < 0)
 		return (-1);
 	data.env = env;

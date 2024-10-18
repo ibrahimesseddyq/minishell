@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:19:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/17 21:14:21 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/18 01:29:24 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ char	*replace_space_with_second_separator(t_expand_params *params, char *str)
 		else if ((str[i] == '\'' || str[i] == '\"')
 			&& params->is_inside_quotes2)
 			params->is_inside_quotes2 = 0;
-		if (str[i] == ' ' && !params->is_inside_quotes2)
+		if (ft_isspace(str[i]) && !params->is_inside_quotes2)
 			res[i] = *get_splitted_char(2);
 		else
 			res[i] = str[i];
@@ -107,7 +107,7 @@ void	expand_token(t_expand_params *params, t_lst *env, char **line)
 	{
 		if ((((*line)[params->i + 1] == '\''
 				|| (*line)[params->i + 1] == '"'
-			|| (*line)[params->i + 1] == ' ')
+			|| ft_isspace((*line)[params->i + 1]))
 				&& params->is_inside_quotes) || !(*line)[params->i + 1] || ((*line)[params->i + 1] && is_not_a_charachter((*line)[params->i + 1])))
 		{
 			append_char(params, (*line)[params->i++]);

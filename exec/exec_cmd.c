@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/17 21:29:44 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/18 01:14:41 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@ void	handle_expanding_of_argument(t_state_fs	*state, t_lst *env)
 {
 	if (star_inside_quotes(state->lst->arg))
 		state->star_inside = 1;
-	printf("before normal expanding : [%s]\n", state->expanded_arg);
+	// printf("before normal expanding : [%s]\n", state->expanded_arg);
 	state->expanded_arg = get_expanded_string(env, state->lst);
-	printf("star[%d]\nafter normal expanding : [%s]\n", state->star_inside, state->expanded_arg);
+	// printf("star[%d]\nafter normal expanding : [%s]\n", state->star_inside, state->expanded_arg);
 	if (!state->star_inside)
 		state->expanded_arg = expand_wd(state->expanded_arg);
-	printf("after wildcard expanding : [%s]\n", state->expanded_arg);
+	// printf("after wildcard expanding : [%s]\n", state->expanded_arg);
 
 	state->temp = ft_strjoin(state->expanded_string, state->expanded_arg);
-	printf("after joining : [%s]\n", state->temp);
+	// printf("after joining : [%s]\n", state->temp);
 
 	state->expanded_string = state->temp;
 	if (state->lst->next)
@@ -152,18 +152,18 @@ int	exec_cmd(t_astnode *ast, t_lst *env)
 	// printf("hi 4\n");
 	if (special_cases(real_args[0]))
 		return (0);
-	for(int i=0; real_args[i]; i++)
-	{
-		printf("real_args[%s]\n", real_args[i]);
-	}
+	// for(int i=0; real_args[i]; i++)
+	// {
+	// 	printf("real_args[%s]\n", real_args[i]);
+	// }
 	cmd_path = arg_cmds(real_args[0], env);
-	printf("cmd_path [%s]\n", cmd_path);
+	// printf("cmd_path [%s]\n", cmd_path);
 	if (cmd_path)
 		real_args[0] = cmd_path;
 	else
 		return (write(2, "command not found\n", 19),
 			ft_exit(127, SET_EXIT_STATUS), 127);
-		printf("dzt\n");
+		// printf("dzt\n");
 
 	return (execute_command_withargs(ast, env, real_args));
 }

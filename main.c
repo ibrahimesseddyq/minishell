@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:13:19 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/12 01:31:15 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/18 01:25:59 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,14 @@ void	execute(t_tklist *token_list, t_astnode *ast, t_lst *lst, char *t)
 			exec_cmd_line(ast, lst);
 	}
 }
-
+void	handle_arguments_main(int ac, char **av)
+{
+	if (ac > 1)
+	{
+		printf("run ./minishell with no args\n");
+		ft_exit(1, EXIT_PROGRAM);
+	}
+}
 int	main(int ac, char **av, char *env[])
 {
 	t_tklist	*token_list;
@@ -37,8 +44,8 @@ int	main(int ac, char **av, char *env[])
 	t_lst		*lst;
 	char		*t;
 
-	(void)((1) && (token_list = NULL, ast = NULL,
-		(void)ac, (void)av, initialize(), lst = envp(env), 1));
+	(void)((1) && (token_list = NULL, ast = NULL, initialize(), lst = envp(env), 1));
+	handle_arguments_main(ac, av);
 	increment_shell_level(lst);
 	while (1)
 	{

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:46:41 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 19:59:04 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/18 01:31:36 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,9 @@ char	*ft_expand_delimiter(char *line)
 				&& (params.current_quote == '\"'
 					|| params.current_quote == '\'')))
 		{
-			if (params.is_inside_quotes && line[params.i] == ' ')
+			if (params.is_inside_quotes && ft_isspace(line[params.i]))
 			{
-				expanded_line[params.expanded_index++] = ' ';
+				expanded_line[params.expanded_index++] = line[params.i];
 				params.i++;
 			}
 			append_char(&params, line[params.i++]);
