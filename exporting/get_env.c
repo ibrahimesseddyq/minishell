@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   get_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 22:18:32 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/18 18:52:15 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/20 15:33:14 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ char	*get_env(t_lst *env, char *the_env)
 	if (!the_env || !the_env[0])
 		return (NULL);
 	if (!env)
-		return (printf("env is null\n"), gc_free_all(),ft_exit(1, EXIT_PROGRAM), NULL);
+		return (printf("env is null\n"), gc_free_all(),
+			ft_exit(1, EXIT_PROGRAM), NULL);
 	while (env)
 	{
 		if (!env->key)

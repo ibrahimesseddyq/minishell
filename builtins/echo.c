@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   echo.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:16:59 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/18 19:17:25 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/20 15:05:48 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,13 @@ int	check_just_n(char *arg)
 	return (1);
 }
 
+void	echo_ptstr(char **args, int i)
+{
+	write(1, args[i], strlen(args[i]));
+	if (args[i + 1])
+		write(1, " ", 1);
+}
+
 int	ft_echo(char **args)
 {
 	int		i;
@@ -54,11 +61,7 @@ int	ft_echo(char **args)
 		while (args[i])
 		{
 			if (args[i][0])
-			{
-				write(1, args[i], strlen(args[i]));
-				if (args[i + 1])
-					write(1, " ", 1);
-			}
+				echo_ptstr(args, i);
 			i++;
 		}
 	}

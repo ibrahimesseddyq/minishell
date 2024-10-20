@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:48:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/18 01:29:44 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/20 15:31:30 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	expand_variable_redir(t_expand_params *params, t_lst *env, char **line)
 	params->i += varnamelen;
 	value = get_env(env, varname);
 	value = replace_star_outside_quotes(value);
+	printf("value [%s]\n", value);
 	if (!value)
 	{
 		append_string(params, get_empty_str());
@@ -46,23 +47,20 @@ int	expand_token_redir(t_expand_params *params, t_lst *env, char **line)
 		handle_overflow();
 	if ((*line)[params->i] == '$')
 	{
-		if ((((*line)[params->i + 1] == '\''
-				|| (*line)[params->i + 1] == '"'
-			|| ft_isspace((*line)[params->i + 1]))
-			&& params->is_inside_quotes) || !(*line)[params->i + 1] || ((*line)[params->i + 1] && is_not_a_charachter((*line)[params->i + 1])))
-		{
+		if (append_dollar_redir(params, line))
 			return (append_char(params, (*line)[params->i++]), 1);
-		}
 		params->i++;
 		if (((*line)[params->i] && is_not_a_charachter((*line)[params->i])))
 			append_char(params, (*line)[params->i++]);
 		else if ((*line)[params->i] == '?')
 			expand_exit_status(params);
-		else
-		{
-			if (!expand_variable_redir(params, env, line))
-				return (0);
-		}
+		else if (!expand_variable_redir(params, env, line))
+			return (0);
+	}
+	else if ((*line)[params->i] == '*' && !params->is_inside_quotes)
+	{
+		(*line)[params->i] = *get_splitted_char(4);
+		append_char(params, (*line)[params->i++]);
 	}
 	else
 		append_char(params, (*line)[params->i++]);
@@ -86,16 +84,14 @@ char	*ft_expand_redir(char *line, t_lst *env)
 				return (NULL);
 		}
 		else
-		{
 			append_char(&params, line[params.i++]);
-		}
 	}
 	if (params.expanded_index >= DEFAULT_NB - 1)
 		handle_overflow();
 	params.expanded_line[params.expanded_index] = '\0';
-	params.expanded_line = skip_char(params.expanded_line, *get_splitted_char(3));
-	if(params.expanded_line && !params.expanded_line[0])
+	params.expanded_line
+		= skip_char(params.expanded_line, *get_splitted_char(3));
+	if (params.expanded_line && !params.expanded_line[0])
 		return (NULL);
-	// printf("expanded redi [%s]\n", params.expanded_line);
 	return (params.expanded_line);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   set_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:11:05 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/18 19:30:41 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/20 15:33:48 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	choose_set_env(t_lst *lst, char *new_value, int sign)
 {
-	// printf("new value[%s] sign[%d]\n", new_value, sign);
 	if (new_value)
 	{
 		lst->value = ft_strdup(new_value);
@@ -26,7 +25,6 @@ void	choose_set_env(t_lst *lst, char *new_value, int sign)
 	}
 	else
 	{
- 
 		lst->set = 0;
 		lst->value = ft_strdup("");
 		lst->key = ft_strdup("");
@@ -62,10 +60,6 @@ void	ft_export(char **str, t_lst *lst)
 
 	i = 1;
 	error = 0;
-	for (int i = 0; str[i]; i++)
-	{
-		printf("str[%s]\n", str[i]);
-	}
 	if (!str[1])
 		print_export(lst);
 	else

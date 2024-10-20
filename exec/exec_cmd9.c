@@ -3,30 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd9.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 22:21:06 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/18 19:01:37 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/20 15:15:51 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	star_inside_quotes(const char *str)
-{
-	int	inside_quotes;
-
-	inside_quotes = 0;
-	while (*str)
-	{
-		if (*str == '"')
-			inside_quotes = !inside_quotes;
-		if (*str == '*' && inside_quotes)
-			return (1);
-		str++;
-	}
-	return (0);
-}
 
 void	choose_splitting_delimiter(t_arg_node	*lst, t_astnode *ast)
 {
@@ -35,24 +19,24 @@ void	choose_splitting_delimiter(t_arg_node	*lst, t_astnode *ast)
 	which_to_split_with(list_to_array(lst, ast), 3);
 	which_to_split_with(list_to_array(lst, ast), 4);
 }
+
 void	remove_ampersand_strings(char **arr)
 {
 	size_t	read_index;
 	size_t	write_index;
 
-    if (!arr)
+	if (!arr)
 		return ;
 	read_index = 0;
-    write_index= 0;
-    while (arr[read_index] != NULL)
+	write_index = 0;
+	while (arr[read_index] != NULL)
 	{
-        if (ft_strcmp(arr[read_index], get_empty_str()) != 0)
-            arr[write_index++] = arr[read_index];
+		if (ft_strcmp(arr[read_index], get_empty_str()) != 0)
+			arr[write_index++] = arr[read_index];
 		read_index++;
-    }
-    arr[write_index] = NULL;
+	}
+	arr[write_index] = NULL;
 }
-
 
 char	**handle_empty_var_beginning(char **real_args)
 {

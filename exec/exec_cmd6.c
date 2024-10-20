@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd6.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/18 19:01:37 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/20 15:14:10 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,12 +59,6 @@ char	**make_array(char **args, int size)
 	while (i <= size && args[i])
 	{
 		str = args[i];
-		// if (!ft_strcmp(str, empty_str))
-		// {
-		// 	args[i] = ft_strdup("");
-		// 	i++;
-		// 	continue ;
-		// }
 		j = 0;
 		while (str[j])
 		{
@@ -79,12 +73,12 @@ char	**make_array(char **args, int size)
 	return (args);
 }
 
-int slash_exist(char *str)
+int	slash_exist(char *str)
 {
-	int i;
+	int	i;
 
-	i  = 0;
-	while(str && str[i])
+	i = 0;
+	while (str && str[i])
 	{
 		if (str[i] == '/')
 			return (1);
@@ -92,6 +86,7 @@ int slash_exist(char *str)
 	}
 	return (0);
 }
+
 int	special_cases(char *cmd)
 {
 	struct stat	sb;
@@ -109,7 +104,9 @@ int	special_cases(char *cmd)
 		ft_exit(127, SET_EXIT_STATUS);
 		return (1);
 	}
-	else if ((cmd[ft_strlen(cmd) - 1] == '/' && S_ISDIR(sb.st_mode)) || (S_ISDIR(sb.st_mode) && !is_builtin_command(cmd) && slash_exist(cmd)))
+	else if ((cmd[ft_strlen(cmd) - 1] == '/' && S_ISDIR(sb.st_mode))
+		|| (S_ISDIR(sb.st_mode)
+			&& !is_builtin_command(cmd) && slash_exist(cmd)))
 	{
 		write(2, "Is a directory \n", 16);
 		ft_exit(126, SET_EXIT_STATUS);

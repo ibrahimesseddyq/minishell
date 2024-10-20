@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 19:32:50 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/08 14:58:04 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/20 15:57:13 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ static int	process_tokens(t_tklist *list, int (*tr)[11], char **final_token)
 int	analyse_syntax(t_tklist *list)
 {
 	char	*final_token;
-	int		(*tr)[11];
+	matrix	tr;
 	int		result;
 
 	tr = get_matrix();

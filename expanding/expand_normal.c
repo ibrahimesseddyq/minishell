@@ -3,69 +3,42 @@
 /*                                                        :::      ::::::::   */
 /*   expand_normal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:19:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/18 19:28:52 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/20 15:26:00 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 // params->is_inside_quotes2 istead of params->is_inside_quotes
-char	*replace_space_with_second_separator(t_expand_params *params, char *str)
-{
-	int		i;
-	char	*res;
-
-	i = 0;
-	res = gcalloc(ft_strlen(str) + 1);
-	params->is_inside_quotes2 = 0;
-	while (str[i])
-	{
-		if ((str[i] == '\'' || str[i] == '\"') && !params->is_inside_quotes2)
-		{
-			params->is_inside_quotes2 = 1;
-		}
-		else if ((str[i] == '\'' || str[i] == '\"')
-			&& params->is_inside_quotes2)
-			params->is_inside_quotes2 = 0;
-		if (ft_isspace(str[i]) && !params->is_inside_quotes2)
-			res[i] = *get_splitted_char(2);
-		else
-			res[i] = str[i];
-		i++;
-	}
-	res[i] = '\0';
-	return (res);
-}
 
 char	*replace_star_outside_quotes(const char *input)
 {
 	size_t	len;
 	char	*result;
 	bool	in_quotes;
+	size_t	i;
 
 	if (input == NULL)
 		return (NULL);
+	i = 0;
 	len = strlen(input);
 	result = (char *)gcalloc(len + 1);
 	if (result == NULL)
 		return (NULL);
 	in_quotes = false;
-	for (size_t i = 0; i < len; i++)
+	while (i < len)
 	{
 		if (input[i] == '"')
-		{
-			in_quotes = !in_quotes;
-			result[i] = input[i];
-		}
+			(1) && (in_quotes = !in_quotes, result[i] = input[i]);
 		else if (input[i] == '*' && !in_quotes)
 			result[i] = *get_splitted_char(4);
 		else
 			result[i] = input[i];
+		i++;
 	}
-	result[len] = '\0';
-	return (result);
+	return (result[len] = '\0', result);
 }
 
 void	expand_variable(t_expand_params *params, t_lst *env, char **line)
@@ -105,18 +78,17 @@ int	is_not_a_charachter(char c)
 	return (1);
 }
 
-void	expand_token(t_expand_params *params, t_lst *env, char **line)
+int	expand_token(t_expand_params *params, t_lst *env, char **line)
 {
 	if ((*line)[params->i] == '$')
 	{
 		if ((((*line)[params->i + 1] == '\''
 				|| (*line)[params->i + 1] == '"'
 			|| ft_isspace((*line)[params->i + 1]))
-				&& params->is_inside_quotes) || !(*line)[params->i + 1] || ((*line)[params->i + 1] && is_not_a_charachter((*line)[params->i + 1])))
-		{
-			append_char(params, (*line)[params->i++]);
-			return ;
-		}
+				&& params->is_inside_quotes) || !(*line)[params->i + 1]
+					|| ((*line)[params->i + 1]
+					&& is_not_a_charachter((*line)[params->i + 1])))
+			return (append_char(params, (*line)[params->i++]), 1);
 		params->i++;
 		if (((*line)[params->i] && is_not_a_charachter((*line)[params->i])))
 			append_char(params, (*line)[params->i++]);
@@ -132,6 +104,7 @@ void	expand_token(t_expand_params *params, t_lst *env, char **line)
 	}
 	else
 		append_char(params, (*line)[params->i++]);
+	return (1);
 }
 
 char	*ft_expand(char *line, t_lst *env)

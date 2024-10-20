@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils1.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:48:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/14 22:31:46 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/20 15:31:40 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ char	*ft_itoa(int n)
 	return (s);
 }
 
-
 t_expand_params	init_params(char *expanded_line)
 {
 	t_expand_params	params;
@@ -92,7 +91,6 @@ void	expand_exit_status(t_expand_params *params)
 	char	*exit_status_str;
 
 	exit_status_str = ft_itoa(ft_exit(4, GET_EXIT_STATUS));
-	// printf("exit status is [%s]\n", exit_status_str);
 	append_string(params, exit_status_str);
 	params->i++;
 }

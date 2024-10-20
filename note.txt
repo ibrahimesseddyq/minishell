@@ -1,7 +1,0 @@
-
-
-ls >> '*' // FIXXX
-
-export x="a b"
-export y=$x
-

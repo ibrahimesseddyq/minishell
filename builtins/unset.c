@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   unset.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:28:09 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/18 19:19:21 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/20 15:07:49 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,7 @@ int	unset(char **args, t_lst *lst)
 		if (check_valid1(args[i]))
 			set_env(lst, args[i], NULL, '\0');
 		else
-		{
-			write(2, "invalid identifier\n", 20);
-			error = 1;
-		}
+			(1) && (write(2, "invalid identifier\n", 20), error = 1);
 		i++;
 	}
 	if (empty || error)

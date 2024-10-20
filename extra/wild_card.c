@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 23:47:30 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/17 21:16:34 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/20 16:11:27 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 void	add_to_found(char ***found_files, int *found_count, const char *file)
 {
-
 	*found_files = ft_realloc(*found_files, (*found_count) * sizeof(char *),
 			(*found_count + 1) * sizeof(char *));
 	if (!(*found_files))
@@ -62,7 +61,6 @@ char	*expand_wildcard(char *pwd, int level, t_wildcard_data *data)
 	char	*del;
 
 	del = gcalloc(2);
-	// printf("pwd 3 is [%s]\n", pwd);
 	wildcard(pwd, level, data);
 	del[0] = *get_splitted_char(1);
 	del[1] = '\0';
@@ -82,34 +80,42 @@ char	*expand_wildcard(char *pwd, int level, t_wildcard_data *data)
 	}
 	return (expanded_result);
 }
+
 void	convert_wd_to_splitting_char(t_wildcard_data *data)
 {
-	int i;
+	int		i;
+	char	current_quote;
 
 	i = 0;
-	while(data->pattern[0][i])
+	current_quote = 0;
+	while (data->pattern[0][i])
 	{
-		if(data->pattern[0][i] == '*')
+		if ((data->pattern[0][i] == '\'' || data->pattern[0][i] == '"')
+			&& current_quote == '\0')
+			current_quote = data->pattern[0][i];
+		else if (data->pattern[0][i] == current_quote)
+			current_quote = '\0';
+		else if (data->pattern[0][i] == '*' && current_quote == '\0')
 			data->pattern[0][i] = *get_splitted_char(4);
 		i++;
 	}
 }
-t_wd_redir_res	*expand_wildcard_redir(char *pwd, int level, t_wildcard_data *data)
-{
-	int		i;
-	char	*expanded_result;
-	char	*del;
-	t_wd_redir_res *res;
 
-	del = gcalloc(2);
+t_wd_redir_res	*expand_wildcard_redir(char *pwd, int level,
+		t_wildcard_data *data)
+{
+	int				i;
+	char			*expanded_result;
+	char			*del;
+	t_wd_redir_res	*res;
+
 	res = gcalloc(sizeof(t_wd_redir_res));
-	// printf("data->pattern [%s]\n", data->pattern[0]);
 	convert_wd_to_splitting_char(data);
 	wildcard2(pwd, level, data, res);
-	del[0] = *get_splitted_char(1);
-	del[1] = '\0';
+	del = alloc_del();
 	if (*(data->found_count) == 0)
-		return (res->expanded_result = ft_strdup(data->pattern[level]), res->size = 1, res);
+		return (res->expanded_result = ft_strdup(data->pattern[level]),
+			res->size = 1, res);
 	i = 0;
 	expanded_result = gcalloc(1);
 	while (i < *(data->found_count))

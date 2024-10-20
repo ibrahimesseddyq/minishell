@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_wildcard.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 20:07:37 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/18 19:01:37 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/20 15:19:15 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,6 @@ char	*expand_wd(char *expanded_arg)
 	char			*pwd;
 
 	found_files = NULL;
-	// printf("[expand_wd] arg[%s]\n", expanded_arg);
 	pattern = gcalloc(sizeof(char *) * 2);
 	pwd = ft_strdup(".");
 	found_count = 0;
@@ -64,7 +63,6 @@ t_wd_redir_res	*expand_wd_redir(char *expanded_arg)
 	pattern = gcalloc(sizeof(char *) * 2);
 	pwd = ft_strdup(".");
 	found_count = 0;
-	// printf("[expand_wd_redir] pattern[0][%s]\n", expanded_arg);
 	pattern[0] = ft_strdup(expanded_arg);
 	pattern[1] = ft_strdup("");
 	data.pattern = pattern;

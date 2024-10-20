@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:45:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/18 19:30:35 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/20 15:32:46 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,13 @@
 
 void	handle_existing_var(char *str, t_export_var *state, t_lst *lst)
 {
-	// printf("hi2\n");
 	state->temp = ft_strdup(str);
 	state->key = strtok(state->temp, "=");
 	state->value = ft_strchr(str, '=');
 	if (state->value)
 		state->value++;
-	// if (state->value && *(state->value))
-	// 	state->value = trim_quotes(state->value);
 	else
 		state->value = "";
-		printf("state key [%s] state value [%s]\n", state->key, state->value);
 	set_env(lst, state->key, state->value, state->exist);
 }
 
@@ -34,12 +30,14 @@ void	export_var(char **str, t_lst *lst, int i)
 
 	state.append_mode = get_symbol_exist(str[i], '+')
 		&& get_symbol_exist(str[i], '=');
+	if (state.append_mode
+		&& get_symbol_exist(str[i], '+') > get_symbol_exist(str[i], '='))
+		state.append_mode = 0;
 	if (state.append_mode)
 		apppend_to_var(&state, str[i], lst);
 	else
 	{
 		state.exist = get_symbol_exist(str[i], '=');
-		printf("state exist [%d] str[0][%s]\n", state.exist, str[1]);
 		if (state.exist)
 			handle_existing_var(str[i], &state, lst);
 		else

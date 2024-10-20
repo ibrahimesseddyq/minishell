@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 17:52:42 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/12 10:44:54 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/20 15:47:17 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	there_is_quote(char *str)
 
 bool	is_valid_quotes(const char *str)
 {
-	int	i;
+	int		i;
 	bool	single_open;
 	bool	double_open;
 
@@ -79,4 +79,3 @@ bool	is_valid_quotes(const char *str)
 	}
 	return (!single_open && !double_open);
 }
-

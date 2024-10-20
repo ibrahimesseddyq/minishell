@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wild_card2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 21:55:38 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/18 18:54:48 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/20 16:06:46 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,14 @@ char	**filterstrings(char *pattern
 	int		i;
 
 	*numMatches = 0;
-	// printf("pattern [%s]\nnum mtches [%d]\n", pattern, *numMatches);
 	matches = gcalloc((numTexts + 1) * sizeof(char *));
 	i = 0;
 	if (!matches)
 		return (NULL);
 	while (i < numTexts)
 	{
-		// printf("text [%s] and pattern [%s]\n", texts[i], pattern);
 		if (match(pattern, texts[i]))
 		{
-			// printf("matched\n");
 			matches[*numMatches]
 				= gcalloc((strlen(texts[i]) + 1) * sizeof(char));
 			if (!matches[*numMatches])
@@ -60,34 +57,14 @@ char	**filterstrings(char *pattern
 		}
 		i++;
 	}
-	// printf("numMatches [%d]\n", *numMatches);
 	matches[*numMatches] = NULL;
 	return (matches);
 }
 
-static int	is_valid_file(char *filename, t_wildcard_data *data)
+static char	**add_file(char **files, int *numFiles, char *filename)
 {
-	// printf("pwd is [%s] and fn is [%s]\n",data->pattern[0], filename);
-	if(data->pattern[0][0] != '.')
-	{
-		if(filename[0] == '.')
-			return (0);
-		return (1);
-	}
-	else
-	{
-		if(filename[0] == '.')
-			return (1);
-		return (0);
-	}
-}
-
-static char **add_file(char **files, int *numFiles, char *filename)
-{
-	files = ft_realloc(files, (*numFiles ) * sizeof(char *),
+	files = ft_realloc(files, (*numFiles) * sizeof(char *),
 			(*numFiles + 1) * sizeof(char *));
-		// files = ft_realloc(files, (*numFiles + 1) * sizeof(char *),
-		// 	(*numFiles + 2) * sizeof(char *));
 	if (!files)
 		return (NULL);
 	files[*numFiles] = gcalloc((ft_strlen(filename) + 1) * sizeof(char));
@@ -95,36 +72,7 @@ static char **add_file(char **files, int *numFiles, char *filename)
 		return (NULL);
 	ft_strcpy(files[*numFiles], filename);
 	(*numFiles)++;
-	// files[*numFiles] = NULL;
 	return (files);
-}
-
-static void swap_strings(char **a, char **b)
-{
-    char *temp = *a;
-    *a = *b;
-    *b = temp;
-}
-
-static void bubble_sort(char **arr, int n)
-{
-    int i, j;
-    int swapped;
-
-    for (i = 0; i < n - 1; i++)
-    {
-        swapped = 0;
-        for (j = 0; j < n - i - 1; j++)
-        {
-            if (ft_strcmp(arr[j], arr[j + 1]) > 0)
-            {
-                swap_strings(&arr[j], &arr[j + 1]);
-                swapped = 1;
-            }
-        }
-        if (swapped == 0)
-            break;
-    }
 }
 
 char	**get_files(const char *dir, int *numFiles, t_wildcard_data *data)
@@ -134,7 +82,6 @@ char	**get_files(const char *dir, int *numFiles, t_wildcard_data *data)
 	char			**files;
 
 	*numFiles = 0;
-	// printf("dir [%s]\nnum Files [%d]\npattern [%s]\n", dir, *numFiles, data->pattern[0]);
 	files = NULL;
 	dp = opendir(dir);
 	if (dp == NULL)
@@ -152,11 +99,12 @@ char	**get_files(const char *dir, int *numFiles, t_wildcard_data *data)
 	}
 	closedir(dp);
 	if (files && *numFiles > 1)
-        bubble_sort(files, *numFiles);
+		bubble_sort(files, *numFiles);
 	return (files);
 }
 
-void	wildcard2(const char *pwd, int level, t_wildcard_data *data, t_wd_redir_res *res)
+void	wildcard2(const char *pwd, int level,
+		t_wildcard_data *data, t_wd_redir_res *res)
 {
 	char	**files;
 	char	**validpaths;
@@ -164,20 +112,14 @@ void	wildcard2(const char *pwd, int level, t_wildcard_data *data, t_wd_redir_res
 	int		validcount;
 	int		i;
 
-	// printf("wildcard2\n");
 	(1) && (validcount = 0, count = 0);
 	(1) && (i = 0, files = NULL, validpaths = NULL,
 			files = get_files(pwd, &count, data));
-	// printf("count is [%d]\n", count);
 	if (!files)
 		return (add_to_found(data->found_files
 				, data->found_count, data->pattern[level]));
 	validpaths = filterstrings(data->pattern[level],
 			(char **)files, count, &validcount);
-	// for (int i= 0; validpaths[i]; i++)
-	// {
-	// 	printf("validpaths [%s]\n", validpaths[i]);
-	// }
 	if (validcount == 0)
 		add_to_found(data->found_files,
 			data->found_count, data->pattern[level]);
@@ -185,9 +127,7 @@ void	wildcard2(const char *pwd, int level, t_wildcard_data *data, t_wd_redir_res
 	{
 		while (i < validcount)
 		{
-			// printf("i is [%d] validcount [%d]\n", i, validcount);
-			add_to_found(data->found_files, data->found_count, validpaths[i]);
-			i++;
+			mark_file_as_found(data, validpaths, &i);
 		}
 	}
 	res->size = i;

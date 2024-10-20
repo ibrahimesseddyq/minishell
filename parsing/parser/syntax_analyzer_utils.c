@@ -6,13 +6,13 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 16:36:58 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 16:51:54 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/20 15:58:12 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../../minishell.h"
 
-int	(*get_matrix(void))[11]
+matrix	get_matrix(void)
 {
 	static int	tr[9][11] = {
 	{-1, 1, -1, -1, -1, -1, 3, 3, 3, 3, 2},

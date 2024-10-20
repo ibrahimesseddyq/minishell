@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:13:19 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/18 01:25:59 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/20 16:16:58 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int	g_sig_var;
 
-void	execute(t_tklist *token_list, t_astnode *ast, t_lst *lst, char *t)
+void	execute_main(t_tklist *token_list, t_astnode *ast, t_lst *lst, char *t)
 {
 	token_list = tokenize(t);
 	if (token_list->size > 1)
@@ -29,6 +29,7 @@ void	execute(t_tklist *token_list, t_astnode *ast, t_lst *lst, char *t)
 			exec_cmd_line(ast, lst);
 	}
 }
+
 void	handle_arguments_main(int ac, char **av)
 {
 	if (ac > 1)
@@ -37,6 +38,7 @@ void	handle_arguments_main(int ac, char **av)
 		ft_exit(1, EXIT_PROGRAM);
 	}
 }
+
 int	main(int ac, char **av, char *env[])
 {
 	t_tklist	*token_list;
@@ -44,7 +46,7 @@ int	main(int ac, char **av, char *env[])
 	t_lst		*lst;
 	char		*t;
 
-	(void)((1) && (token_list = NULL, ast = NULL, initialize(), lst = envp(env), 1));
+	(void)((1) && (initialize(&token_list, &ast), lst = envp(env), 1));
 	handle_arguments_main(ac, av);
 	increment_shell_level(lst);
 	while (1)
@@ -57,7 +59,7 @@ int	main(int ac, char **av, char *env[])
 			exit(2);
 		}
 		if (t)
-			execute(token_list, ast, lst, t);
+			execute_main(token_list, ast, lst, t);
 		g_sig_var = 0;
 		printf("\nexit status: [%d]\n", ft_exit(1, GET_EXIT_STATUS));
 		unlink_heredocs();

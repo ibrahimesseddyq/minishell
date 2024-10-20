@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   split_utils2.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 22:19:50 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/18 19:22:11 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/20 15:19:03 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,20 +20,28 @@ char	*get_splitted_char(int index)
 		c[index - 1] = 33;
 	return (&c[index - 1]);
 }
-char	*skip_char(const char* input, char skip)
+
+char	*skip_char(const char *input, char skip)
 {
-    if (input == NULL)
-        return NULL;
-    size_t len = strlen(input);
-    char* result = (char*)gcalloc(len + 1);  // +1 for null terminator
-    if (result == NULL)
-        return NULL;  // Check for malloc failure
-    size_t j = 0;
-    for (size_t i = 0; i < len; i++) {
-        if (input[i] != skip) {
-            result[j++] = input[i];
-        }
-    }
-    result[j] = '\0';  // Null-terminate the result string
-    return result;
+	size_t	len;
+	char	*result;
+	size_t	j;
+	size_t	i;
+
+	if (input == NULL)
+		return (NULL);
+	i = 0;
+	len = strlen(input);
+	result = (char *)gcalloc(len + 1);
+	if (result == NULL)
+		return (NULL);
+	j = 0;
+	while (i < len)
+	{
+		if (input[i] != skip)
+			result[j++] = input[i];
+		i++;
+	}
+	result[j] = '\0';
+	return (result);
 }

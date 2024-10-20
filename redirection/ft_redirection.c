@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:21:45 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/16 18:45:53 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/20 15:49:10 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,15 @@ int	is_a_redirection_out(t_astnode *ast)
 		return (1);
 	return (0);
 }
+
 int	check_if_directory(char *cmd)
 {
 	struct stat	sb;
 
 	stat(cmd, &sb);
-	if ((cmd[ft_strlen(cmd) - 1] == '/' && S_ISDIR(sb.st_mode)) || (S_ISDIR(sb.st_mode) && !is_builtin_command(cmd) && slash_exist(cmd)))
+	if ((cmd[ft_strlen(cmd) - 1] == '/' && S_ISDIR(sb.st_mode))
+		|| (S_ISDIR(sb.st_mode)
+			&& !is_builtin_command(cmd) && slash_exist(cmd)))
 	{
 		write(2, "Is a directory \n", 16);
 		ft_exit(126, SET_EXIT_STATUS);
@@ -61,10 +64,11 @@ int	check_if_directory(char *cmd)
 	}
 	return (0);
 }
+
 char	*handle_ambiguous_wd(t_redir *redir)
 {
 	t_wd_redir_res	*res;
-	t_wildcard_data data;
+	t_wildcard_data	data;
 	char			*pattern;
 
 	if (check_if_directory(redir->file))
@@ -77,7 +81,6 @@ char	*handle_ambiguous_wd(t_redir *redir)
 	res = expand_wd_redir(pattern);
 	if (res->size != 1 && res->size != 0)
 	{
-		write(2, "ambiguious redir\n", 18);
 		ft_exit(1, SET_EXIT_STATUS);
 		return (NULL);
 	}
@@ -86,6 +89,7 @@ char	*handle_ambiguous_wd(t_redir *redir)
 	else
 		return (res->expanded_result);
 }
+
 int	ft_redirection(t_astnode *ast, t_lst *env, int command_exist)
 {
 	int	fd;
@@ -98,9 +102,7 @@ int	ft_redirection(t_astnode *ast, t_lst *env, int command_exist)
 		return (1);
 	while (ast->t_cmd.redirections)
 	{
-		ast->t_cmd.redirections->redir->file = handle_ambiguous_wd(ast->t_cmd.redirections->redir);
-		// printf("file is [%s]\n", ast->t_cmd.redirections->redir->file);
-		if(!ast->t_cmd.redirections->redir->file)
+		if (!ast->t_cmd.redirections->redir->file)
 			return (-2);
 		if (is_a_redirection_out(ast))
 			fd = ft_red_out(ast, env, last_arr[1] == ++i, command_exist);

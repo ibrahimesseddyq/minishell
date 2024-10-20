@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd4.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:21:53 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/18 19:01:37 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/20 15:12:40 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int	check_file(char **argv)
 		is_abs_rel = 1;
 	if (access(argv[0], F_OK) == -1)
 	{
-		// printf("F_OK !\n")
 		if (is_abs_rel)
 			write(2, "No such file or directory\n", 27);
 		else
@@ -71,13 +70,6 @@ int	check_file(char **argv)
 		ft_exit(127, SET_EXIT_STATUS);
 		return (0);
 	}
-	// else if (!access(argv[0], F_OK)
-	// 	&& (argv[0][0] != '.' && argv[0][0] != '/' ))
-	// {
-	// 	write(2, "command not found\n", 19);
-	// 	ft_exit(127, SET_EXIT_STATUS);
-	// 	return (0);
-	// }
 	return (1);
 }
 

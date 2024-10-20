@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:44:36 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/11 23:13:41 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/20 15:00:41 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	get_symbol_exist(char *str, char symbol)
 	while (str[i])
 	{
 		if (str[i] == symbol)
-			return (1);
+			return (i);
 		i++;
 	}
 	return (0);

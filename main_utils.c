@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 15:17:19 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/18 01:46:46 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/20 16:02:12 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ void	increment_shell_level(t_lst *env)
 	set_env(env, "SHLVL", ft_itoa(shlvl), 1);
 }
 
-void	initialize(void)
+void	initialize(t_tklist **token_list, t_astnode	**ast)
 {
 	signal(SIGQUIT, handle_sig);
 	signal(SIGINT, handle_sig);

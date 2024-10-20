@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/17 21:15:25 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/20 16:17:47 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,6 +64,9 @@
 # define ROWS 9
 # define COLS 11
 
+typedef int (*matrix)[11];
+
+extern int	g_sig_var;
 typedef struct stat	t_stat;
 typedef struct s_redir_islast
 {
@@ -358,7 +361,7 @@ void			expand_variable_heredoc(t_expand_params *params,
 					t_lst *env, char **line);
 void			expand_variable(t_expand_params *params,
 					t_lst *env, char **line);
-void			expand_token(t_expand_params *params, t_lst *env, char **line);
+int				expand_token(t_expand_params *params, t_lst *env, char **line);
 void			gc_free(void *ptr);
 bool			matchStar(char ch, const char *pattern, const char *text);
 int				match(char *pattern, const char *text);
@@ -379,13 +382,13 @@ int				handle_ambiguous(char *str);
 t_list			**get_heredoc_list(void);
 void			unlink_heredocs(void);
 int				ft_sprintf(char *str, const char *format, int num);
-t_wd_redir_res	*expand_wildcard_redir(char *pwd, int level, t_wildcard_data *data);
-
+t_wd_redir_res	*expand_wildcard_redir(char *pwd,
+					int level, t_wildcard_data *data);
 int				check_valid2(char *str);
 int				check_valid1(char *str);
 char			*ft_pwd2(void);
 t_token			*token_closing_parenthesis(t_lexer *lexer);
-void			initialize(void);
+void			initialize(t_tklist **token_list, t_astnode	**ast);
 int				valid_quotes_main(char *line);
 void			increment_shell_level(t_lst *env);
 void			handle_sig(int sig);
@@ -403,17 +406,30 @@ int				ft_isspace(char c);
 char			**handle_empty_var_beginning(char **real_args);
 int				star_inside_quotes(const char *str);
 void			choose_splitting_delimiter(t_arg_node	*lst, t_astnode *ast);
-char			**get_files(const char *dir, int *numFiles, t_wildcard_data *data);
+char			**get_files(const char *dir,
+					int *numFiles, t_wildcard_data *data);
 char			*ft_expand_tilde(char *path, t_lst *env);
-void			wildcard2(const char *pwd, int level, t_wildcard_data *data, t_wd_redir_res *res);
-void			add_to_found(char ***found_files, int *found_count, const char *file);
+void			wildcard2(const char *pwd, int level,
+					t_wildcard_data *data, t_wd_redir_res *res);
+void			add_to_found(char ***found_files,
+					int *found_count, const char *file);
 t_wd_redir_res	*expand_wd_redir(char *expanded_arg);
 int				slash_exist(char *str);
 int				is_not_a_charachter(char c);
-void 			remove_ampersand_strings(char **arr);
-char			*skip_char(const char* input, char skip);
+void			remove_ampersand_strings(char **arr);
+char			*skip_char(const char *input, char skip);
 char			*get_empty_str(void);
-char* replace_star_outside_quotes(const char* input);
-extern int		g_sig_var;
-int				(*get_matrix(void))[11];
+char			*replace_star_outside_quotes(const char *input);
+char			*handle_ambiguous_wd(t_redir *redir);
+int				append_dollar_redir(t_expand_params *params, char **line);
+matrix			get_matrix(void);
+char			*alloc_del(void);
+char			**generate_final_splitted(t_astnode *ast,
+					t_lst *env, t_arg_node *lst);
+void			mark_file_as_found(t_wildcard_data *data,
+					char	**validpaths, int *i);
+int				is_valid_file(char *filename, t_wildcard_data *data);
+void			bubble_sort(char **arr, int n);
+char			*replace_space_with_second_separator(t_expand_params *params,
+					char *str);
 #endif
