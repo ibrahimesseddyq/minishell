@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:06:35 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/09 23:15:50 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/20 17:01:36 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,9 @@ void	advance(t_lexer *lexer)
 {
 	lexer->pos++;
 	if (lexer->pos >= (int)ft_strlen(lexer->input))
-	{
 		lexer->currentchar = '\0';
-	}
 	else
-	{
 		lexer->currentchar = lexer->input[lexer->pos];
-	}
 }
 
 void	skip_whitespace(t_lexer *lexer)

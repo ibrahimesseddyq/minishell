@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_wildcard.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 20:42:32 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/09 22:37:41 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/20 17:46:03 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,21 +60,3 @@ char	**get_matching_files(char *pattern, int *file_count)
 	closedir(dir);
 	return (files);
 }
-
-// int	main(void)
-// {
-// 	char	**files;
-// 	int		count;
-// 	int		i;
-
-// 	files = get_matching_files("exec*.c", &count);
-// 	i = 0;
-// 	while (i < count)
-// 	{
-// 		printf("%s\n", files[i]);
-// 		free(files[i]);
-// 		i++;
-// 	}
-// 	free(files);
-// 	return (0);
-// }

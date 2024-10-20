@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:11:05 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/20 15:33:48 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/20 17:11:27 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,6 @@ void	set_env(t_lst *lst, char *key, char *new_value, int sign)
 	t_lst	*tmp;
 
 	new = NULL;
-	printf("sign [%d] key[%s] value[%s]\n", sign, key, new_value);
 	tmp = lst;
 	while (lst)
 	{

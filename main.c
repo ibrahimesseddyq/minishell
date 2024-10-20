@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:13:19 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/20 16:16:58 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/20 17:49:24 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ void	handle_arguments_main(int ac, char **av)
 	if (ac > 1)
 	{
 		printf("run ./minishell with no args\n");
+		gc_free_all();
 		ft_exit(1, EXIT_PROGRAM);
 	}
 }

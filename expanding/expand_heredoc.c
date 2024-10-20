@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:47:54 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 22:15:11 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/20 16:58:59 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	expand_variable_heredoc(t_expand_params *params,
 
 	varnamelen = get_var_length(*line, params->i);
 	varname = gcalloc(varnamelen + 1);
-	strncpy(varname, *line + params->i, varnamelen);
+	ft_strncpy(varname, *line + params->i, varnamelen);
 	varname[varnamelen] = '\0';
 	params->i += varnamelen;
 	value = get_env(env, varname);

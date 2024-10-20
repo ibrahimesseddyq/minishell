@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 15:42:23 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/18 19:00:30 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/20 16:58:25 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,4 +194,5 @@ __int128		ft_atoi128(const char *str);
 
 char			*ft_strncpy(char *dest, char *src, unsigned int n);
 
+char			*ft_strtok(char *str, char sepa);
 #endif

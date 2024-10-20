@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:21:45 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/20 15:49:10 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/20 17:47:45 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	check_if_directory(char *cmd)
 		|| (S_ISDIR(sb.st_mode)
 			&& !is_builtin_command(cmd) && slash_exist(cmd)))
 	{
-		write(2, "Is a directory \n", 16);
+		write(2, "Is a directory \n", 17);
 		ft_exit(126, SET_EXIT_STATUS);
 		return (1);
 	}

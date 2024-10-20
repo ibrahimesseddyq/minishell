@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_sprintf.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 15:47:54 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/18 19:14:57 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/20 17:01:56 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,5 @@ int	ft_sprintf(char *str, const char *format, int num)
 			str[total_len++] = format[i];
 		i++;
 	}
-	printf("[itoa]num str is [%s]\n", str);
 	return (str[total_len] = '\0', total_len);
 }

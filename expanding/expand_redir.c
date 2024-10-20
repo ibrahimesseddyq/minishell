@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:48:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/20 15:31:30 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/20 16:59:54 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int	expand_variable_redir(t_expand_params *params, t_lst *env, char **line)
 	params->i += varnamelen;
 	value = get_env(env, varname);
 	value = replace_star_outside_quotes(value);
-	printf("value [%s]\n", value);
 	if (!value)
 	{
 		append_string(params, get_empty_str());

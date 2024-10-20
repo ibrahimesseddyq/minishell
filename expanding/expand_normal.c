@@ -6,12 +6,11 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:19:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/20 15:26:00 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/20 16:59:24 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-// params->is_inside_quotes2 istead of params->is_inside_quotes
 
 char	*replace_star_outside_quotes(const char *input)
 {
@@ -23,7 +22,7 @@ char	*replace_star_outside_quotes(const char *input)
 	if (input == NULL)
 		return (NULL);
 	i = 0;
-	len = strlen(input);
+	len = ft_strlen(input);
 	result = (char *)gcalloc(len + 1);
 	if (result == NULL)
 		return (NULL);
