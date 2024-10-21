@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:22:07 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/20 15:48:08 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/21 17:26:06 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,8 +81,16 @@ int	ft_red_out(t_astnode *ast, t_lst *env, int is_last, int command_exist)
 			= ft_expand_redir(ast->t_cmd.redirections->redir->file, env);
 		ast->t_cmd.redirections->redir->file
 			= handle_ambiguous_wd(ast->t_cmd.redirections->redir);
+		printf("file 3[%s]\n", ast->t_cmd.redirections->redir->file);
+		ast->t_cmd.redirections->redir->file = make_filename(ast->t_cmd.redirections->redir->file);
+		printf("file 4[%s]\n", ast->t_cmd.redirections->redir->file);
+
+		if (ast->t_cmd.redirections->redir->file && !ast->t_cmd.redirections->redir->file[0])
+			return (write(2, "No such file or dir\n", 21), -2);
 		if (!ast->t_cmd.redirections->redir->file)
 			return (write(2, "ambigiuos redir\n", 17), -2);
+				printf("file [%s]\n", ast->t_cmd.redirections->redir->file);
+
 		ast->t_cmd.redirections->redir->file
 			= expand_wd(ast->t_cmd.redirections->redir->file);
 		if (handle_ambiguous(ast->t_cmd.redirections->redir->file) == -1)

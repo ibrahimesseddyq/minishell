@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:19:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/21 02:16:29 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/21 17:59:27 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ void	expand_variable(t_expand_params *params, t_lst *env, char **line)
 	value = replace_star_outside_quotes(value);
 	if (!value)
 	{
-		append_string(params, "");
+		append_string(params, get_null_str());
 	}
 	else
 	{
@@ -132,6 +132,12 @@ int expand_token(t_expand_params *params, t_lst *env, char **line)
         append_char(params, (*line)[params->i++]);
     return (1);
 }
+int next_empty_string(char *line, t_expand_params *params, char quote)
+{
+	if (line[params->i] == quote && line[params->i + 1] == quote)
+		return (1);
+	return (0);
+}
 
 char	*ft_expand(char *line, t_lst *env)
 {
@@ -143,7 +149,7 @@ char	*ft_expand(char *line, t_lst *env)
 	params.is_inside_quotes3 = 0;
 	while (line && line[params.i])
 	{
-		if (handle_quotes2(line[params.i], &params))
+		if (handle_quotes2(line[params.i], &params, line))
 			continue ;
 		if (!params.is_inside_quotes || params.current_quote == '\"')
 		{

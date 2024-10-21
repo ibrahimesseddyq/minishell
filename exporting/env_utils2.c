@@ -6,22 +6,27 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:45:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/20 16:41:53 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/21 16:58:35 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	handle_existing_var(char *str, t_export_var *state, t_lst *lst)
+void	handle_setting_var(char *str, t_export_var *state, t_lst *lst)
 {
 	state->temp = ft_strdup(str);
-	state->key = ft_strtok(state->temp, "=");
+	state->key = strtok(state->temp, "=");
 	state->value = ft_strchr(str, '=');
-	if (state->value)
-		state->value++;
+	if (get_env_isset(lst, state->key) && !state->exist)
+		return ;	
+		if (state->value)
+			state->value++;
+		else
+			state->value = "";
+	if (!state->exist)
+		set_env(lst,state->key, "", state->exist);
 	else
-		state->value = "";
-	set_env(lst, state->key, state->value, state->exist);
+		set_env(lst, state->key, state->value, state->exist);
 }
 
 void	export_var(char **str, t_lst *lst, int i)
@@ -38,10 +43,7 @@ void	export_var(char **str, t_lst *lst, int i)
 	else
 	{
 		state.exist = get_symbol_exist(str[i], '=');
-		if (state.exist)
-			handle_existing_var(str[i], &state, lst);
-		else
-			set_env(lst, str[i], "", state.exist);
+		handle_setting_var(str[i], &state, lst);
 	}
 }
 

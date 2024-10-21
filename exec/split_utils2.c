@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 22:19:50 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/20 15:19:03 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/21 05:37:00 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	*get_splitted_char(int index)
 {
-	static char	c[4];
+	static char	c[5];
 
 	if (c[index - 1] == 0)
 		c[index - 1] = 33;
@@ -44,4 +44,15 @@ char	*skip_char(const char *input, char skip)
 	}
 	result[j] = '\0';
 	return (result);
+}
+
+char	*get_null_str(void)
+{
+	char	*empty_str;
+
+	empty_str = NULL;
+	empty_str = gcalloc(2);
+	empty_str[0] = *get_splitted_char(5);
+	empty_str[1] = '\0';
+	return (empty_str);
 }

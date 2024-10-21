@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/21 02:24:38 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/21 18:00:29 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -323,7 +323,7 @@ int				get_var_length(char *line, int i);
 void			append_string(t_expand_params *params, char *str);
 void			expand_exit_status(t_expand_params *params);
 int				append_char_to_string(char **s, char c);
-int				handle_quotes2(char c, t_expand_params *params);
+int				handle_quotes2(char c, t_expand_params *params, char *line);
 void			append_char(t_expand_params *params, char c);
 int				check_ambigious(char *str);
 t_tklist		*tokenize(char *input);
@@ -416,7 +416,7 @@ void			add_to_found(char ***found_files,
 t_wd_redir_res	*expand_wd_redir(char *expanded_arg);
 int				slash_exist(char *str);
 int				is_not_a_charachter(char c);
-void			remove_ampersand_strings(char **arr);
+void			remove_ampersand_strings(char **arr, int *size);
 char			*skip_char(const char *input, char skip);
 char			*get_empty_str(void);
 char			*replace_star_outside_quotes(const char *input);
@@ -434,4 +434,10 @@ char			*replace_space_with_second_separator(t_expand_params *params,
 					char *str);
 int				is_quote(char c);
 int				handle_translation(t_expand_params *params, t_lst *env, char **line, char quote);
+char			*get_null_str(void);
+void			handle_setting_var(char *str, t_export_var *state, t_lst *lst);
+char *make_filename(char *file);
+int contains_just(char *str, char c);
+int next_empty_string(char *line, t_expand_params *params, char quote);
+char *make_empty_and_null(char *str);
 #endif

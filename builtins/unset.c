@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:28:09 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/20 15:07:49 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/21 05:36:15 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,28 +61,28 @@ int	is_empty(char *str)
 int	unset(char **args, t_lst *lst)
 {
 	int	i;
-	int	empty;
 	int	error;
 
-	(1) && (empty = 0, i = 1, error = 0);
-	if (!args[1])
-		return (ft_exit(0, SET_EXIT_STATUS), 1);
+	(1) && (i = 1, error = 0);
 	while (i < nb_args(args))
 	{
-		if (is_empty(args[i]))
-			empty = 1;
-		if (!get_env(lst, args[i]))
+		if (!check_valid1(args[i]) || !args[i][0])
 		{
-			i++;
-			continue ;
+			write(2, "invalid identifier\n", 20);
+			error = 1;
 		}
-		if (check_valid1(args[i]))
-			set_env(lst, args[i], NULL, '\0');
 		else
-			(1) && (write(2, "invalid identifier\n", 20), error = 1);
+		{
+			if (!get_env(lst, args[i]))
+			{
+				i++;
+				continue ;
+			}
+			set_env(lst, args[i], NULL, '\0');
+		}
 		i++;
 	}
-	if (empty || error)
+	if (error)
 		return (ft_exit(1, SET_EXIT_STATUS), 0);
 	return (ft_exit(0, SET_EXIT_STATUS), 1);
 }

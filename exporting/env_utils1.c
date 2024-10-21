@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:44:36 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/20 16:41:44 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/21 16:58:23 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,7 @@ char	*trim_quotes(char *str)
 void	apppend_to_var(t_export_var *state, char *str, t_lst *lst)
 {
 	state->temp = ft_strdup(str);
-	state->key = ft_strtok(state->temp, "+=");
+	state->key = strtok(state->temp, "+=");
 	state->value = ft_strchr(str, '=');
 	if (state->value)
 		(state->value)++;

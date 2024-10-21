@@ -1,0 +1,27 @@
+&
+)
+Makefile
+build
+builtins
+env
+exec
+expanding
+exporting
+extra
+libft
+libft.a
+main.c
+main_utils.c
+main_utils.o
+minishell
+minishell.dSYM
+minishell.h
+note.txt
+out
+outfiles
+parsing
+redirection
+test expand
+test_files
+tmp_lol.c
+whatever

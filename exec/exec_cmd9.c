@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 22:21:06 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/20 15:15:51 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/21 05:13:48 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,10 @@ void	choose_splitting_delimiter(t_arg_node	*lst, t_astnode *ast)
 	which_to_split_with(list_to_array(lst, ast), 2);
 	which_to_split_with(list_to_array(lst, ast), 3);
 	which_to_split_with(list_to_array(lst, ast), 4);
+	which_to_split_with(list_to_array(lst, ast), 5);
 }
 
-void	remove_ampersand_strings(char **arr)
+void	remove_ampersand_strings(char **arr, int *size)
 {
 	size_t	read_index;
 	size_t	write_index;
@@ -31,11 +32,18 @@ void	remove_ampersand_strings(char **arr)
 	write_index = 0;
 	while (arr[read_index] != NULL)
 	{
-		if (ft_strcmp(arr[read_index], get_empty_str()) != 0)
-			arr[write_index++] = arr[read_index];
+		if (ft_strcmp(arr[read_index], get_null_str()) != 0)
+		{
+			if (ft_strcmp(arr[read_index], get_empty_str()) == 0)
+				arr[write_index] = ft_strdup("");
+			else
+				arr[write_index] = make_empty_and_null(arr[(int)read_index]);
+			write_index++;
+		}
 		read_index++;
 	}
 	arr[write_index] = NULL;
+	*size = write_index;
 }
 
 char	**handle_empty_var_beginning(char **real_args)

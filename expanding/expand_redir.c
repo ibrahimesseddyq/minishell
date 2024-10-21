@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:48:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/21 02:23:33 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/21 17:37:00 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	expand_variable_redir(t_expand_params *params, t_lst *env, char **line)
 	value = replace_star_outside_quotes(value);
 	if (!value)
 	{
-		append_string(params, get_empty_str());
+		append_string(params, get_null_str());
 	}
 	else
 	{
@@ -124,5 +124,11 @@ char	*ft_expand_redir(char *line, t_lst *env)
 		= skip_char(params.expanded_line, *get_splitted_char(3));
 	if (params.expanded_line && !params.expanded_line[0])
 		return (NULL);
+	if (!params.expanded_line[0])
+		return (get_empty_str());
+	else if (params.expanded_line[0] != *get_splitted_char(5) && !params.expanded_line[1])
+	{
+		params.expanded_line = skip_char(params.expanded_line, *get_splitted_char(5));
+	}
 	return (params.expanded_line);
 }

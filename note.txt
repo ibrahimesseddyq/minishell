@@ -1,10 +1,22 @@
  ls > aaa/dds // should output no such file or dir
  ls > '' or ""
 
-export a="aaa"
-export a
-
-a khass yb9a value dyalha aaa
-
 exit ""
 
+echo $a$b$c$d""$a
+
+bash-3.2$ ls '' $aas ""'' $ds''
+ls: : No such file or directory
+ls: : No such file or directory
+ls: : No such file or directory
+
+
+minishell:>$ ls '' $aas ""'' $ds''
+real_args[ls]
+real_args[]
+real_args[]
+ls: : No such file or directory
+ls: : No such file or directory
+
+exit status: [1]
+minishell:>$ 
