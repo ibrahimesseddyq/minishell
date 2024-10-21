@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:48:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/20 16:59:54 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/21 02:23:33 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,32 +39,64 @@ int	expand_variable_redir(t_expand_params *params, t_lst *env, char **line)
 	}
 	return (1);
 }
-
-int	expand_token_redir(t_expand_params *params, t_lst *env, char **line)
+int expand_token_redir(t_expand_params *params, t_lst *env, char **line)
 {
 	if (params->i >= DEFAULT_NB - 1)
 		handle_overflow();
-	if ((*line)[params->i] == '$')
-	{
-		if (append_dollar_redir(params, line))
-			return (append_char(params, (*line)[params->i++]), 1);
-		params->i++;
-		if (((*line)[params->i] && is_not_a_charachter((*line)[params->i])))
-			append_char(params, (*line)[params->i++]);
-		else if ((*line)[params->i] == '?')
-			expand_exit_status(params);
-		else if (!expand_variable_redir(params, env, line))
-			return (0);
-	}
-	else if ((*line)[params->i] == '*' && !params->is_inside_quotes)
-	{
-		(*line)[params->i] = *get_splitted_char(4);
-		append_char(params, (*line)[params->i++]);
-	}
-	else
-		append_char(params, (*line)[params->i++]);
-	return (1);
+    if ((*line)[params->i] == '$')
+    {
+        if (is_quote((*line)[params->i + 1]))
+        {
+            return handle_translation(params, env, line, (*line)[params->i + 1]);
+        }
+        params->i++;
+	    if (!(*line)[params->i] || is_not_a_charachter((*line)[params->i]))
+        {
+            params->i--;
+            append_char(params, (*line)[params->i++]);
+        }
+        if ((*line)[params->i] && is_not_a_charachter((*line)[params->i]))
+            append_char(params, (*line)[params->i++]);
+        else if ((*line)[params->i] == '?')
+            expand_exit_status(params);
+        else
+            if (!expand_variable_redir(params, env, line))
+				return (0);
+    }
+    else if ((*line)[params->i] == '*' && !params->is_inside_quotes)
+    {
+        (*line)[params->i] = *get_splitted_char(4);
+        append_char(params, (*line)[params->i++]);
+    }
+    else
+        append_char(params, (*line)[params->i++]);
+    return (1);
 }
+// int	expand_token_redir(t_expand_params *params, t_lst *env, char **line)
+// {
+// 	if (params->i >= DEFAULT_NB - 1)
+// 		handle_overflow();
+// 	if ((*line)[params->i] == '$')
+// 	{
+// 		if (append_dollar_redir(params, line))
+// 			return (append_char(params, (*line)[params->i++]), 1);
+// 		params->i++;
+// 		if (((*line)[params->i] && is_not_a_charachter((*line)[params->i])))
+// 			append_char(params, (*line)[params->i++]);
+// 		else if ((*line)[params->i] == '?')
+// 			expand_exit_status(params);
+// 		else if (!expand_variable_redir(params, env, line))
+// 			return (0);
+// 	}
+// 	else if ((*line)[params->i] == '*' && !params->is_inside_quotes)
+// 	{
+// 		(*line)[params->i] = *get_splitted_char(4);
+// 		append_char(params, (*line)[params->i++]);
+// 	}
+// 	else
+// 		append_char(params, (*line)[params->i++]);
+// 	return (1);
+// }
 
 char	*ft_expand_redir(char *line, t_lst *env)
 {

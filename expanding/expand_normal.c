@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:19:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/20 16:59:24 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/21 02:16:29 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,34 +76,61 @@ int	is_not_a_charachter(char c)
 		return (0);
 	return (1);
 }
-
-int	expand_token(t_expand_params *params, t_lst *env, char **line)
+int handle_translation(t_expand_params *params, t_lst *env, char **line, char quote)
 {
-	if ((*line)[params->i] == '$')
-	{
-		if ((((*line)[params->i + 1] == '\''
-				|| (*line)[params->i + 1] == '"'
-			|| ft_isspace((*line)[params->i + 1]))
-				&& params->is_inside_quotes) || !(*line)[params->i + 1]
-					|| ((*line)[params->i + 1]
-					&& is_not_a_charachter((*line)[params->i + 1])))
-			return (append_char(params, (*line)[params->i++]), 1);
-		params->i++;
-		if (((*line)[params->i] && is_not_a_charachter((*line)[params->i])))
-			append_char(params, (*line)[params->i++]);
-		else if ((*line)[params->i] == '?')
-			expand_exit_status(params);
-		else
-			expand_variable(params, env, line);
-	}
-	else if ((*line)[params->i] == '*' && !params->is_inside_quotes)
-	{
-		(*line)[params->i] = *get_splitted_char(4);
-		append_char(params, (*line)[params->i++]);
-	}
-	else
-		append_char(params, (*line)[params->i++]);
-	return (1);
+    params->i += 2;
+    params->is_inside_quotes = 1;
+    while ((*line)[params->i] && (*line)[params->i] != quote)
+    {
+        if ((*line)[params->i] == '$' && !(*line)[params->i + 1])
+            break;
+        if ((*line)[params->i] == '$' && is_quote((*line)[params->i + 1]))
+        {
+            append_char(params, (*line)[params->i++]);
+        }
+        else if ((*line)[params->i] == '$' && quote != '\'' && !is_not_a_charachter((*line)[params->i + 1]))
+        {
+            params->i++; // Move past the $
+            expand_variable(params, env, line);
+        }
+        else
+            append_char(params, (*line)[params->i++]);
+    }
+    if ((*line)[params->i] == quote)
+        params->i++;
+    params->is_inside_quotes = 0;
+    return (1);
+}
+
+int expand_token(t_expand_params *params, t_lst *env, char **line)
+{
+    if ((*line)[params->i] == '$')
+    {
+        if (is_quote((*line)[params->i + 1]))
+        {
+            return handle_translation(params, env, line, (*line)[params->i + 1]);
+        }
+        params->i++;
+	    if (!(*line)[params->i] || is_not_a_charachter((*line)[params->i]))
+        {
+            params->i--;
+            append_char(params, (*line)[params->i++]);
+        }
+        if ((*line)[params->i] && is_not_a_charachter((*line)[params->i]))
+            append_char(params, (*line)[params->i++]);
+        else if ((*line)[params->i] == '?')
+            expand_exit_status(params);
+        else
+            expand_variable(params, env, line);
+    }
+    else if ((*line)[params->i] == '*' && !params->is_inside_quotes)
+    {
+        (*line)[params->i] = *get_splitted_char(4);
+        append_char(params, (*line)[params->i++]);
+    }
+    else
+        append_char(params, (*line)[params->i++]);
+    return (1);
 }
 
 char	*ft_expand(char *line, t_lst *env)

@@ -1,0 +1,10 @@
+ ls > aaa/dds // should output no such file or dir
+ ls > '' or ""
+
+export a="aaa"
+export a
+
+a khass yb9a value dyalha aaa
+
+exit ""
+

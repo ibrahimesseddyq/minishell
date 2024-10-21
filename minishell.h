@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/20 16:17:47 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/21 02:24:38 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -432,4 +432,6 @@ int				is_valid_file(char *filename, t_wildcard_data *data);
 void			bubble_sort(char **arr, int n);
 char			*replace_space_with_second_separator(t_expand_params *params,
 					char *str);
+int				is_quote(char c);
+int				handle_translation(t_expand_params *params, t_lst *env, char **line, char quote);
 #endif
