@@ -66,7 +66,7 @@ int	unset(char **args, t_lst *lst)
 	(1) && (i = 1, error = 0);
 	while (i < nb_args(args))
 	{
-		if (!check_valid1(args[i]) || !args[i][0])
+		if (!check_valid_unset(args[i]) || !args[i][0])
 		{
 			write(2, "invalid identifier\n", 20);
 			error = 1;

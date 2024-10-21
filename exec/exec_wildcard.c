@@ -6,19 +6,19 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 20:07:37 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/20 15:19:15 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/21 21:23:37 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*get_expanded_string(t_lst *env, t_arg_node *lst)
+char	*get_expanded_string(t_lst *env, t_arg_node *lst, char *cmd)
 {
 	char	*exp_str_empty;
 	char	*expanded_str;
 
 	exp_str_empty = NULL;
-	expanded_str = ft_expand(lst->arg, env);
+	expanded_str = ft_expand(lst->arg, env, cmd);
 	if (!ft_strcmp(lst->arg, "\"\"")
 		|| !ft_strcmp(lst->arg, "\'\'") || !expanded_str[0])
 	{

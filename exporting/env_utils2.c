@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:45:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/21 16:58:35 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/21 21:37:20 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,14 +19,14 @@ void	handle_setting_var(char *str, t_export_var *state, t_lst *lst)
 	state->value = ft_strchr(str, '=');
 	if (get_env_isset(lst, state->key) && !state->exist)
 		return ;	
-		if (state->value)
-			state->value++;
-		else
-			state->value = "";
-	if (!state->exist)
-		set_env(lst,state->key, "", state->exist);
+	if (state->value)
+		state->value++;
 	else
-		set_env(lst, state->key, state->value, state->exist);
+		state->value = "";
+	if (!state->exist)
+		set_env2(lst,state->key, "", state);
+	else
+		set_env2(lst, state->key, state->value, state);
 }
 
 void	export_var(char **str, t_lst *lst, int i)
@@ -88,4 +88,12 @@ t_lst	*choose_add_set_env(char *key, char *new_value, int sign)
 		return (ft_lstadd_new_env(key, new_value, '='));
 	else
 		return (ft_lstadd_new_env(key, new_value, '\0'));
+}
+
+t_lst	*choose_add_set_env2(char *key, char *new_value, int sign, t_export_var *state)
+{
+	if (sign)
+		return (ft_lstadd_new_env2(key, new_value, '=', state));
+	else
+		return (ft_lstadd_new_env2(key, new_value, '\0', state));
 }

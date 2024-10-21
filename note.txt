@@ -3,20 +3,21 @@
 
 exit ""
 
-echo $a$b$c$d""$a
-
-bash-3.2$ ls '' $aas ""'' $ds''
-ls: : No such file or directory
-ls: : No such file or directory
-ls: : No such file or directory
+export a="e    'x        y'   jk"
+bash-3.2$ export $a=f
+bash: export: `'x': not a valid identifier
+bash: export: `y'': not a valid identifier
 
 
-minishell:>$ ls '' $aas ""'' $ds''
-real_args[ls]
-real_args[]
-real_args[]
-ls: : No such file or directory
-ls: : No such file or directory
+declare -x aax
+declare -x c="aax y"
+declare -x y=""
+bash-3.2$ export $c=$f$ex$
+bash: export: `aax y=$': not a valid identifier
 
-exit status: [1]
-minishell:>$ 
+man ls + CTLR \
+
+Memory leaks f HEREDOC (type something + CTRL C)
+
+export f="a b"
+g=$"$f"

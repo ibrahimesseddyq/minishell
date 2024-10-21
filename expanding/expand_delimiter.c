@@ -21,7 +21,7 @@ char	*ft_expand_delimiter(char *line)
 	params = init_params(expanded_line);
 	while (line[params.i])
 	{
-		if (handle_quotes2(line[params.i], &params))
+		if (handle_quotes2(line[params.i], &params, line))
 			continue ;
 		if (!params.is_inside_quotes || (params.is_inside_quotes
 				&& (params.current_quote == '\"'

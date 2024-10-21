@@ -22,7 +22,7 @@ static int	is_valid_key_export(char c)
 		));
 }
 
-int	check_valid2(char *str)
+int	check_valid_export(char *str)
 {
 	int	i;
 	int	equal;
@@ -50,7 +50,7 @@ int	check_valid2(char *str)
 	return (1);
 }
 
-int	check_valid1(char *str)
+int	check_valid_unset(char *str)
 {
 	int	i;
 

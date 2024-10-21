@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:48:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/21 17:59:43 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/21 21:41:37 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,11 +69,12 @@ t_expand_params	init_params(char *expanded_line)
 
 int	handle_quotes2(char c, t_expand_params *params, char *line)
 {
-	if (is_quote(line[params->i]) && next_empty_string(line, params, line[params->i]))
+	if (is_quote(line[params->i])
+		&& next_empty_string(line, params, line[params->i]))
 	{
-			params->i += 2;
-			append_char(params, *get_splitted_char(3));
-			return (1);
+		params->i += 2;
+		append_char(params, *get_splitted_char(3));
+		return (1);
 	}
 	if ((c == '\'' || c == '\"') && !params->is_inside_quotes)
 	{

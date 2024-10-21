@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 15:42:23 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/21 07:44:41 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/21 19:35:04 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,7 @@ typedef struct s_lst
 	char			signe;
 	char			*value;
 	int				set;
+	int				will_split;
 	struct s_lst	*next;
 }	t_lst;
 
@@ -82,6 +83,16 @@ typedef struct s_count_word
 	int	in_single_quote;
 	int	in_double_quote;
 }	t_count_word;
+
+typedef struct s_export_var
+{
+	int		exist;
+	int		append_mode;
+	char	*key;
+	char	*value;
+	char	*temp;
+	int		will_split;
+}	t_export_var;
 
 int				ft_atoi(const char *str);
 
@@ -195,4 +206,6 @@ __int128		ft_atoi128(const char *str);
 char			*ft_strncpy(char *dest, char *src, unsigned int n);
 
 char	*ft_strtok(char *str, const char *sepa);
+
+t_lst	*ft_lstadd_new_env2(char *key, char *value, char signe, t_export_var *state);
 #endif

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 22:28:02 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/20 15:16:00 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/21 21:23:13 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,11 @@ t_arg_node	*get_node_at(t_arg_node *lst, int pos)
 	return (NULL);
 }
 
-void	handle_expanding_of_argument(t_state_fs	*state, t_lst *env)
+void	handle_expanding_of_argument(t_state_fs	*state, t_lst *env, char *cmd)
 {
 	if (star_inside_quotes(state->lst->arg))
 		state->star_inside = 1;
-	state->expanded_arg = get_expanded_string(env, state->lst);
+	state->expanded_arg = get_expanded_string(env, state->lst, cmd);
 	if (!state->star_inside)
 		state->expanded_arg = expand_wd(state->expanded_arg);
 	state->temp = ft_strjoin(state->expanded_string, state->expanded_arg);
@@ -82,7 +82,7 @@ char	**generate_final_splitted(t_astnode *ast, t_lst *env, t_arg_node *lst)
 	state.star_inside = 0;
 	while (state.i <= ast->t_cmd.args_size)
 	{
-		handle_expanding_of_argument(&state, env);
+		handle_expanding_of_argument(&state, env, ast->t_cmd.args[0].arg);
 	}
 	state.lst = state.head;
 	state.splitted_args

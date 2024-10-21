@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/21 18:00:29 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/21 21:49:09 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,15 +236,6 @@ typedef struct s_builtins_state
 	int	export_error;
 }	t_builtins_state;
 
-typedef struct s_export_var
-{
-	int		exist;
-	int		append_mode;
-	char	*key;
-	char	*value;
-	char	*temp;
-}	t_export_var;
-
 typedef struct s_wildcard_redir_res
 {
 	char	*expanded_result;
@@ -265,7 +256,7 @@ int				ft_red_in(t_astnode *ast,
 int				ft_red_out(t_astnode *ast, t_lst *env,
 					int is_last, int command_exist);
 int				ft_redirection(t_astnode *ast, t_lst *env, int command_exist);
-char			*ft_expand(char *line, t_lst *env);
+char			*ft_expand(char *line, t_lst *env, char *cmd);
 int				ft_cd(int argc, char **argv, t_lst *env);
 char			*ft_pwd(t_lst *env);
 int				ft_exit(int status, int mode);
@@ -360,8 +351,9 @@ void			expand_token_heredoc(t_expand_params *params,
 void			expand_variable_heredoc(t_expand_params *params,
 					t_lst *env, char **line);
 void			expand_variable(t_expand_params *params,
-					t_lst *env, char **line);
-int				expand_token(t_expand_params *params, t_lst *env, char **line);
+					t_lst *env, char **line, int export_case);
+int				expand_token(t_expand_params *params,
+					t_lst *env, char **line, char *cmd);
 void			gc_free(void *ptr);
 bool			matchStar(char ch, const char *pattern, const char *text);
 int				match(char *pattern, const char *text);
@@ -384,8 +376,8 @@ void			unlink_heredocs(void);
 int				ft_sprintf(char *str, const char *format, int num);
 t_wd_redir_res	*expand_wildcard_redir(char *pwd,
 					int level, t_wildcard_data *data);
-int				check_valid2(char *str);
-int				check_valid1(char *str);
+int				check_valid_export(char *str);
+int				check_valid_unset(char *str);
 char			*ft_pwd2(void);
 t_token			*token_closing_parenthesis(t_lexer *lexer);
 void			initialize(t_tklist **token_list, t_astnode	**ast);
@@ -399,7 +391,7 @@ int				write_expanded_line(char *delimiter,
 void			initialize_analyzer(char **final_token,
 					int *parenthesis, t_token **tk, int *e);
 int				special_cases(char *cmd);
-char			*get_expanded_string(t_lst *env, t_arg_node *lst);
+char			*get_expanded_string(t_lst *env, t_arg_node *lst, char *cmd);
 char			**filterstrings(char *pattern,
 					char *texts[], int numTexts, int *numMatches);
 int				ft_isspace(char c);
@@ -433,11 +425,20 @@ void			bubble_sort(char **arr, int n);
 char			*replace_space_with_second_separator(t_expand_params *params,
 					char *str);
 int				is_quote(char c);
-int				handle_translation(t_expand_params *params, t_lst *env, char **line, char quote);
+// int				handle_translation(t_expand_params *params,
+// 					t_lst *env, char **line, char quote);
 char			*get_null_str(void);
 void			handle_setting_var(char *str, t_export_var *state, t_lst *lst);
-char *make_filename(char *file);
-int contains_just(char *str, char c);
-int next_empty_string(char *line, t_expand_params *params, char quote);
-char *make_empty_and_null(char *str);
+char			*make_filename(char *file);
+int				contains_just(char *str, char c);
+int				next_empty_string(char *line,
+					t_expand_params *params, char quote);
+char			*make_empty_and_null(char *str);
+t_lst			*get_env_info(t_lst *env, char *the_env);
+t_lst			*choose_add_set_env2(char *key, char *new_value,
+					int sign, t_export_var *state);
+void			set_env2(t_lst *lst, char *key,
+					char *new_value, t_export_var *state);
+int	handle_translation(t_expand_params *params,
+		t_lst *env, char **line, char quote, int export_case);
 #endif

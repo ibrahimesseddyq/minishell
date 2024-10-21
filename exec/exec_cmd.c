@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/21 17:40:10 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/21 21:40:29 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,12 +69,7 @@ int	exec_cmd(t_astnode *ast, t_lst *env)
 		return (0);
 	choose_splitting_delimiter(lst, ast);
 	real_args = generate_final_args(ast, env, lst);
-		for (int i=0; real_args[i]; i++)
-	{
-		printf("real_args[%s]\n", real_args[i]);
-	}
 	remove_ampersand_strings(real_args, &(ast->t_cmd.args_size));
-
 	if (!real_args || !real_args[0] || !real_args[0][0])
 	{
 		if (ast->t_cmd.redirections)
@@ -84,10 +79,6 @@ int	exec_cmd(t_astnode *ast, t_lst *env)
 	}
 	if (special_cases(real_args[0]))
 		return (0);
-	for (int i=0; real_args[i]; i++)
-	{
-		printf("real_args[%s]\n", real_args[i]);
-	}
 	cmd_path = arg_cmds(real_args[0], env);
 	return (execute(ast, env, real_args, cmd_path));
 }

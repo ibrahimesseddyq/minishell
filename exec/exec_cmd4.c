@@ -76,8 +76,8 @@ int	check_file(char **argv)
 int	check_invalid(t_arg_node *arg, char *cmd)
 {
 	if (!ft_strcmp(arg->arg, "\"\"") || !ft_strcmp(arg->arg, "\'\'")
-		|| (!check_valid2(arg->arg) && !ft_strcmp(cmd, "export"))
-		|| (!check_valid1(arg->arg) && !ft_strcmp(cmd, "unset")))
+		|| (!check_valid_export(arg->arg) && !ft_strcmp(cmd, "export"))
+		|| (!check_valid_unset(arg->arg) && !ft_strcmp(cmd, "unset")))
 	{
 		write(2, "invalid identifier\n", 20);
 		if (!ft_strcmp(cmd, "export"))

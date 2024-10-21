@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/20 15:22:37 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/21 17:37:41 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/21 21:41:10 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ char	*skip_character(const char *input, char skip)
 	return (result);
 }
 
-char *make_empty_and_null(char *str)
+char	*make_empty_and_null(char *str)
 {
 	str = skip_char(str, *get_splitted_char(5));
 	if (!str[0])
