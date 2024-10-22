@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 21:55:33 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/21 21:37:15 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 17:37:28 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ t_lst	*ft_lstadd_new_env(char *key, char *value, char signe)
 	return (index);
 }
 
-t_lst	*ft_lstadd_new_env2(char *key, char *value, char signe, t_export_var *state)
+t_lst	*ft_lstadd_new_env2(char *key,
+		char *value, char signe, t_export_var *state)
 {
 	t_lst	*index;
 

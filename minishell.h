@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/21 21:49:09 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 17:57:37 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,8 @@
 # define ROWS 9
 # define COLS 11
 
-typedef int (*matrix)[11];
-
-extern int	g_sig_var;
+extern int			g_sig_var;
+typedef int			(*matrix)[11];
 typedef struct stat	t_stat;
 typedef struct s_redir_islast
 {
@@ -425,8 +424,6 @@ void			bubble_sort(char **arr, int n);
 char			*replace_space_with_second_separator(t_expand_params *params,
 					char *str);
 int				is_quote(char c);
-// int				handle_translation(t_expand_params *params,
-// 					t_lst *env, char **line, char quote);
 char			*get_null_str(void);
 void			handle_setting_var(char *str, t_export_var *state, t_lst *lst);
 char			*make_filename(char *file);
@@ -439,6 +436,9 @@ t_lst			*choose_add_set_env2(char *key, char *new_value,
 					int sign, t_export_var *state);
 void			set_env2(t_lst *lst, char *key,
 					char *new_value, t_export_var *state);
-int	handle_translation(t_expand_params *params,
-		t_lst *env, char **line, char quote, int export_case);
+int				handle_translation(t_expand_params *params,
+					t_lst *env, char **line, int *quote_export);
+int				*return_array_of_2(int a, int b);
+int				handle_export_case(t_expand_params *params,
+					t_lst *env, char **line, char *cmd);
 #endif

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:11:05 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/21 21:37:11 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 17:35:12 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,8 @@ void	choose_set_env(t_lst *lst, char *new_value, int sign)
 	}
 }
 
-void	choose_set_env2(t_lst *lst, char *new_value, int sign, t_export_var *state)
+void	choose_set_env2(t_lst *lst,
+		char *new_value, int sign, t_export_var *state)
 {
 	if (new_value)
 	{
@@ -70,6 +71,7 @@ void	set_env(t_lst *lst, char *key, char *new_value, int sign)
 	new = choose_add_set_env(key, new_value, sign);
 	ft_lstadd_back_env(&lst, new);
 }
+
 void	set_env2(t_lst *lst, char *key, char *new_value, t_export_var *state)
 {
 	t_lst	*new;
@@ -90,6 +92,7 @@ void	set_env2(t_lst *lst, char *key, char *new_value, t_export_var *state)
 	new = choose_add_set_env2(key, new_value, state->exist, state);
 	ft_lstadd_back_env(&lst, new);
 }
+
 void	ft_export(char **str, t_lst *lst)
 {
 	int		i;

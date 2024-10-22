@@ -6,39 +6,11 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:19:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/21 21:48:15 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 17:58:20 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	*replace_star_outside_quotes(const char *input)
-{
-	size_t	len;
-	char	*result;
-	bool	in_quotes;
-	size_t	i;
-
-	if (input == NULL)
-		return (NULL);
-	i = 0;
-	len = ft_strlen(input);
-	result = (char *)gcalloc(len + 1);
-	if (result == NULL)
-		return (NULL);
-	in_quotes = false;
-	while (i < len)
-	{
-		if (input[i] == '"')
-			(1) && (in_quotes = !in_quotes, result[i] = input[i]);
-		else if (input[i] == '*' && !in_quotes)
-			result[i] = *get_splitted_char(4);
-		else
-			result[i] = input[i];
-		i++;
-	}
-	return (result[len] = '\0', result);
-}
 
 void	expand_variable(t_expand_params *params,
 			t_lst *env, char **line, int export_case)
@@ -68,23 +40,12 @@ void	expand_variable(t_expand_params *params,
 	}
 }
 
-int	is_not_a_charachter(char c)
-{
-	if (c >= 'A' && c <= 'Z')
-		return (0);
-	if (c >= 'a' && c <= 'z')
-		return (0);
-	if (c == '_' || c == '?')
-		return (0);
-	return (1);
-}
-
 int	handle_translation(t_expand_params *params,
-		t_lst *env, char **line, char quote, int export_case)
+		t_lst *env, char **line, int *quote_export)
 {
 	params->i += 2;
 	params->is_inside_quotes = 1;
-	while ((*line)[params->i] && (*line)[params->i] != quote)
+	while ((*line)[params->i] && (*line)[params->i] != quote_export[0])
 	{
 		if ((*line)[params->i] == '$' && !(*line)[params->i + 1])
 			break ;
@@ -92,50 +53,58 @@ int	handle_translation(t_expand_params *params,
 		{
 			append_char(params, (*line)[params->i++]);
 		}
-		else if ((*line)[params->i] == '$' && quote != '\'' && !is_not_a_charachter((*line)[params->i + 1]))
+		else if ((*line)[params->i] == '$'
+			&& quote_export[0] != '\''
+			&& !is_not_a_charachter((*line)[params->i + 1]))
 		{
 			params->i++;
-			expand_variable(params, env, line, export_case); // TO CHANGE
+			expand_variable(params, env, line, quote_export[1]);
 		}
 		else
 			append_char(params, (*line)[params->i++]);
 	}
-	if ((*line)[params->i] == quote)
+	if ((*line)[params->i] == quote_export[0])
 		params->i++;
 	params->is_inside_quotes = 0;
 	return (1);
 }
-int	handle_export_case(t_expand_params *params, t_lst *env, char **line, char *cmd)
+
+int	expand_after_dollar(t_expand_params *params,
+		t_lst *env, char **line, int export_case)
 {
-	if (!ft_strcmp(cmd, "export") && check_valid_export(*line) && (ft_strchr(*line, '=') < ft_strchr(*line, '$')))
+	if ((*line)[params->i + 1]
+		&& is_not_a_charachter((*line)[params->i + 1])
+		&& params->is_inside_quotes)
+		return (append_char(params, (*line)[params->i++]), 1);
+	if (is_quote((*line)[params->i + 1]))
+		return (handle_translation(params, env, line,
+				return_array_of_2((*line)[params->i + 1], export_case)));
+	params->i++;
+	if (!(*line)[params->i] || is_not_a_charachter((*line)[params->i]))
 	{
-		return (1);	
+		params->i--;
+		append_char(params, (*line)[params->i++]);
 	}
-	return (0);
+	if ((*line)[params->i] && is_not_a_charachter((*line)[params->i]))
+		append_char(params, (*line)[params->i++]);
+	else if ((*line)[params->i] == '?')
+		expand_exit_status(params);
+	else
+		expand_variable(params, env, line, export_case);
+	return (-1);
 }
-int expand_token(t_expand_params *params, t_lst *env, char **line, char *cmd)
+
+int	expand_token(t_expand_params *params, t_lst *env, char **line, char *cmd)
 {
 	int	export_case;
+	int	expand_dollar;
 
 	export_case = handle_export_case(params, env, line, cmd);
 	if ((*line)[params->i] == '$')
 	{
-		if (is_quote((*line)[params->i + 1]))
-		{
-			return handle_translation(params, env, line, (*line)[params->i + 1], export_case);
-		}
-		params->i++;
-		if (!(*line)[params->i] || is_not_a_charachter((*line)[params->i]))
-		{
-			params->i--;
-			append_char(params, (*line)[params->i++]);
-		}
-		if ((*line)[params->i] && is_not_a_charachter((*line)[params->i]))
-			append_char(params, (*line)[params->i++]);
-		else if ((*line)[params->i] == '?')
-			expand_exit_status(params);
-		else
-			expand_variable(params, env, line, export_case);
+		expand_dollar = expand_after_dollar(params, env, line, export_case);
+		if (expand_dollar != -1)
+			return (expand_dollar);
 	}
 	else if ((*line)[params->i] == '*' && !params->is_inside_quotes)
 	{
@@ -145,12 +114,6 @@ int expand_token(t_expand_params *params, t_lst *env, char **line, char *cmd)
 	else
 		append_char(params, (*line)[params->i++]);
 	return (1);
-}
-int next_empty_string(char *line, t_expand_params *params, char quote)
-{
-	if (line[params->i] == quote && line[params->i + 1] == quote)
-		return (1);
-	return (0);
 }
 
 char	*ft_expand(char *line, t_lst *env, char *cmd)
