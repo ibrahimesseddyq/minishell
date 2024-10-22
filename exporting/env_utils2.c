@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:45:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/21 21:37:20 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 02:47:38 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 void	handle_setting_var(char *str, t_export_var *state, t_lst *lst)
 {
 	state->temp = ft_strdup(str);
-	state->key = strtok(state->temp, "=");
+	state->key = ft_strtok(state->temp, "=");
 	state->value = ft_strchr(str, '=');
 	if (get_env_isset(lst, state->key) && !state->exist)
 		return ;	
