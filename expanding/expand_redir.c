@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:48:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/22 17:31:34 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 20:08:14 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ int	expand_variable_redir(t_expand_params *params, t_lst *env, char **line)
 }
 
 int	expand_after_dollar_redir(t_expand_params *params,
-		t_lst *env, char **line, int export_case)
+		t_lst *env, char **line)
 {
 	if ((*line)[params->i + 1]
 	&& is_not_a_charachter((*line)[params->i + 1])
@@ -77,7 +77,7 @@ int	expand_token_redir(t_expand_params *params, t_lst *env, char **line)
 		handle_overflow();
 	if ((*line)[params->i] == '$')
 	{
-		expand_dollar = expand_after_dollar(params, env, line, 0);
+		expand_dollar = expand_after_dollar_redir(params, env, line);
 		if (expand_dollar != -1)
 			return (expand_dollar);
 	}

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:45:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/22 17:34:13 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 20:12:13 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,9 @@ void	handle_setting_var(char *str, t_export_var *state, t_lst *lst)
 	else
 		state->value = "";
 	if (!state->exist)
-		set_env2(lst, state->key, "", state);
+		set_env(lst, state->key, "", state->exist);
 	else
-		set_env2(lst, state->key, state->value, state);
+		set_env(lst, state->key, state->value, state->exist);
 }
 
 void	export_var(char **str, t_lst *lst, int i)
