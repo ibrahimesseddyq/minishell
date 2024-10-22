@@ -26,7 +26,7 @@ $(LIBFT_OBJ): ./libft/%.o: ./libft/%.c
 lexer: $(OBJ_LEXER) $(LIBFT)
 	$(CC) $(CFLAGS) -o $@ $(OBJ_LEXER) $(LIBFT)
 
-minishell: $(OBJ) $(LIBFT) main.c $(HEADER)
+minishell: $(OBJ) $(LIBFT) main.c $(HEADER) Makefile
 	$(CC) $(CFLAGS) main.c $(OBJ) -o $@ $(LIB) $(INCLUDE) -lreadline $(LIBFT)
 
 %.o: %.c

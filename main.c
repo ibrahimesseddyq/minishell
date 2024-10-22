@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:13:19 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/21 17:04:55 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 20:38:52 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ void	execute_main(t_tklist *token_list, t_astnode *ast, t_lst *lst, char *t)
 
 void	handle_arguments_main(int ac, char **av)
 {
+	(void)av;
 	if (ac > 1)
 	{
 		printf("run ./minishell with no args\n");
@@ -55,7 +56,7 @@ int	main(int ac, char **av, char *env[])
 		t = readline("minishell:>$ ");
 		if (!t)
 		{
-			printf("exit 2\n");
+			printf("exit\n");
 			gc_free_all();
 			exit(2);
 		}

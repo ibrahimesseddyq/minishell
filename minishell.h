@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/22 19:46:28 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 20:09:16 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -439,8 +439,7 @@ void			set_env2(t_lst *lst, char *key,
 int				handle_translation(t_expand_params *params,
 					t_lst *env, char **line, int *quote_export);
 int				*return_array_of_2(int a, int b);
-int				handle_export_case(t_expand_params *params,
-					t_lst *env, char **line, char *cmd);
+int	handle_export_case(char **line, char *cmd);
 int	expand_after_dollar_redir(t_expand_params *params,
-		t_lst *env, char **line, int export_case);
+		t_lst *env, char **line);
 #endif

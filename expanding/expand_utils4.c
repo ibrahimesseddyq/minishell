@@ -3,17 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   expand_utils4.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 17:09:13 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/22 17:32:16 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 20:08:46 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-int	handle_export_case(t_expand_params *params,
-	t_lst *env, char **line, char *cmd)
+int	handle_export_case(char **line, char *cmd)
 {
 	if (!ft_strcmp(cmd, "export") && check_valid_export(*line)
 		&& (ft_strchr(*line, '=') < ft_strchr(*line, '$')))

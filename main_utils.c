@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 15:17:19 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/20 16:02:12 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 20:14:08 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,8 @@ void	increment_shell_level(t_lst *env)
 
 void	initialize(t_tklist **token_list, t_astnode	**ast)
 {
+	ast = NULL;
+	token_list = NULL;
 	signal(SIGQUIT, handle_sig);
 	signal(SIGINT, handle_sig);
 	g_sig_var = 0;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_normal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:19:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/22 17:58:20 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 20:14:59 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	expand_token(t_expand_params *params, t_lst *env, char **line, char *cmd)
 	int	export_case;
 	int	expand_dollar;
 
-	export_case = handle_export_case(params, env, line, cmd);
+	export_case = handle_export_case(line, cmd);
 	if ((*line)[params->i] == '$')
 	{
 		expand_dollar = expand_after_dollar(params, env, line, export_case);
