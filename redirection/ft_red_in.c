@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:22:35 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/21 17:24:39 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 17:39:05 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static int	check_and_open_file(const char *file, int flags, mode_t mode)
 	if (fd == -1)
 	{
 		if (access(file, F_OK) == 0 && access(file, R_OK) == -1)
-			write(2, "Permission denied\n", 19);
+			write(2, "Permission denied2\n", 20);
 		else
 			write(2, "No such file or directory\n", 27);
 		return (ft_exit(1, SET_EXIT_STATUS), -2);
@@ -86,9 +86,10 @@ int	ft_red_in(t_astnode *ast, t_lst *env, int is_last, int command_exist)
 		= ft_expand_redir(ast->t_cmd.redirections->redir->file, env);
 	ast->t_cmd.redirections->redir->file
 		= handle_ambiguous_wd(ast->t_cmd.redirections->redir);
-			ast->t_cmd.redirections->redir->file = make_filename(ast->t_cmd.redirections->redir->file);
-
-	if (ast->t_cmd.redirections->redir->file && !ast->t_cmd.redirections->redir->file[0])
+	ast->t_cmd.redirections->redir->file
+		= make_filename(ast->t_cmd.redirections->redir->file);
+	if (ast->t_cmd.redirections->redir->file
+		&& !ast->t_cmd.redirections->redir->file[0])
 		return (write(2, "No such file or dir\n", 21), -2);
 	if (!ast->t_cmd.redirections->redir->file)
 		return (write(2, "ambigiuos redir\n", 17), -2);
@@ -98,13 +99,9 @@ int	ft_red_in(t_astnode *ast, t_lst *env, int is_last, int command_exist)
 		return (-1);
 	if (ast->t_cmd.redirections && ast->t_cmd.redirections->redir
 		&& ast->t_cmd.redirections->redir->type == NODE_REDIRECT_IN)
-	{
 		return (handle_file_open_and_dup_in
 			(ast->t_cmd.redirections->redir->file, is_last, command_exist));
-	}
 	else
-	{
 		return (handle_file_open_and_dup_heredoc
 			(ast->t_cmd.redirections->redir->heredoc, is_last, command_exist));
-	}
 }

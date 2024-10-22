@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:48:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/21 21:49:40 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 17:31:34 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,28 +40,46 @@ int	expand_variable_redir(t_expand_params *params, t_lst *env, char **line)
 	return (1);
 }
 
+int	expand_after_dollar_redir(t_expand_params *params,
+		t_lst *env, char **line, int export_case)
+{
+	if ((*line)[params->i + 1]
+	&& is_not_a_charachter((*line)[params->i + 1])
+	&& params->is_inside_quotes)
+	{
+		append_char(params, (*line)[params->i++]);
+		return (1);
+	}
+	if (is_quote((*line)[params->i + 1]))
+		return (handle_translation(params, env, line,
+				return_array_of_2((*line)[params->i + 1], 0)));
+	params->i++;
+	if (!(*line)[params->i] || is_not_a_charachter((*line)[params->i]))
+	{
+		params->i--;
+		append_char(params, (*line)[params->i++]);
+	}
+	if ((*line)[params->i] && is_not_a_charachter((*line)[params->i]))
+		append_char(params, (*line)[params->i++]);
+	else if ((*line)[params->i] == '?')
+		expand_exit_status(params);
+	else
+		if (!expand_variable_redir(params, env, line))
+			return (0);
+	return (-1);
+}
+
 int	expand_token_redir(t_expand_params *params, t_lst *env, char **line)
 {
+	int	expand_dollar;
+
 	if (params->i >= DEFAULT_NB - 1)
 		handle_overflow();
 	if ((*line)[params->i] == '$')
 	{
-		if (is_quote((*line)[params->i + 1]))
-			return (handle_translation(params, env, line,
-					(*line)[params->i + 1], 0));
-		params->i++;
-		if (!(*line)[params->i] || is_not_a_charachter((*line)[params->i]))
-		{
-			params->i--;
-			append_char(params, (*line)[params->i++]);
-		}
-		if ((*line)[params->i] && is_not_a_charachter((*line)[params->i]))
-			append_char(params, (*line)[params->i++]);
-		else if ((*line)[params->i] == '?')
-			expand_exit_status(params);
-		else
-			if (!expand_variable_redir(params, env, line))
-				return (0);
+		expand_dollar = expand_after_dollar(params, env, line, 0);
+		if (expand_dollar != -1)
+			return (expand_dollar);
 	}
 	else if ((*line)[params->i] == '*' && !params->is_inside_quotes)
 	{

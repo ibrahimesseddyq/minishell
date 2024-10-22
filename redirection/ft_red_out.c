@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:22:07 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/22 02:37:38 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 17:46:33 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,7 @@ static int	check_and_open_file(const char *file, int flags, mode_t mode)
 	if (fd == -1)
 		return (write(2, "Error opening file\n", 20)
 			, ft_exit(1, SET_EXIT_STATUS), -2);
+	perror("");
 	return (fd);
 }
 
@@ -68,39 +69,77 @@ static int	handle_file_open_and_dup_append(const char *file,
 	return (fd);
 }
 
+int	check_error_redir_out(t_redir *redir)
+{
+	if (redir->file && !redir->file[0])
+		return (write(2, "No such file or dir\n", 21), -2);
+	if (!redir->file)
+		return (write(2, "ambigiuos redir\n", 17), -2);
+	return (1);
+}
+
 int	ft_red_out(t_astnode *ast, t_lst *env, int is_last, int command_exist)
 {
 	int		fd;
 	t_redir	*redir;
 
 	fd = 0;
-	if (ast->t_cmd.redirections && ast->t_cmd.redirections->redir)
-	{
-		redir = ast->t_cmd.redirections->redir;
-		ast->t_cmd.redirections->redir->file
-			= ft_expand_redir(ast->t_cmd.redirections->redir->file, env);
-		if (ast->t_cmd.redirections->redir->file)
-		{
-			ast->t_cmd.redirections->redir->file
-				= handle_ambiguous_wd(ast->t_cmd.redirections->redir);
-		}
-		if (ast->t_cmd.redirections->redir->file)
-			ast->t_cmd.redirections->redir->file = make_filename(ast->t_cmd.redirections->redir->file);
-
-		if (ast->t_cmd.redirections->redir->file && !ast->t_cmd.redirections->redir->file[0])
-			return (write(2, "No such file or dir\n", 21), -2);
-		if (!ast->t_cmd.redirections->redir->file)
-			return (write(2, "ambigiuos redir\n", 17), -2);
-		ast->t_cmd.redirections->redir->file
-			= expand_wd(ast->t_cmd.redirections->redir->file);
-		if (handle_ambiguous(ast->t_cmd.redirections->redir->file) == -1)
-			return (-1);
-		if (redir->type == NODE_REDIRECT_OUT)
-			return (handle_file_open_and_dup_out
-				(ast->t_cmd.redirections->redir->file, is_last, command_exist));
-		else if (redir->type == NODE_REDIRECT_APPEND)
-			return (handle_file_open_and_dup_append
-				(ast->t_cmd.redirections->redir->file, is_last, command_exist));
-	}
+	if (!ast->t_cmd.redirections || !ast->t_cmd.redirections->redir)
+		return (fd);
+	redir = ast->t_cmd.redirections->redir;
+	redir->file = ft_expand_redir(redir->file, env);
+	if (redir->file)
+		redir->file = handle_ambiguous_wd(redir);
+	if (redir->file)
+		redir->file = make_filename(redir->file);
+	if (check_error_redir_out(redir) == -2)
+		return (-2);
+	redir->file = expand_wd(redir->file);
+	if (handle_ambiguous(redir->file) == -1)
+		return (-1);
+	if (redir->type == NODE_REDIRECT_OUT)
+		return (handle_file_open_and_dup_out
+			(redir->file, is_last, command_exist));
+	else if (redir->type == NODE_REDIRECT_APPEND)
+		return (handle_file_open_and_dup_append(redir->file, is_last, \
+		command_exist));
 	return (fd);
 }
+// if theres any error here return to old one
+// int	ft_red_out(t_astnode *ast, t_lst *env, int is_last, int command_exist)
+// {
+// 	int		fd;
+// 	t_redir	*redir;
+
+// 	fd = 0;
+// 	if (ast->t_cmd.redirections && ast->t_cmd.redirections->redir)
+// 	{
+// 		redir = ast->t_cmd.redirections->redir;
+// 		ast->t_cmd.redirections->redir->file
+// 			= ft_expand_redir(ast->t_cmd.redirections->redir->file, env);
+// 		if (ast->t_cmd.redirections->redir->file)
+// 		{
+// 			ast->t_cmd.redirections->redir->file
+// 				= handle_ambiguous_wd(ast->t_cmd.redirections->redir);
+// 		}
+// 		if (ast->t_cmd.redirections->redir->file)
+// 			ast->t_cmd.redirections->redir->file
+// 				= make_filename(ast->t_cmd.redirections->redir->file);
+// 		if (ast->t_cmd.redirections->redir->file
+// 			&& !ast->t_cmd.redirections->redir->file[0])
+// 			return (write(2, "No such file or dir\n", 21), -2);
+// 		if (!ast->t_cmd.redirections->redir->file)
+// 			return (write(2, "ambigiuos redir\n", 17), -2);
+// 		ast->t_cmd.redirections->redir->file
+// 			= expand_wd(ast->t_cmd.redirections->redir->file);
+// 		if (handle_ambiguous(ast->t_cmd.redirections->redir->file) == -1)
+// 			return (-1);
+// 		if (redir->type == NODE_REDIRECT_OUT)
+// 			return (handle_file_open_and_dup_out
+// 				(ast->t_cmd.redirections->redir->file, is_last, command_exist));
+// 		else if (redir->type == NODE_REDIRECT_APPEND)
+// 			return (handle_file_open_and_dup_append
+// 				(ast->t_cmd.redirections->redir->file, is_last, command_exist));
+// 	}
+// 	return (fd);
+// }

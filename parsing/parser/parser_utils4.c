@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 16:42:56 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/20 18:15:23 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 17:58:46 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int	write_heredoc_to_file(char *delimiter, char *filename, t_lst *env)
 	signal(SIGINT, ft_handler);
 	data.non_expanded_delimiter = ft_strdup(delimiter);
 	data.delimiter = ft_expand_delimiter(ft_strdup(delimiter));
-	ft_sprintf(filename, "heredoc_file_%d", file_counter++);
+	ft_sprintf(filename, "/tmp/heredoc_file_%d", file_counter++);
 	file_counter = 1;
 	data.fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (data.fd < 0)
