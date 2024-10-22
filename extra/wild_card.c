@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 23:47:30 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/20 16:11:27 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 05:31:43 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,7 @@ char	*expand_wildcard(char *pwd, int level, t_wildcard_data *data)
 			ft_strcat(expanded_result, del);
 		i++;
 	}
+	printf("expanded wildcard[%s]\n", expanded_result);
 	return (expanded_result);
 }
 

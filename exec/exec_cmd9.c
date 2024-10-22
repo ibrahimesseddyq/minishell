@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 22:21:06 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/21 05:13:48 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 05:46:32 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	remove_ampersand_strings(char **arr, int *size)
 		return ;
 	read_index = 0;
 	write_index = 0;
+	printf("nullstr[%s] emptystr[%s]\n", get_null_str(), get_empty_str());
 	while (arr[read_index] != NULL)
 	{
 		if (ft_strcmp(arr[read_index], get_null_str()) != 0)

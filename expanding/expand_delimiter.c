@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:46:41 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/18 01:31:36 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 05:23:03 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,5 +36,7 @@ char	*ft_expand_delimiter(char *line)
 		}
 	}
 	params.expanded_line[params.expanded_index] = '\0';
+	params.expanded_line = skip_char(params.expanded_line, *get_splitted_char(3));
+	printf("delimiter [%s]\n", params.expanded_line);
 	return (params.expanded_line);
 }

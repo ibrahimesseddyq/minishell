@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 22:52:54 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/11 22:04:02 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 04:16:13 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ void	handle_exec_error(void)
 	if (errno == ENOENT)
 		(write(2, "No such file or directory \n", 29), exit(127));
 	if (errno == EACCES)
-		(write(2, "Permission denied 1\n", 19), exit(126));
+		(write(2, "Permission denied\n", 19), exit(126));
 	else if (errno == ENOTDIR)
 		(write(2, "Not a directory\n", 17), exit(126));
 	else if (errno == ENOEXEC)

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:21:45 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/21 17:27:15 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 04:31:07 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,6 @@ int	ft_redirection(t_astnode *ast, t_lst *env, int command_exist)
 	{
 		if (!ast->t_cmd.redirections->redir->file)
 			return (-2);
-		printf("file [%s]\n", ast->t_cmd.redirections->redir->file);
-				printf("file2 [%s]\n", ast->t_cmd.redirections->redir->file);
 		if (is_a_redirection_out(ast))
 			fd = ft_red_out(ast, env, last_arr[1] == ++i, command_exist);
 		else
