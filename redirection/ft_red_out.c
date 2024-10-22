@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:22:07 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/22 17:46:33 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 21:34:16 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,6 @@ static int	check_and_open_file(const char *file, int flags, mode_t mode)
 	if (fd == -1)
 		return (write(2, "Error opening file\n", 20)
 			, ft_exit(1, SET_EXIT_STATUS), -2);
-	perror("");
 	return (fd);
 }
 
