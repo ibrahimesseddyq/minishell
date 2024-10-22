@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 20:07:37 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/21 21:23:37 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 23:53:47 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,9 @@ char	*expand_wd(char *expanded_arg)
 	pattern = gcalloc(sizeof(char *) * 2);
 	pwd = ft_strdup(".");
 	found_count = 0;
+	expanded_arg = skip_char(expanded_arg, *get_splitted_char(2));
+	expanded_arg = skip_char(expanded_arg, *get_splitted_char(3));
+	expanded_arg = skip_char(expanded_arg, *get_splitted_char(5));
 	pattern[0] = ft_strdup(expanded_arg);
 	pattern[1] = ft_strdup("");
 	data.pattern = pattern;

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 21:55:38 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/20 16:06:46 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 23:54:30 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,7 +121,7 @@ void	wildcard2(const char *pwd, int level,
 	validpaths = filterstrings(data->pattern[level],
 			(char **)files, count, &validcount);
 	if (validcount == 0)
-		add_to_found(data->found_files,
+		add_to_found_2(data->found_files,
 			data->found_count, data->pattern[level]);
 	else
 	{

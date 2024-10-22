@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 23:47:30 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/22 17:58:31 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 23:54:13 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,33 @@ void	add_to_found(char ***found_files, int *found_count, const char *file)
 	(*found_files)[*found_count] = gcalloc((strlen(file) + 1) * sizeof(char));
 	if (!(*found_files)[*found_count])
 		return ;
+	ft_strcpy((*found_files)[*found_count], (char *)file);
+	(*found_count)++;
+}
+char *replace_by_wd(char *file)
+{
+	int	i;
+
+	i = 0;
+	while (file[i])
+	{
+		if (*get_splitted_char(4) == file[i])
+			file[i] = '*';
+		i++;
+	}
+	return (file);
+}
+void	add_to_found_2(char ***found_files, int *found_count, const char *file)
+{
+	*found_files = ft_realloc(*found_files, (*found_count) * sizeof(char *),
+			(*found_count + 1) * sizeof(char *));
+	if (!(*found_files))
+		return ;
+	
+	(*found_files)[*found_count] = gcalloc((strlen(file) + 1) * sizeof(char));
+	if (!(*found_files)[*found_count])
+		return ;
+	file = replace_by_wd((char *)file);
 	ft_strcpy((*found_files)[*found_count], (char *)file);
 	(*found_count)++;
 }
@@ -42,7 +69,7 @@ void	wildcard(const char *pwd, int level, t_wildcard_data *data)
 	validpaths = filterstrings(data->pattern[level],
 			(char **)files, count, &validcount);
 	if (validcount == 0)
-		add_to_found(data->found_files,
+		add_to_found_2(data->found_files,
 			data->found_count, data->pattern[level]);
 	else
 	{

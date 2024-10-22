@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 22:28:02 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/21 21:23:13 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 23:53:35 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,10 @@ t_arg_node	*get_node_at(t_arg_node *lst, int pos)
 
 void	handle_expanding_of_argument(t_state_fs	*state, t_lst *env, char *cmd)
 {
-	if (star_inside_quotes(state->lst->arg))
-		state->star_inside = 1;
 	state->expanded_arg = get_expanded_string(env, state->lst, cmd);
-	if (!state->star_inside)
+	if (star_not_inside_quotes(state->expanded_arg))
+		state->star_inside = 1;
+	if (state->star_inside)
 		state->expanded_arg = expand_wd(state->expanded_arg);
 	state->temp = ft_strjoin(state->expanded_string, state->expanded_arg);
 	state->expanded_string = state->temp;
@@ -93,7 +93,7 @@ char	**generate_final_splitted(t_astnode *ast, t_lst *env, t_arg_node *lst)
 	return (split_all_strings(state.splitted_args, *get_splitted_char(2)));
 }
 
-int	star_inside_quotes(const char *str)
+int	star_not_inside_quotes(const char *str)
 {
 	int	inside_quotes;
 
@@ -102,7 +102,7 @@ int	star_inside_quotes(const char *str)
 	{
 		if (*str == '"')
 			inside_quotes = !inside_quotes;
-		if (*str == '*' && inside_quotes)
+		if (*str == *get_splitted_char(4) && !inside_quotes)
 			return (1);
 		str++;
 	}
