@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 20:59:57 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/22 23:53:52 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/23 00:06:15 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	check_if_exists( char *str, char c)
 
 char	get_next_char(char c)
 {
-	if (c >= 5 )
+	if (c >= 5)
 		return (c + 1);
 	return (5);
 }

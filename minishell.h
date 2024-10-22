@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/22 23:33:50 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/23 00:11:07 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -439,9 +439,10 @@ void			set_env2(t_lst *lst, char *key,
 int				handle_translation(t_expand_params *params,
 					t_lst *env, char **line, int *quote_export);
 int				*return_array_of_2(int a, int b);
-int	handle_export_case(char **line, char *cmd);
-int	expand_after_dollar_redir(t_expand_params *params,
-		t_lst *env, char **line);
-int	star_not_inside_quotes(const char *str);
-void	add_to_found_2(char ***found_files, int *found_count, const char *file);
+int				handle_export_case(char **line, char *cmd);
+int				expand_after_dollar_redir(t_expand_params *params,
+					t_lst *env, char **line);
+int				star_not_inside_quotes(const char *str);
+void			add_to_found_2(char ***found_files,
+					int *found_count, const char *file);
 #endif
