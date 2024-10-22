@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:48:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/22 17:31:34 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 19:42:12 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	expand_token_redir(t_expand_params *params, t_lst *env, char **line)
 		handle_overflow();
 	if ((*line)[params->i] == '$')
 	{
-		expand_dollar = expand_after_dollar(params, env, line, 0);
+		expand_dollar = expand_after_dollar_redir(params, env, line, 0);
 		if (expand_dollar != -1)
 			return (expand_dollar);
 	}

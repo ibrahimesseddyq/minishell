@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/22 17:57:37 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/22 19:46:28 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -441,4 +441,6 @@ int				handle_translation(t_expand_params *params,
 int				*return_array_of_2(int a, int b);
 int				handle_export_case(t_expand_params *params,
 					t_lst *env, char **line, char *cmd);
+int	expand_after_dollar_redir(t_expand_params *params,
+		t_lst *env, char **line, int export_case);
 #endif
