@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 20:17:33 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/23 00:27:26 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/23 03:49:25 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,6 @@ void	gc_free(void *ptr)
 		current = current->next;
 	}
 }
-// int *allocated = how_many_allocated();
-// printf("allocates %d\nfreed %d\n", *allocated,freed);
 
 void	gc_free_all(void)
 {

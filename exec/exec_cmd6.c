@@ -6,36 +6,11 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/21 04:53:37 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/23 03:54:28 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-char	**remove_empty_strings(char **arr, int size, int *new_size)
-{
-	int		i;
-	int		j;
-	char	**new_arr;
-
-	i = 0;
-	j = 0;
-	new_arr = gcalloc(size * sizeof(char *));
-	while (arr[i])
-	{
-		if (arr[i][0])
-		{
-			new_arr[j] = ft_strdup(arr[i]);
-			j++;
-		}
-		i++;
-	}
-	*new_size = j + 1;
-	new_arr = ft_realloc
-		(new_arr, j * sizeof(char *), (*new_size) * sizeof(char *));
-	new_arr[*new_size - 1] = NULL;
-	return (arr);
-}
 
 char	*get_empty_str(void)
 {

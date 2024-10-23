@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/23 01:13:01 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/23 04:07:37 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@
 # include <stdbool.h>
 # include <dirent.h>
 # include <errno.h>
-# include <glob.h>
 # include <sys/stat.h>
 # include <stdio.h>
 # include <stdlib.h>
@@ -59,14 +58,14 @@
 
 extern int			g_sig_var;
 typedef int			(*matrix)[11];
-typedef struct stat	t_stat;
+typedef struct s_stat	t_stat;
 typedef struct s_redir_islast
 {
 	int	in_islast;
 	int	out_islast;
 }	t_redir_islast;
 
-typedef enum s_type
+typedef enum e_type
 {
 	TOKEN_EOF = 0,
 	TK_LPR = 1,
@@ -96,7 +95,7 @@ typedef struct s_wildcard_data
 	struct stat	st;
 }	t_wildcard_data;
 
-typedef enum s_node_type
+typedef enum e_node_type
 {
 	NODE_COMMAND,
 	NODE_PIPE,
@@ -223,12 +222,6 @@ typedef struct s_expand_params
 	int		is_inside_quotes3;
 }	t_expand_params;
 
-typedef struct s_builtins_state
-{
-	int	unset_error;
-	int	export_error;
-}	t_builtins_state;
-
 typedef struct s_wildcard_redir_res
 {
 	char	*expanded_result;
@@ -288,9 +281,7 @@ void			set_splitted_char(char c, int index);
 int				is_relative_absolute(const char *path);
 char			**build_envp(t_lst *env);
 void			handle_exec_error(void);
-int				count_args(char **args);
 int				check_file(char **argv);
-int				check_export_errors(char *str);
 t_expand_params	init_params(char *expanded_line);
 t_token			*get_next_token(t_lexer *lexer);
 t_token			*next_token(t_tklist *token_list);
@@ -352,10 +343,8 @@ bool			matchStar(char ch, const char *pattern, const char *text);
 int				match(char *pattern, const char *text);
 char			**filterStrings(const char *pattern,
 					const char *texts[], int numTexts, int *numMatches);
-char			**remove_empty_strings(char **arr, int size, int *new_size);
 void			handle_overflow(void);
 int				execute_external(char **arg_cmd, t_astnode *ast, t_lst *env);
-int				builtins_state(int value, int builtin, int op);
 int				check_valid(char *str);
 void			handle_sig(int sig);
 char			*expand_wildcard(char *pwd, int level, t_wildcard_data *data);
@@ -371,7 +360,6 @@ t_wd_redir_res	*expand_wildcard_redir(char *pwd,
 					int level, t_wildcard_data *data);
 int				check_valid_export(char *str);
 int				check_valid_unset(char *str);
-char			*ft_pwd2(void);
 t_token			*token_closing_parenthesis(t_lexer *lexer);
 void			initialize(t_tklist **token_list, t_astnode	**ast);
 int				valid_quotes_main(char *line);
@@ -388,8 +376,6 @@ char			*get_expanded_string(t_lst *env, t_arg_node *lst, char *cmd);
 char			**filterstrings(char *pattern,
 					char *texts[], int numTexts, int *numMatches);
 int				ft_isspace(char c);
-char			**handle_empty_var_beginning(char **real_args);
-
 void			choose_splitting_delimiter(t_arg_node	*lst, t_astnode *ast);
 char			**get_files(const char *dir,
 					int *numFiles, t_wildcard_data *data);

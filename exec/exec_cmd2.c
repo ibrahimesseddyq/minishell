@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 22:52:54 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/22 16:59:48 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/23 03:52:43 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,14 +66,4 @@ void	handle_exec_error(void)
 	else if (errno == EISDIR)
 		(write(2, "is a directory\n", 16), exit(126));
 	exit(0);
-}
-
-int	count_args(char **args)
-{
-	int	i;
-
-	i = 0;
-	while (args[i])
-		i++;
-	return (i);
 }

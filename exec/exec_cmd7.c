@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_cmd7.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 00:56:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/18 19:01:37 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/23 03:55:29 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,21 +80,4 @@ char	**list_to_array(t_arg_node *lst, t_astnode *ast)
 	}
 	array[size] = NULL;
 	return (array);
-}
-
-int	special_cases2( t_arg_node *lst)
-{
-	if (!ft_strcmp(lst->arg, "\"\""))
-	{
-		write(2, "filename argument required\n", 28);
-		ft_exit(127, SET_EXIT_STATUS);
-		return (1);
-	}
-	else if (!ft_strcmp(lst->arg, "\'\'"))
-	{
-		write(2, "Command not found\n", 19);
-		ft_exit(127, SET_EXIT_STATUS);
-		return (1);
-	}
-	return (0);
 }

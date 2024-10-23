@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 22:13:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/06 20:31:37 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/23 03:58:45 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,16 +24,6 @@ int	count_delimiter_occurrences(char *s, char delimiter)
 		s++;
 	}
 	return (count);
-}
-
-char	**alloc_for_split_string(char *s, char delimiter)
-{
-	int		count;
-	char	**result;
-
-	count = count_delimiter_occurrences(s, delimiter) + 1;
-	result = gcalloc((count + 1) * sizeof(char *));
-	return (result);
 }
 
 static char	**split_string(char *s, char delimiter)

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:21:53 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/22 17:02:40 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/23 04:01:16 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,21 +69,6 @@ int	check_file(char **argv)
 			write(2, "command not found\n", 19);
 		ft_exit(127, SET_EXIT_STATUS);
 		return (0);
-	}
-	return (1);
-}
-
-int	check_invalid(t_arg_node *arg, char *cmd)
-{
-	if (!ft_strcmp(arg->arg, "\"\"") || !ft_strcmp(arg->arg, "\'\'")
-		|| (!check_valid_export(arg->arg) && !ft_strcmp(cmd, "export"))
-		|| (!check_valid_unset(arg->arg) && !ft_strcmp(cmd, "unset")))
-	{
-		write(2, "invalid identifier\n", 20);
-		if (!ft_strcmp(cmd, "export"))
-			builtins_state(ACTIVE, EXPORT_BUILTIN, SET_BUILTIN);
-		else if (!ft_strcmp(cmd, "unset"))
-			builtins_state(ACTIVE, UNSET_BUILTIN, SET_BUILTIN);
 	}
 	return (1);
 }

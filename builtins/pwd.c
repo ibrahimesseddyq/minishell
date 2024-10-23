@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:27:33 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/23 00:18:41 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/23 03:50:12 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,21 +29,6 @@ char	*ft_pwd(t_lst *env)
 	}
 	else
 		path = ft_strdup(dir);
-	ft_exit(0, SET_EXIT_STATUS);
-	return (path);
-}
-
-char	*ft_pwd2(void)
-{
-	char	*dir;
-	char	*path;
-
-	dir = (char *)gcalloc(sizeof(char) * MNSH_PATH_MAX);
-	if (!dir)
-		return (NULL);
-	if (!ft_getcwd(dir, MNSH_PATH_MAX * sizeof(char)))
-		return (NULL);
-	path = ft_strdup(dir);
 	ft_exit(0, SET_EXIT_STATUS);
 	return (path);
 }

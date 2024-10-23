@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 20:33:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/23 01:09:53 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/23 04:01:42 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,27 +27,6 @@ int	ft_exit(int new_status, int mode)
 		status = new_status;
 	}
 	return (status);
-}
-
-int	builtins_state(int value, int builtin, int op)
-{
-	static t_builtins_state	state;
-
-	if (builtin == EXPORT_BUILTIN)
-	{
-		if (op == SET_BUILTIN)
-			return (state.export_error = value, value);
-		else
-			return (state.export_error);
-	}
-	else if (builtin == UNSET_BUILTIN)
-	{
-		if (op == SET_BUILTIN)
-			return (state.unset_error = value, value);
-		else
-			return (state.unset_error);
-	}
-	return (UNKNOWN);
 }
 
 void	handle_overflow(void)
