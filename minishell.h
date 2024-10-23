@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
+/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/23 04:07:37 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/23 04:28:47 by ynachat          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,8 +56,8 @@
 # define ROWS 9
 # define COLS 11
 
-extern int			g_sig_var;
-typedef int			(*matrix)[11];
+extern int				g_sig_var;
+typedef int				(*matrix)[11];
 typedef struct s_stat	t_stat;
 typedef struct s_redir_islast
 {
