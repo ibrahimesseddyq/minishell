@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:22:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/23 02:21:45 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/23 02:28:17 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,5 +61,6 @@ int	my_exit(char **argv, int argc)
 		return (write(2, "minishell: exit: too many arguments\n"
 				, 37), ft_exit(EXIT_FAILURE, SET_EXIT_STATUS), 1);
 	ft_exit(0, SET_EXIT_STATUS);
-	return (1);
+	
+	return (write(1, "exit\n", 6), 1);
 }
