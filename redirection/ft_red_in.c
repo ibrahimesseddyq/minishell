@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:22:35 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/22 17:39:05 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/23 00:26:27 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,7 @@ static int	handle_file_open_and_dup_in(const char *file,
 	if (fd < 0)
 	{
 		ft_close(&fd);
+		gc_free_all();
 		exit(1);
 	}
 	if (is_last && command_exist)
@@ -68,6 +69,7 @@ static int	handle_file_open_and_dup_heredoc(const char *file,
 	if (fd < 0)
 	{
 		ft_close(&fd);
+		gc_free_all();
 		exit(1);
 	}
 	if (is_last && command_exist)

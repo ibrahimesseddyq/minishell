@@ -6,13 +6,12 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/23 00:11:07 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/23 01:09:37 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# include <stdio.h>
 # include <fcntl.h>
 # include "./libft/libft.h" 
 # include <sys/types.h> 
@@ -21,17 +20,12 @@
 # include <readline/history.h>
 # include <stdbool.h>
 # include <dirent.h>
-# include <fnmatch.h>
 # include <errno.h>
 # include <glob.h>
 # include <sys/stat.h>
 # include <stdio.h>
 # include <stdlib.h>
 # include <string.h>
-# include <stdbool.h>
-# include <dirent.h>
-# include <sys/types.h>
-# include <sys/stat.h>
 # include <unistd.h>
 # include <termios.h>
 # include <signal.h>
@@ -171,6 +165,7 @@ typedef struct s_heredoc_data
 	char	*non_expanded_delimiter;
 	int		fd;
 	t_lst	*env;
+	char	*filename;
 }	t_heredoc_data;
 
 typedef struct s_state

@@ -1,7 +1,0 @@
-test_files/*
-tmp*
-outfiles/*
-*.o
-*/*.o
-*/*/*.o
-minishell

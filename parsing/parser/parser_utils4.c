@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils4.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 16:42:56 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/22 21:29:30 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/23 00:55:25 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../minishell.h"
 
-static int	handle_tty_input(int fd)
+static int	handle_tty_input(int fd, t_heredoc_data *data)
 {
 	int	fd2;
 
 	fd2 = open(ttyname(2), O_RDWR);
 	if (g_sig_var)
-		return (ft_close(&fd), -1);
+		return (unlink(data->filename), ft_close(&fd), -1);
 	return (0);
 }
 
@@ -43,7 +43,7 @@ static int	read_and_process_lines(t_heredoc_data *data)
 	{
 		line = readline("> ");
 		if (!ttyname(0))
-			return (free(line), handle_tty_input(data->fd));
+			return (free(line), handle_tty_input(data->fd, data));
 		result = process_line(line, data);
 		if (result != 2)
 			return (free(line), result);
@@ -62,6 +62,7 @@ int	write_heredoc_to_file(char *delimiter, char *filename, t_lst *env)
 	data.non_expanded_delimiter = ft_strdup(delimiter);
 	data.delimiter = ft_expand_delimiter(ft_strdup(delimiter));
 	ft_sprintf(filename, "/tmp/heredoc_file_%d", file_counter++);
+	data.filename = filename;
 	file_counter = 1;
 	data.fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (data.fd < 0)

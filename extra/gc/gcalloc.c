@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 20:17:33 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/20 17:04:30 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/23 00:27:26 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,10 @@ void	*gcalloc(size_t size)
 	allocated = how_many_allocated();
 	alloc = malloc(size);
 	if (alloc == NULL)
+	{
+		gc_free_all();
 		exit(1);
+	}
 	ft_memset(alloc, 0, size);
 	new_node = malloc(sizeof(t_allocation));
 	list_ptr = get_gc_list();
@@ -96,6 +99,7 @@ void	gc_free_all(void)
 		if (!current->freed)
 		{
 			free(current->address);
+			current->freed = 1;
 		}
 		free(current);
 		freed++;

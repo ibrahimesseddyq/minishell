@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 19:54:27 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/17 22:20:01 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/23 00:57:27 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ pid_t	ft_fork(void)
 	ret = fork();
 	if (ret < 0)
 	{
+		gc_free_all();
 		exit(1);
 	}
 	return (ret);

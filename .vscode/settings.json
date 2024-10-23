@@ -87,6 +87,8 @@
     "system_error": "c",
     "tuple": "c",
     "type_traits": "c",
-    "locale": "c"
+    "locale": "c",
+    "fnmatch.h": "c",
+    "glob.h": "c"
   }
 }
