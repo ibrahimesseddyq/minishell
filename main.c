@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:13:19 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/23 01:09:26 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/23 03:24:43 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ int	main(int ac, char **av, char *env[])
 		if (t)
 			execute_main(token_list, ast, lst, t);
 		g_sig_var = 0;
-		printf("\nexit status: [%d]\n", ft_exit(1, GET_EXIT_STATUS));
 		unlink_heredocs();
 		free(t);
 	}
