@@ -23,7 +23,6 @@ $(NAME): $(OBJ) $(MAIN_OBJ) $(LIBFT)
 
 $(LIBFT): $(LIBFT_OBJ)
 	ar rc $(LIBFT) $(LIBFT_OBJ)
-	ranlib $(LIBFT)
 
 $(LIBFT_OBJ): ./libft/%.o: ./libft/%.c $(LIBFT_HEADER)
 	$(CC) $(CFLAGS) -c $< -o $@

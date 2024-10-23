@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exit.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:22:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/18 19:18:33 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/23 02:21:45 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,8 @@ int	my_exit(char **argv, int argc)
 	error_exist = check_error_exist(argv[1]);
 	exit_value = ft_atoi128(argv[1]);
 	if (exit_value > LLONG_MAX || exit_value < LLONG_MIN
-		|| error_exist || !argv[1][0] || argv[1][0] == '-')
+		|| error_exist || !argv[1][0] || (argv[1][0] && argv[1][1]
+		&& argv[1][0] == '-' && !ft_isnum(argv[1][1])))
 	{
 		write(2, "numeric argument required\n", 27);
 		return (gc_free_all(), ft_exit(255, EXIT_PROGRAM));

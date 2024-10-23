@@ -60,6 +60,7 @@
     "types.h": "c",
     "glob.h": "c",
     "dirent.h": "c",
-    "string.h": "c"
+    "string.h": "c",
+    "minishell.h": "c"
   }
 }
