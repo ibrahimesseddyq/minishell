@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:22:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/23 02:32:44 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/23 02:46:10 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,8 @@ int	my_exit(char **argv, int argc)
 	if (exit_value > LLONG_MAX || exit_value < LLONG_MIN
 		|| error_exist || !argv[1][0] || (argv[1][0] && argv[1][1]
 		&& argv[1][0] == '-' && !ft_isnum(argv[1][1])))
-		return (write(2, "numeric argument required\n", 27),
+		return (write(1, "exit\n", 6),
+			write(1, "numeric argument required\n", 27),
 			gc_free_all(), ft_exit(255, EXIT_PROGRAM));
 	else if (!error_exist && argc < 3)
 	{
@@ -60,6 +61,5 @@ int	my_exit(char **argv, int argc)
 	if (argc > 2)
 		return (write(2, "minishell: exit: too many arguments\n"
 				, 37), ft_exit(EXIT_FAILURE, SET_EXIT_STATUS), 1);
-	ft_exit(0, SET_EXIT_STATUS);
-	return (write(1, "exit\n", 6), 1);
+	return (ft_exit(0, SET_EXIT_STATUS), write(1, "exit\n", 6), 1);
 }
