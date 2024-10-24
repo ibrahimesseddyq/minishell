@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:10 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/23 03:54:06 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/24 02:25:50 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,14 @@ int	execute_child(char **arg_cmd, t_astnode *ast, t_lst *env)
 	envp = build_envp(env);
 	if (!envp)
 		exit(1);
-	if (!check_file(arg_cmd))
+	if (!check_file(arg_cmd, env))
 		(ft_close(&fd), exit(127));
+	printf("cmfffffd [%s]\n", arg_cmd[0]);
 	if (execve(arg_cmd[0], arg_cmd, envp) == -1)
-		(handle_exec_error(), exit(1));
+	{
+		handle_exec_error(); 
+		exit(1);
+	}
 	return (1);
 }
 

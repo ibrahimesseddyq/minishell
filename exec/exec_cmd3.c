@@ -6,13 +6,13 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:19:45 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/20 16:42:00 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/23 23:04:36 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-char	*arg_cmds(char *cmd, t_lst *env)
+char	*check_if_in_paths(char *cmd, t_lst *env)
 {
 	char	*path;
 	char	**path_dirs;

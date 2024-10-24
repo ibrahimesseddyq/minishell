@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 21:46:03 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/21 05:36:49 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/24 21:21:34 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,23 +82,40 @@ int	command_is_empty(char *str)
 	return (0);
 }
 
-int	no_command_case(t_arg_node *lst, t_lst *env, t_astnode *ast)
+int	no_command_case(t_arg_node **lst, t_lst *env, t_astnode *ast)
 {
 	int	stdout_backup;
+	t_arg_node *no_command;
 
 	stdout_backup = -1;
-	if (!lst || (lst && command_is_empty(lst->arg)))
+	if (lst && ((*lst) && command_is_empty((*lst)->arg)))
 	{
+		fprintf(stderr,"first case\n");
 		stdout_backup = ft_redirection(ast, env, 0);
 		if (stdout_backup == -2)
 			return (-2);
 		ft_close(&stdout_backup);
-		if (lst && command_is_empty(lst->arg))
+		if ((*lst) && command_is_empty((*lst)->arg))
 		{
+			printf("llll\n");
 			write(2, "Command not found\n", 19);
 			ft_exit(127, SET_EXIT_STATUS);
 			return (1);
 		}
+	}
+	else if(lst && !(*lst))
+	{
+		fprintf(stderr,"hi true\n");
+		no_command = gcalloc(sizeof(t_arg_node));
+		no_command->arg = ft_strdup("true");
+		no_command->next = NULL;
+		(*lst) = no_command;
+	}
+	if(lst)
+	{
+		fprintf(stderr,"lst exist\n");
+		if((*lst))
+			fprintf(stderr,"*lst exist\n");
 	}
 	return (0);
 }

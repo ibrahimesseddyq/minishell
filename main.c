@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:13:19 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/23 03:24:43 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/24 22:54:57 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,8 @@ int	main(int ac, char **av, char *env[])
 			exit(2);
 		}
 		if (t)
-			execute_main(token_list, ast, lst, t);
+			// execute_main(token_list, ast, lst, t);
+			print_ast(ast, 0);
 		g_sig_var = 0;
 		unlink_heredocs();
 		free(t);

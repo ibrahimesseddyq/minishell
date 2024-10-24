@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main_utils.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 15:17:19 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/22 20:14:08 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/23 22:38:06 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,10 +28,15 @@ void	handle_sig(int sig)
 void	increment_shell_level(t_lst *env)
 {
 	int	shlvl;
+	char	*shlvlstr;
 
-	shlvl = ft_atoi(get_env(env, "SHLVL"));
-	shlvl++;
-	set_env(env, "SHLVL", ft_itoa(shlvl), 1);
+	shlvlstr = get_env(env, "SHLVL");
+	if (shlvlstr && shlvlstr[0])
+	{
+		shlvl = ft_atoi(shlvlstr);
+		shlvl++;
+		set_env(env, "SHLVL", ft_itoa(shlvl), 1);
+	}
 }
 
 void	initialize(t_tklist **token_list, t_astnode	**ast)
@@ -42,7 +47,7 @@ void	initialize(t_tklist **token_list, t_astnode	**ast)
 	signal(SIGINT, handle_sig);
 	g_sig_var = 0;
 	rl_catch_signals = 0;
-	if (!isatty(0))
+	if (!isatty(0) || !isatty(1) || !isatty(2))
 	{
 		write(2, "non interactive mode is unavailable\n", 37);
 		gc_free_all();

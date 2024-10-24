@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/23 04:28:47 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/24 22:54:20 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,18 +270,18 @@ void			expand_arguments(t_astnode *ast, t_lst *env);
 char			**make_array(char **args, int size);
 int				builtins_error(char **argv);
 int				sspecial_cases(char *cmd);
-int				no_command_case(t_arg_node *lst, t_lst *env, t_astnode *ast);
+int				no_command_case(t_arg_node **lst, t_lst *env, t_astnode *ast);
 char			*char_to_string(char c);
 int				is_builtin_command(const char *cmd);
 int				execute_builtin(char **arg_cmd, t_astnode *ast, t_lst *env);
 int				initial_builtin_errors(t_arg_node *args);
-char			*arg_cmds(char *cmd, t_lst *env);
+char			*check_if_in_paths(char *cmd, t_lst *env);
 char			*get_splitted_char(int index);
 void			set_splitted_char(char c, int index);
 int				is_relative_absolute(const char *path);
 char			**build_envp(t_lst *env);
 void			handle_exec_error(void);
-int				check_file(char **argv);
+int				check_file(char **argv, t_lst *env);
 t_expand_params	init_params(char *expanded_line);
 t_token			*get_next_token(t_lexer *lexer);
 t_token			*next_token(t_tklist *token_list);
@@ -425,4 +425,8 @@ int				expand_after_dollar_redir(t_expand_params *params,
 int				star_not_inside_quotes(const char *str);
 void			add_to_found_2(char ***found_files,
 					int *found_count, const char *file);
+
+void print_redirection(t_redir_list *redir_list,
+        const char *type, int depth);
+void print_ast(t_astnode *node, int depth);
 #endif

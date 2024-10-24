@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 22:52:54 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/23 03:52:43 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/23 23:46:46 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,8 +39,11 @@ char	**build_envp(t_lst *env)
 	i = 0;
 	while (env)
 	{
-		var = ft_strjoin(ft_strjoin(env->key, "="), env->value);
-		envp[i++] = var;
+		if(env->key && env->key[0])
+		{
+			var = ft_strjoin(ft_strjoin(env->key, "="), env->value);
+			envp[i++] = var;
+		}
 		env = env->next;
 	}
 	envp[i] = NULL;
@@ -49,10 +52,13 @@ char	**build_envp(t_lst *env)
 
 void	handle_exec_error(void)
 {
+	perror("");
 	if (errno == ENOENT)
 		(write(2, "No such file or directory \n", 29), exit(127));
 	if (errno == EACCES)
+	{
 		(write(2, "Permission denied1\n", 20), exit(126));
+	}
 	else if (errno == ENOTDIR)
 		(write(2, "Not a directory\n", 17), exit(126));
 	else if (errno == ENOEXEC)
@@ -65,5 +71,6 @@ void	handle_exec_error(void)
 		(write(2, "Text file busy\n", 16), exit(126));
 	else if (errno == EISDIR)
 		(write(2, "is a directory\n", 16), exit(126));
+	printf("errno [%d]\n", errno);
 	exit(0);
 }

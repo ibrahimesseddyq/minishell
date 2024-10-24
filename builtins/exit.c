@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:22:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/23 02:46:10 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/23 22:33:45 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	my_exit(char **argv, int argc)
 		|| error_exist || !argv[1][0] || (argv[1][0] && argv[1][1]
 		&& argv[1][0] == '-' && !ft_isnum(argv[1][1])))
 		return (write(1, "exit\n", 6),
-			write(1, "numeric argument required\n", 27),
+			write(2, "numeric argument required\n", 27),
 			gc_free_all(), ft_exit(255, EXIT_PROGRAM));
 	else if (!error_exist && argc < 3)
 	{
