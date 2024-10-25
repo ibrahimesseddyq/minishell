@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:22:35 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/25 01:44:55 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/25 19:01:51 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,12 @@ static int	handle_file_open_and_dup_in(const char *file,
 	return (fd);
 }
 
-static int	handle_file_open_and_dup_heredoc(const char *file,
+static int	handle_file_open_and_dup_heredoc(t_redir *heredoc,
 		int is_last, int command_exist)
 {
 	int	fd;
 
-	fd = check_and_open_file(file, O_RDONLY | O_CREAT, 0644);
+	fd = *heredoc->fd_heredoc_rd;
 	if (fd == -2)
 		return (-2);
 	if (fd < 0)
@@ -112,5 +112,5 @@ int	ft_red_in(t_astnode *ast, t_lst *env, int is_last, int command_exist)
 	}
 	else
 		return (handle_file_open_and_dup_heredoc
-			(ast->t_cmd.redirections->redir->heredoc, is_last, command_exist));
+			(ast->t_cmd.redirections->redir, is_last, command_exist));
 }

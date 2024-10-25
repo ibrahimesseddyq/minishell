@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 15:42:23 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/23 04:06:22 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/25 18:23:16 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ typedef struct s_redir
 	char	*heredoc;
 	int		type;
 	int		number;
+	int		*fd_heredoc_rd;
+	int		*fd_heredoc_wr;
 }	t_redir;
 
 typedef struct s_redir_list

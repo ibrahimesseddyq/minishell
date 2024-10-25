@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 16:42:56 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/25 01:55:32 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/25 19:49:59 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int	read_and_process_lines(t_heredoc_data *data)
 	return (0);
 }
 
-int	write_heredoc_to_file(char *delimiter, char *filename, t_lst *env)
+int	write_heredoc_to_file(char *delimiter, char *filename, t_lst *env, int *fd_rd)
 {
 	static int		file_counter;
 	t_heredoc_data	data;
@@ -61,12 +61,20 @@ int	write_heredoc_to_file(char *delimiter, char *filename, t_lst *env)
 	signal(SIGINT, ft_handler);
 	data.non_expanded_delimiter = ft_strdup(delimiter);
 	data.delimiter = ft_expand_delimiter(ft_strdup(delimiter));
-	ft_sprintf(filename, "/tmp/heredoc_file_%d", file_counter++);
+	ft_sprintf(filename, "/tmp/heredoc_file_%d", file_counter);
 	data.filename = filename;
-	file_counter = 1;
-	data.fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, S_IRUSR | S_IWUSR);
+	file_counter++;
+	data.fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0777);
 	if (data.fd < 0)
 		return (-1);
+	*fd_rd = open(filename, O_RDONLY, 0777);
+	if (*fd_rd < 0)
+    {
+		unlink(filename);
+        close(data.fd);
+        return (-1);
+    }
+	unlink(filename);
 	data.env = env;
 	res = read_and_process_lines(&data);
 	close(data.fd);

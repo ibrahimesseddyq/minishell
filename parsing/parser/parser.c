@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 18:32:52 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/25 00:09:32 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/25 19:47:08 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ int create_and_handle_heredoc(t_redir_list *redirections, t_lst *lst)
             delimiter = current_heredoc->redir->file;
             if (!heredoc_delimiter_valid(delimiter))
                 return (0);
-            if (write_heredoc_to_file(delimiter, heredoc_file, lst) != 0)
+            current_heredoc->redir->fd_heredoc_rd = gcalloc(sizeof(int));
+            *(current_heredoc->redir->fd_heredoc_rd) = -1;
+            if (write_heredoc_to_file(delimiter, heredoc_file, lst, current_heredoc->redir->fd_heredoc_rd) != 0)
                 return (ft_exit(1, SET_EXIT_STATUS), 0);
             current_heredoc->redir->heredoc = ft_strdup(heredoc_file);
             add_heredoc_to_list(current_heredoc->redir->heredoc);

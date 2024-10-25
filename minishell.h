@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/24 22:54:20 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/25 18:27:46 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,6 +161,7 @@ typedef struct s_heredoc_data
 {
 	char	*delimiter;
 	char	*non_expanded_delimiter;
+	int		fd_rd;
 	int		fd;
 	t_lst	*env;
 	char	*filename;
@@ -287,7 +288,7 @@ t_token			*get_next_token(t_lexer *lexer);
 t_token			*next_token(t_tklist *token_list);
 int				heredoc_delimiter_valid(char *del);
 int				write_heredoc_to_file(char *delimiter,
-					char *filename, t_lst *env);
+					char *filename, t_lst *env, int *fd_rd);
 t_token			*peek_token(t_tklist *token_list);
 int				heredoc_delimiter_valid(char *del);
 t_astnode		*create_ast_command(int ac, char **av);
