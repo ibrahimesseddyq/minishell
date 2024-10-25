@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/25 18:27:46 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/25 21:10:31 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -427,7 +427,8 @@ int				star_not_inside_quotes(const char *str);
 void			add_to_found_2(char ***found_files,
 					int *found_count, const char *file);
 
-void print_redirection(t_redir_list *redir_list,
-        const char *type, int depth);
-void print_ast(t_astnode *node, int depth);
+void			print_redirection(t_redir_list *redir_list,
+        			const char *type, int depth);
+void			print_ast(t_astnode *node, int depth);
+int				is_a_redir_in(t_astnode *ast);
 #endif

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:21:45 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/22 17:47:53 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/25 21:39:23 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,8 +109,10 @@ int	ft_redirection(t_astnode *ast, t_lst *env, int command_exist)
 		else
 			fd = ft_red_in(ast, env, last_arr[0] == ++i, command_exist);
 		if ((is_a_redirection_out(ast) && last_arr[1] != i)
-			|| (!is_a_redirection_out(ast) && last_arr[0] != i))
-			ft_close(&fd);
+			|| (!is_a_redirection_out(ast) && last_arr[0] != i) || (!is_a_redirection_out(ast) && !is_a_redir_in(ast)))
+			{
+				ft_close(&fd);
+			}
 		if (fd == -2)
 			return (-2);
 		ast->t_cmd.redirections = ast->t_cmd.redirections->next;

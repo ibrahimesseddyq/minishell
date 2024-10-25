@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:10 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/25 02:33:34 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/25 21:33:42 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,21 @@ static void	handle_child_process(char **arg_cmd, t_astnode *ast, t_lst *env)
 	exit(0);
 }
 
-static void	handle_parent_process(int pid, int *child_status)
+static void	handle_parent_process(int pid, int *child_status, t_astnode *ast)
 {
+	t_redir_list	*tmp;
+
+	tmp = ast->t_cmd.redirections;
 	waitpid(pid, child_status, 0);
 	if (WIFEXITED(*child_status))
 		ft_exit(WEXITSTATUS(*child_status), SET_EXIT_STATUS);
 	else if (WIFSIGNALED(*child_status))
 		ft_exit(128 + WTERMSIG(*child_status), SET_EXIT_STATUS);
+	while (tmp)
+	{
+		ft_close(tmp->redir->fd_heredoc_rd);
+		tmp = tmp->next;
+	}
 }
 
 static void	restore_signal_handlers(void)
@@ -71,7 +79,7 @@ int	execute_external(char **arg_cmd, t_astnode *ast, t_lst *env)
 	if (pid == 0)
 		handle_child_process(arg_cmd, ast, env);
 	else if (pid > 0)
-		handle_parent_process(pid, &child_status);
+		handle_parent_process(pid, &child_status, ast);
 	else
 		ft_exit(1, SET_EXIT_STATUS);
 	if (WIFSIGNALED(child_status) && WTERMSIG(child_status) == SIGQUIT)
