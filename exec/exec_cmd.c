@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/24 21:26:07 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/25 01:23:35 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,15 @@ int	execute(t_astnode *ast, t_lst *env, char **real_args, char *cmd_path)
 			ft_exit(127, SET_EXIT_STATUS), 127);
 	return (execute_command_withargs(ast, env, real_args));
 }
+char	**return_true_cmd()
+{
+	char	**args;
+
+	args = gcalloc(sizeof(char *) * 2);
+	args[0] = ft_strdup("true");
+	args[1] = NULL;
+	return (args);
+}
 
 int	exec_cmd(t_astnode *ast, t_lst *env)
 {
@@ -68,42 +77,17 @@ int	exec_cmd(t_astnode *ast, t_lst *env)
 	real_args = NULL;
 	if (no_command_case(&lst, env, ast))
 		return (1);
-	fprintf(stderr,"true[%s]\n", lst->arg);
-	if(lst)
-		fprintf(stderr,"lst[%s]\n", lst->arg);
 	if (!lst)
 		return (0);
-	printf("hi2\n");
 	choose_splitting_delimiter(lst, ast);
-	if (ast->t_cmd.args)
+	if (lst && !ft_strcmp(lst->arg,"true"))
 	{
+		ast->t_cmd.args = lst;
+	}
 	real_args = generate_final_args(ast, env, lst);
 	remove_ampersand_strings(real_args, &(ast->t_cmd.args_size));
-	if (!real_args)
-		fprintf(stderr,"args are null\n");
-		for (int i = 0; real_args[i]; i++)
-	{
-		fprintf(stderr,"real2[%s]\n", real_args[i]);
-	}
-	}
-	if (!real_args)
-		fprintf(stderr,"null\n");
-	// if (!real_args || !real_args[0] || !real_args[0][0])
-	// {
-	// 	if (ast->t_cmd.redirections)
-	// 		handle_redirs_when_empty(env, ast);
-	// 	ft_exit(0, SET_EXIT_STATUS);
-	// 	return (0);
-	// }
-	if (real_args)
-	{
-		if (special_cases(real_args[0]))
-			return (0);
-		cmd_path = check_if_in_paths(real_args[0], env);
-	}
-	for (int i = 0; real_args[i]; i++)
-	{
-		fprintf(stderr,"real[%s]\n", real_args[i]);
-	}
+	if (special_cases(real_args[0]))
+		return (0);
+	cmd_path = check_if_in_paths(real_args[0], env);
 	return (execute(ast, env, real_args, cmd_path));
 }

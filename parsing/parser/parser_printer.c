@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/24 22:49:17 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/24 22:58:35 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/25 00:03:51 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,11 +51,10 @@ void print_ast(t_astnode *node, int depth)
     for (int i = 0; i < depth; i++) {
         printf(" ");
     }
-
     switch (node->type)
     {
         case NODE_COMMAND:
-            printf("Node Command: %s\n", node->t_cmd.args[0]);
+            printf("Node Command: %s\n", node->t_cmd.args[0].arg);
             t_arg_node *current_arg = node->t_cmd.args;
             while (current_arg) {
                 for (int j = 1; j < depth + 1; j++)
