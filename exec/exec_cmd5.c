@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:10 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/25 01:46:01 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/25 02:33:34 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ int	execute_external(char **arg_cmd, t_astnode *ast, t_lst *env)
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	tcgetattr(STDOUT_FILENO, &state);
+	tcgetattr(STDIN_FILENO, &state);
 	pid = ft_fork();
 	if (pid == 0)
 		handle_child_process(arg_cmd, ast, env);
@@ -74,7 +75,11 @@ int	execute_external(char **arg_cmd, t_astnode *ast, t_lst *env)
 	else
 		ft_exit(1, SET_EXIT_STATUS);
 	if (WIFSIGNALED(child_status) && WTERMSIG(child_status) == SIGQUIT)
+	{
 		tcsetattr(STDOUT_FILENO, TCSANOW, &state);
+		tcsetattr(STDIN_FILENO, TCSANOW, &state);
+		printf("Quit: 3\n");
+	}
 	restore_signal_handlers();
 	return (1);
 }

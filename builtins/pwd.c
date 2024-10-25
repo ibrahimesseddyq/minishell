@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:27:33 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/23 03:50:12 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/25 02:03:28 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,8 @@ char	*ft_pwd(t_lst *env)
 			path = ft_strdup(SECURE_PATH);
 		else
 			path = get_env(env, "OLDPWD");
+		ft_exit(1, SET_EXIT_STATUS);
+		return (path);
 	}
 	else
 		path = ft_strdup(dir);
