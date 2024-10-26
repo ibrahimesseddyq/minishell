@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/25 21:10:31 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/26 02:28:27 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,6 +229,13 @@ typedef struct s_wildcard_redir_res
 	int		size;
 }	t_wd_redir_res;
 
+typedef struct s_pipeline
+{
+    int pid;
+    int read_fd;
+    int write_fd;
+} t_pipeline;
+
 char			*get_next_line(int fd);
 void			exec_cmd_line(t_astnode *ast, t_lst *env);
 int				exec_cmd(t_astnode *ast, t_lst *env);
@@ -431,4 +438,6 @@ void			print_redirection(t_redir_list *redir_list,
         			const char *type, int depth);
 void			print_ast(t_astnode *node, int depth);
 int				is_a_redir_in(t_astnode *ast);
+void			close_heredoc_fds(t_astnode *ast);
+void			close_command_heredocs(t_astnode *cmd);
 #endif

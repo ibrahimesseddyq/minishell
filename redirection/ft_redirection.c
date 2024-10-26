@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:21:45 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/25 21:39:23 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/26 02:28:17 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,4 +118,38 @@ int	ft_redirection(t_astnode *ast, t_lst *env, int command_exist)
 		ast->t_cmd.redirections = ast->t_cmd.redirections->next;
 	}
 	return (fd);
+}
+
+void close_heredoc_fds(t_astnode *ast)
+{
+    t_redir_list *redirections = ast->t_cmd.redirections;
+    while (redirections)
+    {
+        if (redirections->redir && redirections->redir->fd_heredoc_rd)
+        {
+			fprintf(stderr, "fd [%d]\n", *(redirections->redir->fd_heredoc_rd));
+            ft_close(redirections->redir->fd_heredoc_rd);
+        }
+        redirections = redirections->next;
+    }
+}
+
+void close_command_heredocs(t_astnode *cmd)
+{
+    t_redir_list *redirections;
+
+    if (!cmd || !cmd->t_cmd.redirections)
+        return;
+
+    redirections = cmd->t_cmd.redirections;
+    while (redirections)
+    {
+        if (redirections->redir && 
+            redirections->redir->type == NODE_HEREDOC && 
+            redirections->redir->fd_heredoc_rd)
+        {
+            ft_close(redirections->redir->fd_heredoc_rd);
+        }
+        redirections = redirections->next;
+    }
 }

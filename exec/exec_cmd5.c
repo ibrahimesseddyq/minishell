@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:10 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/25 21:33:42 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/26 01:53:11 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,8 @@ static void	handle_parent_process(int pid, int *child_status, t_astnode *ast)
 		ft_exit(128 + WTERMSIG(*child_status), SET_EXIT_STATUS);
 	while (tmp)
 	{
-		ft_close(tmp->redir->fd_heredoc_rd);
+		if (tmp->redir && tmp->redir->fd_heredoc_rd)
+			ft_close(tmp->redir->fd_heredoc_rd);
 		tmp = tmp->next;
 	}
 }
