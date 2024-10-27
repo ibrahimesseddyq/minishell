@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:48:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/22 20:08:14 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/27 21:22:49 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,7 @@ int	expand_variable_redir(t_expand_params *params, t_lst *env, char **line)
 	else
 	{
 		value = ft_strdup(value);
+		value = trim_spaces(value);
 		if (check_ambigious(value))
 			return (0);
 		append_string(params, value);

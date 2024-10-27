@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:21:53 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/27 06:50:49 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 21:16:07 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ void is_directory_error(void)
 
 void permission_denied_error(void)
 {
-	write(2, "permission denied\n", 16);
+	write(2, "permission denied\n", 19);
 	ft_exit(126, SET_EXIT_STATUS);
 }
 void no_such_file_or_dir_error(void)
@@ -88,7 +88,7 @@ void no_such_file_or_dir_error(void)
 char *check_file_no_path(char *cmd)
 {
 	if (!is_directory(cmd))
-		return (is_directory_error, NULL);
+		return (is_directory_error(), NULL);
 	if (access(cmd, F_OK | X_OK) == 0)
 		return (cmd);
 	if (access(cmd, F_OK) == 0)
@@ -98,27 +98,46 @@ char *check_file_no_path(char *cmd)
 	}
 	return (cmd);
 }
-char *check_file_with_path(char *cmd)
+char *check_file_with_path(char *cmd, t_lst *env)
 {
+	char	*cmd_final;
+	char	**paths;
+
+	paths = ft_split(get_env(env, "PATH"), ':');
+	if (!paths)
+	{
+		no_such_file_or_dir_error();
+		exit(1);
+	}
 	if (ft_strchr(cmd, '/'))
 	{
 		if (!is_directory(cmd))
 			return (is_directory_error(), NULL);
 		else if (access(cmd, F_OK | X_OK) == 0)
 			return (cmd);
-		else
+		else if (access(cmd, F_OK) != 0)
 			no_such_file_or_dir_error();
+		else
+			return (permission_denied_error(), NULL);
 	}
+	cmd_final = find_command_in_path(cmd, paths);
+	if (cmd_final)
+		return (cmd_final);
+	if (!cmd_final && !ft_strchr(cmd, '/'))
+		return (write(2, "command not found \n", 21), ft_exit(127, SET_EXIT_STATUS), NULL);
+	return (cmd_final);
 }
 
-int	check_file(char **argv, t_lst *env)
+char	*check_file(char **argv, t_lst *env)
 {
 	char	*path;
 
 	path = get_env(env, "PATH");
 	if (!path)
-	
-	return (1);
+		return (check_file_no_path(argv[0]));
+	else
+		return (check_file_with_path(argv[0], env));
+	return (argv[0]);
 }
 
 int	initial_builtin_errors(t_arg_node *args)

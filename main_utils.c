@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 15:17:19 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/23 22:38:06 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 21:40:03 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,4 +63,23 @@ int	valid_quotes_main(char *line)
 	if (!quotes_valid)
 		return (write(2, "syntax error in quotes\n", 24), 0);
 	return (1);
+}
+
+t_astnode	*get_ast(t_astnode *ast, int mode)
+{
+	static t_astnode *ast_backup;
+
+	printf("hi\n");
+	if (mode == SET_AST)
+	{
+		ast_backup = ast;
+		printf("ast->type [%s] ast name[%s]\n", ast->type, ast->t_cmd.args[0]);
+	}
+	else
+	{
+				printf("ast->type [%s] ast name[%s]\n", ast->type, ast->t_cmd.args[0]);
+
+		return (ast_backup);
+	}
+	return (NULL);
 }

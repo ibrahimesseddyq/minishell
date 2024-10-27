@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/27 01:15:37 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 21:36:59 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,8 @@
 # define UNKNOWN -1
 # define ROWS 9
 # define COLS 11
-
+# define GET_AST 2
+# define SET_AST 1
 extern int				g_sig_var;
 typedef int				(*matrix)[11];
 typedef struct s_stat	t_stat;
@@ -289,7 +290,7 @@ void			set_splitted_char(char c, int index);
 int				is_relative_absolute(const char *path);
 char			**build_envp(t_lst *env);
 void			handle_exec_error(void);
-int				check_file(char **argv, t_lst *env);
+char			*check_file(char **argv, t_lst *env);	
 t_expand_params	init_params(char *expanded_line);
 t_token			*get_next_token(t_lexer *lexer);
 t_token			*next_token(t_tklist *token_list);
@@ -444,4 +445,7 @@ int				check_and_open_file(const char *file, int flags, mode_t mode);
 int				*get_last_redirs(t_astnode *ast);
 int				check_error_redir_out(t_redir *redir);
 int				check_if_directory(char *cmd);
+char			*trim_spaces(char *str);
+t_astnode		*get_ast(t_astnode *ast, int mode);
+void	close_all_heredoc_fds(t_astnode *ast);
 #endif

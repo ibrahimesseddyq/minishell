@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:13:19 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/27 01:14:52 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 21:41:02 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,9 @@ void	execute_main(t_tklist *token_list, t_astnode *ast, t_lst *lst, char *t)
 		set_beginning(token_list);
 		ast = parse_command_line(token_list, lst);
 		if (ast)
+		{
 			exec_cmd_line(ast, lst);
+		}
 		close_all_heredoc_fds(ast);
 	}
 }

@@ -69,6 +69,8 @@
     "utility": "c",
     "vector": "c",
     "minishell.h": "c",
-    "locale": "c"
+    "locale": "c",
+    "__bit_reference": "c",
+    "iterator": "c"
   }
 }

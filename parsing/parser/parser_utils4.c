@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 16:42:56 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/27 00:43:14 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 21:51:19 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,10 @@ static int	handle_tty_input(int fd, t_heredoc_data *data)
 
 	fd2 = open(ttyname(2), O_RDWR);
 	if (g_sig_var)
-		return (unlink(data->filename), ft_close(&fd), -1);
+	{
+		printf("data->fd_rd[%d] data->fd[%d]\n", data->fd_rd, data->fd);
+		return (unlink(data->filename), close(data->fd_rd), ft_close(&fd), -1);
+	}
 	return (0);
 }
 
@@ -66,9 +69,12 @@ int	write_heredoc_to_file(char *delimiter,
 	data.filename = filename;
 	file_counter++;
 	data.fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0777);
+	printf("data.fd[%d]\n", data.fd);
 	if (data.fd < 0)
 		return (-1);
 	*fd_rd = open(filename, O_RDONLY, 0777);
+	data.fd_rd = *fd_rd;
+	printf("fd_rd[%d]\n", *fd_rd);
 	if (*fd_rd < 0)
 	{
 		unlink(filename);

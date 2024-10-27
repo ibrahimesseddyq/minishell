@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:04:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/26 23:57:09 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 21:52:32 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,13 +39,6 @@ static char	*ft_get_directory(int argc, char **argv, t_lst *env)
 		if ((!dir || !dir[0]) && !get_env_isset(env, "HOME"))
 			return (write(2, "minishell: cd: HOME not set\n", 28), NULL);
 		return (ft_strdup(get_env(env, "HOME")));
-	}
-	else if (ft_strcmp(argv[1], "-") == 0)
-	{
-		dir = get_env(env, "OLDPWD");
-		if (!dir || !*dir)
-			return (write(2, "minishell: cd: OLDPWD not set\n", 30), NULL);
-		return (ft_strdup(dir));
 	}
 	return (ft_strdup(argv[1]));
 }
