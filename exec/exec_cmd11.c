@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 22:03:49 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/27 22:07:56 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 22:52:42 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ char	*check_file_with_path(char *cmd, t_lst *env)
 	if (cmd_final)
 		return (cmd_final);
 	if (!cmd_final && !ft_strchr(cmd, '/'))
-		return (write(2, "command not found \n", 21),
+		return (write(2, "command not found \n", 20),
 			ft_exit(127, SET_EXIT_STATUS), NULL);
 	return (cmd_final);
 }

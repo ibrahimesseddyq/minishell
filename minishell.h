@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/27 22:08:15 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 22:45:38 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -448,4 +448,9 @@ int				check_if_directory(char *cmd);
 char			*trim_spaces(char *str);
 t_astnode		*get_ast(t_astnode *ast, int mode);
 void			close_all_heredoc_fds(t_astnode *ast);
+char			*check_file(char **argv, t_lst *env);
+char			*check_file_with_path(char *cmd, t_lst *env);
+char			*check_file_no_path(char *cmd);
+void			is_directory_error(void);
+int				is_directory(char *cmd);
 #endif
