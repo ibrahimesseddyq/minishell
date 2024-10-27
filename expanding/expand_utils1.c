@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:48:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/22 17:24:34 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 02:30:03 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,16 +54,19 @@ char	*ft_itoa(int n)
 	return (s);
 }
 
-t_expand_params	init_params(char *expanded_line)
+t_expand_params	*init_params(char *expanded_line)
 {
-	t_expand_params	params;
+	t_expand_params	*params;
 
-	params.i = 0;
-	params.expanded_size = DEFAULT_NB;
-	params.expanded_index = 0;
-	params.is_inside_quotes = 0;
-	params.current_quote = 0;
-	params.expanded_line = expanded_line;
+	params = gcalloc(sizeof(params));
+	params->i = 0;
+	params->expanded_size = DEFAULT_NB;
+	params->expanded_index = 0;
+	params->is_inside_quotes = 0;
+	params->is_inside_quotes2 = 0;
+	params->is_inside_quotes3 = 0;
+	params->current_quote = 0;
+	params->expanded_line = expanded_line;
 	return (params);
 }
 

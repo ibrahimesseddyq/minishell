@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:47:54 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/20 16:58:59 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 02:27:20 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,14 +56,14 @@ void	expand_token_heredoc(t_expand_params *params, t_lst *env, char **line)
 char	*ft_expand_heredoc(char *line, t_lst *env)
 {
 	char			*expanded_line;
-	t_expand_params	params;
+	t_expand_params	*params;
 
 	expanded_line = gcalloc(DEFAULT_NB);
 	params = init_params(expanded_line);
-	while (line[params.i])
+	while (line[params->i])
 	{
-		expand_token_heredoc(&params, env, &line);
+		expand_token_heredoc(params, env, &line);
 	}
-	params.expanded_line[params.expanded_index] = '\0';
-	return (params.expanded_line);
+	params->expanded_line[params->expanded_index] = '\0';
+	return (params->expanded_line);
 }

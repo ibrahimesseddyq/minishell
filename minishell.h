@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/27 01:15:37 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 02:29:38 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -290,7 +290,7 @@ int				is_relative_absolute(const char *path);
 char			**build_envp(t_lst *env);
 void			handle_exec_error(void);
 int				check_file(char **argv, t_lst *env);
-t_expand_params	init_params(char *expanded_line);
+t_expand_params	*init_params(char *expanded_line);
 t_token			*get_next_token(t_lexer *lexer);
 t_token			*next_token(t_tklist *token_list);
 int				heredoc_delimiter_valid(char *del);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_redir.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 15:48:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/22 20:08:14 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/27 02:45:03 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,24 +94,24 @@ int	expand_token_redir(t_expand_params *params, t_lst *env, char **line)
 char	*ft_expand_redir(char *line, t_lst *env)
 {
 	char			*expanded_line;
-	t_expand_params	params;
+	t_expand_params	*params;
 
 	expanded_line = gcalloc(DEFAULT_NB);
 	params = init_params(expanded_line);
-	while (line && line[params.i])
+	while (line && line[params->i])
 	{
-		if (handle_quotes2(line[params.i], &params, line))
+		if (handle_quotes2(line[params->i], params, line))
 			continue ;
-		if (!params.is_inside_quotes || params.current_quote == '\"')
+		if (!params->is_inside_quotes || params->current_quote == '\"')
 		{
-			if (!expand_token_redir(&params, env, &line))
+			if (!expand_token_redir(params, env, &line))
 				return (NULL);
 		}
 		else
-			append_char(&params, line[params.i++]);
+			append_char(params, line[params->i++]);
 	}
-	if (params.expanded_index >= DEFAULT_NB - 1)
+	if (params->expanded_index >= DEFAULT_NB - 1)
 		handle_overflow();
-	params.expanded_line[params.expanded_index] = '\0';
-	return (params.expanded_line);
+	params->expanded_line[params->expanded_index] = '\0';
+	return (params->expanded_line);
 }

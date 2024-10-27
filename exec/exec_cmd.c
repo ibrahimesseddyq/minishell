@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/27 00:03:35 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 02:31:00 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,7 @@ int	exec_cmd(t_astnode *ast, t_lst *env)
 	char		**real_args;
 	char		*cmd_path;
 
-	(1) && (lst = ast->t_cmd.args);
+	(1) && (lst = ast->t_cmd.args, cmd_path = NULL);
 	real_args = NULL;
 	if (no_command_case(&lst, env, ast))
 		return (1);

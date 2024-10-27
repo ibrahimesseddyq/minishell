@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   expand_normal.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:19:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/22 20:14:59 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/27 02:27:28 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,25 +119,25 @@ int	expand_token(t_expand_params *params, t_lst *env, char **line, char *cmd)
 char	*ft_expand(char *line, t_lst *env, char *cmd)
 {
 	char			*expanded_line;
-	t_expand_params	params;
+	t_expand_params	*params;
 
 	expanded_line = gcalloc(DEFAULT_NB);
 	params = init_params(expanded_line);
-	params.is_inside_quotes3 = 0;
-	while (line && line[params.i])
+	params->is_inside_quotes3 = 0;
+	while (line && line[params->i])
 	{
-		if (handle_quotes2(line[params.i], &params, line))
+		if (handle_quotes2(line[params->i], &params, line))
 			continue ;
-		if (!params.is_inside_quotes || params.current_quote == '\"')
+		if (!params->is_inside_quotes || params->current_quote == '\"')
 		{
-			params.is_inside_quotes3 = params.is_inside_quotes;
-			expand_token(&params, env, &line, cmd);
+			params->is_inside_quotes3 = params->is_inside_quotes;
+			expand_token(params, env, &line, cmd);
 		}
 		else
 		{
-			append_char(&params, line[params.i++]);
+			append_char(params, line[params->i++]);
 		}
 	}
-	params.expanded_line[params.expanded_index] = '\0';
-	return (params.expanded_line);
+	params->expanded_line[params->expanded_index] = '\0';
+	return (params->expanded_line);
 }

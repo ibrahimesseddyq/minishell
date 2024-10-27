@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:13:19 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/27 01:14:52 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 01:26:37 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,6 @@ int	main(int ac, char **av, char *env[])
 
 	(void)((1) && (initialize(&token_list, &ast), lst = envp(env), 1));
 	handle_arguments_main(ac, av);
-	increment_shell_level(lst);
 	while (1)
 	{
 		t = readline("minishell:>$ ");
