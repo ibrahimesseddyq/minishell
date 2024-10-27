@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 22:52:54 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/27 00:00:39 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 06:21:29 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,6 @@ char	**build_envp(t_lst *env)
 
 void	handle_exec_error(void)
 {
-	perror("");
 	if (errno == ENOENT)
 		(write(2, "No such file or directory \n", 29), exit(127));
 	if (errno == EACCES)
@@ -62,7 +61,7 @@ void	handle_exec_error(void)
 	else if (errno == ENOTDIR)
 		(write(2, "Not a directory\n", 17), exit(126));
 	else if (errno == ENOEXEC)
-		(write(2, "Exec format error \n", 20), exit(126));
+		(write(2, "Command not found \n", 20), exit(127));
 	else if (errno == E2BIG)
 		(write(2, "Argument list too long\n", 24), exit(126));
 	else if (errno == ENOMEM)
@@ -71,6 +70,5 @@ void	handle_exec_error(void)
 		(write(2, "Text file busy\n", 16), exit(126));
 	else if (errno == EISDIR)
 		(write(2, "is a directory\n", 16), exit(126));
-	printf("errno [%d]\n", errno);
 	exit(0);
 }
