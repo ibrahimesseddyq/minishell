@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 23:47:30 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/27 00:04:15 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/28 00:11:03 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,6 @@ void	convert_wd_to_splitting_char(t_wildcard_data *data)
 			data->pattern[0][i] = *get_splitted_char(4);
 		i++;
 	}
-	printf("pattern [%s]\n", data->pattern[0]);
 }
 
 t_wd_redir_res	*expand_wildcard_redir(char *pwd, int level,

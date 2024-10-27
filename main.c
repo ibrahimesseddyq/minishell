@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:13:19 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/27 21:59:02 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/28 00:14:30 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ void	close_all_heredoc_fds(t_astnode *ast)
 void	execute_main(t_tklist *token_list, t_astnode *ast, t_lst *lst, char *t)
 {
 	token_list = tokenize(t);
-	if (token_list->size > 1)
+	if (t && ft_strlen(t) > 0)
 		add_history(t);
 	if (!analyse_syntax(token_list) || !valid_quotes_main(t))
 		ft_exit(258, SET_EXIT_STATUS);

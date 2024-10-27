@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:21:45 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/27 01:06:46 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 23:55:55 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ void	close_heredoc_fds(t_astnode *ast)
 	{
 		if (redirections->redir && redirections->redir->fd_heredoc_rd)
 		{
-			fprintf(stderr, "fd [%d]\n", *(redirections->redir->fd_heredoc_rd));
 			ft_close(redirections->redir->fd_heredoc_rd);
 		}
 		redirections = redirections->next;
