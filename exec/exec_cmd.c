@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/25 01:23:35 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 00:03:35 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,18 +36,6 @@ int	execute_command_withargs(t_astnode *ast, t_lst *env, char **real_args)
 	return (result);
 }
 
-int	handle_redirs_when_empty(t_lst *env, t_astnode *ast)
-{
-	int	stdout_backup;
-
-	stdout_backup = -1;
-	stdout_backup = ft_redirection(ast, env, 0);
-	if (stdout_backup == -2)
-		return (-2);
-	ft_close(&stdout_backup);
-	return (0);
-}
-
 int	execute(t_astnode *ast, t_lst *env, char **real_args, char *cmd_path)
 {
 	if (cmd_path && real_args)
@@ -57,7 +45,8 @@ int	execute(t_astnode *ast, t_lst *env, char **real_args, char *cmd_path)
 			ft_exit(127, SET_EXIT_STATUS), 127);
 	return (execute_command_withargs(ast, env, real_args));
 }
-char	**return_true_cmd()
+
+char	**return_true_cmd(void)
 {
 	char	**args;
 
@@ -80,14 +69,17 @@ int	exec_cmd(t_astnode *ast, t_lst *env)
 	if (!lst)
 		return (0);
 	choose_splitting_delimiter(lst, ast);
-	if (lst && !ft_strcmp(lst->arg,"true"))
-	{
+	if (lst && !ft_strcmp(lst->arg, "true"))
 		ast->t_cmd.args = lst;
-	}
 	real_args = generate_final_args(ast, env, lst);
 	remove_ampersand_strings(real_args, &(ast->t_cmd.args_size));
-	if (special_cases(real_args[0]))
-		return (0);
-	cmd_path = check_if_in_paths(real_args[0], env);
+	if (real_args && !real_args[0])
+		real_args[0] = ft_strdup("true");
+	if (real_args && real_args[0] && real_args[0][0])
+	{
+		if (special_cases(real_args[0]))
+			return (0);
+		cmd_path = check_if_in_paths(real_args[0], env);
+	}
 	return (execute(ast, env, real_args, cmd_path));
 }

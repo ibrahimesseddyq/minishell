@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:13:19 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/26 02:40:49 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 01:14:52 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,34 +14,35 @@
 
 int	g_sig_var;
 
-void close_all_heredoc_fds(t_astnode *ast)
+void	close_all_heredoc_fds(t_astnode *ast)
 {
-    if (!ast)
-        return ;
-    if (ast->type == NODE_COMMAND)
-    {
-        t_redir_list *redirects = ast->t_cmd.redirections;
-        while (redirects)
-        {
-            if (redirects->redir && redirects->redir->type == NODE_HEREDOC &&
-                redirects->redir->fd_heredoc_rd && 
-                *(redirects->redir->fd_heredoc_rd) != -1)
-            {
-                ft_close(redirects->redir->fd_heredoc_rd);
-                *(redirects->redir->fd_heredoc_rd) = -1;
-            }
-            redirects = redirects->next;
-        }
-    }
-    else if (ast->type == NODE_PIPE || ast->type == NODE_LOGICAL_AND || 
-             ast->type == NODE_LOGICAL_OR || ast->type == NODE_SEQUENCE)
-    {
-        close_all_heredoc_fds(ast->t_binary.left);
-        close_all_heredoc_fds(ast->t_binary.right);
-    }
-    else if (ast->type == NODE_SUBSHELL || ast->type == NODE_BLOCK)
-        close_all_heredoc_fds(ast->t_block.child);
+	t_redir_list	*redirects;
+
+	if (!ast)
+		return ;
+	if (ast->type == NODE_COMMAND)
+	{
+		redirects = ast->t_cmd.redirections;
+		while (redirects)
+		{
+			if (redirects->redir && redirects->redir->type == NODE_HEREDOC
+				&& redirects->redir->fd_heredoc_rd
+				&& *(redirects->redir->fd_heredoc_rd) != -1)
+				(1) && (ft_close(redirects->redir->fd_heredoc_rd),
+					*(redirects->redir->fd_heredoc_rd) = -1);
+			redirects = redirects->next;
+		}
+	}
+	else if (ast->type == NODE_PIPE || ast->type == NODE_LOGICAL_AND
+		|| ast->type == NODE_LOGICAL_OR || ast->type == NODE_SEQUENCE)
+	{
+		close_all_heredoc_fds(ast->t_binary.left);
+		close_all_heredoc_fds(ast->t_binary.right);
+	}
+	else if (ast->type == NODE_SUBSHELL || ast->type == NODE_BLOCK)
+		close_all_heredoc_fds(ast->t_block.child);
 }
+
 void	execute_main(t_tklist *token_list, t_astnode *ast, t_lst *lst, char *t)
 {
 	token_list = tokenize(t);
@@ -55,7 +56,6 @@ void	execute_main(t_tklist *token_list, t_astnode *ast, t_lst *lst, char *t)
 		ast = parse_command_line(token_list, lst);
 		if (ast)
 			exec_cmd_line(ast, lst);
-			// print_ast(ast, 0);
 		close_all_heredoc_fds(ast);
 	}
 }
@@ -88,11 +88,10 @@ int	main(int ac, char **av, char *env[])
 		{
 			printf("exit\n");
 			gc_free_all();
-			exit(2);
+			exit(0);
 		}
 		if (t)
 			execute_main(token_list, ast, lst, t);
-
 		g_sig_var = 0;
 		unlink_heredocs();
 		free(t);

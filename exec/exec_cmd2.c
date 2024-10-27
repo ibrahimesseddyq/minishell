@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 22:52:54 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/23 23:46:46 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 00:00:39 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	**build_envp(t_lst *env)
 	i = 0;
 	while (env)
 	{
-		if(env->key && env->key[0])
+		if (env->key && env->key[0])
 		{
 			var = ft_strjoin(ft_strjoin(env->key, "="), env->value);
 			envp[i++] = var;

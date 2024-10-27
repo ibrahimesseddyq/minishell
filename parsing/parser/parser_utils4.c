@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 16:42:56 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/25 19:49:59 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 00:43:14 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,8 @@ static int	read_and_process_lines(t_heredoc_data *data)
 	return (0);
 }
 
-int	write_heredoc_to_file(char *delimiter, char *filename, t_lst *env, int *fd_rd)
+int	write_heredoc_to_file(char *delimiter,
+	char *filename, t_lst *env, int *fd_rd)
 {
 	static int		file_counter;
 	t_heredoc_data	data;
@@ -69,11 +70,11 @@ int	write_heredoc_to_file(char *delimiter, char *filename, t_lst *env, int *fd_r
 		return (-1);
 	*fd_rd = open(filename, O_RDONLY, 0777);
 	if (*fd_rd < 0)
-    {
+	{
 		unlink(filename);
-        close(data.fd);
-        return (-1);
-    }
+		close(data.fd);
+		return (-1);
+	}
 	unlink(filename);
 	data.env = env;
 	res = read_and_process_lines(&data);

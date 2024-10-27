@@ -6,36 +6,36 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:22:12 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/26 02:50:34 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/26 23:58:41 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../minishell.h"
 
-char *trim_spaces(char *str)
+char	*trim_spaces(char *str)
 {
-    if (!str)
-        return (NULL);
+	char	*start;
+	char	*end;
+	int		len;
+	char	*result;
 
-    char *start = str;
-    while (*start && (*start == ' ' || *start == '\t'))
-        start++;
-
-    if (*start == '\0')
-        return (ft_strdup(""));
-
-    char *end = start + ft_strlen(start) - 1;
-    while (end > start && (*end == ' ' || *end == '\t'))
-        end--;
-    int len = end - start + 1;
-    char *result = (char *)gcalloc(sizeof(char) * (len + 1));
-    if (!result)
-        return (NULL);
-    
-    ft_strncpy(result, start, len);
-    result[len] = '\0';
-
-    return (result);
+	if (!str)
+		return (NULL);
+	start = str;
+	while (*start && (*start == ' ' || *start == '\t'))
+		start++;
+	if (*start == '\0')
+		return (ft_strdup(""));
+	end = start + ft_strlen(start) - 1;
+	while (end > start && (*end == ' ' || *end == '\t'))
+		end--;
+	len = end - start + 1;
+	result = (char *)gcalloc(sizeof(char) * (len + 1));
+	if (!result)
+		return (NULL);
+	ft_strncpy(result, start, len);
+	result[len] = '\0';
+	return (result);
 }
 
 int	ft_isnum(char c)

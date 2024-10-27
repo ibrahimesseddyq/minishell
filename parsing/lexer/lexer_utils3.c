@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 16:39:10 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/25 20:55:23 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 00:40:23 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,10 @@ t_token	*get_next_token(t_lexer *lexer)
 			return (token_r_redir(lexer));
 		if (lexer->currentchar == '<')
 			return (token_l_redir(lexer));
-		return (token_word(lexer));
+		if (ft_isalnum(lexer->currentchar)
+			|| ft_strchr(WORD, lexer->currentchar))
+			return (token_word(lexer));
+		return (token_illegal(lexer));
 	}
 	return (token_eof());
 }

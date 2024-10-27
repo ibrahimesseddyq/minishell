@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 22:21:06 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/23 03:56:39 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 00:03:41 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,4 +52,16 @@ int	is_builtin_command(const char *cmd)
 		|| !ft_strcmp((char *)cmd, "pwd") || !ft_strcmp((char *)cmd, "env")
 		|| !ft_strcmp((char *)cmd, "exit") || !ft_strcmp((char *)cmd, "export")
 		|| !ft_strcmp((char *)cmd, "unset"));
+}
+
+int	handle_redirs_when_empty(t_lst *env, t_astnode *ast)
+{
+	int	stdout_backup;
+
+	stdout_backup = -1;
+	stdout_backup = ft_redirection(ast, env, 0);
+	if (stdout_backup == -2)
+		return (-2);
+	ft_close(&stdout_backup);
+	return (0);
 }

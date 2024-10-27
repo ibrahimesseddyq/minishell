@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:04:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/21 05:14:37 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/26 23:57:09 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,18 +52,27 @@ static char	*ft_get_directory(int argc, char **argv, t_lst *env)
 
 static int	ft_change_directory(char *expanded_dir, t_lst *env, char *pwd)
 {
-	char	*new_pwd;
+	struct stat	statbuf;
+	char		*new_pwd;
+	int			error;
 
 	if (chdir(expanded_dir) == -1)
 		return (perror("cd"), ft_exit(1, SET_EXIT_STATUS), 1);
 	set_env(env, "OLDPWD", pwd, 1);
 	new_pwd = ft_pwd(env);
+	if (stat(new_pwd, &statbuf) != 0)
+	{
+		error = 1;
+		write(2, "Error changing directory\n", 26);
+	}
 	if (!new_pwd)
 	{
 		write(2, "cd: failed to get new working directory\n", 40);
 		return (ft_exit(1, SET_EXIT_STATUS), 1);
 	}
 	set_env(env, "PWD", new_pwd, 1);
+	if (error)
+		return (ft_exit(1, SET_EXIT_STATUS), 1);
 	return (ft_exit(0, SET_EXIT_STATUS), 0);
 }
 

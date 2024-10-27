@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/26 02:28:27 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 01:15:37 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -231,10 +231,10 @@ typedef struct s_wildcard_redir_res
 
 typedef struct s_pipeline
 {
-    int pid;
-    int read_fd;
-    int write_fd;
-} t_pipeline;
+	int	pid;
+	int	read_fd;
+	int	write_fd;
+}	t_pipeline;
 
 char			*get_next_line(int fd);
 void			exec_cmd_line(t_astnode *ast, t_lst *env);
@@ -435,9 +435,13 @@ void			add_to_found_2(char ***found_files,
 					int *found_count, const char *file);
 
 void			print_redirection(t_redir_list *redir_list,
-        			const char *type, int depth);
+					const char *type, int depth);
 void			print_ast(t_astnode *node, int depth);
 int				is_a_redir_in(t_astnode *ast);
 void			close_heredoc_fds(t_astnode *ast);
 void			close_command_heredocs(t_astnode *cmd);
+int				check_and_open_file(const char *file, int flags, mode_t mode);
+int				*get_last_redirs(t_astnode *ast);
+int				check_error_redir_out(t_redir *redir);
+int				check_if_directory(char *cmd);
 #endif

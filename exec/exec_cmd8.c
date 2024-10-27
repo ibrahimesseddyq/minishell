@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 21:46:03 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/25 01:46:08 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/26 23:59:28 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,8 @@ int	command_is_empty(char *str)
 
 int	no_command_case(t_arg_node **lst, t_lst *env, t_astnode *ast)
 {
-	int	stdout_backup;
-	t_arg_node *no_command;
+	int			stdout_backup;
+	t_arg_node	*no_command;
 
 	stdout_backup = -1;
 	if (lst && ((*lst) && command_is_empty((*lst)->arg)))
@@ -101,7 +101,7 @@ int	no_command_case(t_arg_node **lst, t_lst *env, t_astnode *ast)
 			return (1);
 		}
 	}
-	else if(lst && !(*lst))
+	else if (lst && !(*lst))
 	{
 		no_command = gcalloc(sizeof(t_arg_node));
 		no_command->arg = ft_strdup("true");

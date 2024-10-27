@@ -6,39 +6,11 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:21:45 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/26 02:28:17 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 01:06:46 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
-
-int	*get_last_redirs(t_astnode *ast)
-{
-	int				last_in;
-	int				last_out;
-	int				i;
-	int				*last_arr;
-	t_redir_list	*current;
-
-	current = ast->t_cmd.redirections;
-	last_arr = gcalloc(sizeof(int) * 2);
-	i = 0;
-	last_out = -1;
-	last_in = -1;
-	while (current)
-	{
-		if (current->redir && (current->redir->type == NODE_REDIRECT_OUT
-				|| current->redir->type == NODE_REDIRECT_APPEND))
-			last_out = i;
-		else
-			last_in = i;
-		i++;
-		current = current->next;
-	}
-	last_arr[0] = last_in;
-	last_arr[1] = last_out;
-	return (last_arr);
-}
 
 int	is_a_redirection_out(t_astnode *ast)
 {
@@ -46,22 +18,6 @@ int	is_a_redirection_out(t_astnode *ast)
 			|| ast->t_cmd.redirections->redir->type == NODE_REDIRECT_APPEND)
 		&& ast->t_cmd.redirections->redir)
 		return (1);
-	return (0);
-}
-
-int	check_if_directory(char *cmd)
-{
-	struct stat	sb;
-
-	stat(cmd, &sb);
-	if ((cmd[ft_strlen(cmd) - 1] == '/' && S_ISDIR(sb.st_mode))
-		|| (S_ISDIR(sb.st_mode)
-			&& !is_builtin_command(cmd) && slash_exist(cmd)))
-	{
-		write(2, "Is a directory \n", 17);
-		ft_exit(126, SET_EXIT_STATUS);
-		return (1);
-	}
 	return (0);
 }
 
@@ -109,10 +65,9 @@ int	ft_redirection(t_astnode *ast, t_lst *env, int command_exist)
 		else
 			fd = ft_red_in(ast, env, last_arr[0] == ++i, command_exist);
 		if ((is_a_redirection_out(ast) && last_arr[1] != i)
-			|| (!is_a_redirection_out(ast) && last_arr[0] != i) || (!is_a_redirection_out(ast) && !is_a_redir_in(ast)))
-			{
-				ft_close(&fd);
-			}
+			|| (!is_a_redirection_out(ast) && last_arr[0] != i)
+			|| (!is_a_redirection_out(ast) && !is_a_redir_in(ast)))
+			ft_close(&fd);
 		if (fd == -2)
 			return (-2);
 		ast->t_cmd.redirections = ast->t_cmd.redirections->next;
@@ -120,36 +75,37 @@ int	ft_redirection(t_astnode *ast, t_lst *env, int command_exist)
 	return (fd);
 }
 
-void close_heredoc_fds(t_astnode *ast)
+void	close_heredoc_fds(t_astnode *ast)
 {
-    t_redir_list *redirections = ast->t_cmd.redirections;
-    while (redirections)
-    {
-        if (redirections->redir && redirections->redir->fd_heredoc_rd)
-        {
+	t_redir_list	*redirections;
+
+	redirections = ast->t_cmd.redirections;
+	while (redirections)
+	{
+		if (redirections->redir && redirections->redir->fd_heredoc_rd)
+		{
 			fprintf(stderr, "fd [%d]\n", *(redirections->redir->fd_heredoc_rd));
-            ft_close(redirections->redir->fd_heredoc_rd);
-        }
-        redirections = redirections->next;
-    }
+			ft_close(redirections->redir->fd_heredoc_rd);
+		}
+		redirections = redirections->next;
+	}
 }
 
-void close_command_heredocs(t_astnode *cmd)
+void	close_command_heredocs(t_astnode *cmd)
 {
-    t_redir_list *redirections;
+	t_redir_list	*redirections;
 
-    if (!cmd || !cmd->t_cmd.redirections)
-        return;
-
-    redirections = cmd->t_cmd.redirections;
-    while (redirections)
-    {
-        if (redirections->redir && 
-            redirections->redir->type == NODE_HEREDOC && 
-            redirections->redir->fd_heredoc_rd)
-        {
-            ft_close(redirections->redir->fd_heredoc_rd);
-        }
-        redirections = redirections->next;
-    }
+	if (!cmd || !cmd->t_cmd.redirections)
+		return ;
+	redirections = cmd->t_cmd.redirections;
+	while (redirections)
+	{
+		if (redirections->redir
+			&& redirections->redir->type == NODE_HEREDOC
+			&& redirections->redir->fd_heredoc_rd)
+		{
+			ft_close(redirections->redir->fd_heredoc_rd);
+		}
+		redirections = redirections->next;
+	}
 }

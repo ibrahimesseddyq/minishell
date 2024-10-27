@@ -6,13 +6,13 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:22:07 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/23 03:57:41 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 01:10:41 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-static int	check_and_open_file(const char *file, int flags, mode_t mode)
+int	check_and_open_file_out(const char *file, int flags, mode_t mode)
 {
 	struct stat	sb;
 	int			fd;
@@ -43,7 +43,7 @@ static int	handle_file_open_and_dup_out(const char *file,
 {
 	int	fd;
 
-	fd = check_and_open_file(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
+	fd = check_and_open_file_out(file, O_WRONLY | O_CREAT | O_TRUNC, 0777);
 	if (fd == -2)
 		return (-2);
 	if (is_last && command_exist)
@@ -58,7 +58,7 @@ static int	handle_file_open_and_dup_append(const char *file,
 {
 	int	fd;
 
-	fd = check_and_open_file(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
+	fd = check_and_open_file_out(file, O_WRONLY | O_CREAT | O_APPEND, 0777);
 	if (fd == -2)
 		return (-2);
 	if (is_last && command_exist)
@@ -68,13 +68,19 @@ static int	handle_file_open_and_dup_append(const char *file,
 	return (fd);
 }
 
-int	check_error_redir_out(t_redir *redir)
+void	handle_expanding_and_filename_out(t_astnode *ast,
+			t_lst *env, t_redir *redir)
 {
-	if (redir->file && !redir->file[0])
-		return (write(2, "No such file or dir\n", 21), -2);
-	if (!redir->file)
-		return (write(2, "ambigiuos redir\n", 17), -2);
-	return (1);
+	int	star_inside;
+
+	star_inside = 0;
+	if (star_not_inside_quotes(redir->file))
+		star_inside = 1;
+	redir->file = ft_expand_redir(redir->file, env);
+	if (redir->file && star_inside)
+		redir->file = handle_ambiguous_wd(redir);
+	if (redir->file)
+		redir->file = make_filename(redir->file);
 }
 
 int	ft_red_out(t_astnode *ast, t_lst *env, int is_last, int command_exist)
@@ -86,11 +92,7 @@ int	ft_red_out(t_astnode *ast, t_lst *env, int is_last, int command_exist)
 	if (!ast->t_cmd.redirections || !ast->t_cmd.redirections->redir)
 		return (fd);
 	redir = ast->t_cmd.redirections->redir;
-	redir->file = ft_expand_redir(redir->file, env);
-	if (redir->file)
-		redir->file = handle_ambiguous_wd(redir);
-	if (redir->file)
-		redir->file = make_filename(redir->file);
+	handle_expanding_and_filename_out(ast, env, redir);
 	if (check_error_redir_out(redir) == -2)
 		return (-2);
 	redir->file = expand_wd(redir->file);
