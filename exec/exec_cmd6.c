@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:20 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/23 03:54:28 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 22:02:43 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,4 +88,10 @@ int	special_cases(char *cmd)
 		return (1);
 	}
 	return (0);
+}
+
+void	is_directory_error(void)
+{
+	write(2, "is a directory\n", 16);
+	ft_exit(126, SET_EXIT_STATUS);
 }

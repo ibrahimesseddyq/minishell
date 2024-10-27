@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:22:35 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/27 21:19:59 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 21:56:53 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,8 +71,6 @@ void	handle_expanding_and_filename_in(t_astnode *ast, t_lst *env)
 		star_inside = 1;
 	ast->t_cmd.redirections->redir->file
 		= ft_expand_redir(ast->t_cmd.redirections->redir->file, env);
-		printf("redir->file out [%s]\n", ast->t_cmd.redirections->redir->file);
-
 	if (star_inside)
 		ast->t_cmd.redirections->redir->file
 			= handle_ambiguous_wd(ast->t_cmd.redirections->redir);

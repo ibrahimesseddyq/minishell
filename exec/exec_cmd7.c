@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/16 00:56:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/23 03:55:29 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 22:02:06 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,4 +80,20 @@ char	**list_to_array(t_arg_node *lst, t_astnode *ast)
 	}
 	array[size] = NULL;
 	return (array);
+}
+
+int	is_directory(char *cmd)
+{
+	struct stat	info;
+
+	stat(cmd, &info);
+	if (S_ISDIR(info.st_mode))
+	{
+		return (0);
+	}
+	else if (S_ISREG(info.st_mode))
+	{
+		return (2);
+	}
+	return (1);
 }

@@ -1,8 +1,9 @@
 NAME = minishell
+USER_NAME = $(shell echo $$USER)
 HEADER = minishell.h
 LIBFT_HEADER = ./libft/libft.h
-LIB = -L/Users/ibes-sed/.brew/opt/readline/lib
-INCLUDE = -I/Users/ibes-sed/.brew/opt/readline/include
+LIB = -L/Users/$(USER_NAME)/.brew/opt/readline/lib
+INCLUDE = -I/Users/$(USER_NAME)/.brew/opt/readline/include
 SRC_LEXER = main.c ./parsing/lexer/lexer.c
 OBJ_LEXER = $(SRC_LEXER:.c=.o)
 LIBFT = libft.a

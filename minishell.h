@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/27 21:36:59 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 22:08:15 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,7 @@
 # define COLS 11
 # define GET_AST 2
 # define SET_AST 1
+
 extern int				g_sig_var;
 typedef int				(*matrix)[11];
 typedef struct s_stat	t_stat;
@@ -372,7 +373,6 @@ int				check_valid_unset(char *str);
 t_token			*token_closing_parenthesis(t_lexer *lexer);
 void			initialize(t_tklist **token_list, t_astnode	**ast);
 int				valid_quotes_main(char *line);
-void			increment_shell_level(t_lst *env);
 void			handle_sig(int sig);
 void			ft_handler(int sig);
 int				heredoc_delimiter_valid(char *del);
@@ -447,5 +447,5 @@ int				check_error_redir_out(t_redir *redir);
 int				check_if_directory(char *cmd);
 char			*trim_spaces(char *str);
 t_astnode		*get_ast(t_astnode *ast, int mode);
-void	close_all_heredoc_fds(t_astnode *ast);
+void			close_all_heredoc_fds(t_astnode *ast);
 #endif

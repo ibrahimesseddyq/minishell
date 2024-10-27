@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/11 22:21:06 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/27 00:03:41 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 22:01:33 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,5 +63,24 @@ int	handle_redirs_when_empty(t_lst *env, t_astnode *ast)
 	if (stdout_backup == -2)
 		return (-2);
 	ft_close(&stdout_backup);
+	return (0);
+}
+
+int	initial_builtin_errors(t_arg_node *args)
+{
+	char		*cmd;
+	t_arg_node	*arg;
+
+	if (!args || !args->arg)
+		return (0);
+	cmd = args->arg;
+	if ((!ft_strcmp(cmd, "unset") || !ft_strcmp(cmd, "export")))
+	{
+		arg = args->next;
+		while (arg)
+		{
+			arg = arg->next;
+		}
+	}
 	return (0);
 }

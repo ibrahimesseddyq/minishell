@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 15:17:19 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/27 21:40:03 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/27 22:00:34 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,20 +22,6 @@ void	handle_sig(int sig)
 		rl_on_new_line();
 		rl_redisplay();
 		ft_exit(1, SET_EXIT_STATUS);
-	}
-}
-
-void	increment_shell_level(t_lst *env)
-{
-	int	shlvl;
-	char	*shlvlstr;
-
-	shlvlstr = get_env(env, "SHLVL");
-	if (shlvlstr && shlvlstr[0])
-	{
-		shlvl = ft_atoi(shlvlstr);
-		shlvl++;
-		set_env(env, "SHLVL", ft_itoa(shlvl), 1);
 	}
 }
 
@@ -67,18 +53,14 @@ int	valid_quotes_main(char *line)
 
 t_astnode	*get_ast(t_astnode *ast, int mode)
 {
-	static t_astnode *ast_backup;
+	static t_astnode	*ast_backup;
 
-	printf("hi\n");
 	if (mode == SET_AST)
 	{
 		ast_backup = ast;
-		printf("ast->type [%s] ast name[%s]\n", ast->type, ast->t_cmd.args[0]);
 	}
 	else
 	{
-				printf("ast->type [%s] ast name[%s]\n", ast->type, ast->t_cmd.args[0]);
-
 		return (ast_backup);
 	}
 	return (NULL);
