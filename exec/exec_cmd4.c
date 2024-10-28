@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:21:53 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/27 22:08:00 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/28 05:51:26 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,4 +64,10 @@ char	*check_file(char **argv, t_lst *env)
 	else
 		return (check_file_with_path(argv[0], env));
 	return (argv[0]);
+}
+
+void	is_directory_error(void)
+{
+	write(2, "is a directory\n", 16);
+	ft_exit(126, SET_EXIT_STATUS);
 }

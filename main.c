@@ -6,14 +6,13 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 19:13:19 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/28 03:05:15 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/28 05:35:28 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
 int	g_sig_var;
-pid_t global_pids[1024];
 
 void	close_all_heredoc_fds(t_astnode *ast)
 {
@@ -85,11 +84,6 @@ int	main(int ac, char **av, char *env[])
 	handle_arguments_main(ac, av);
 	while (1)
 	{
-		for (int i= 0 ;i < 1024; i++)
-		{
-			global_pids[i] = 0;
-		}
-		printf("PID: %d\n", getpid());
 		t = readline("minishell:>$ ");
 		if (!t)
 		{

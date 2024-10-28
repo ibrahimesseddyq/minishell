@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:10 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/28 03:01:28 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/28 05:43:43 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ static void	handle_parent_process(int pid, int *child_status, t_astnode *ast)
 	}
 }
 
-static void	restore_signal_handlers(void)
+void	restore_signal_handlers(void)
 {
 	signal(SIGINT, handle_sig);
 	signal(SIGQUIT, handle_sig);

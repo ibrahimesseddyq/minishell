@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:09 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/23 03:51:01 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/28 05:47:47 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,11 @@ void	exec_cmd_line(t_astnode *ast, t_lst *env)
 	if (ast->type == NODE_COMMAND)
 		exec_cmd(ast, env);
 	else if (ast->type == NODE_PIPE)
+	{
+		signal(SIGINT, handle_sigint);
 		exec_pip(ast, env);
+		restore_signal_handlers();
+	}
 	else if (ast->type == NODE_LOGICAL_AND)
 		exec_and(ast, env);
 	else if (ast->type == NODE_LOGICAL_OR)
