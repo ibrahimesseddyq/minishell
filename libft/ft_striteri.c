@@ -6,9 +6,11 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 01:23:53 by ibes-sed          #+#    #+#             */
-/*   Updated: 2023/11/12 01:23:53 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/28 11:59:00 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
+
+#include "libft.h"
 
 void	ft_striteri(char *s, void (*f)(unsigned int, char*))
 {

@@ -6,12 +6,11 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/12 00:04:10 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/20 15:46:30 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/28 11:58:04 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
-#include <limits.h>
 
 int	ft_count(int nbr)
 {

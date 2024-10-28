@@ -6,13 +6,13 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/28 10:05:13 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/28 11:59:58 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef MINISHELL_H
 # define MINISHELL_H
-# include <fcntl.h>
+
 # include "./libft/libft.h" 
 # include <sys/types.h> 
 # include <sys/wait.h> 
@@ -23,8 +23,6 @@
 # include <errno.h>
 # include <sys/stat.h>
 # include <stdio.h>
-# include <stdlib.h>
-# include <unistd.h>
 # include <termios.h>
 # include <signal.h>
 

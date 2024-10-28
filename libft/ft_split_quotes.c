@@ -6,13 +6,10 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 04:20:21 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/20 15:46:08 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/28 11:58:45 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdio.h>
-#include <stdlib.h>
-#include <limits.h>
 #include "libft.h"
 
 static int	count_words(char *s, char c)
