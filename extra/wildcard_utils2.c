@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/23 00:08:05 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/23 00:09:15 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/28 11:47:21 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,8 @@ void	add_to_found_2(char ***found_files, int *found_count, const char *file)
 			(*found_count + 1) * sizeof(char *));
 	if (!(*found_files))
 		return ;
-	(*found_files)[*found_count] = gcalloc((strlen(file) + 1) * sizeof(char));
+	(*found_files)[*found_count]
+		= gcalloc((ft_strlen(file) + 1) * sizeof(char));
 	if (!(*found_files)[*found_count])
 		return ;
 	file = replace_by_wd((char *)file);

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/14 22:19:50 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/21 21:40:39 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/28 09:59:38 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*skip_char(const char *input, char skip)
 	if (input == NULL)
 		return (NULL);
 	i = 0;
-	len = strlen(input);
+	len = ft_strlen(input);
 	result = (char *)gcalloc(len + 1);
 	if (result == NULL)
 		return (NULL);

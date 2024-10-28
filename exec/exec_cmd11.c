@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 22:03:49 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/28 02:25:46 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/28 09:21:31 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	permission_denied_error(void)
 void	no_such_file_or_dir_error(void)
 {
 	write(2, "no such file or directory\n", 27);
-	ft_exit(126, SET_EXIT_STATUS);
+	ft_exit(127, SET_EXIT_STATUS);
 }
 
 char	*check_file_no_path(char *cmd)

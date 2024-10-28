@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parser_utils3.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 18:08:51 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/09 22:41:28 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/28 10:00:41 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	write_expanded_line(char *delimiter, char *line, int fd, t_lst *env)
 		expanded_line = ft_expand_heredoc(line, env);
 	if (!expanded_line)
 		return (ft_close(&fd), 0);
-	write(fd, expanded_line, strlen(expanded_line));
+	write(fd, expanded_line, ft_strlen(expanded_line));
 	write(fd, "\n", 1);
 	return (1);
 }

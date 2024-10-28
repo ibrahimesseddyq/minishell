@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 21:55:38 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/22 23:54:30 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/28 09:59:49 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	**filterstrings(char *pattern
 		if (match(pattern, texts[i]))
 		{
 			matches[*numMatches]
-				= gcalloc((strlen(texts[i]) + 1) * sizeof(char));
+				= gcalloc((ft_strlen(texts[i]) + 1) * sizeof(char));
 			if (!matches[*numMatches])
 				return (NULL);
 			ft_strcpy(matches[*numMatches], texts[i]);

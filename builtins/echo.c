@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:16:59 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/20 15:05:48 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/28 09:59:43 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	check_just_n(char *arg)
 
 void	echo_ptstr(char **args, int i)
 {
-	write(1, args[i], strlen(args[i]));
+	write(1, args[i], ft_strlen(args[i]));
 	if (args[i + 1])
 		write(1, " ", 1);
 }

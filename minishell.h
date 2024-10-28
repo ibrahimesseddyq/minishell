@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/28 05:50:12 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/28 10:05:13 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -238,7 +238,6 @@ typedef struct s_pipeline
 	int	write_fd;
 }	t_pipeline;
 
-char			*get_next_line(int fd);
 void			exec_cmd_line(t_astnode *ast, t_lst *env);
 int				exec_cmd(t_astnode *ast, t_lst *env);
 void			exec_pip(t_astnode *ast, t_lst *env);
@@ -276,10 +275,7 @@ t_arg_node		*get_node_at(t_arg_node *lst, int pos);
 char			**list_to_array(t_arg_node *lst, t_astnode *ast);
 char			*find_command_in_path(const char *cmd, char **path_dirs);
 int				execute_child(char **arg_cmd, t_astnode *ast, t_lst *env);
-void			expand_arguments(t_astnode *ast, t_lst *env);
 char			**make_array(char **args, int size);
-int				builtins_error(char **argv);
-int				sspecial_cases(char *cmd);
 int				no_command_case(t_arg_node **lst, t_lst *env, t_astnode *ast);
 char			*char_to_string(char c);
 int				is_builtin_command(const char *cmd);
@@ -307,7 +303,6 @@ void			export_var(char **str, t_lst *lst, int i);
 int				get_var_length(char *line, int i);
 void			append_string(t_expand_params *params, char *str);
 void			expand_exit_status(t_expand_params *params);
-int				append_char_to_string(char **s, char c);
 int				handle_quotes2(char c, t_expand_params *params, char *line);
 void			append_char(t_expand_params *params, char c);
 int				check_ambigious(char *str);
@@ -349,10 +344,7 @@ void			expand_variable(t_expand_params *params,
 int				expand_token(t_expand_params *params,
 					t_lst *env, char **line, char *cmd);
 void			gc_free(void *ptr);
-bool			matchStar(char ch, const char *pattern, const char *text);
 int				match(char *pattern, const char *text);
-char			**filterStrings(const char *pattern,
-					const char *texts[], int numTexts, int *numMatches);
 void			handle_overflow(void);
 int				execute_external(char **arg_cmd, t_astnode *ast, t_lst *env);
 int				check_valid(char *str);
@@ -421,11 +413,6 @@ int				contains_just(char *str, char c);
 int				next_empty_string(char *line,
 					t_expand_params *params, char quote);
 char			*make_empty_and_null(char *str);
-t_lst			*get_env_info(t_lst *env, char *the_env);
-t_lst			*choose_add_set_env2(char *key, char *new_value,
-					int sign, t_export_var *state);
-void			set_env2(t_lst *lst, char *key,
-					char *new_value, t_export_var *state);
 int				handle_translation(t_expand_params *params,
 					t_lst *env, char **line, int *quote_export);
 int				*return_array_of_2(int a, int b);
