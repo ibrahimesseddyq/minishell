@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:22:35 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/27 21:56:53 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/28 02:21:20 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,7 @@ int	ft_red_in(t_astnode *ast, t_lst *env, int is_last, int command_exist)
 		ast->t_cmd.redirections->redir->file
 			= expand_wd(ast->t_cmd.redirections->redir->file);
 		if (handle_ambiguous(ast->t_cmd.redirections->redir->file) == -1)
-			return (-1);
+			return (-2);
 		return (handle_file_open_and_dup_in
 			(ast->t_cmd.redirections->redir->file, is_last, command_exist));
 	}

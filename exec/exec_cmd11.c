@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/27 22:03:49 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/27 22:52:42 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/28 02:25:46 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,10 @@ char	*check_file_no_path(char *cmd)
 	{
 		if (is_directory(cmd) == 2 && access(cmd, X_OK))
 			return (permission_denied_error(), NULL);
+	}
+	if (access(cmd, F_OK) != 0)
+	{
+		return (no_such_file_or_dir_error(), NULL);
 	}
 	return (cmd);
 }

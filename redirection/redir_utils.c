@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/22 17:48:07 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/27 01:06:50 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/28 00:26:06 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,8 +48,9 @@ int	check_and_open_file(const char *file, int flags, mode_t mode)
 	fd = open(file, flags, mode);
 	if (fd == -1)
 	{
+		fprintf(stderr, "error\n");
 		if (access(file, F_OK) == 0 && access(file, R_OK) == -1)
-			write(2, "Permission denied2\n", 20);
+			write(2, "Permission denied\n", 19);
 		else
 			write(2, "No such file or directory\n", 27);
 		return (ft_exit(1, SET_EXIT_STATUS), -2);

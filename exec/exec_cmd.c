@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:01:04 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/27 00:03:35 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/28 02:14:24 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,7 +77,7 @@ int	exec_cmd(t_astnode *ast, t_lst *env)
 		real_args[0] = ft_strdup("true");
 	if (real_args && real_args[0] && real_args[0][0])
 	{
-		if (special_cases(real_args[0]))
+		if (special_cases(real_args[0], env, ast))
 			return (0);
 		cmd_path = check_if_in_paths(real_args[0], env);
 	}
