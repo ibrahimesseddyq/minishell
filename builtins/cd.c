@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:04:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/27 21:52:32 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/28 12:24:25 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ static int	ft_change_directory(char *expanded_dir, t_lst *env, char *pwd)
 	}
 	if (!new_pwd)
 	{
-		write(2, "cd: failed to get new working directory\n", 40);
+		write(2, "cd: failed to get new working directory\n", 41);
 		return (ft_exit(1, SET_EXIT_STATUS), 1);
 	}
 	set_env(env, "PWD", new_pwd, 1);

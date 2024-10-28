@@ -1,0 +1,56 @@
+ls > /missing/a OK
+ls > missing/a OK
+ls > ./missing/a OK
+
+ls > /missing/a/ OK 
+ls > missing/a/ OK 
+ls > ./missing/a/ OK
+
+ls > /exist/a KO
+ls > exist/a
+ls > ./exist/a
+
+//a is a folder
+ls > /exist/a
+ls > exist/a
+ls > ./exist>a
+
+ls > /exist/a/
+ls > exist/a/
+ls > ./exist>a/
+
+//----------
+ls < /missing/a
+ls < missing/a
+ls < ./missing/a
+
+ls < /exist/a
+ls < exist/a
+ls < ./exist/a
+
+//a is a folder
+ls < /exist/a
+ls < exist/a
+ls < ./exist/a
+
+ls < /exist/a/
+ls < exist/a/
+ls < ./exist/a/
+// -------------
+ls > /permission/a
+ls > permission/a
+ls > ./permission>a
+
+
+ls > /permission/a/
+ls > permission/a/
+ls > ./permission/a/
+
+//----------------
+ls > /file/a
+ls > file/a
+ls > ./file/a
+
+
+#ERROR 
+when i use one of those above it open nested minishell 

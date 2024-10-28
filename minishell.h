@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/28 11:59:58 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/28 13:07:49 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -441,4 +441,5 @@ void			is_directory_error(void);
 int				is_directory(char *cmd);
 void			handle_sigint(int sig);
 void			restore_signal_handlers(void);
+int				check_dir_exist(char *path);
 #endif

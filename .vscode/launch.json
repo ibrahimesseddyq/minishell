@@ -6,8 +6,8 @@
       "type": "lldb",
       "request": "launch",
       "args": [],
-      "cwd": "/Users/ibes-sed/Desktop/mn2push",
-      "program": "/Users/ibes-sed/Desktop/mn2push/build/Debug/outDebug"
+      "cwd": "/Users/ibes-sed/Desktop/mn2push/.vscode",
+      "program": "/Users/ibes-sed/Desktop/mn2push/.vscode/build/Debug/outDebug"
     }
   ]
 }

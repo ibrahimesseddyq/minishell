@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:22:35 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/28 02:21:20 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/28 12:47:54 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,3 +102,91 @@ int	ft_red_in(t_astnode *ast, t_lst *env, int is_last, int command_exist)
 		return (handle_file_open_and_dup_heredoc
 			(ast->t_cmd.redirections->redir, is_last, command_exist));
 }
+
+
+int	check_dir_exist(char *path)
+{
+	char		**splitted_path;
+	int			i;
+	struct stat	statbuf;
+	char		*full_dir;
+
+	full_dir = NULL;
+	splitted_path = ft_split(path, '/');
+	i  = 0;
+	if (path[0] == '/')
+	{
+		i = 0;
+		full_dir = ft_strdup("/");
+		while (splitted_path[i])
+		{
+			full_dir = ft_strjoin(full_dir, ft_strjoin(splitted_path[i], "/"));
+			fprintf(stderr, "file[%s]\n", full_dir);
+			if (stat(full_dir, &statbuf) != 0)
+			{
+				write(2, "no such file or directory\n", 27);
+				ft_exit(1, SET_EXIT_STATUS);
+				return (0);
+			}
+			i++;
+		}
+		
+	}
+	else
+	{
+		if (path[0] == '.')
+		{
+			i = 1;
+			full_dir = ft_strdup("");
+			while (splitted_path[i])
+			{
+				full_dir = ft_strjoin(full_dir, ft_strjoin(splitted_path[i], "/"));
+				fprintf(stderr, "file[%s]\n", full_dir);
+				if (stat(full_dir, &statbuf) != 0)
+				{
+					write(2, "no such file or directory\n", 27);
+					ft_exit(1, SET_EXIT_STATUS);
+					return (0);
+				}
+				i++;
+			}
+		}
+		else
+		{
+			i = 0;
+			full_dir = ft_strdup("");
+			while (splitted_path[i])
+			{
+				full_dir = ft_strjoin(full_dir, ft_strjoin(splitted_path[i], "/"));
+				fprintf(stderr, "file[%s]\n", full_dir);
+				if (stat(full_dir, &statbuf) != 0)
+				{
+					write(2, "no such file or directory\n", 27);
+					ft_exit(1, SET_EXIT_STATUS);
+					return (0);
+				}
+				i++;
+			}
+		}
+	}
+
+	return (1);
+}
+
+	// while(splitted_path[i])
+	// {
+	// 	printf("sp 1 [%s] sp 2[%s]\n",splitted_path[i], splitted_path[i + 1] );
+
+	// 		if (path[0] != '/')
+	// 			full_dir = ft_strjoin(ft_strjoin(full_dir, "/"), splitted_path[i]);
+	// 		else
+	// 			full_dir = ft_strjoin(full_dir, ft_strjoin(splitted_path[i], "/"));
+	// 		fprintf(stderr, "file[%s]\n", full_dir);
+	// 		if (stat(full_dir, &statbuf) != 0)
+	// 		{
+	// 			write(2, "no such file or directory\n", 27);
+	// 			ft_exit(1, SET_EXIT_STATUS);
+	// 			return (0);
+	// 		}
+	// 	i++;
+	// }
