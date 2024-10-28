@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/25 22:00:51 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/28 06:54:09 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/28 09:00:13 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,13 @@ void	handle_child_process(t_astnode *cmd,
 		ft_close(&read_fd);
 	}
 	exec_cmd_line(cmd, env);
+	gc_free_all();
 	exit(ft_exit(5, GET_EXIT_STATUS));
 }
 
 void	handle_sigint(int sig)
 {
+	(void)sig;
 	printf("\n");
 }
 

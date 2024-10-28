@@ -15,7 +15,7 @@ SRC = main_utils.c ./redirection/redir_in_utils.c ./redirection/redir_utils.c ./
 OBJ = $(SRC:.c=.o)
 MAIN_OBJ = main.o
 CC = cc 
-CFLAGS =  -g -fsanitize=address
+CFLAGS =  -Wall -Werror -Wextra -g -fsanitize=address
 
 all: $(NAME)
 

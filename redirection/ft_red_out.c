@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 21:22:07 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/28 02:21:15 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/28 09:00:45 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,7 @@ static int	handle_file_open_and_dup_append(const char *file,
 	return (fd);
 }
 
-void	handle_expanding_and_filename_out(t_astnode *ast,
-			t_lst *env, t_redir *redir)
+void	handle_expanding_and_filename_out(t_lst *env, t_redir *redir)
 {
 	int	star_inside;
 
@@ -92,7 +91,7 @@ int	ft_red_out(t_astnode *ast, t_lst *env, int is_last, int command_exist)
 	if (!ast->t_cmd.redirections || !ast->t_cmd.redirections->redir)
 		return (fd);
 	redir = ast->t_cmd.redirections->redir;
-	handle_expanding_and_filename_out(ast, env, redir);
+	handle_expanding_and_filename_out(env, redir);
 	if (check_error_redir_out(redir) == -2)
 		return (-2);
 	redir->file = expand_wd(redir->file);
