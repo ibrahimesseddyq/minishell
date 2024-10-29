@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:19:45 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/23 23:04:36 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/29 09:41:43 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ char	*check_if_in_paths(char *cmd, t_lst *env)
 	if (cmd[0] == '/' || cmd[0] == '.' || is_builtin_command(cmd))
 		return (ft_strdup(cmd));
 	path = get_env(env, "PATH");
-	if (!path)
+	if (!path || !path[0])
 		return (ft_strdup(cmd));
 	path_dirs = ft_split(path, ':');
 	if (!path_dirs)

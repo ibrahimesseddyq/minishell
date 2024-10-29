@@ -3,17 +3,25 @@
 /*                                                        :::      ::::::::   */
 /*   env_utils2.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:45:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/22 20:12:13 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/29 10:26:50 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	handle_setting_var(char *str, t_export_var *state, t_lst *lst)
+void	handle_setting_var(char *str, t_export_var *state, t_lst **lst)
 {
+	t_lst	*tmp;
+
+	tmp = lst;
+	while (tmp)
+	{
+		printf("key is [%s]\n", tmp->key);
+		tmp = tmp->next;
+	}
 	state->temp = ft_strdup(str);
 	state->key = ft_strtok(state->temp, "=");
 	state->value = ft_strchr(str, '=');
@@ -29,12 +37,22 @@ void	handle_setting_var(char *str, t_export_var *state, t_lst *lst)
 		set_env(lst, state->key, state->value, state->exist);
 }
 
-void	export_var(char **str, t_lst *lst, int i)
+void	export_var(char **str, t_lst **lst, int i)
 {
 	t_export_var	state;
 
 	state.append_mode = get_symbol_exist(str[i], '+')
 		&& get_symbol_exist(str[i], '=');
+	if (lst && !*lst)
+	{
+		printf("lst is null\n");
+		(*lst) = gcalloc(sizeof(t_lst));
+		(*lst)->key = ft_strdup("hhhhh");
+		(*lst)->value = ft_strdup("");	
+		(*lst)->set = 0;
+		(*lst)->signe = 0;
+		(*lst)->next = NULL;
+	}
 	if (state.append_mode
 		&& get_symbol_exist(str[i], '+') > get_symbol_exist(str[i], '='))
 		state.append_mode = 0;

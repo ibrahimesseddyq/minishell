@@ -3,53 +3,60 @@
 /*                                                        :::      ::::::::   */
 /*   set_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ynachat <ynachat@student.42.fr>            +#+  +:+       +#+        */
+/*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/15 22:11:05 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/22 20:11:28 by ynachat          ###   ########.fr       */
+/*   Updated: 2024/10/29 10:29:51 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "../minishell.h"
 
-void	choose_set_env(t_lst *lst, char *new_value, int sign)
+void	choose_set_env(t_lst **lst, char *new_value, int sign)
 {
-	if (new_value)
+	if (lst)
 	{
-		lst->value = ft_strdup(new_value);
-		lst->set = 1;
-		if (sign)
-			lst->signe = '=';
+		if (new_value)
+		{
+			(*lst)->value = ft_strdup(new_value);
+			(*lst)->set = 1;
+			if (sign)
+				(*lst)->signe = '=';
+			else
+				(*lst)->signe = 0;
+		}
 		else
-			lst->signe = 0;
-	}
-	else
-	{
-		lst->set = 0;
-		lst->value = ft_strdup("");
-		lst->key = ft_strdup("");
+		{
+			(*lst)->set = 0;
+			(*lst)->value = ft_strdup("");
+			(*lst)->key = ft_strdup("");
+		}
 	}
 }
 
-void	set_env(t_lst *lst, char *key, char *new_value, int sign)
+void	set_env(t_lst **lst, char *key, char *new_value, int sign)
 {
 	t_lst	*new;
 	t_lst	*tmp;
 
 	new = NULL;
-	tmp = lst;
-	while (lst)
+	tmp = (*lst);
+	printf("set env\n");
+	if (lst)
 	{
-		if (ft_strcmp(lst->key, key) == 0)
+		while ((*lst))
 		{
-			choose_set_env(lst, new_value, sign);
-			return ;
+			if (ft_strcmp((*lst)->key, key) == 0)
+			{
+				choose_set_env(lst, new_value, sign);
+				return ;
+			}
+			(*lst) = (*lst)->next;
 		}
-		lst = lst->next;
+		(*lst) = tmp;
+		new = choose_add_set_env(key, new_value, sign);
+		ft_lstadd_back_env(lst, new);
 	}
-	lst = tmp;
-	new = choose_add_set_env(key, new_value, sign);
-	ft_lstadd_back_env(&lst, new);
 }
 
 void	ft_export(char **str, t_lst *lst)
@@ -66,7 +73,7 @@ void	ft_export(char **str, t_lst *lst)
 		while (str[i])
 		{
 			if (check_valid_export(str[i]) && str[i][0])
-				export_var(str, lst, i);
+				export_var(str, &lst, i);
 			else
 			{
 				write(2, "invalid identifier\n", 20);

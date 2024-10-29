@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/29 08:12:13 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/29 10:18:46 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -297,7 +297,7 @@ int				heredoc_delimiter_valid(char *del);
 t_astnode		*create_ast_command(int ac, char **av);
 t_lst			*choose_add_set_env(char *key, char *new_value, int sign);
 void			print_export(t_lst *lst);
-void			export_var(char **str, t_lst *lst, int i);
+void			export_var(char **str, t_lst **lst, int i);
 int				get_var_length(char *line, int i);
 void			append_string(t_expand_params *params, char *str);
 void			expand_exit_status(t_expand_params *params);
