@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/29 12:39:01 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:02:04 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,6 +243,7 @@ typedef struct s_dir_exist
 	struct stat	statbuf;
 	char		*full_dir;
 	char		*temp;
+	int			dir_error;
 }	t_dir_exist;
 
 void			exec_cmd_line(t_astnode *ast, t_lst *env);

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/29 11:54:13 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/29 12:55:56 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/29 13:03:24 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,22 +73,24 @@ void	set_full_dir(t_dir_exist *dir, char *path)
 	}
 }
 
-void	check_dir_initial(t_dir_exist *dir, int *dir_error, char *path)
+int	check_dir_initial(t_dir_exist *dir, char *path)
 {
 	if (!path)
 		return (0);
-	*dir_error = 0;
+	dir->dir_error = 0;
 	dir->splitted_path = ft_split(path, '/');
 	if (!dir->splitted_path)
 		return (0);
+	return (1);
 }
 
 int	check_dir_exist(char *path)
 {
 	t_dir_exist	dir;
-	int			dir_error;
 
-	check_dir_initial(&dir, dir_error, path);
+	dir.dir_error = 0;
+	if (check_dir_initial(&dir, path) == 0)
+		return (0);
 	set_full_dir(&dir, path);
 	if (!dir.full_dir)
 		return (-2);
@@ -101,9 +103,9 @@ int	check_dir_exist(char *path)
 		}
 		dir.temp = dir.full_dir;
 		dir.full_dir = ft_strjoin(dir.full_dir, dir.splitted_path[dir.i]);
-		dir_error = check_dir_has_error(&dir);
-		if (dir_error != 3)
-			return (dir_error);
+		dir.dir_error = check_dir_has_error(&dir);
+		if (dir.dir_error != 3)
+			return (dir.dir_error);
 		dir.temp = dir.full_dir;
 		dir.full_dir = ft_strjoin(dir.full_dir, "/");
 		dir.i++;
