@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 16:42:56 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/29 08:13:50 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:38:07 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,8 @@ static int	handle_tty_input(int fd, t_heredoc_data *data)
 	fd2 = open(ttyname(2), O_RDWR);
 	if (g_sig_var)
 	{
-		return (unlink(data->filename), ft_close(&data->fd_rd), ft_close(&fd), -1);
+		return (unlink(data->filename),
+			ft_close(&data->fd_rd), ft_close(&fd), -1);
 	}
 	return (0);
 }

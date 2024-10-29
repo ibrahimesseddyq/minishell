@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/14 23:49:30 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/13 00:56:03 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/29 11:32:46 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,9 @@ t_lst	*envp(char **env)
 	if (!env)
 		return (gc_free_all(), ft_exit(1, EXIT_PROGRAM), NULL);
 	i = 0;
+	key = ft_strdup("MINISHELL_VERSION");
+	value = ft_strdup("1.0");
+	add_to_env(key, value, '=', &lst);
 	while (env[i])
 	{
 		key = find_key(env[i]);

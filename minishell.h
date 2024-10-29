@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/29 08:12:13 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/29 12:39:01 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,6 +236,15 @@ typedef struct s_pipeline
 	int	write_fd;
 }	t_pipeline;
 
+typedef struct s_dir_exist
+{
+	char		**splitted_path;
+	int			i;
+	struct stat	statbuf;
+	char		*full_dir;
+	char		*temp;
+}	t_dir_exist;
+
 void			exec_cmd_line(t_astnode *ast, t_lst *env);
 int				exec_cmd(t_astnode *ast, t_lst *env);
 void			exec_pip(t_astnode *ast, t_lst *env);
@@ -440,6 +449,6 @@ int				is_directory(char *cmd);
 void			handle_sigint(int sig);
 void			restore_signal_handlers(void);
 int				check_dir_exist(char *path);
-void	close_heredocs(void);
-void	add_heredoc_fd_to_list(int *fd);
+void			close_heredocs(void);
+void			add_heredoc_fd_to_list(int *fd);
 #endif

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:21:53 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/28 05:51:26 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/29 11:33:18 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ char	*check_file(char **argv, t_lst *env)
 	char	*path;
 
 	path = get_env(env, "PATH");
-	if (!path)
+	if (!path || !path[0])
 		return (check_file_no_path(argv[0]));
 	else
 		return (check_file_with_path(argv[0], env));
