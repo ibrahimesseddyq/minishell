@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/17 12:44:36 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/29 10:26:24 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/29 10:42:50 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,5 +83,5 @@ void	apppend_to_var(t_export_var *state, char *str, t_lst **lst)
 		state->value = trim_quotes(state->value);
 	else
 		state->value = "";
-	append_env(lst, state->key, state->value);
+	append_env(*lst, state->key, state->value);
 }

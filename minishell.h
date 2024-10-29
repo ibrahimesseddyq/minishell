@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/29 10:18:46 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/29 10:44:28 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -243,7 +243,7 @@ void			exec_and(t_astnode *ast, t_lst *env);
 void			exec_or(t_astnode *ast, t_lst *env);
 t_lst			*envp(char **env);
 char			*get_env(t_lst *env, char *the_env);
-void			set_env(t_lst *lst, char *key, char *new_value, int sign);
+void			set_env(t_lst **lst, char *key, char *new_value, int sign);
 int				ft_red_in(t_astnode *ast,
 					t_lst *env, int is_last, int command_exist);
 int				ft_red_out(t_astnode *ast, t_lst *env,
@@ -332,7 +332,7 @@ t_token			*token_r_redir(t_lexer *lexer);
 t_token			*token_pipe(t_lexer *lexer);
 char			*trim_quotes(char *str);
 int				get_symbol_exist(char *str, char symbol);
-void			apppend_to_var(t_export_var *state, char *str, t_lst *lst);
+void			apppend_to_var(t_export_var *state, char *str, t_lst **lst);
 void			expand_token_heredoc(t_expand_params *params,
 					t_lst *env, char **line);
 void			expand_variable_heredoc(t_expand_params *params,
@@ -403,7 +403,7 @@ char			*replace_space_with_second_separator(t_expand_params *params,
 					char *str);
 int				is_quote(char c);
 char			*get_null_str(void);
-void			handle_setting_var(char *str, t_export_var *state, t_lst *lst);
+void			handle_setting_var(char *str, t_export_var *state, t_lst **lst);
 char			*make_filename(char *file);
 int				contains_just(char *str, char c);
 int				next_empty_string(char *line,

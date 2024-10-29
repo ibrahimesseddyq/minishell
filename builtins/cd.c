@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:04:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/29 04:51:57 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/29 10:41:47 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ static int	ft_handle_pwd_error(t_lst *env)
 	char	*home;
 
 	home = get_env(env, "HOME");
-	set_env(env, "PWD", home, 1);
+	set_env(&env, "PWD", home, 1);
 	if (!home)
 	{
 		write(2, "minishell: cd: HOME not set\n", 28);
@@ -52,7 +52,7 @@ static int	ft_change_directory(char *expanded_dir, t_lst *env, char *pwd)
 	error = 0;
 	if (chdir(expanded_dir) == -1)
 		return (perror("cd"), ft_exit(1, SET_EXIT_STATUS), 1);
-	set_env(env, "OLDPWD", pwd, 1);
+	set_env(&env, "OLDPWD", pwd, 1);
 	new_pwd = ft_pwd(env);
 	if (stat(new_pwd, &statbuf) != 0)
 	{
@@ -64,7 +64,7 @@ static int	ft_change_directory(char *expanded_dir, t_lst *env, char *pwd)
 		write(2, "cd: failed to get new working directory\n", 41);
 		return (ft_exit(1, SET_EXIT_STATUS), 1);
 	}
-	set_env(env, "PWD", new_pwd, 1);
+	set_env(&env, "PWD", new_pwd, 1);
 	if (error)
 		return (ft_exit(1, SET_EXIT_STATUS), 1);
 	return (ft_exit(0, SET_EXIT_STATUS), 0);
