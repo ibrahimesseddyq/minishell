@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/15 21:24:10 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/28 09:17:25 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/29 05:57:51 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	execute_child(char **arg_cmd, t_astnode *ast, t_lst *env)
 		exit(1);
 	}
 	if (!check_file(arg_cmd, env))
-		return (ft_close(&fd), 0);
+		return (ft_close(&fd), ft_exit(1, GET_EXIT_STATUS), -2);
 	arg_cmd[0] = check_file(arg_cmd, env);
 	if (execve(arg_cmd[0], arg_cmd, envp) == -1)
 	{
@@ -42,7 +42,13 @@ int	execute_child(char **arg_cmd, t_astnode *ast, t_lst *env)
 
 static void	handle_child_process(char **arg_cmd, t_astnode *ast, t_lst *env)
 {
-	execute_child(arg_cmd, ast, env);
+	if (execute_child(arg_cmd, ast, env) == -2)
+	{
+		gc_free_all();
+		exit(ft_exit(1, GET_EXIT_STATUS));
+	}
+	gc_free_all();
+	exit(0);
 }
 
 static void	handle_parent_process(int pid, int *child_status, t_astnode *ast)

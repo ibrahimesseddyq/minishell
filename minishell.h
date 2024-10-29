@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/21 03:48:47 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/28 13:07:49 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/29 08:12:13 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -351,10 +351,8 @@ char			*expand_wildcard(char *pwd, int level, t_wildcard_data *data);
 char			*ft_strcpy(char *s1, char *s2);
 char			*ft_strcat(char *dest, char *src);
 char			*expand_wd(char *expanded_arg);
-void			add_heredoc_to_list(char *heredoc_file);
 int				handle_ambiguous(char *str);
 t_list			**get_heredoc_list(void);
-void			unlink_heredocs(void);
 int				ft_sprintf(char *str, const char *format, int num);
 t_wd_redir_res	*expand_wildcard_redir(char *pwd,
 					int level, t_wildcard_data *data);
@@ -442,4 +440,6 @@ int				is_directory(char *cmd);
 void			handle_sigint(int sig);
 void			restore_signal_handlers(void);
 int				check_dir_exist(char *path);
+void	close_heredocs(void);
+void	add_heredoc_fd_to_list(int *fd);
 #endif

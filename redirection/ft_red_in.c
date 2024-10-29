@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/17 11:22:35 by ynachat           #+#    #+#             */
-/*   Updated: 2024/10/28 12:47:54 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/29 01:43:43 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -208,7 +208,7 @@ int check_dir_exist(char *path)
 
     if (!full_dir)
     {
-        return (0);
+        return (-2);
     }
 
     // Traverse path components
@@ -254,9 +254,9 @@ int check_dir_exist(char *path)
                 }
             }
             
-            write(2, "no such file or directory\n", 25);
+            write(2, "no such file or directory\n", 26);
             ft_exit(1, SET_EXIT_STATUS);
-            return (0);
+            return (-2);
         }
 
         // If not last component, must be a directory
@@ -264,7 +264,7 @@ int check_dir_exist(char *path)
         {
             write(2, "not a directory\n", 15);
             ft_exit(1, SET_EXIT_STATUS);
-            return (0);
+            return (-2);
         }
 
         // Check directory permissions if it's the target
@@ -274,7 +274,7 @@ int check_dir_exist(char *path)
             {
                 write(2, "permission denied\n", 17);
                 ft_exit(1, SET_EXIT_STATUS);
-                return (0);
+                return (-2);
             }
         }
 

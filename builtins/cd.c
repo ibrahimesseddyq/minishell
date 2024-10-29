@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:04:04 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/28 12:24:25 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/29 04:51:57 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,7 @@ static int	ft_change_directory(char *expanded_dir, t_lst *env, char *pwd)
 	char		*new_pwd;
 	int			error;
 
+	error = 0;
 	if (chdir(expanded_dir) == -1)
 		return (perror("cd"), ft_exit(1, SET_EXIT_STATUS), 1);
 	set_env(env, "OLDPWD", pwd, 1);

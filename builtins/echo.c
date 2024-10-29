@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/09/19 01:16:59 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/28 09:59:43 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/29 06:04:58 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,11 @@ void	echo_ptstr(char **args, int i)
 		write(1, " ", 1);
 }
 
+void	echo_ptstr_space(void)
+{
+	write(1, " ", 1);
+}
+
 int	ft_echo(char **args)
 {
 	int		i;
@@ -62,6 +67,8 @@ int	ft_echo(char **args)
 		{
 			if (args[i][0])
 				echo_ptstr(args, i);
+			else
+				echo_ptstr_space();
 			i++;
 		}
 	}

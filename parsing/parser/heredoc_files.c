@@ -6,20 +6,20 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 15:59:46 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/23 00:10:13 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/29 08:13:37 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "./../../minishell.h"
 
-void	add_heredoc_to_list(char *heredoc_file)
+void	add_heredoc_fd_to_list(int *fd)
 {
 	t_list	**lst;
-	char	*heredoc_content;
+	int		*heredoc_content;
 	t_list	*heredoc;
 
 	lst = get_heredoc_list();
-	heredoc_content = ft_strdup(heredoc_file);
+	heredoc_content = fd;
 	if (heredoc_content == NULL)
 		return ;
 	heredoc = ft_lstnew(heredoc_content);
@@ -35,10 +35,11 @@ t_list	**get_heredoc_list(void)
 	return (&lst);
 }
 
-void	unlink_heredocs(void)
+void	close_heredocs(void)
 {
 	t_list	*lst;
 	t_list	*tmp;
+	int		*fd;
 
 	lst = *get_heredoc_list();
 	if (!lst)
@@ -46,7 +47,8 @@ void	unlink_heredocs(void)
 	tmp = lst;
 	while (tmp)
 	{
-		unlink(tmp->content);
+		fd = tmp->content;
+		ft_close(fd);
 		tmp = tmp->next;
 	}
 	*get_heredoc_list() = NULL;

@@ -6,7 +6,7 @@
 /*   By: ibes-sed <ibes-sed@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/10/06 15:30:25 by ibes-sed          #+#    #+#             */
-/*   Updated: 2024/10/28 13:07:01 by ibes-sed         ###   ########.fr       */
+/*   Updated: 2024/10/29 01:32:31 by ibes-sed         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,6 @@ int	check_error_redir_out(t_redir *redir)
 	if (!redir->file)
 		return (write(2, "ambigiuos redir\n", 17), -2);
 	if (!check_dir_exist(redir->file))
-		return (0);
+		return (-2);
 	return (1);
 }
